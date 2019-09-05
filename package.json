@@ -1,0 +1,5 @@
+{
+  "name": "nusreviews",
+  "private": true,
+	"workspaces": ["frontend", "backend"]
+}
