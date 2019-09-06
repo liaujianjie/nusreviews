@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  database:
+    image: postgres:10.6-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env.development
+
+volumes:
+  postgres_data:
+    driver: local
