@@ -2,5 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.18"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.5"
+  }
 }
