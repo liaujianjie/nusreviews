@@ -1,14 +1,21 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "dependencies": {
-    "pg": "^7.12.1",
-    "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.18"
-  },
-  "devDependencies": {
-    "@types/node": "^12.7.5"
-  }
+   "name": "backend",
+   "version": "1.0.0",
+   "main": "index.js",
+   "license": "MIT",
+   "dependencies": {
+      "pg": "^7.3.0",
+      "reflect-metadata": "^0.1.10",
+      "typeorm": "0.2.18",
+      "express": "^4.15.4",
+      "body-parser": "^1.18.1"
+   },
+   "devDependencies": {
+      "@types/node": "^8.0.29",
+      "ts-node": "3.3.0",
+      "typescript": "3.3.3333"
+   },
+   "scripts": {
+      "start": "ts-node src/index.ts"
+   }
 }
