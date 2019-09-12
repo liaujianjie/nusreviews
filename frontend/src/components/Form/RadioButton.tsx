@@ -1,15 +1,9 @@
-import React, { Component } from "react";
-import { withLayout } from "../Layout";
-import { Container, Form, Radio, Label } from "semantic-ui-react";
+import * as React from "react";
+import { Form, Radio, Label, CheckboxProps } from "semantic-ui-react";
+import { RadioButtonProps } from "./Form";
 
 /* eslint-disable jsx-a11y/accessible-emoji */
 import { Field } from "react-final-form";
-
-interface RadioButtonProps {
-  name: string;
-  value: string;
-  children?: any;
-}
 
 const RadioButton = (props: RadioButtonProps) => {
   return (
@@ -22,51 +16,30 @@ const RadioButton = (props: RadioButtonProps) => {
       >
         {fieldProps => {
           const { input } = fieldProps;
-          const handleChange = (e, data) => {
-            // necessary because semantic UI sets e as a synthetic event which uses a different structure then the default event, which
-            // react-final-form needs
-            console.log(data);
-            const event = { target: { value: data.value, name: data.name } };
-            input.onChange(event);
+          const { type, ...neededInput } = input;
+
+          const handleChange = (
+            event: React.FormEvent<HTMLInputElement>,
+            eventData: CheckboxProps
+          ) => {
+            // necessary because semantic UI sets provides a synthetic event as the first param
+            // which uses a different structure from the default event that react-final-form uses
+            // Semantic UI however provides a second param, eventData which provides most of the relevant event data
+            const { name, value, checked } = eventData;
+            const defaultEvent = {
+              target: { name, value, checked }
+            };
+            input.onChange(defaultEvent);
           };
+
           return (
             <Form.Field>
-              <Label onChange={handleChange}>{props.children}</Label>
-              <Radio
-                checked={input.checked}
-                value={input.value}
-                name={input.name}
-                onChange={handleChange}
-              />
+              <Label>{props.children}</Label>
+              <Radio {...neededInput} onChange={handleChange} />
             </Form.Field>
           );
         }}
       </Field>
-    </label>
-  );
-
-  return (
-    <label>
-      <Field
-        name={props.name}
-        value={props.value}
-        component="input"
-        type="radio"
-      >
-        {({ input }) => {
-          console.log(input.onChange);
-          return (
-            <Radio
-              label={props.children}
-              name={input.name}
-              value={input.value}
-              checked={input.checked}
-              onChange={e => input.onChange(e)}
-            />
-          );
-        }}
-      </Field>
-      {props.children}
     </label>
   );
 };

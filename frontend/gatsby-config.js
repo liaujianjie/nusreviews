@@ -1,5 +1,4 @@
 module.exports = {
-  pathPrefix:'/form',
   siteMetadata: {
     title: `My website`,
     googleVerification: `abcdefz`,

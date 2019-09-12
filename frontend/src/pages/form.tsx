@@ -1,19 +1,15 @@
-import React, { Component } from "react";
+import * as React from "react";
 import { withLayout } from "../components/Layout";
-import { Container } from "semantic-ui-react";
-
-/* eslint-disable jsx-a11y/accessible-emoji */
-import { Form, Field } from "react-final-form";
+import { Form } from "react-final-form";
+import { Button } from "semantic-ui-react";
 import RadioButton from "../components/Form/RadioButton";
-
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-const onSubmit = async values => {
-  await sleep(300);
-  window.alert(JSON.stringify(values, 0, 2));
-};
+import { LongFormReviewInput } from "../components/Form/Form";
 
 const LongForm = () => {
+  const onSubmit = (values: LongFormReviewInput) => {
+    window.alert(JSON.stringify(values, 0, 2));
+  };
+
   return (
     <Form onSubmit={onSubmit}>
       {({ handleSubmit }) => (
@@ -33,7 +29,7 @@ const LongForm = () => {
             </div>
           </div>
 
-          <button type="submit">Submit</button>
+          <Button type="submit">Submit</Button>
         </form>
       )}
     </Form>
