@@ -27,14 +27,14 @@ export class Module extends Discardable {
   credit: number;
 
   @Column()
-  workload: string;
+  preclusion: string;
 
   @Column()
   prerequisite: string;
 
   @Column()
-  preclusion: string;
+  corequisite: string;
 
   @Column()
-  corequisite: string;
+  workload: string;
 }

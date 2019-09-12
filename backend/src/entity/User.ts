@@ -12,6 +12,9 @@ export class User extends Discardable {
   })
   username: string;
 
+  @Column()
+  password: string;
+
   @Column({
     unique: true
   })

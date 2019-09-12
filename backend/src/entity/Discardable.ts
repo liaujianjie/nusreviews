@@ -7,6 +7,8 @@ export abstract class Discardable {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   discardedAt: Date;
 }
