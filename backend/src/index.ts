@@ -5,12 +5,19 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 import { User } from "./entity/User";
 import { Routes } from "./routes";
+import * as helmet from "helmet";
+import * as cors from "cors";
 
 createConnection()
   .then(async connection => {
     // create express app
     const app = express();
+
+    // call middlewares
     app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(cors());
+    app.use(helmet());
 
     // register express routes from defined application routes
     Routes.forEach(route => {
