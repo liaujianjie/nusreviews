@@ -4,7 +4,7 @@
    "port": 5432,
    "username": "postgres",
    "password": "postgres",
-   "database": "nusreviews",
+   "database": "postgres",
    "synchronize": true,
    "logging": false,
    "entities": [
