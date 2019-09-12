@@ -1,18 +1,31 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Discardable } from "./Discardable";
 
 @Entity()
-export class User {
+export class User extends Discardable {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column({
+    unique: true,
+    length: 20
+  })
+  username: string;
 
-    @Column()
-    firstName: string;
+  @Column({
+    unique: true
+  })
+  email: string;
 
-    @Column()
-    lastName: string;
+  @Column()
+  isVerified: boolean;
 
-    @Column()
-    age: number;
+  @Column()
+  faculty: string;
 
+  @Column()
+  major: string;
+
+  @Column()
+  academic_year: number;
 }
