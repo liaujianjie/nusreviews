@@ -27,5 +27,5 @@ export class User extends Discardable {
   major: string;
 
   @Column()
-  academic_year: number;
+  academicYear: number;
 }
