@@ -22,11 +22,6 @@ const SearchPage = () => {
             </Search>
           </div>
         </div>
-
-        <Message style={{ marginBottom: "2em" }}>
-          To preserve the safe space of this community, we ask that you do not
-          personally identify or reveal any students from your reviews.
-        </Message>
       </Grid.Column>
     </Grid>
   );
