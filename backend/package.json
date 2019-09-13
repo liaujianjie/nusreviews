@@ -32,7 +32,8 @@
   },
   "scripts": {
     "start": "ts-node src/index.ts",
-    "lint": "prettier --write \"src/**/*.{ts,tsx}\""
+    "lint": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "migrate": "ts-node ../node_modules/typeorm/cli.js migration:run"
   },
   "husky": {
     "hooks": {
