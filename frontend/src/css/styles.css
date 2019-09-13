@@ -2,3 +2,10 @@ html, #___gatsby {
   background-color: #f2f4f7
 }
 
+.ui.progress {
+  background-color: #d1dff2!important
+}
+
+.ui.progress .bar {
+  background-color: #2268e2!important
+}

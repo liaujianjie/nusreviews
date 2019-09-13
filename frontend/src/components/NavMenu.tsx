@@ -2,7 +2,7 @@ import * as React from "react";
 import { Menu, Search, Image, Container } from "semantic-ui-react";
 import logo from '../static/images/logo.svg'
 
-export class NavMenu extends Component {
+export class NavMenu extends React.Component {
   render() {
     return (
       <Menu 

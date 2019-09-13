@@ -88,10 +88,10 @@ const Rating = () => {
                 </Grid.Column>
                 <Grid.Column width={12}>
                   <Progress
+                    color='#2268e2'
                     value={rating.value}
                     total='5'
                     progress='ratio'
-                    color='blue' 
                     size='small'
                     style={{ marginBottom: '0rem' }}
                   />

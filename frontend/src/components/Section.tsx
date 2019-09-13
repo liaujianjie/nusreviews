@@ -12,7 +12,7 @@ type Props = {
   }
 }
 
-export class Section extends Component<Props> {
+export class Section extends React.Component<Props> {
   render() {
     const { topLeft, topRight, body, action } = this.props;
     return (

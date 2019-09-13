@@ -7,7 +7,7 @@ type Props = {
   transparent: boolean,
 }
 
-export class ActionButton extends Component<Props> {
+export class ActionButton extends React.Component<Props> {
   render() {
     console.log(JSON.stringify(this.props));
     const { icon, name, transparent } = this.props;
