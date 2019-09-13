@@ -3,6 +3,11 @@ import { Discardable } from "./Discardable";
 import * as bcryptjs from "bcryptjs";
 import { Length, IsNotEmpty, IsEmail } from "class-validator";
 
+export enum UserRole {
+  ADMIN = "admin",
+  STUDENT = "student"
+}
+
 @Entity()
 export class User extends Discardable {
   @PrimaryGeneratedColumn()
@@ -11,6 +16,7 @@ export class User extends Discardable {
   @Column({
     unique: true
   })
+  @IsNotEmpty()
   @Length(4, 100)
   username: string;
 
@@ -18,26 +24,38 @@ export class User extends Discardable {
   @IsNotEmpty()
   password: string;
 
-  @Column()
+  @Column({
+    type: "enum",
+    enum: UserRole,
+    default: UserRole.STUDENT
+  })
   @IsNotEmpty()
-  role: string;
+  role: UserRole;
 
   @Column({
     unique: true
   })
+  @IsNotEmpty()
   @IsEmail()
   email: string;
 
   @Column()
+  @IsNotEmpty()
   isVerified: boolean;
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   faculty: string;
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   major: string;
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   academicYear: number;
 
   public isPasswordValid(password: string): boolean {

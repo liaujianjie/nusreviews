@@ -2,7 +2,7 @@ import * as bodyParser from "body-parser";
 import * as express from "express";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import { User } from "./entities/User";
+import { User, UserRole } from "./entities/User";
 import routes from "./routes";
 import * as helmet from "helmet";
 import * as cors from "cors";
@@ -31,7 +31,7 @@ createConnection(connectionOptions)
         username: "shawnkoh",
         password: hashSync("setMeUp?"),
         email: "shawn@nusreviews.com",
-        role: "ADMIN",
+        role: UserRole.ADMIN,
         isVerified: false
       })
     );
@@ -40,7 +40,7 @@ createConnection(connectionOptions)
         username: "jianjie",
         password: hashSync("setMeUp?"),
         email: "jianjie@nusreviews.com",
-        role: "ADMIN",
+        role: UserRole.ADMIN,
         isVerified: false
       })
     );
@@ -49,7 +49,7 @@ createConnection(connectionOptions)
         username: "eloise",
         password: hashSync("setMeUp?"),
         email: "eloise@nusreviews.com",
-        role: "ADMIN",
+        role: UserRole.ADMIN,
         isVerified: false
       })
     );
@@ -58,7 +58,7 @@ createConnection(connectionOptions)
         username: "branson",
         password: hashSync("setMeUp?"),
         email: "branson@nusreviews.com",
-        role: "ADMIN",
+        role: UserRole.ADMIN,
         isVerified: false
       })
     );
@@ -67,7 +67,7 @@ createConnection(connectionOptions)
         username: "anh",
         password: hashSync("setMeUp?"),
         email: "anh@nusreviews.com",
-        role: "ADMIN",
+        role: UserRole.ADMIN,
         isVerified: false
       })
     );
