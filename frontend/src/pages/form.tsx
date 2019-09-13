@@ -1,64 +1,79 @@
 import * as React from "react";
-import { withLayout } from "../components/Layout";
-import { Form } from "react-final-form";
-import { Button, Container, Header, Segment, Label } from "semantic-ui-react";
-import RadioButton from "../components/Form/RadioButton";
-import ShortTextInput from "../components/Form/ShortTextInput";
 import { range } from "lodash";
-
+// external component libraries
+import * as Final from "react-final-form";
+import { Form, Container, Header, Grid, Label } from "semantic-ui-react";
+// components
+import { withLayout } from "../components/Layout";
+import RadioButton from "../components/Form/RadioButton";
+import LongTextInput from "../components/Form/LongTextInput";
+import ShortTextInput from "../components/Form/ShortTextInput";
+import DropDown from "../components/Form/DropDown";
+// interfaces
 import { LongFormReviewInput } from "../components/Form/Form";
+// constants
+import { grades } from "../constants/Form";
 
 const LongForm = () => {
   const onSubmit = (values: LongFormReviewInput) => {
     window.alert(JSON.stringify(values, 0, 2));
   };
 
-  const getScaledButtons = (scale, field) => {
-    return range(scale).map(num => <RadioButton value={num} name={field} />);
+  const getRadioButtonGroup = (scale: number, field: string) => {
+    return range(scale).map(num => (
+      <Grid.Column>
+        <RadioButton value={num} name={field} />
+      </Grid.Column>
+    ));
   };
 
   return (
-    <Container textAlign="center" text>
+    <Container textAlign="center" text fluid>
       <Header as="h2">CS3216 AY2019/2020 SEM 1</Header>
-      <Form onSubmit={onSubmit}>
+      <Final.Form onSubmit={onSubmit}>
         {({ handleSubmit, form, values }) => (
-          <form
+          <Form
             onSubmit={e => {
               handleSubmit(e);
               form.reset();
             }}
-            className="ui form"
           >
-            <Segment>
+            <Form.Group inline style={{ justifyContent: "center" }}>
+              <Header as="h5">How was the Lecturer?</Header>
+              <Label basic>Avoid</Label>
+              {getRadioButtonGroup(5, "Lecturer")}
+              <Label basic>Recommend</Label>
+            </Form.Group>
+
+            <Form.Group>
               <ShortTextInput
-                name="expectedGrade"
-                placeholder="A+"
-                value={values.expectedGrade}
+                name="name"
+                placeholder="Name"
+                value={values.name}
               >
-                Expected Grade
+                Name
               </ShortTextInput>
               <ShortTextInput
-                name="actualGrade"
-                placeholder="A+"
-                value={values.actualGrade}
+                name="realName"
+                placeholder="RealName"
+                value={values.realName}
               >
-                Actual Grade
+                Real Name
               </ShortTextInput>
-            </Segment>
+            </Form.Group>
 
-            <div className="radio-button-test">
-              <label>RadioButton test</label>
-              <div>
-                <Label>Avoid</Label>
-                {getScaledButtons(5, "Lecturer")}
-                <Label>Recommend</Label>
-              </div>
-            </div>
+            <LongTextInput
+              name="description"
+              placeholder="The world was gonna roll me"
+              value={values.description}
+            >
+              SOMEBODY ONCE TOLD ME
+            </LongTextInput>
 
-            <Button type="submit">Submit</Button>
-          </form>
+            <Form.Button type="submit">Submit</Form.Button>
+          </Form>
         )}
-      </Form>
+      </Final.Form>
     </Container>
   );
 };
