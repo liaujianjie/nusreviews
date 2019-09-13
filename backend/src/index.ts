@@ -1,12 +1,12 @@
 import * as bodyParser from "body-parser";
 import * as express from "express";
-import { Request, Response } from "express";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
 import { User } from "./entities/User";
 import routes from "./routes";
 import * as helmet from "helmet";
 import * as cors from "cors";
+import { hashSync } from "bcryptjs";
 
 createConnection()
   .then(async connection => {
@@ -27,16 +27,42 @@ createConnection()
     // insert new users for test
     await connection.manager.save(
       connection.manager.create(User, {
-        firstName: "Timber",
-        lastName: "Saw",
-        age: 27
+        username: "shawnkoh",
+        password: hashSync("setMeUp?"),
+        email: "shawn@nusreviews.com",
+        role: "ADMIN"
       })
     );
     await connection.manager.save(
       connection.manager.create(User, {
-        firstName: "Phantom",
-        lastName: "Assassin",
-        age: 24
+        username: "jianjie",
+        password: hashSync("setMeUp?"),
+        email: "jianjie@nusreviews.com",
+        role: "ADMIN"
+      })
+    );
+    await connection.manager.save(
+      connection.manager.create(User, {
+        username: "eloise",
+        password: hashSync("setMeUp?"),
+        email: "eloise@nusreviews.com",
+        role: "ADMIN"
+      })
+    );
+    await connection.manager.save(
+      connection.manager.create(User, {
+        username: "branson",
+        password: hashSync("setMeUp?"),
+        email: "branson@nusreviews.com",
+        role: "ADMIN"
+      })
+    );
+    await connection.manager.save(
+      connection.manager.create(User, {
+        username: "anh",
+        password: hashSync("setMeUp?"),
+        email: "anh@nusreviews.com",
+        role: "ADMIN"
       })
     );
 
