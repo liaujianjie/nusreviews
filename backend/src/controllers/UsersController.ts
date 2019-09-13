@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, response, request } from "express";
 import { getRepository } from "typeorm";
-import { User } from "../entity/User";
+import { User } from "../entities/User";
 import * as jwt from "jsonwebtoken";
 import config from "../config";
 import { validate } from "class-validator";

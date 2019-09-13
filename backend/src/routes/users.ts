@@ -1,6 +1,6 @@
-import { UsersController } from "../controller/UsersController";
+import { UsersController } from "../controllers/UsersController";
 import { Router } from "express";
-import { checkJwt } from "../middleware/checkJwt";
+import { checkJwt } from "../middlewares/checkJwt";
 
 export const router = Router();
 
