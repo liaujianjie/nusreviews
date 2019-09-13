@@ -1,8 +1,6 @@
 import { ConnectionOptions } from "typeorm";
 
-export const jwtSecret = "BeNleONG";
-
-export const connectionOptions: ConnectionOptions = {
+export const postgres: ConnectionOptions = {
   type: "postgres",
   host: "localhost",
   port: 5432,
@@ -20,3 +18,5 @@ export const connectionOptions: ConnectionOptions = {
     subscribersDir: "src/subscribers"
   }
 };
+
+export default postgres;

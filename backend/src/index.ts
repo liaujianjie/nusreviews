@@ -7,9 +7,9 @@ import routes from "./routes";
 import * as helmet from "helmet";
 import * as cors from "cors";
 import { hashSync } from "bcryptjs";
-import { connectionOptions } from "./config";
+import ormconfig from "./config/ormconfig";
 
-createConnection(connectionOptions)
+createConnection(ormconfig)
   .then(async connection => {
     // create express app
     const app = express();

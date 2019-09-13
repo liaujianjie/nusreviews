@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { User } from "../entities/User";
 import * as jwt from "jsonwebtoken";
-import { jwtSecret } from "../config";
+import jwtSecret from "../config/jwtSecret";
 import { validate } from "class-validator";
 import { hashSync } from "bcryptjs";
 
