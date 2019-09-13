@@ -42,7 +42,7 @@ export class UsersController {
     const id = response.locals.jwtPayload.userId;
 
     const { oldPassword, newPassword } = request.body;
-    if (!(oldPassword && newPassword)) {
+    if (!oldPassword || !newPassword) {
       response.status(400).send();
       return;
     }
@@ -52,6 +52,7 @@ export class UsersController {
       user = await this.userRepository.findOneOrFail(id);
     } catch (error) {
       response.status(401).send();
+      return;
     }
 
     user.password = newPassword;

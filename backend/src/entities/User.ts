@@ -1,7 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Discardable } from "./Discardable";
 import * as bcryptjs from "bcryptjs";
-import { Length, IsNotEmpty, IsBoolean, IsEmail } from "class-validator";
+import { Length, IsNotEmpty, IsEmail } from "class-validator";
 
 @Entity()
 export class User extends Discardable {
@@ -17,6 +17,10 @@ export class User extends Discardable {
   @Column()
   @IsNotEmpty()
   password: string;
+
+  @Column()
+  @IsNotEmpty()
+  role: string;
 
   @Column({
     unique: true
