@@ -10,6 +10,17 @@ export interface LongTextInputProps extends TextInputProps {
   height?: number;
 }
 
+interface DropDownOptionObj {
+  key: string;
+  value: string;
+  text: string;
+}
+
+export interface DropDownProps extends BasicFormProps {
+  options: Array<DropDownOptionObj>;
+  placeholder: string;
+}
+
 interface BasicFormProps {
   name: string;
   value?: string | number;

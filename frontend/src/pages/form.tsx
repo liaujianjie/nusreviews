@@ -38,6 +38,25 @@ const LongForm = () => {
               form.reset();
             }}
           >
+            <Form.Group widths="equal" style={{ justifyContent: "center" }}>
+              <DropDown
+                name="expectedGrade"
+                placeholder={grades[0].text}
+                options={grades}
+                value={values.expectedGrade}
+              >
+                Expected Grade
+              </DropDown>
+              <DropDown
+                name="actualGrade"
+                placeholder={grades[0].text}
+                options={grades}
+                value={values.actualGrade}
+              >
+                Actual Grade
+              </DropDown>
+            </Form.Group>
+
             <Form.Group inline style={{ justifyContent: "center" }}>
               <Header as="h5">How was the Lecturer?</Header>
               <Label basic>Avoid</Label>
