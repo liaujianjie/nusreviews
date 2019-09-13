@@ -2,7 +2,7 @@ import { Link } from "gatsby";
 import * as React from "react";
 import HeaderMenu from "./HeaderMenu/HeaderMenu";
 import SidebarMenu from "./SidebarMenu/SidebarMenu";
-import { Segment, Icon, Container, Sidebar,Button} from "semantic-ui-react";
+import { Segment, Icon, Container, Sidebar, Button } from "semantic-ui-react";
 import "../css/styles.css";
 import "../css/responsive.css";
 import "../css/semantic.min.css";
@@ -25,7 +25,6 @@ export interface LayoutProps {
   };
   children: any;
 }
-
 
 const Layout = (props: LayoutProps) => {
   const { pathname } = props.location;
@@ -59,14 +58,15 @@ const Layout = (props: LayoutProps) => {
             <Container textAlign="center">
               <div class="ui two column grid">
                 <div class="left aligned four wide column">
-                <button style={{background:"none", padding:0, border:"none"}}>
+                  <button
+                    style={{ background: "none", padding: 0, border: "none" }}
+                  >
                     <img
                       src={octopus}
-                      style={{ maxBlockSize: 100}}
+                      style={{ maxBlockSize: 100 }}
                       alt="click to review module"
                     />
                   </button>
-
                 </div>
                 <div class="twelve wide column">
                   <div class="row">
