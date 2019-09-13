@@ -6,7 +6,7 @@ export interface ShortTextInputProps extends BasicFormProps {
 
 interface BasicFormProps {
   name: string;
-  value?: string;
+  value?: string | number;
   children?: any;
   label?: string;
 }

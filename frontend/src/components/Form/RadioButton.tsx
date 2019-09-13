@@ -19,9 +19,7 @@ const RadioButton = (props: RadioButtonProps) => {
           // necessary because semantic UI sets provides a synthetic event as the first param
           // which uses a different structure from the default event that react-final-form uses
           // Semantic UI however provides a second param, eventData which provides most of the relevant event data
-          const defaultEvent = {
-            target: { ...eventData }
-          };
+          const defaultEvent = { target: { ...eventData } };
           input.onChange(defaultEvent);
         };
 

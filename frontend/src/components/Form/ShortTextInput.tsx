@@ -24,7 +24,7 @@ const ShortTextInput = (props: ShortTextInputProps) => {
         };
 
         return (
-          <Form.Group inline>
+          <Form.Group>
             <Form.Input
               label="Expected Grade"
               placeholder="A+"
