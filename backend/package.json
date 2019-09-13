@@ -35,7 +35,7 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "lint": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "typeorm": "ts-node ./node_modules/.bin/typeorm"
+    "typeorm": "ts-node -r tsconfig-paths/register ../node_modules/typeorm/cli.js"
   },
   "husky": {
     "hooks": {
