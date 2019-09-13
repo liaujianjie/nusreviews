@@ -7,8 +7,9 @@ import routes from "./routes";
 import * as helmet from "helmet";
 import * as cors from "cors";
 import { hashSync } from "bcryptjs";
+import { connectionOptions } from "./config";
 
-createConnection()
+createConnection(connectionOptions)
   .then(async connection => {
     // create express app
     const app = express();
@@ -30,7 +31,8 @@ createConnection()
         username: "shawnkoh",
         password: hashSync("setMeUp?"),
         email: "shawn@nusreviews.com",
-        role: "ADMIN"
+        role: "ADMIN",
+        isVerified: false
       })
     );
     await connection.manager.save(
@@ -38,7 +40,8 @@ createConnection()
         username: "jianjie",
         password: hashSync("setMeUp?"),
         email: "jianjie@nusreviews.com",
-        role: "ADMIN"
+        role: "ADMIN",
+        isVerified: false
       })
     );
     await connection.manager.save(
@@ -46,7 +49,8 @@ createConnection()
         username: "eloise",
         password: hashSync("setMeUp?"),
         email: "eloise@nusreviews.com",
-        role: "ADMIN"
+        role: "ADMIN",
+        isVerified: false
       })
     );
     await connection.manager.save(
@@ -54,7 +58,8 @@ createConnection()
         username: "branson",
         password: hashSync("setMeUp?"),
         email: "branson@nusreviews.com",
-        role: "ADMIN"
+        role: "ADMIN",
+        isVerified: false
       })
     );
     await connection.manager.save(
@@ -62,7 +67,8 @@ createConnection()
         username: "anh",
         password: hashSync("setMeUp?"),
         email: "anh@nusreviews.com",
-        role: "ADMIN"
+        role: "ADMIN",
+        isVerified: false
       })
     );
 
