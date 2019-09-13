@@ -8,9 +8,9 @@ router.post("/sign_in", UsersController.signIn);
 // router.delete("/sign_out", UsersController.signOut);
 router.put("/password", [checkJwt], UsersController.resetPassword);
 
-router.get("/users", UsersController.all);
-router.get("/users/:id", UsersController.one);
-router.post("/users", UsersController.save);
-router.delete("/users", UsersController.remove);
+router.get("/", UsersController.all);
+router.get("/:id", UsersController.one);
+router.post("/", UsersController.save);
+router.delete("/", UsersController.remove);
 
 export default router;
