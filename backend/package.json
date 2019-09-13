@@ -6,6 +6,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.1",
+    "class-validator": "^0.10.0",
     "cors": "^2.8.5",
     "express": "^4.15.4",
     "helmet": "^3.21.0",

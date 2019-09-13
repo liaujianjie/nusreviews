@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
 import { User } from "./entity/User";
-import { Routes } from "./routes";
+import routes from "./routes";
 import * as helmet from "helmet";
 import * as cors from "cors";
 
@@ -19,28 +19,28 @@ createConnection()
     app.use(cors());
     app.use(helmet());
 
-    // register express routes from defined application routes
-    Routes.forEach(route => {
-      (app as any)[route.method](
-        route.route,
-        (req: Request, res: Response, next: Function) => {
-          const result = new (route.controller as any)()[route.action](
-            req,
-            res,
-            next
-          );
-          if (result instanceof Promise) {
-            result.then(result =>
-              result !== null && result !== undefined
-                ? res.send(result)
-                : undefined
-            );
-          } else if (result !== null && result !== undefined) {
-            res.json(result);
-          }
-        }
-      );
-    });
+    app.use("/", routes);
+    // routes.forEach(route => {
+    //   (app as any)[route.method](
+    //     route.route,
+    //     (req: Request, res: Response, next: Function) => {
+    //       const result = new (route.controller as any)()[route.action](
+    //         req,
+    //         res,
+    //         next
+    //       );
+    //       if (result instanceof Promise) {
+    //         result.then(result =>
+    //           result !== null && result !== undefined
+    //             ? res.send(result)
+    //             : undefined
+    //         );
+    //       } else if (result !== null && result !== undefined) {
+    //         res.json(result);
+    //       }
+    //     }
+    //   );
+    // });
 
     // setup express app here
     // ...
