@@ -13,6 +13,8 @@ export const router = Router();
  */
 router.post("/login", UsersController.login);
 
+router.patch("/request_jwt", [checkJwt], UsersController.requestJwt);
+
 // router.delete("/sign_out", UsersController.signOut);
 
 // Reset password

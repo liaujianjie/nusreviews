@@ -5,7 +5,7 @@ import * as jwt from "jsonwebtoken";
 import jwtSecret from "../config/jwtSecret";
 import { validate } from "class-validator";
 import { hashSync } from "bcryptjs";
-import { JwtPayload, JWT_SIGN_OPTIONS } from "../types";
+import { JwtPayload, JWT_SIGN_OPTIONS, JwtSignedPayload } from "../types";
 
 const userRepository = () => getRepository(User);
 
@@ -32,18 +32,27 @@ export async function login(request: Request, response: Response) {
   const b64auth = request.headers.authorization.split(" ")[1];
   const [login, password] = new Buffer(b64auth, "base64").toString().split(":");
 
-  let user: User;
-  try {
-    user = await userRepository().findOneOrFail({
-      where: [{ username: login }, { email: login }]
-    });
-  } catch (error) {
+  const user = await userRepository()
+    .createQueryBuilder()
+    .select("user.id", "user.email")
+    .addSelect("user.password")
+    .where("user.username = :username", { username: login })
+    .orWhere("user.email = :email", { email: login })
+    .getOne();
+
+  if (user == null) {
     response.status(401).send();
+    console.error("UsersController.login failed: Invalid login");
     return;
   }
 
+  // .findOneOrFail({
+  // where: [{ username: login }, { email: login }]
+  // });
+
   if (!user.isPasswordValid(password)) {
     response.status(401).send();
+    console.error("UsersController.login failed: Invalid password");
     return;
   }
 
@@ -53,7 +62,8 @@ export async function login(request: Request, response: Response) {
 }
 
 export async function requestJwt(request: Request, response: Response) {
-  const id = response.locals.jwtPayload.userId;
+  const payload = response.locals.jwtPayload as JwtSignedPayload;
+  const id = payload.userId;
 
   let user: User;
   try {
@@ -63,9 +73,9 @@ export async function requestJwt(request: Request, response: Response) {
     return;
   }
 
-  const payload = getJwtPayload(user);
-  const token = getToken(payload);
-  response.status(200).send(token);
+  const newPayload = getJwtPayload(user);
+  const newToken = getToken(newPayload);
+  response.status(200).send(newToken);
 }
 
 export async function resetPassword(request: Request, response: Response) {

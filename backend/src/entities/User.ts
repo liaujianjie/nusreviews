@@ -16,7 +16,9 @@ export class User extends Discardable {
   @Length(4, 100)
   username: string;
 
-  @Column()
+  @Column({
+    select: false
+  })
   @IsNotEmpty()
   password: string;
 
@@ -57,6 +59,8 @@ export class User extends Discardable {
   academicYear: number;
 
   public isPasswordValid(password: string): boolean {
+    console.log(password);
+    console.log(this.password);
     return bcryptjs.compareSync(password, this.password);
   }
 }
