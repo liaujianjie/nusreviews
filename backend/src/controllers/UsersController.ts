@@ -8,7 +8,7 @@ import { hashSync } from "bcryptjs";
 
 const userRepository = () => getRepository(User);
 
-export async function signIn(request: Request, response: Response) {
+export async function login(request: Request, response: Response) {
   let { username, password } = request.body;
   if (!(username && password)) {
     response.status(400).send();

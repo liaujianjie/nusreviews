@@ -10,7 +10,7 @@ export const router = Router();
  *
  * @return jsonwebtoken
  */
-router.post("/sign_in", UsersController.signIn);
+router.post("/login", UsersController.login);
 
 // router.delete("/sign_out", UsersController.signOut);
 
