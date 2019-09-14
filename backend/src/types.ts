@@ -1,4 +1,6 @@
-import { SignOptions } from "jsonwebtoken";
+import { SignOptions, sign } from "jsonwebtoken";
+import { User } from "./entities/User";
+import jwtSecret from "./config/jwtSecret";
 
 export enum UserRole {
   ADMIN = "admin",
@@ -44,3 +46,12 @@ export function isJwtSignedPayload(object: any): object is JwtSignedPayload {
 export const JWT_SIGN_OPTIONS: SignOptions = {
   expiresIn: "1h"
 };
+
+export function getJwtString(user: User): string {
+  const payload: JwtPayload = {
+    userId: user.id,
+    username: user.username,
+    userRole: user.role
+  };
+  return sign(payload, jwtSecret, JWT_SIGN_OPTIONS);
+}

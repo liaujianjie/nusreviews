@@ -1,26 +1,25 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Discardable } from "./Discardable";
-import * as bcryptjs from "bcryptjs";
 import { Length, IsNotEmpty, IsEmail } from "class-validator";
 import { UserRole } from "../types";
 
 @Entity()
 export class User extends Discardable {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({
     unique: true
   })
   @IsNotEmpty()
   @Length(4, 100)
-  username: string;
+  username!: string;
 
   @Column({
     select: false
   })
   @IsNotEmpty()
-  password: string;
+  password?: string;
 
   @Column({
     type: "enum",
@@ -28,39 +27,33 @@ export class User extends Discardable {
     default: UserRole.STUDENT
   })
   @IsNotEmpty()
-  role: UserRole;
+  role!: UserRole;
 
   @Column({
     unique: true
   })
   @IsNotEmpty()
   @IsEmail()
-  email: string;
+  email!: string;
 
   @Column({
     default: false
   })
   @IsNotEmpty()
-  isVerified: boolean;
+  isVerified!: boolean;
 
   @Column({
     nullable: true
   })
-  faculty: string;
+  faculty?: string;
 
   @Column({
     nullable: true
   })
-  major: string;
+  major?: string;
 
   @Column({
     nullable: true
   })
-  academicYear: number;
-
-  public isPasswordValid(password: string): boolean {
-    console.log(password);
-    console.log(this.password);
-    return bcryptjs.compareSync(password, this.password);
-  }
+  academicYear?: number;
 }

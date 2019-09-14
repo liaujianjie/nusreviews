@@ -1,40 +1,41 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Discardable } from "./Discardable";
 
+// TODO: Check if every module has all the properties
 @Entity()
 export class Module extends Discardable {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({
     unique: true
   })
-  code: string;
+  code!: string;
 
   @Column()
-  title: string;
+  title?: string;
 
   @Column()
-  faculty: string;
+  faculty?: string;
 
   @Column()
-  department: string;
+  department?: string;
 
   @Column()
-  description: string;
+  description?: string;
 
   @Column()
-  credit: number;
+  credit?: number;
 
   @Column()
-  preclusion: string;
+  preclusion?: string;
 
   @Column()
-  prerequisite: string;
+  prerequisite?: string;
 
   @Column()
-  corequisite: string;
+  corequisite?: string;
 
   @Column()
-  workload: string;
+  workload?: string;
 }

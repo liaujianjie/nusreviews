@@ -4,11 +4,11 @@ import { Discardable } from "./Discardable";
 @Entity()
 export class Semester extends Discardable {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  academicYear: string;
+  academicYear!: string;
 
   @Column()
-  name: string;
+  name!: string;
 }

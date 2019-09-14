@@ -2,13 +2,13 @@ import { Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 export abstract class Discardable {
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @Column({
     nullable: true
   })
-  discardedAt: Date;
+  discardedAt?: Date;
 }

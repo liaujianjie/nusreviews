@@ -9,6 +9,12 @@ import {
 
 export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization;
+  if (token === undefined) {
+    res.status(401).send();
+    console.error("checkJwt error: undefined token");
+    return;
+  }
+
   let payload: object | string;
   try {
     payload = jwt.verify(token, jwtSecret, JWT_SIGN_OPTIONS);

@@ -1,24 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { User } from "../entities/User";
-import * as jwt from "jsonwebtoken";
-import jwtSecret from "../config/jwtSecret";
 import { validate } from "class-validator";
-import { hashSync } from "bcryptjs";
-import { JwtPayload, JWT_SIGN_OPTIONS, JwtSignedPayload } from "../types";
+import { hashSync, compareSync } from "bcryptjs";
+import { getJwtString, JwtSignedPayload } from "../types";
 
 const userRepository = () => getRepository(User);
-
-export function getJwtPayload(user: User): JwtPayload {
-  return {
-    userId: user.id,
-    username: user.username,
-    userRole: user.role
-  };
-}
-
-const getToken = (payload: JwtPayload) =>
-  jwt.sign(payload, jwtSecret, JWT_SIGN_OPTIONS);
 
 /**
  * Handles a user login request. A User can login using his email or username.
@@ -28,36 +15,30 @@ export async function login(request: Request, response: Response) {
     response.status(400).send();
     return;
   }
-
   const b64auth = request.headers.authorization.split(" ")[1];
-  const [login, password] = new Buffer(b64auth, "base64").toString().split(":");
+  const [login, password] = Buffer.from(b64auth, "base64")
+    .toString()
+    .split(":");
 
   const user = await userRepository()
-    .createQueryBuilder()
-    .select("user.id", "user.email")
+    .createQueryBuilder("user")
     .addSelect("user.password")
-    .where("user.username = :username", { username: login })
-    .orWhere("user.email = :email", { email: login })
+    .where("user.username = :login OR user.email = :login", { login })
     .getOne();
 
-  if (user == null) {
+  if (user === undefined || user.password === undefined) {
     response.status(401).send();
     console.error("UsersController.login failed: Invalid login");
     return;
   }
 
-  // .findOneOrFail({
-  // where: [{ username: login }, { email: login }]
-  // });
-
-  if (!user.isPasswordValid(password)) {
+  if (!compareSync(password, user.password)) {
     response.status(401).send();
     console.error("UsersController.login failed: Invalid password");
     return;
   }
 
-  const payload = getJwtPayload(user);
-  const token = getToken(payload);
+  const token = getJwtString(user);
   response.status(200).send(token);
 }
 
@@ -73,8 +54,7 @@ export async function requestJwt(request: Request, response: Response) {
     return;
   }
 
-  const newPayload = getJwtPayload(user);
-  const newToken = getToken(newPayload);
+  const newToken = getJwtString(user);
   response.status(200).send(newToken);
 }
 
@@ -141,6 +121,11 @@ export async function remove(
   next: NextFunction
 ) {
   const userToRemove = await userRepository().findOne(request.params.id);
+  if (userToRemove === undefined) {
+    response.status(400).send();
+    console.error("UsersController.remove failed: userToRemove is undefined");
+    return;
+  }
   await userRepository().remove(userToRemove);
   response.status(200).send();
 }
