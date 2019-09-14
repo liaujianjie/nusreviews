@@ -1,8 +1,7 @@
 import * as React from "react";
+import { withLayout } from "../components/Layout";
 import { 
   Button,
-  Card,
-  Container,
   Divider,
   Dropdown,
   Grid,
@@ -14,10 +13,10 @@ import {
   Progress,
 } from "semantic-ui-react";
 import ActionButton from "../components/ActionButton";
-import NavMenu from "../components/NavMenu";
 import Section from "../components/Section";
+import RatingCard from "../components/RatingCard";
 
-const Detail = () => {
+const DetailSection = () => {
   return (
     <Section
       topLeft = {
@@ -31,7 +30,7 @@ const Detail = () => {
   )
 }
 
-const Rating = () => {
+const RatingSection = () => {
   const semesterOptions = [
     {
       key: '1920sem1',
@@ -62,6 +61,18 @@ const Rating = () => {
     { 
       name: "Lecturer",
       value: 4.2
+    },
+    { 
+      name: "Workload",
+      value: 3
+    },
+    { 
+      name: "Bell curve",
+      value: 2
+    },
+    { 
+      name: "Lecturer",
+      value: 4.2
     }
   ]
 
@@ -78,32 +89,12 @@ const Rating = () => {
       topRight = {
         <ActionButton icon='plus' name='Add Rating'/>
       }
-      body = {(
-        <Grid>
-          {
-            ratings.map(rating =>
-              <Grid.Row>
-                <Grid.Column width={4}>
-                  {rating.name}
-                </Grid.Column>
-                <Grid.Column width={12}>
-                  <Progress
-                    value={rating.value}
-                    total='5'
-                    progress='ratio'
-                    size='small'
-                    style={{ marginBottom: '0rem' }}
-                  />
-                </Grid.Column>
-              </Grid.Row>)
-          }
-        </Grid>
-      )}
+      body = {<RatingCard ratings={ratings}/>}
     />
   )
 }
 
-const Discussion = () => {
+const DiscussionSection = () => {
   const opinions = [
     { 
       name: "Computer Science, Y4, AY17/18",
@@ -186,7 +177,7 @@ const Discussion = () => {
   )
 }
 
-const Reviews = () => {
+const LongReviewSection = () => {
   const reviews = [
     {
       expected: "B+",
@@ -286,17 +277,12 @@ const Reviews = () => {
 const ModulePage = () => {
   return (
     <div>
-      <NavMenu/>
-      <Container style={{
-        marginTop: '6rem',
-      }}>
-        <Detail/>
-        <Rating/>
-        <Discussion/>
-        <Reviews/>
-      </Container>
+      <DetailSection/>
+      <RatingSection/>
+      <DiscussionSection/>
+      <LongReviewSection/>
     </div>
   );
 };
 
-export default ModulePage;
+export default withLayout(ModulePage);

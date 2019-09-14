@@ -7,21 +7,18 @@ type Props = {
   transparent: boolean,
 }
 
-export class ActionButton extends React.Component<Props> {
-  render() {
-    console.log(JSON.stringify(this.props));
-    const { icon, name, transparent } = this.props;
-    return (
-      <Button 
-        style={{
-          backgroundColor: (transparent ? 'transparent' : '#fc4838'),
-          color: (transparent ? '#fc4838' : '#fff'),
-          borderRadius: "0.3em",
-        }}>
-        {icon && <Icon name={icon}/>} {name}
-      </Button>
-    )
-  }
+const ActionButton = (props: Props) => {
+  const { icon, name, transparent } = props;
+  return (
+    <Button 
+      style={{
+        backgroundColor: (transparent ? 'transparent' : '#fc4838'),
+        color: (transparent ? '#fc4838' : '#fff'),
+        borderRadius: "0.3em",
+      }}>
+      {icon && <Icon name={icon}/>} {name}
+    </Button>
+  )
 };
 
-export default (ActionButton);
+export default ActionButton;
