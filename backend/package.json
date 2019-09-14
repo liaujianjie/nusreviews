@@ -28,14 +28,16 @@
     "prettier": "1.18.2",
     "pretty-quick": "^1.11.1",
     "ts-node": "3.3.0",
+    "ts-node-dev": "^1.0.0-pre.42",
     "tsconfig-paths": "^3.9.0",
     "tslint": "^5.20.0",
     "typescript": "^3.6.3"
   },
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "set debug=* && ts-node-dev --respawn --transpileOnly ./src/index.ts",
     "lint": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "typeorm": "ts-node -r tsconfig-paths/register ../node_modules/typeorm/cli.js"
+    "typeorm": "ts-node -r tsconfig-paths/register ../node_modules/typeorm/cli.js",
+    "production": "tsc && node .build/app.js"
   },
   "husky": {
     "hooks": {
