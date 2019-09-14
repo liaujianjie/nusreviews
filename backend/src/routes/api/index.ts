@@ -1,8 +1,8 @@
 import { Router } from "express";
-import api from "./api";
+import users from "./users";
 
 const routes = Router();
 
-routes.use("/api", api);
+routes.use("/users", users);
 
 export default routes;

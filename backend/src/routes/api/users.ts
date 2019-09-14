@@ -1,14 +1,14 @@
-import * as UsersController from "../controllers/UsersController";
+import * as UsersController from "../../controllers/UsersController";
 import { Router } from "express";
-import { checkJwt } from "../middlewares/checkJwt";
-import { checkRole } from "../middlewares/checkRole";
+import { checkJwt } from "../../middlewares/checkJwt";
+import { checkRole } from "../../middlewares/checkRole";
 
 export const router = Router();
 
 /**
  * Sign in
  *
- * @returns jsonwebtoken
+ * @return jsonwebtoken
  */
 router.post("/sign_in", UsersController.signIn);
 
@@ -20,10 +20,18 @@ router.put("/password", [checkJwt], UsersController.resetPassword);
 // Request password reset
 // router.post("/password", UsersController.requestPasswordReset);
 
-// Get all users
+/**
+ * Get all users
+ *
+ * @return User[]
+ */
 router.get("/", [checkJwt, checkRole(["ADMIN"])], UsersController.all);
 
-// Get a user
+/**
+ * Get a user
+ *
+ * @return User
+ */
 router.get("/:id", [checkJwt, checkRole(["ADMIN"])], UsersController.one);
 
 // Create a new user
