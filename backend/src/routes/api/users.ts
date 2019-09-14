@@ -2,6 +2,7 @@ import * as UsersController from "../../controllers/UsersController";
 import { Router } from "express";
 import { checkJwt } from "../../middlewares/checkJwt";
 import { checkRole } from "../../middlewares/checkRole";
+import { UserRole } from "../../types";
 
 export const router = Router();
 
@@ -25,19 +26,27 @@ router.put("/password", [checkJwt], UsersController.resetPassword);
  *
  * @return User[]
  */
-router.get("/", [checkJwt, checkRole(["ADMIN"])], UsersController.all);
+router.get("/", [checkJwt, checkRole([UserRole.ADMIN])], UsersController.all);
 
 /**
  * Get a user
  *
  * @return User
  */
-router.get("/:id", [checkJwt, checkRole(["ADMIN"])], UsersController.one);
+router.get(
+  "/:id",
+  [checkJwt, checkRole([UserRole.ADMIN])],
+  UsersController.one
+);
 
 // Create a new user
 router.post("/", UsersController.save);
 
 // Soft-delete a user
-router.delete("/", [checkJwt, checkRole(["ADMIN"])], UsersController.remove);
+router.delete(
+  "/",
+  [checkJwt, checkRole([UserRole.ADMIN])],
+  UsersController.remove
+);
 
 export default router;

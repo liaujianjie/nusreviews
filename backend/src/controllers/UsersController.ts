@@ -5,20 +5,32 @@ import * as jwt from "jsonwebtoken";
 import jwtSecret from "../config/jwtSecret";
 import { validate } from "class-validator";
 import { hashSync } from "bcryptjs";
+import { JwtPayload, JWT_SIGN_OPTIONS } from "../types";
 
 const userRepository = () => getRepository(User);
+
+export function getJwtPayload(user: User): JwtPayload {
+  return {
+    userId: user.id,
+    username: user.username,
+    userRole: user.role
+  };
+}
+
+const getToken = (payload: JwtPayload) =>
+  jwt.sign(payload, jwtSecret, JWT_SIGN_OPTIONS);
 
 /**
  * Handles a user login request. A User can login using his email or username.
  */
 export async function login(request: Request, response: Response) {
-  const b64auth = (request.headers.authorization || "").split(" ")[1] || "";
-  const [login, password] = new Buffer(b64auth, "base64").toString().split(":");
-
-  if (!(login && password)) {
+  if (!request.headers.authorization) {
     response.status(400).send();
     return;
   }
+
+  const b64auth = request.headers.authorization.split(" ")[1];
+  const [login, password] = new Buffer(b64auth, "base64").toString().split(":");
 
   let user: User;
   try {
@@ -35,13 +47,25 @@ export async function login(request: Request, response: Response) {
     return;
   }
 
-  const token = jwt.sign(
-    { userId: user.id, username: user.username },
-    jwtSecret,
-    { expiresIn: "1h" }
-  );
+  const payload = getJwtPayload(user);
+  const token = getToken(payload);
+  response.status(200).send(token);
+}
 
-  response.send(token);
+export async function requestJwt(request: Request, response: Response) {
+  const id = response.locals.jwtPayload.userId;
+
+  let user: User;
+  try {
+    user = await userRepository().findOneOrFail(id);
+  } catch (error) {
+    response.status(400).send();
+    return;
+  }
+
+  const payload = getJwtPayload(user);
+  const token = getToken(payload);
+  response.status(200).send(token);
 }
 
 export async function resetPassword(request: Request, response: Response) {
@@ -78,6 +102,7 @@ export async function all(
   response: Response,
   next: NextFunction
 ) {
+  console.log("all");
   const result = await userRepository().find();
   response.status(200).send(result);
 }

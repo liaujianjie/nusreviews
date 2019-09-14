@@ -1,27 +1,16 @@
 import { Request, Response, NextFunction } from "express";
-import { getRepository } from "typeorm";
+import { UserRole, JwtSignedPayload } from "../types";
 
-import { User } from "../entities/User";
-
-export const checkRole = (roles: Array<string>) => {
+export const checkRole = (roles: Array<UserRole>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    // Get the user ID from previous midleware
-    const id = res.locals.jwtPayload.userId;
+    const payload = res.locals.jwtPayload as JwtSignedPayload;
+    const userRole = payload.userRole;
 
-    // Get user role from the database
-    const userRepository = getRepository(User);
-    let user: User;
-    try {
-      user = await userRepository.findOneOrFail(id);
-    } catch (id) {
+    if (roles.includes(userRole)) {
+      next();
+    } else {
       res.status(401).send();
+      console.error("checkRole failed: unpermitted role");
     }
-
-    // Check if array of authorized roles includes the user's role
-    if (roles.indexOf(user.role) == -1) {
-      res.status(401).send();
-      return;
-    }
-    next();
   };
 };

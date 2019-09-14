@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    // "baseUrl": "backend/src/",
     "baseUrl": "./",
     "lib": ["es5", "es6"],
     "target": "es5",

@@ -1,6 +1,7 @@
 import { MigrationInterface, QueryRunner, getRepository } from "typeorm";
-import { User, UserRole } from "../entities/User";
+import { User } from "../entities/User";
 import { hashSync } from "bcryptjs";
+import { UserRole } from "../types";
 
 export class Initial1568394110733 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {

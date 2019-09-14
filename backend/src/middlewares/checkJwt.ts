@@ -1,29 +1,27 @@
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
 import jwtSecret from "../config/jwtSecret";
+import {
+  JWT_SIGN_OPTIONS,
+  JwtSignedPayload,
+  isJwtSignedPayload
+} from "../types";
 
 export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
-  // Get the jwt token from the head
-  const token = <string>req.headers["jsonwebtoken"];
-  let jwtPayload;
-
-  // Try to validate the token and get data
+  const token = req.headers.authorization;
+  let payload: object | string;
   try {
-    jwtPayload = <any>jwt.verify(token, jwtSecret);
-    res.locals.jwtPayload = jwtPayload;
+    payload = jwt.verify(token, jwtSecret, JWT_SIGN_OPTIONS);
   } catch (error) {
-    // If token is not valid, respond with 401 (unauthorized)
     res.status(401).send();
+    console.error("checkJwt failed: invalid jwt");
     return;
   }
-
-  // Send a new token on every request
-  const { userId, username } = jwtPayload;
-  const newToken = jwt.sign({ userId, username }, jwtSecret, {
-    expiresIn: "1h"
-  });
-  res.setHeader("jsonwebtoken", newToken);
-
-  // Call the next middleware or controller
-  next();
+  res.locals.jwtPayload = payload as JwtSignedPayload;
+  if (isJwtSignedPayload(payload)) {
+    next();
+  } else {
+    res.status(401).send();
+    console.error("checkJwt failed: isJwtSignedPayload = false");
+  }
 };

@@ -2,11 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Discardable } from "./Discardable";
 import * as bcryptjs from "bcryptjs";
 import { Length, IsNotEmpty, IsEmail } from "class-validator";
-
-export enum UserRole {
-  ADMIN = "admin",
-  STUDENT = "student"
-}
+import { UserRole } from "../types";
 
 @Entity()
 export class User extends Discardable {
