@@ -1,5 +1,9 @@
 import * as React from "react";
 import { Card, Container, Rating, Icon } from "semantic-ui-react";
+import { withLayout } from "../components/Layout";
+import ActionButton from "../components/ActionButton";
+import Section from "../components/Section";
+import RatingCard from "../components/RatingCard";
 
 const Details = () => {
   const ModuleOptions = [
@@ -22,20 +26,18 @@ const Details = () => {
 
   return ModuleOptions.map(mod => (
     <Card.Group >
-      <Card inverse color="pink" fluid>
-        <Card.Content header={mod.code + " " + mod.name} />
-        <Card.Content description={mod.description} />
+      <Card color="orange" fluid>
         <Card.Content extra>
-          <Rating icon="star" defaultRating={mod.value} maxRating={5} />
-          bird bird
-          <Icon name="plane" />
+        <h1>{mod.code + " " + mod.name}</h1>
+        Overall Rating:<Rating icon="star" defaultRating={mod.value} maxRating={5} />
         </Card.Content>
+        <Card.Content description={mod.description} />
       </Card>
     </Card.Group>
   ));
 };
 
-const ModulePage = () => {
+const ModuleList = () => {
   return (
     
     <div>
@@ -45,11 +47,11 @@ const ModulePage = () => {
           marginTop: "6rem"
         }}
       >
-         <h1>Search Results for <b>CS321</b>:</h1>
+         <h1>Search Results for CS321:</h1>
         <Details />
       </Container>
     </div>
   );
 };
 
-export default ModulePage;
+export default withLayout(ModuleList);
