@@ -8,16 +8,23 @@ import { hashSync } from "bcryptjs";
 
 const userRepository = () => getRepository(User);
 
+/**
+ * Handles a user login request. A User can login using his email or username.
+ */
 export async function login(request: Request, response: Response) {
-  let { username, password } = request.body;
-  if (!(username && password)) {
+  const b64auth = (request.headers.authorization || "").split(" ")[1] || "";
+  const [login, password] = new Buffer(b64auth, "base64").toString().split(":");
+
+  if (!(login && password)) {
     response.status(400).send();
     return;
   }
 
   let user: User;
   try {
-    user = await userRepository().findOneOrFail({ where: { username } });
+    user = await userRepository().findOneOrFail({
+      where: [{ username: login }, { email: login }]
+    });
   } catch (error) {
     response.status(401).send();
     return;
