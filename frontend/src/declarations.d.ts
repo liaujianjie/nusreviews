@@ -16,3 +16,8 @@ declare module "disqus-react" {
     },
   }, {}> { }
 }
+
+declare module "*.svg" {
+  const content: React.FunctionComponent<React.SVGProps<{}>>;
+  export default content;
+}

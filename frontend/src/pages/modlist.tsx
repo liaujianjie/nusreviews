@@ -21,8 +21,8 @@ const Details = () => {
   ];
 
   return ModuleOptions.map(mod => (
-    <Card.Group>
-      <Card fluid>
+    <Card.Group >
+      <Card inverse color="pink" fluid>
         <Card.Content header={mod.code + " " + mod.name} />
         <Card.Content description={mod.description} />
         <Card.Content extra>
@@ -37,12 +37,15 @@ const Details = () => {
 
 const ModulePage = () => {
   return (
+    
     <div>
+     
       <Container
         style={{
           marginTop: "6rem"
         }}
       >
+         <h1>Search Results for <b>CS321</b>:</h1>
         <Details />
       </Container>
     </div>
