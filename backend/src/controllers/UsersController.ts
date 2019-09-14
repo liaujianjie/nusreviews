@@ -62,7 +62,8 @@ export async function resetPassword(request: Request, response: Response) {
   }
 
   user.password = hashSync(newPassword);
-  userRepository().save(user);
+  await userRepository().save(user);
+  response.status(200).send();
 }
 
 export async function all(
@@ -70,7 +71,8 @@ export async function all(
   response: Response,
   next: NextFunction
 ) {
-  return userRepository().find();
+  const result = await userRepository().find();
+  response.status(200).send(result);
 }
 
 export async function one(
@@ -78,7 +80,8 @@ export async function one(
   response: Response,
   next: NextFunction
 ) {
-  return userRepository().findOne(request.params.id);
+  const result = await userRepository().findOne(request.params.id);
+  response.status(200).send(result);
 }
 
 export async function save(
@@ -86,7 +89,8 @@ export async function save(
   response: Response,
   next: NextFunction
 ) {
-  return userRepository().save(request.body);
+  await userRepository().save(request.body);
+  response.status(200).send();
 }
 
 export async function remove(
@@ -96,4 +100,5 @@ export async function remove(
 ) {
   const userToRemove = await userRepository().findOne(request.params.id);
   await userRepository().remove(userToRemove);
+  response.status(200).send();
 }

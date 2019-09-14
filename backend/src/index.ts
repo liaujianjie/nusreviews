@@ -9,10 +9,8 @@ import ormconfig from "./config/ormconfig";
 
 createConnection(ormconfig)
   .then(async connection => {
-    // create express app
     const app = express();
 
-    // call middlewares
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(cors());
@@ -20,7 +18,6 @@ createConnection(ormconfig)
 
     app.use("/", routes);
 
-    // start express server
     app.listen(3000);
 
     console.log(
