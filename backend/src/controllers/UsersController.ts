@@ -88,8 +88,8 @@ export async function changePassword(request: Request, response: Response) {
   const payload = response.locals.jwtPayload as JwtSignedPayload;
   const id = payload.userId;
 
-  const oldPasswordB64 = request.headers.oldpassword;
-  const newPasswordB64 = request.headers.newpassword;
+  const oldPasswordB64 = request.body.oldPassword;
+  const newPasswordB64 = request.body.newPassword;
 
   if (
     typeof oldPasswordB64 !== "string" ||
