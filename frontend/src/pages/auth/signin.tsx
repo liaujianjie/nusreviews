@@ -5,15 +5,13 @@ import * as _ from "lodash";
 import { Grid, Header, Form, Button, Divider } from "semantic-ui-react";
 import { FinalFormInput } from "../../components/FinalFormInput";
 
-type SignInPayload = {
+type SignInField = {
   email: string;
   password: string;
 };
 
 const SignInPage = () => {
-  const submit: FormProps<SignInPayload>["onSubmit"] = (
-    payload: SignInPayload
-  ) => {
+  const submit: FormProps<SignInField>["onSubmit"] = (payload: SignInField) => {
     // Simulate async HTTP request
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -29,7 +27,7 @@ const SignInPage = () => {
         <Header as="h2" color="teal" textAlign="center">
           NUS Reviews
         </Header>
-        <FinalForm<SignInPayload>
+        <FinalForm<SignInField>
           initialValues={{ email: "", password: "" }}
           onSubmit={submit}
         >
