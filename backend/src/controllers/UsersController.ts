@@ -3,7 +3,7 @@ import { validate } from "class-validator";
 import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { User } from "../entities/User";
-import { JwtSignedPayload } from "../types/jwt";
+import { JwtSignedPayload, JwtPayload } from "../types/jwt";
 import { getJwtString } from "../utils/jwt";
 
 const userRepository = () => getRepository(User);
@@ -70,11 +70,10 @@ export async function login(request: Request, response: Response) {
 
 export async function requestJwt(request: Request, response: Response) {
   const payload = response.locals.jwtPayload as JwtSignedPayload;
-  const id = payload.userId;
 
   let user: User;
   try {
-    user = await userRepository().findOneOrFail(id);
+    user = await userRepository().findOneOrFail(payload.userId);
   } catch (error) {
     response.status(400).send();
     console.error(error);
@@ -86,17 +85,36 @@ export async function requestJwt(request: Request, response: Response) {
 }
 
 export async function changePassword(request: Request, response: Response) {
-  const id = response.locals.jwtPayload.userId;
-  const { oldPassword, newPassword } = request.headers;
-  if (typeof oldPassword !== "string" || typeof newPassword !== "string") {
+  const payload = response.locals.jwtPayload as JwtSignedPayload;
+  const id = payload.userId;
+
+  const oldPasswordB64 = request.headers.oldpassword;
+  const newPasswordB64 = request.headers.newpassword;
+
+  if (
+    typeof oldPasswordB64 !== "string" ||
+    typeof newPasswordB64 !== "string"
+  ) {
     response.status(400).send();
+    console.log(request.headers);
     return;
   }
 
-  let user: User;
-  try {
-    user = await userRepository().findOneOrFail(id);
-  } catch (error) {
+  const oldPassword = Buffer.from(oldPasswordB64, "base64").toString();
+  const newPassword = Buffer.from(newPasswordB64, "base64").toString();
+
+  const repo = userRepository();
+  const user = await repo
+    .createQueryBuilder("user")
+    .addSelect("user.password")
+    .where("user.id = :id", { id })
+    .getOne();
+
+  if (
+    user === undefined ||
+    user.password === undefined ||
+    !compareSync(oldPassword, user.password)
+  ) {
     response.status(401).send();
     return;
   }
@@ -108,9 +126,8 @@ export async function changePassword(request: Request, response: Response) {
     return;
   }
 
-  user.password = hashSync(newPassword);
   try {
-    await userRepository().save(user);
+    await repo.update(id, { password: hashSync(newPassword) });
   } catch (error) {
     response.status(400).send();
     console.error(error);

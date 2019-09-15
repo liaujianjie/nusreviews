@@ -11,7 +11,7 @@ router.post("/login", UsersController.login);
 // router.post("/password", UsersController.requestPasswordReset);
 
 router.use(checkJwt);
-router.put("/password", UsersController.changePassword);
+router.patch("/change_password", UsersController.changePassword);
 router.patch("/request_jwt", UsersController.requestJwt);
 // router.delete("/sign_out", UsersController.signOut);
 
