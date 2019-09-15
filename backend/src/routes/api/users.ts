@@ -20,8 +20,8 @@ router.use(checkAccessToken);
 router.patch("/change_password", UsersController.changePassword);
 
 router.use(checkRole([UserRole.Admin]));
-router.get("/", UsersController.all);
-router.get("/:id", UsersController.one);
-router.delete("/", UsersController.remove);
+router.get("/", UsersController.index);
+router.get("/:id", UsersController.show);
+router.delete("/:id", UsersController.remove);
 
 export default router;

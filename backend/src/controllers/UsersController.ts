@@ -138,7 +138,7 @@ export async function changePassword(request: Request, response: Response) {
 
 // export async function resetPassword(request: Request, response: Response) {
 
-export async function all(
+export async function index(
   request: Request,
   response: Response,
   next: NextFunction
@@ -153,17 +153,16 @@ export async function all(
   response.status(200).send(result);
 }
 
-export async function one(
+export async function show(
   request: Request,
   response: Response,
   next: NextFunction
 ) {
   let result;
   try {
-    result = await userRepository().findOne(request.params.id);
+    result = await userRepository().findOneOrFail(request.params.id);
   } catch (error) {
     response.status(400).send();
-    console.error(error);
     return;
   }
   response.status(200).send(result);
