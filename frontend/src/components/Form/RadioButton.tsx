@@ -1,8 +1,16 @@
 import * as React from "react";
-import { Form, CheckboxProps } from "semantic-ui-react";
+import { Form, CheckboxProps, Header, Label, Grid } from "semantic-ui-react";
 import { RadioButtonProps } from "./Form";
+import { range } from "lodash";
 
 import { Field } from "react-final-form";
+
+interface RadioGroupProps {
+  scale: number;
+  name: string;
+  question: string;
+  value: Array<string>;
+}
 
 const RadioButton = (props: RadioButtonProps) => {
   return (
@@ -32,4 +40,38 @@ const RadioButton = (props: RadioButtonProps) => {
   );
 };
 
-export default RadioButton;
+const RadioButtonGroup = (props: RadioGroupProps) => {
+  const { scale, name, question, value } = props;
+  const radioButtons = range(scale).map(num => (
+    <RadioButton value={num} name={name} />
+  ));
+
+  const radioButtonGroup = (
+    <Grid verticalAlign="middle">
+      <Grid.Column width={4} textAlign="right">
+        <label>{value[0]}</label>
+      </Grid.Column>
+      <Grid.Column style={{ width: "13em" }}>
+        <Form.Group centered style={{ margin: "0px" }}>
+          {radioButtons}
+        </Form.Group>
+      </Grid.Column>
+      <Grid.Column width={4} textAlign="left">
+        <label>{value[1]}</label>
+      </Grid.Column>
+    </Grid>
+  );
+
+  return (
+    <Grid stackable>
+      <Grid.Column width={6} floated="left">
+        <Header as="h5">{question}</Header>
+      </Grid.Column>
+      <Grid.Column width={10} centered>
+        {radioButtonGroup}
+      </Grid.Column>
+    </Grid>
+  );
+};
+
+export default RadioButtonGroup;
