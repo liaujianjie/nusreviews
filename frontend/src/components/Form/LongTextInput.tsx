@@ -2,7 +2,6 @@ import * as React from "react";
 import { Form, TextAreaProps } from "semantic-ui-react";
 import { LongTextInputProps } from "./Form";
 
-/* eslint-disable jsx-a11y/accessible-emoji */
 import { Field } from "react-final-form";
 
 const LongTextInput = (props: LongTextInputProps) => {
@@ -14,9 +13,7 @@ const LongTextInput = (props: LongTextInputProps) => {
           event: React.FormEvent<HTMLTextAreaElement>,
           eventData: TextAreaProps
         ) => {
-          const defaultEvent = {
-            target: { ...eventData }
-          };
+          const defaultEvent = { target: eventData };
           input.onChange(defaultEvent);
         };
 
@@ -25,7 +22,7 @@ const LongTextInput = (props: LongTextInputProps) => {
             label={props.children}
             placeholder={props.placeholder}
             onChange={handleChange}
-            value={props.value ? props.value : ""}
+            value={props.value || ""}
           />
         );
       }}

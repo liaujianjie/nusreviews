@@ -2,7 +2,6 @@ import * as React from "react";
 import { Form, InputProps } from "semantic-ui-react";
 import { ShortTextInputProps } from "./Form";
 
-/* eslint-disable jsx-a11y/accessible-emoji */
 import { Field } from "react-final-form";
 
 const ShortTextInput = (props: ShortTextInputProps) => {
@@ -14,9 +13,7 @@ const ShortTextInput = (props: ShortTextInputProps) => {
           event: React.FormEvent<HTMLInputElement>,
           eventData: InputProps
         ) => {
-          const defaultEvent = {
-            target: { ...eventData }
-          };
+          const defaultEvent = { target: eventData };
           input.onChange(defaultEvent);
         };
 
@@ -25,7 +22,7 @@ const ShortTextInput = (props: ShortTextInputProps) => {
             label={props.children}
             placeholder={props.placeholder}
             onChange={handleChange}
-            value={props.value ? props.value : ""}
+            value={props.value || ""}
           />
         );
       }}
