@@ -34,5 +34,7 @@ export const checkRefreshToken = (
     return;
   }
 
+  // TODO: Check if user is banned
+
   next();
 };
