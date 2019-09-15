@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Form } from "semantic-ui-react";
+import { Form, Message } from "semantic-ui-react";
 import { FieldRenderProps } from "react-final-form";
 
 interface FinalFormInputProps
@@ -11,4 +11,12 @@ interface FinalFormInputProps
  */
 export const FinalFormInput: React.FunctionComponent<
   FinalFormInputProps
-> = props => <Form.Input {...props} />;
+> = props => {
+  const { meta, ...otherProps } = props;
+  return (
+    <>
+      <Form.Input {...otherProps} error={meta.dirty && meta.error} />
+      {meta.dirty && <Message error content={meta.error} />}
+    </>
+  );
+};
