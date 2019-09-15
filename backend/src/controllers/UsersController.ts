@@ -173,11 +173,14 @@ export async function remove(
   response: Response,
   next: NextFunction
 ) {
-  const userToRemove = await userRepository().findOne(request.params.id);
-  if (userToRemove === undefined) {
+  try {
+    await userRepository().findOneOrFail(request.params.id);
+    await userRepository().update(request.params.id, {
+      discardedAt: new Date()
+    });
+  } catch (error) {
     response.status(400).send();
     return;
   }
-  await userRepository().remove(userToRemove);
   response.status(200).send();
 }
