@@ -169,7 +169,7 @@ export async function show(
   response.status(200).send(result);
 }
 
-export async function remove(
+export async function discard(
   request: Request,
   response: Response,
   next: NextFunction

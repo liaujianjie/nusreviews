@@ -22,6 +22,6 @@ router.patch("/change_password", UsersController.changePassword);
 router.use(checkRole([UserRole.Admin]));
 router.get("/", UsersController.index);
 router.get("/:id", UsersController.show);
-router.delete("/:id", UsersController.remove);
+router.delete("/:id", UsersController.discard);
 
 export default router;
