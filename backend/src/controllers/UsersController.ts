@@ -8,6 +8,10 @@ import { getJwtString } from "../utils/jwt";
 
 const userRepository = () => getRepository(User);
 
+export async function create(request: Request, response: Response) {
+  await userRepository().create();
+}
+
 /**
  * Handles a user login request. A User can login using his email or username.
  */
