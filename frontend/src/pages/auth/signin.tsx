@@ -1,9 +1,11 @@
 import * as React from "react";
-import { Form as FinalForm, Field, FormProps } from "react-final-form";
+import * as FinalForm from "react-final-form";
 import * as _ from "lodash";
 
-import { Grid, Header, Form, Button, Divider } from "semantic-ui-react";
+import { Grid, Form, Button, Divider, Image } from "semantic-ui-react";
 import { FinalFormInput } from "../../components/FinalFormInput";
+import { AuthLogoContainer } from "../../components/AuthLogoContainer";
+import logo from "../../static/images/logo.svg";
 
 type SignInField = {
   email: string;
@@ -11,9 +13,11 @@ type SignInField = {
 };
 
 const SignInPage = () => {
-  const submit: FormProps<SignInField>["onSubmit"] = (payload: SignInField) => {
+  const submit: FinalForm.FormProps<SignInField>["onSubmit"] = (
+    payload: SignInField
+  ) => {
     // Simulate async HTTP request
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         alert(JSON.stringify(payload));
         resolve();
@@ -24,16 +28,16 @@ const SignInPage = () => {
   return (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as="h2" color="teal" textAlign="center">
-          NUS Reviews
-        </Header>
-        <FinalForm<SignInField>
+        <AuthLogoContainer>
+          <Image src={logo} alt="logo" size="medium" />
+        </AuthLogoContainer>
+        <FinalForm.Form<SignInField>
           initialValues={{ email: "", password: "" }}
           onSubmit={submit}
         >
           {({ handleSubmit, submitting, pristine, invalid }) => (
             <Form error size="large">
-              <Field
+              <FinalForm.Field
                 component={FinalFormInput}
                 name="email"
                 icon="user"
@@ -47,7 +51,7 @@ const SignInPage = () => {
                 }
                 autofocus
               />
-              <Field
+              <FinalForm.Field
                 component={FinalFormInput}
                 name="password"
                 icon="lock"
@@ -71,7 +75,7 @@ const SignInPage = () => {
               </Button>
             </Form>
           )}
-        </FinalForm>
+        </FinalForm.Form>
         <Divider />
         <Button color="grey" fluid size="large">
           Sign up
