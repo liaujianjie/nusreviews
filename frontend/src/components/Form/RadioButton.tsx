@@ -51,7 +51,7 @@ const RadioButtonGroup = (props: RadioGroupProps) => {
       <Grid.Column width={4} textAlign="right">
         <label>{value[0]}</label>
       </Grid.Column>
-      <Grid.Column style={{ width: "188px" }}>
+      <Grid.Column style={{ width: "13em" }}>
         <Form.Group centered style={{ margin: "0px" }}>
           {radioButtons}
         </Form.Group>
@@ -63,7 +63,7 @@ const RadioButtonGroup = (props: RadioGroupProps) => {
   );
 
   return (
-    <Grid style={props.style} className={props.className} stackable>
+    <Grid stackable>
       <Grid.Column width={6} floated="left">
         <Header as="h5">{question}</Header>
       </Grid.Column>

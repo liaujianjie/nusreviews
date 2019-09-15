@@ -1,13 +1,22 @@
-export interface RadioButtonProps extends BasicFormProps {}
+interface BasicFormProps {
+  name: string;
+  value?: string | number;
+  label?: string;
+  question: string;
+}
+
+export interface RadioButtonProps {
+  name: string;
+  value?: string | number;
+}
 
 export interface TextInputProps extends BasicFormProps {
   placeholder: string;
-  children: string;
 }
 export interface ShortTextInputProps extends TextInputProps {}
 
 export interface LongTextInputProps extends TextInputProps {
-  height?: number;
+  rows?: number;
 }
 
 interface DropDownOptionObj {
@@ -21,18 +30,12 @@ export interface DropDownProps extends BasicFormProps {
   placeholder: string;
 }
 
-interface BasicFormProps {
-  name: string;
-  value?: string | number;
-  children?: any;
-  label?: string;
-}
-
 export type LongFormReviewInput = {
   test: string;
   expectedGrade: string;
   actualGrade: string;
   name: string;
-  description: string;
+  lecturerInput: string;
+  tutorInput: string;
   realName: string;
 };

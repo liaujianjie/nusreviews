@@ -19,7 +19,7 @@ const ShortTextInput = (props: ShortTextInputProps) => {
 
         return (
           <Form.Input
-            label={props.children}
+            label={props.question}
             placeholder={props.placeholder}
             onChange={handleChange}
             value={props.value || ""}

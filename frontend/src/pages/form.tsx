@@ -17,9 +17,24 @@ import {
   workloadQuestions
 } from "../constants/Form";
 
+interface RadioFormQuestion {
+  scale: number;
+  name: string;
+  question: string;
+  value: Array<string>;
+}
+
+const FormSegment = props => {
+  return (
+    <Segment basic padded style={{ backgroundColor: props.bgColor }}>
+      {props.children}
+    </Segment>
+  );
+};
+
 const ModuleDetail = () => {
   return (
-    <React.Fragment>
+    <div style={{ backgroundColor: "white" }}>
       <Header as="h2" style={{ display: "inline" }}>
         CS3216
         <Header.Subheader
@@ -27,8 +42,9 @@ const ModuleDetail = () => {
             display: "inline",
             color: "#747474",
             background: "#F2F2F2",
-            borderRadius: "8px",
-            paddingLeft: "4px"
+            borderRadius: "0.2em",
+            padding: "0.3em",
+            fontWeight: "1000"
           }}
         >
           AY2019/2020, SEM1
@@ -43,7 +59,26 @@ const ModuleDetail = () => {
           Do as you wish, there are no compulsory fields
         </Grid.Column>
       </Grid>
-    </React.Fragment>
+    </div>
+  );
+};
+
+const DropDowns = () => {
+  return (
+    <Grid textAlign="center">
+      <DropDown
+        name="expectedGrade"
+        placeholder={grades[0].text}
+        options={grades}
+        question="Expected Grade"
+      />
+      <DropDown
+        name="actualGrade"
+        placeholder={grades[0].text}
+        options={grades}
+        question="Actual Grade"
+      />
+    </Grid>
   );
 };
 
@@ -52,7 +87,7 @@ const LongForm = () => {
     window.alert(JSON.stringify(values, 0, 2));
   };
 
-  const getRadioButtons = (questionSet: Array<any>) => {
+  const getRadioButtons = (questionSet: Array<RadioFormQuestion>) => {
     return questionSet.map(values => <RadioButtonGroup {...values} />);
   };
 
@@ -66,50 +101,30 @@ const LongForm = () => {
           }}
         >
           <ModuleDetail />
-          <Segment clearing basic padded>
-            <Form.Group widths="equal">
-              <DropDown
-                name="expectedGrade"
-                placeholder={grades[0].text}
-                options={grades}
-                value={values.expectedGrade}
-              >
-                Expected Grade
-              </DropDown>
-              <DropDown
-                name="actualGrade"
-                placeholder={grades[0].text}
-                options={grades}
-                value={values.actualGrade}
-              >
-                Actual Grade
-              </DropDown>
-            </Form.Group>
-          </Segment>
+          <FormSegment bgColor="white">
+            <DropDowns />
+          </FormSegment>
 
-          {getRadioButtons(lecturerQuestions)}
-          {getRadioButtons(workloadQuestions)}
+          <FormSegment>{getRadioButtons(lecturerQuestions)}</FormSegment>
 
-          <Form.Group>
-            <ShortTextInput name="name" placeholder="Name" value={values.name}>
-              Name
-            </ShortTextInput>
-            <ShortTextInput
-              name="realName"
-              placeholder="RealName"
-              value={values.realName}
-            >
-              Real Name
-            </ShortTextInput>
-          </Form.Group>
+          <FormSegment bgColor="white">
+            {getRadioButtons(workloadQuestions)}
+          </FormSegment>
 
-          <LongTextInput
-            name="description"
-            placeholder="The world was gonna roll me"
-            value={values.description}
-          >
-            SOMEBODY ONCE TOLD ME
-          </LongTextInput>
+          <FormSegment>
+            <LongTextInput
+              name="lecturerInput"
+              placeholder="Occaecat deserunt est consectetur veniam ut cupidatat labore veniam non labore ad ex do."
+              value={values["lecturerInput"]}
+              question="How was your lecturer Ben Leong?"
+            />
+            <LongTextInput
+              name="tutorInput"
+              placeholder="Qui irure veniam adipisicing ex nulla ad commodo nulla ullamco est anim."
+              value={values["tutorInput"]}
+              question="How was your lecturer Ben Leong?"
+            />
+          </FormSegment>
 
           <Form.Button type="submit">Submit</Form.Button>
         </Form>
