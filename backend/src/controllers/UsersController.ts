@@ -3,8 +3,8 @@ import { validate } from "class-validator";
 import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { User } from "../entities/User";
-import { JwtSignedPayload, JwtPayload } from "../types/jwt";
-import { getJwtString } from "../utils/jwt";
+import { getAuthenticationTokens } from "../utils/users";
+import { JwtSignedPayload } from "../types/users";
 
 const userRepository = () => getRepository(User);
 
@@ -31,14 +31,11 @@ export async function create(request: Request, response: Response) {
     return;
   }
 
-  const result = { ...user, jwt: getJwtString(user) };
+  const result = { ...user, ...getAuthenticationTokens(user) };
   delete result.password;
   response.status(200).send(result);
 }
 
-/**
- * Handles a user login request. A User can login using his email or username.
- */
 export async function login(request: Request, response: Response) {
   if (!request.headers.authorization) {
     response.status(400).send();
@@ -60,15 +57,18 @@ export async function login(request: Request, response: Response) {
     user.password === undefined ||
     !compareSync(password, user.password)
   ) {
-    response.status(401).send();
+    response.status(400).send();
     return;
   }
 
-  const token = getJwtString(user);
-  response.status(200).send(token);
+  const result = getAuthenticationTokens(user);
+  response.status(200).send(result);
 }
 
-export async function requestJwt(request: Request, response: Response) {
+export async function refreshAuthentication(
+  request: Request,
+  response: Response
+) {
   const payload = response.locals.jwtPayload as JwtSignedPayload;
 
   let user: User;
@@ -80,8 +80,8 @@ export async function requestJwt(request: Request, response: Response) {
     return;
   }
 
-  const newToken = getJwtString(user);
-  response.status(200).send(newToken);
+  const result = getAuthenticationTokens(user);
+  response.status(200).send(result);
 }
 
 export async function changePassword(request: Request, response: Response) {
@@ -115,7 +115,7 @@ export async function changePassword(request: Request, response: Response) {
     user.password === undefined ||
     !compareSync(oldPassword, user.password)
   ) {
-    response.status(401).send();
+    response.status(400).send();
     return;
   }
 

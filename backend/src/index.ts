@@ -2,9 +2,10 @@ import * as bodyParser from "body-parser";
 import * as cors from "cors";
 import * as express from "express";
 import * as helmet from "helmet";
+import * as morgan from "morgan";
 import "reflect-metadata";
-import ormconfig from "./config/ormconfig";
 import { createConnection } from "typeorm";
+import ormconfig from "./config/ormconfig";
 import routes from "./routes";
 
 createConnection(ormconfig)
@@ -15,6 +16,7 @@ createConnection(ormconfig)
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(cors());
     app.use(helmet());
+    app.use(morgan("combined"));
 
     app.use("/", routes);
 

@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { JwtSignedPayload } from "../types/jwt";
-import { UserRole } from "../types/users";
+import { UserRole, JwtSignedPayload } from "../types/users";
 
 export const checkRole = (roles: Array<UserRole>) => {
   return async (req: Request, res: Response, next: NextFunction) => {

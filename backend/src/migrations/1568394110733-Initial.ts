@@ -26,6 +26,6 @@ function createAdmin(username: string): User {
   user.password = hashSync("setMeUp?");
   user.email = username + "@nusreviews.com";
   user.isVerified = true;
-  user.role = UserRole.ADMIN;
+  user.role = UserRole.Admin;
   return user;
 }

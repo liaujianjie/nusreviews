@@ -24,10 +24,10 @@ export class User extends Discardable {
   @Column({
     type: "enum",
     enum: UserRole,
-    default: UserRole.STUDENT
+    default: UserRole.Student
   })
   @IsNotEmpty()
-  role: UserRole = UserRole.STUDENT;
+  role: UserRole = UserRole.Student;
 
   @Column({
     unique: true
