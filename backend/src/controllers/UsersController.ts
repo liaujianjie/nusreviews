@@ -17,8 +17,7 @@ export async function create(request: Request, response: Response) {
 
   const errors = await validate(user);
   if (errors.length > 0) {
-    response.status(400).send();
-    console.error("UsersController.create: " + errors);
+    response.status(400).send(errors);
     return;
   }
 
@@ -56,15 +55,12 @@ export async function login(request: Request, response: Response) {
     .where("user.username = :login OR user.email = :login", { login })
     .getOne();
 
-  if (user === undefined || user.password === undefined) {
+  if (
+    user === undefined ||
+    user.password === undefined ||
+    !compareSync(password, user.password)
+  ) {
     response.status(401).send();
-    console.error("UsersController.login failed: Invalid login");
-    return;
-  }
-
-  if (!compareSync(password, user.password)) {
-    response.status(401).send();
-    console.error("UsersController.login failed: Invalid password");
     return;
   }
 
@@ -81,6 +77,7 @@ export async function requestJwt(request: Request, response: Response) {
     user = await userRepository().findOneOrFail(id);
   } catch (error) {
     response.status(400).send();
+    console.error(error);
     return;
   }
 
@@ -88,11 +85,10 @@ export async function requestJwt(request: Request, response: Response) {
   response.status(200).send(newToken);
 }
 
-export async function resetPassword(request: Request, response: Response) {
+export async function changePassword(request: Request, response: Response) {
   const id = response.locals.jwtPayload.userId;
-
-  const { oldPassword, newPassword } = request.body;
-  if (!oldPassword || !newPassword) {
+  const { oldPassword, newPassword } = request.headers;
+  if (typeof oldPassword !== "string" || typeof newPassword !== "string") {
     response.status(400).send();
     return;
   }
@@ -109,21 +105,34 @@ export async function resetPassword(request: Request, response: Response) {
   const errors = await validate(user);
   if (errors.length > 0) {
     response.status(400).send(errors);
-    console.error("UsersController.resetPassword: " + errors);
     return;
   }
 
   user.password = hashSync(newPassword);
-  await userRepository().save(user);
+  try {
+    await userRepository().save(user);
+  } catch (error) {
+    response.status(400).send();
+    console.error(error);
+    return;
+  }
   response.status(200).send();
 }
+
+// export async function resetPassword(request: Request, response: Response) {
 
 export async function all(
   request: Request,
   response: Response,
   next: NextFunction
 ) {
-  const result = await userRepository().find();
+  let result;
+  try {
+    result = await userRepository().find();
+  } catch (error) {
+    response.status(400).send();
+    return;
+  }
   response.status(200).send(result);
 }
 
@@ -132,7 +141,14 @@ export async function one(
   response: Response,
   next: NextFunction
 ) {
-  const result = await userRepository().findOne(request.params.id);
+  let result;
+  try {
+    result = await userRepository().findOne(request.params.id);
+  } catch (error) {
+    response.status(400).send();
+    console.error(error);
+    return;
+  }
   response.status(200).send(result);
 }
 
@@ -144,7 +160,6 @@ export async function remove(
   const userToRemove = await userRepository().findOne(request.params.id);
   if (userToRemove === undefined) {
     response.status(400).send();
-    console.error("UsersController.remove failed: userToRemove is undefined");
     return;
   }
   await userRepository().remove(userToRemove);

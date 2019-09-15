@@ -8,35 +8,18 @@ export const router = Router();
 
 router.post("/", UsersController.create);
 router.post("/login", UsersController.login);
-router.patch("/request_jwt", [checkJwt], UsersController.requestJwt);
 
+router.patch("/request_jwt", [checkJwt], UsersController.requestJwt);
 // router.delete("/sign_out", UsersController.signOut);
 
-// Reset password
-router.put("/password", [checkJwt], UsersController.resetPassword);
-
-// Request password reset
+router.put("/password", [checkJwt], UsersController.changePassword);
 // router.post("/password", UsersController.requestPasswordReset);
-
-/**
- * Get all users
- *
- * @return User[]
- */
 router.get("/", [checkJwt, checkRole([UserRole.ADMIN])], UsersController.all);
-
-/**
- * Get a user
- *
- * @return User
- */
 router.get(
   "/:id",
   [checkJwt, checkRole([UserRole.ADMIN])],
   UsersController.one
 );
-
-// Soft-delete a user
 router.delete(
   "/",
   [checkJwt, checkRole([UserRole.ADMIN])],
