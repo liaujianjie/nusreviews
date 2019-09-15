@@ -8,22 +8,16 @@ export const router = Router();
 
 router.post("/", UsersController.create);
 router.post("/login", UsersController.login);
+// router.post("/password", UsersController.requestPasswordReset);
 
-router.patch("/request_jwt", [checkJwt], UsersController.requestJwt);
+router.use(checkJwt);
+router.put("/password", UsersController.changePassword);
+router.patch("/request_jwt", UsersController.requestJwt);
 // router.delete("/sign_out", UsersController.signOut);
 
-router.put("/password", [checkJwt], UsersController.changePassword);
-// router.post("/password", UsersController.requestPasswordReset);
-router.get("/", [checkJwt, checkRole([UserRole.ADMIN])], UsersController.all);
-router.get(
-  "/:id",
-  [checkJwt, checkRole([UserRole.ADMIN])],
-  UsersController.one
-);
-router.delete(
-  "/",
-  [checkJwt, checkRole([UserRole.ADMIN])],
-  UsersController.remove
-);
+router.use(checkRole([UserRole.ADMIN]));
+router.get("/", UsersController.all);
+router.get("/:id", UsersController.one);
+router.delete("/", UsersController.remove);
 
 export default router;
