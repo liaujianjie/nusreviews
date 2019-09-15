@@ -1,7 +1,7 @@
+import { Length, IsNotEmpty, IsEmail } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Discardable } from "./Discardable";
-import { Length, IsNotEmpty, IsEmail } from "class-validator";
-import { UserRole } from "../types";
+import { UserRole } from "../types/users";
 
 @Entity()
 export class User extends Discardable {

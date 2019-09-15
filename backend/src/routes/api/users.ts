@@ -1,8 +1,8 @@
-import * as UsersController from "../../controllers/UsersController";
 import { Router } from "express";
-import { checkJwt } from "../../middlewares/checkJwt";
+import * as UsersController from "../../controllers/UsersController";
 import { checkRole } from "../../middlewares/checkRole";
-import { UserRole } from "../../types";
+import { checkJwt } from "../../middlewares/checkJwt";
+import { UserRole } from "../../types/users";
 
 export const router = Router();
 

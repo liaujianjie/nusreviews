@@ -1,11 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
 import jwtSecret from "../config/jwtSecret";
-import {
-  JWT_SIGN_OPTIONS,
-  JwtSignedPayload,
-  isJwtSignedPayload
-} from "../types";
+import { JwtSignedPayload, isJwtSignedPayload } from "../types/jwt";
+import { JWT_SIGN_OPTIONS } from "../utils/jwt";
 
 export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization;

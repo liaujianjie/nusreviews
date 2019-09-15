@@ -1,11 +1,11 @@
 import * as bodyParser from "body-parser";
+import * as cors from "cors";
 import * as express from "express";
+import * as helmet from "helmet";
 import "reflect-metadata";
+import ormconfig from "./config/ormconfig";
 import { createConnection } from "typeorm";
 import routes from "./routes";
-import * as helmet from "helmet";
-import * as cors from "cors";
-import ormconfig from "./config/ormconfig";
 
 createConnection(ormconfig)
   .then(async connection => {

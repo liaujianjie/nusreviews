@@ -3,7 +3,8 @@ import { getRepository } from "typeorm";
 import { User } from "../entities/User";
 import { validate } from "class-validator";
 import { hashSync, compareSync } from "bcryptjs";
-import { getJwtString, JwtSignedPayload } from "../types";
+import { JwtSignedPayload } from "../types/jwt";
+import { getJwtString } from "../utils/jwt";
 
 const userRepository = () => getRepository(User);
 
@@ -92,7 +93,6 @@ export async function all(
   response: Response,
   next: NextFunction
 ) {
-  console.log("all");
   const result = await userRepository().find();
   response.status(200).send(result);
 }
