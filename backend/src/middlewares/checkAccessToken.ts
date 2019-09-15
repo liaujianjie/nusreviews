@@ -34,7 +34,5 @@ export const checkAccessToken = (
     return;
   }
 
-  // TODO: Check if user is banned
-
   next();
 };

@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
+import { getRepository } from "typeorm";
 import jwtSecret from "../config/jwtSecret";
+import { User } from "../entities/User";
 import { isJwtSignedPayload, AuthenticationToken } from "../types/users";
 
-export const checkRefreshToken = (
+export const checkRefreshToken = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -34,7 +36,18 @@ export const checkRefreshToken = (
     return;
   }
 
-  // TODO: Check if user is banned
+  let user: User;
+  try {
+    user = await getRepository(User).findOneOrFail(payload.userId);
+  } catch (error) {
+    res.status(401).send();
+    return;
+  }
+
+  if (user.discardedAt !== null) {
+    res.status(401).send();
+    return;
+  }
 
   next();
 };

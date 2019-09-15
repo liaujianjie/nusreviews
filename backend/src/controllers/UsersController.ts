@@ -55,7 +55,8 @@ export async function login(request: Request, response: Response) {
   if (
     user === undefined ||
     user.password === undefined ||
-    !compareSync(password, user.password)
+    !compareSync(password, user.password) ||
+    user.discardedAt !== null
   ) {
     response.status(400).send();
     return;

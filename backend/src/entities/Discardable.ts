@@ -8,7 +8,9 @@ export abstract class Discardable {
   updatedAt!: Date;
 
   @Column({
+    type: "date",
+    name: "discardedAt",
     nullable: true
   })
-  discardedAt?: Date;
+  discardedAt!: Date | null;
 }
