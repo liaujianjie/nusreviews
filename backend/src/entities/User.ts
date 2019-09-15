@@ -27,7 +27,7 @@ export class User extends Discardable {
     default: UserRole.STUDENT
   })
   @IsNotEmpty()
-  role!: UserRole;
+  role: UserRole = UserRole.STUDENT;
 
   @Column({
     unique: true
@@ -40,7 +40,7 @@ export class User extends Discardable {
     default: false
   })
   @IsNotEmpty()
-  isVerified!: boolean;
+  isVerified: boolean = false;
 
   @Column({
     nullable: true

@@ -1,15 +1,40 @@
+import { hashSync, compareSync } from "bcryptjs";
+import { validate } from "class-validator";
 import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { User } from "../entities/User";
-import { validate } from "class-validator";
-import { hashSync, compareSync } from "bcryptjs";
 import { JwtSignedPayload } from "../types/jwt";
 import { getJwtString } from "../utils/jwt";
 
 const userRepository = () => getRepository(User);
 
 export async function create(request: Request, response: Response) {
-  await userRepository().create();
+  const user = new User();
+
+  user.username = request.body.username;
+  user.password = request.body.password;
+  user.email = request.body.email;
+
+  const errors = await validate(user);
+  if (errors.length > 0) {
+    response.status(400).send();
+    console.error("UsersController.create: " + errors);
+    return;
+  }
+
+  user.password = hashSync(user.password!);
+
+  try {
+    await userRepository().save(user);
+  } catch (error) {
+    response.status(400).send();
+    console.error(error);
+    return;
+  }
+
+  const result = { ...user, jwt: getJwtString(user) };
+  delete result.password;
+  response.status(200).send(result);
 }
 
 /**
@@ -84,6 +109,7 @@ export async function resetPassword(request: Request, response: Response) {
   const errors = await validate(user);
   if (errors.length > 0) {
     response.status(400).send(errors);
+    console.error("UsersController.resetPassword: " + errors);
     return;
   }
 
@@ -108,15 +134,6 @@ export async function one(
 ) {
   const result = await userRepository().findOne(request.params.id);
   response.status(200).send(result);
-}
-
-export async function save(
-  request: Request,
-  response: Response,
-  next: NextFunction
-) {
-  await userRepository().save(request.body);
-  response.status(200).send();
 }
 
 export async function remove(

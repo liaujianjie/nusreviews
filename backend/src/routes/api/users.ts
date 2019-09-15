@@ -6,13 +6,8 @@ import { UserRole } from "../../types/users";
 
 export const router = Router();
 
-/**
- * Sign in
- *
- * @return jsonwebtoken
- */
+router.post("/", UsersController.create);
 router.post("/login", UsersController.login);
-
 router.patch("/request_jwt", [checkJwt], UsersController.requestJwt);
 
 // router.delete("/sign_out", UsersController.signOut);
@@ -40,9 +35,6 @@ router.get(
   [checkJwt, checkRole([UserRole.ADMIN])],
   UsersController.one
 );
-
-// Create a new user
-router.post("/", UsersController.save);
 
 // Soft-delete a user
 router.delete(
