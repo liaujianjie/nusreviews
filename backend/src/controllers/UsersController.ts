@@ -185,3 +185,20 @@ export async function discard(
   }
   response.status(200).send();
 }
+
+export async function undiscard(
+  request: Request,
+  response: Response,
+  next: NextFunction
+) {
+  try {
+    await userRepository().findOneOrFail(request.params.id);
+    await userRepository().update(request.params.id, {
+      discardedAt: null
+    });
+  } catch (error) {
+    response.status(400).send();
+    return;
+  }
+  response.status(200).send();
+}
