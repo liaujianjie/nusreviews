@@ -14,19 +14,17 @@ const DropDown = (props: DropDownProps) => {
           event: React.FormEvent<HTMLTextAreaElement>,
           eventData: TextAreaProps
         ) => {
-          const defaultEvent = {
-            target: { ...eventData }
-          };
+          const defaultEvent = { target: eventData };
           input.onChange(defaultEvent);
         };
 
+        const { children, ...neededProps } = props;
+
         return (
           <Form.Dropdown
+            {...neededProps}
             label={props.children}
-            options={props.options}
-            placeholder={props.placeholder}
             onChange={handleChange}
-            value={props.value ? props.value : ""}
           />
         );
       }}
