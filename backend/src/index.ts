@@ -7,6 +7,7 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 import ormconfig from "./config/ormconfig";
 import routes from "./routes";
+import axios from "axios";
 
 createConnection(ormconfig)
   .then(async connection => {
