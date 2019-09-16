@@ -53,10 +53,10 @@ export async function login(request: Request, response: Response) {
     .getOne();
 
   if (
-    user === undefined ||
-    user.password === undefined ||
+    !user ||
+    !user.password ||
     !compareSync(password, user.password) ||
-    user.discardedAt !== null
+    !user.discardedAt
   ) {
     response.status(400).send();
     return;
@@ -111,11 +111,7 @@ export async function changePassword(request: Request, response: Response) {
     .where("user.id = :id", { id })
     .getOne();
 
-  if (
-    user === undefined ||
-    user.password === undefined ||
-    !compareSync(oldPassword, user.password)
-  ) {
+  if (!user || !user.password || !compareSync(oldPassword, user.password)) {
     response.status(400).send();
     return;
   }

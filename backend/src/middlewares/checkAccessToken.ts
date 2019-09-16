@@ -9,7 +9,7 @@ export const checkAccessToken = (
   next: NextFunction
 ) => {
   const token = req.headers.authorization;
-  if (token === undefined) {
+  if (!token) {
     res.status(401).send();
     return;
   }

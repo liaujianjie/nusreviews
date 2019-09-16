@@ -11,7 +11,7 @@ export const checkRefreshToken = async (
   next: NextFunction
 ) => {
   const token = req.headers.authorization;
-  if (token === undefined) {
+  if (!token) {
     res.status(401).send();
     return;
   }
@@ -44,7 +44,7 @@ export const checkRefreshToken = async (
     return;
   }
 
-  if (user.discardedAt !== null) {
+  if (!user.discardedAt) {
     res.status(401).send();
     return;
   }
