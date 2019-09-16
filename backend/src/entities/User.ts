@@ -55,5 +55,5 @@ export class User extends Discardable {
   @Column({
     nullable: true
   })
-  academicYear?: number;
+  matriculationYear?: number;
 }
