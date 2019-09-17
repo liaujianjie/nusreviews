@@ -2,16 +2,14 @@ import * as dotenv from "dotenv";
 import { createConnection } from "typeorm";
 import { saveModuleInfoList } from "./tasks";
 import ormconfig from "../config/ormconfig";
-import { Module } from "../entities/Module";
 import { ModuleInformation } from "../types/modules";
 import stub = require("./moduleListStub.json");
 
 dotenv.config();
 
 createConnection(ormconfig)
-  .then(connection => connection.getRepository(Module))
-  .then(repository => {
+  .then(connection => {
     const moduleInfoList = stub as ModuleInformation[];
-    saveModuleInfoList(repository, moduleInfoList);
+    saveModuleInfoList(connection, moduleInfoList);
   })
   .catch(error => console.error(error));
