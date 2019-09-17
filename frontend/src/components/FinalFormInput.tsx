@@ -16,7 +16,7 @@ export const FinalFormInput: React.FunctionComponent<
   return (
     <Popup
       inverted
-      eventsEnabled={false}
+      on="focus"
       open={meta.dirty && meta.error && meta.active}
       trigger={<Form.Input {...otherProps} error={meta.dirty && meta.error} />}
       content={meta.error}
