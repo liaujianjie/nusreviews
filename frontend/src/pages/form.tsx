@@ -29,7 +29,7 @@ interface FormSegmentProps {
   children: React.ReactNode;
 }
 
-const FormSegment: React.FunctionComponent<Form> = props => {
+const FormSegment: React.FunctionComponent<FormSegmentProps> = props => {
   return (
     <Segment
       basic
@@ -99,14 +99,9 @@ const DropDowns = () => {
 };
 
 const LongForm = () => {
-  const onSave = (values: LongFormReviewInput) => {
-    window.alert("draft saved");
-    console.log(JSON.stringify(values, 0, 2));
-  };
-
-  const onSubmit = (values: LongFormReviewInput) => {
-    window.alert("Form submitted!");
-    console.log(JSON.stringify(values, 0, 2));
+  const onSubmit = (values: LongFormReviewInput, event) => {
+    console.log(event);
+    window.alert("Form submitted!" + JSON.stringify(values, 0, 2));
   };
 
   const getRadioButtons = (questionSet: Array<RadioFormQuestion>) => {
@@ -132,22 +127,68 @@ const LongForm = () => {
           <FormSegment>
             <LongTextInput
               name="lecturerInput"
-              placeholder="Occaecat deserunt est consectetur veniam ut cupidatat labore veniam non labore ad ex do."
+              placeholder="Tell me more maybe about the teaching style, energy during the module, attitude towards attendance..."
               value={values["lecturerInput"]}
               question="How was your lecturer Ben Leong?"
             />
             <LongTextInput
               name="tutorInput"
-              placeholder="Qui irure veniam adipisicing ex nulla ad commodo nulla ullamco est anim."
+              placeholder="Tell me more maybe about the teaching style, energy during class, attitude towards attendance"
               value={values["tutorInput"]}
               question="How was your lecturer Ben Leong?"
             />
           </FormSegment>
           <FormSegment bgColor="white">
+            <LongTextInput
+              name="moduleInput"
+              placeholder="You could talk about what you generally learnt, took away from the module..."
+              value={values["lecturerInput"]}
+              question="What was the module about?"
+            />
+          </FormSegment>
+
+          <FormSegment>
+            <LongTextInput
+              name="workloadInput"
+              placeholder="Maybe what preparation was needed for each class, time taken and effort needed for projects/assignments"
+              value={values["lecturerInput"]}
+              question="How was the workload (preparation, project, assignments)"
+            />
+            <LongTextInput
+              name="workloadProject"
+              placeholder="What were the deliverables for the project? How big was the team? Did you get to choose the team?"
+              value={values["tutorInput"]}
+              question="What were the projects like?"
+            />
+            <LongTextInput
+              name="workloadQuiz"
+              placeholder="Tell me more about its format, preparation needed..."
+              value={values["tutorInput"]}
+              question="How was the quizzes/exams?"
+            />
+          </FormSegment>
+
+          <FormSegment bgColor="white">
+            <LongTextInput
+              name="interestInput"
+              placeholder="Anything memorable, anything that you enjoyed during classes..."
+              value={values["lecturerInput"]}
+              question="Was it interesting?"
+            />
+          </FormSegment>
+
+          <FormSegment>
+            <LongTextInput
+              name="recommendInput"
+              placeholder="Who do you think would really enjoy and/or do well in this module?"
+              value={values["lecturerInput"]}
+              question="Would you recommend it to me?"
+            />
+          </FormSegment>
+
+          <FormSegment bgColor="white">
             <Grid style={{ justifyContent: "flex-end" }}>
-              <Button onClick={(e, data) => onSave({ target: data })}>
-                Save Draft
-              </Button>
+              <Button type="draft">Save Draft</Button>
               <Form.Button type="submit">Submit</Form.Button>
             </Grid>
           </FormSegment>
