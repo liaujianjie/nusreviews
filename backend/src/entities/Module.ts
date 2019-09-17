@@ -71,63 +71,63 @@ export class Module extends Discardable {
   })
   @IsOptional()
   @IsBoolean()
-  yearLong?: boolean;
+  yearLong?: boolean; // year
 
   @Column({
     nullable: true
   })
   @IsOptional()
   @IsBoolean()
-  su?: boolean;
+  su?: boolean; // su
 
   @Column({
     nullable: true
   })
   @IsOptional()
   @IsBoolean()
-  grsu?: boolean;
+  graduateSu?: boolean; // grsu
 
   @Column({
     nullable: true
   })
   @IsOptional()
   @IsBoolean()
-  ssgf?: boolean; // SkillsFuture Funded
+  skillsFutureSingaporeFunded?: boolean; // ssgf
 
   @Column({
     nullable: true
   })
   @IsOptional()
   @IsBoolean()
-  sfs?: boolean; // SkillsFuture series
+  skillsFutureSeries?: boolean; // sfs
 
   @Column({
     nullable: true
   })
   @IsOptional()
   @IsBoolean()
-  lab?: boolean; // Lab based
+  labBased?: boolean; // lab
 
   @Column({
     nullable: true
   })
   @IsOptional()
   @IsBoolean()
-  ism?: boolean; // Independent study
+  independentStudy?: boolean; // ism
 
   @Column({
     nullable: true
   })
   @IsOptional()
   @IsBoolean()
-  urop?: boolean; // Undergraduate Research Opportunities Program
+  undergraduateResearchOpportunities?: boolean; // urop
 
   @Column({
     nullable: true
   })
   @IsOptional()
   @IsBoolean()
-  fyp?: boolean; // Final Year Project
+  finalYearProject?: boolean; // fyp
 
   // Requisites
   @Column({
