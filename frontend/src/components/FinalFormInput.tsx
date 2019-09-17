@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Form, Message } from "semantic-ui-react";
+import { Form, Popup } from "semantic-ui-react";
 import { FieldRenderProps } from "react-final-form";
 
 interface FinalFormInputProps
@@ -14,9 +14,13 @@ export const FinalFormInput: React.FunctionComponent<
 > = props => {
   const { meta, ...otherProps } = props;
   return (
-    <>
-      <Form.Input {...otherProps} error={meta.dirty && meta.error} />
-      {meta.dirty && <Message error content={meta.error} />}
-    </>
+    <Popup
+      inverted
+      eventsEnabled={false}
+      open={meta.dirty && meta.error && meta.active}
+      trigger={<Form.Input {...otherProps} error={meta.dirty && meta.error} />}
+      content={meta.error}
+      position="right center"
+    />
   );
 };
