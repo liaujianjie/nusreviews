@@ -4,7 +4,7 @@ import { ShortTextInputProps } from "./Form";
 
 import { Field } from "react-final-form";
 
-const ShortTextInput = (props: ShortTextInputProps) => {
+const ShortTextInput: React.FunctionComponent<ShortTextInputProps> = props => {
   return (
     <Field {...props} component="input" type="text">
       {fieldProps => {

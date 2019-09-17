@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Form, CheckboxProps, Header, Label, Grid } from "semantic-ui-react";
+import { Form, CheckboxProps, Header, Grid } from "semantic-ui-react";
 import { RadioButtonProps } from "./Form";
 import { range } from "lodash";
 
@@ -12,7 +12,7 @@ interface RadioGroupProps {
   value: Array<string>;
 }
 
-const RadioButton = (props: RadioButtonProps) => {
+const RadioButton: React.FunctionComponent<RadioButtonProps> = props => {
   return (
     <Field name={props.name} value={props.value} component="input" type="radio">
       {fieldProps => {
@@ -21,7 +21,7 @@ const RadioButton = (props: RadioButtonProps) => {
 
         // because semantic UI sets provides a synthetic event as the first param
         const handleChange = (
-          event: React.FormEvent<HTMLInputElement>,
+          syntheticEvent: React.FormEvent<HTMLInputElement>,
           eventData: CheckboxProps
         ) => {
           const defaultEvent = { target: eventData };
@@ -40,14 +40,14 @@ const RadioButton = (props: RadioButtonProps) => {
   );
 };
 
-const RadioButtonGroup = (props: RadioGroupProps) => {
+const RadioButtonGroup: React.FunctionComponent<RadioGroupProps> = props => {
   const { scale, name, question, value } = props;
   const radioButtons = range(scale).map(num => (
     <RadioButton value={num} name={name} />
   ));
 
   const radioButtonGroup = (
-    <Grid verticalAlign="middle">
+    <Grid verticalAlign="middle" style={{ justifyContent: "flex-end" }}>
       <Grid.Column width={4} textAlign="right">
         <label>{value[0]}</label>
       </Grid.Column>

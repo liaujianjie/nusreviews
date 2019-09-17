@@ -1,7 +1,7 @@
 import * as React from "react";
 // external component libraries
 import * as Final from "react-final-form";
-import { Form, Header, Segment, Grid } from "semantic-ui-react";
+import { Form, Header, Segment, Grid, Button } from "semantic-ui-react";
 // components
 import { withLayout } from "../components/Layout";
 import RadioButtonGroup from "../components/Form/RadioButton";
@@ -24,9 +24,22 @@ interface RadioFormQuestion {
   value: Array<string>;
 }
 
-const FormSegment = props => {
+interface FormSegmentProps {
+  bgColor?: string;
+  children: React.ReactNode;
+}
+
+const FormSegment: React.FunctionComponent<Form> = props => {
   return (
-    <Segment basic padded style={{ backgroundColor: props.bgColor }}>
+    <Segment
+      basic
+      padded
+      style={{
+        backgroundColor: props.bgColor,
+        border: "2px solid white",
+        margin: "0px"
+      }}
+    >
       {props.children}
     </Segment>
   );
@@ -34,7 +47,7 @@ const FormSegment = props => {
 
 const ModuleDetail = () => {
   return (
-    <div style={{ backgroundColor: "white" }}>
+    <FormSegment bgColor="white">
       <Header as="h2" style={{ display: "inline" }}>
         CS3216
         <Header.Subheader
@@ -44,6 +57,7 @@ const ModuleDetail = () => {
             background: "#F2F2F2",
             borderRadius: "0.2em",
             padding: "0.3em",
+            marginLeft: "0.2em",
             fontWeight: "1000"
           }}
         >
@@ -59,7 +73,9 @@ const ModuleDetail = () => {
           Do as you wish, there are no compulsory fields
         </Grid.Column>
       </Grid>
-    </div>
+
+      <DropDowns />
+    </FormSegment>
   );
 };
 
@@ -83,8 +99,14 @@ const DropDowns = () => {
 };
 
 const LongForm = () => {
+  const onSave = (values: LongFormReviewInput) => {
+    window.alert("draft saved");
+    console.log(JSON.stringify(values, 0, 2));
+  };
+
   const onSubmit = (values: LongFormReviewInput) => {
-    window.alert(JSON.stringify(values, 0, 2));
+    window.alert("Form submitted!");
+    console.log(JSON.stringify(values, 0, 2));
   };
 
   const getRadioButtons = (questionSet: Array<RadioFormQuestion>) => {
@@ -101,10 +123,6 @@ const LongForm = () => {
           }}
         >
           <ModuleDetail />
-          <FormSegment bgColor="white">
-            <DropDowns />
-          </FormSegment>
-
           <FormSegment>{getRadioButtons(lecturerQuestions)}</FormSegment>
 
           <FormSegment bgColor="white">
@@ -125,8 +143,14 @@ const LongForm = () => {
               question="How was your lecturer Ben Leong?"
             />
           </FormSegment>
-
-          <Form.Button type="submit">Submit</Form.Button>
+          <FormSegment bgColor="white">
+            <Grid style={{ justifyContent: "flex-end" }}>
+              <Button onClick={(e, data) => onSave({ target: data })}>
+                Save Draft
+              </Button>
+              <Form.Button type="submit">Submit</Form.Button>
+            </Grid>
+          </FormSegment>
         </Form>
       )}
     </Final.Form>

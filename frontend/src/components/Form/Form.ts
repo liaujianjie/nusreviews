@@ -3,6 +3,7 @@ interface BasicFormProps {
   value?: string | number;
   label?: string;
   question: string;
+  children?: React.ReactNode;
 }
 
 export interface RadioButtonProps {

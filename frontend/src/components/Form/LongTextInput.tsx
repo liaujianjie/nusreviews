@@ -5,7 +5,7 @@ import { LongTextInputProps } from "./Form";
 
 import { Field } from "react-final-form";
 
-const LongTextInput = (props: LongTextInputProps) => {
+const LongTextInput: React.FunctionComponent<LongTextInputProps> = props => {
   return (
     <Field {...props} component="textarea">
       {fieldProps => {

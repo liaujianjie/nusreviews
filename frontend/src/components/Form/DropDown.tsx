@@ -5,7 +5,7 @@ import { DropDownProps } from "./Form";
 /* eslint-disable jsx-a11y/accessible-emoji */
 import { Field } from "react-final-form";
 
-const DropDown = (props: DropDownProps) => {
+const DropDown: React.FunctionComponent<DropDownProps> = props => {
   return (
     <Field {...props} component="select">
       {fieldProps => {
@@ -26,7 +26,7 @@ const DropDown = (props: DropDownProps) => {
               style={{ minWidth: "7em", maxWidth: "9em" }}
               {...neededProps}
               label={{
-                children: props.children,
+                children: props.label,
                 htmlFor: `form-select-control-${props.name}`
               }}
               onChange={handleChange}
