@@ -1,14 +1,13 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Discardable } from "./Discardable";
+import { ModuleCode, ModuleTitle, Department, Faculty } from "../types/modules";
 import {
-  ModuleCode,
-  ModuleTitle,
-  Department,
-  Faculty,
-  Workload,
-  NUSModuleAttributes
-} from "../types/modules";
-import { IsArray, IsOptional, IsNotEmpty, IsString } from "class-validator";
+  IsArray,
+  IsOptional,
+  IsNotEmpty,
+  IsString,
+  IsBoolean
+} from "class-validator";
 
 @Entity()
 export class Module extends Discardable {
@@ -64,16 +63,71 @@ export class Module extends Discardable {
   })
   @IsOptional()
   @IsArray()
-  workload?: Workload;
+  workload?: number[]; // Opted not to use NUSMODS Workload type
 
+  // Attributes
   @Column({
-    type: "boolean",
-    array: true,
     nullable: true
   })
   @IsOptional()
-  @IsArray()
-  attributes?: NUSModuleAttributes;
+  @IsBoolean()
+  yearLong?: boolean;
+
+  @Column({
+    nullable: true
+  })
+  @IsOptional()
+  @IsBoolean()
+  su?: boolean;
+
+  @Column({
+    nullable: true
+  })
+  @IsOptional()
+  @IsBoolean()
+  grsu?: boolean;
+
+  @Column({
+    nullable: true
+  })
+  @IsOptional()
+  @IsBoolean()
+  ssgf?: boolean; // SkillsFuture Funded
+
+  @Column({
+    nullable: true
+  })
+  @IsOptional()
+  @IsBoolean()
+  sfs?: boolean; // SkillsFuture series
+
+  @Column({
+    nullable: true
+  })
+  @IsOptional()
+  @IsBoolean()
+  lab?: boolean; // Lab based
+
+  @Column({
+    nullable: true
+  })
+  @IsOptional()
+  @IsBoolean()
+  ism?: boolean; // Independent study
+
+  @Column({
+    nullable: true
+  })
+  @IsOptional()
+  @IsBoolean()
+  urop?: boolean; // Undergraduate Research Opportunities Program
+
+  @Column({
+    nullable: true
+  })
+  @IsOptional()
+  @IsBoolean()
+  fyp?: boolean; // Final Year Project
 
   // Requisites
   @Column({

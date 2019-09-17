@@ -42,7 +42,9 @@
     "start": "set debug=* && ts-node-dev --respawn --transpileOnly -r dotenv/config ./src/index.ts dotenv_config_path='../.env'",
     "lint": "prettier --write \"src/**/*.{ts,tsx}\"",
     "typeorm": "ts-node -r tsconfig-paths/register ../node_modules/typeorm/cli.js",
-    "production": "tsc && node .build/app.js"
+    "production": "tsc && node .build/app.js",
+    "scrape": "ts-node -r dotenv/config ./src/scraper/index.ts dotenv_config_path='../.env'",
+    "scrape:stub": "ts-node -r dotenv/config ./src/scraper/stub.ts dotenv_config_path='../.env'"
   },
   "husky": {
     "hooks": {

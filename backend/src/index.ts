@@ -7,7 +7,6 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 import ormconfig from "./config/ormconfig";
 import routes from "./routes";
-import { getModuleInfoListStub, saveModuleInfoList } from "./utils/nusmods";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -25,9 +24,6 @@ createConnection(ormconfig)
     app.use("/", routes);
 
     app.listen(3000);
-
-    // const stub = getModuleInfoListStub();
-    // saveModuleInfoList(stub);
 
     console.log(
       "Express server has started on port 3000. Open http://localhost:3000/users to see results"
