@@ -1,14 +1,7 @@
-import { Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Column } from "typeorm";
+import { Base } from "./Base";
 
-export abstract class Discardable {
-  @CreateDateColumn()
-  createdAt!: Date;
-
-  @UpdateDateColumn()
-  updatedAt!: Date;
-
-  @Column({
-    nullable: true
-  })
+export abstract class Discardable extends Base {
+  @Column({ nullable: true })
   discardedAt?: Date;
 }

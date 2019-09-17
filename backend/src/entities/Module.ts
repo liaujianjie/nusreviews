@@ -22,17 +22,13 @@ export class Module extends Discardable {
   @IsNotEmpty()
   moduleCode!: ModuleCode;
 
-  @Column({
-    type: "varchar"
-  })
+  @Column({ type: "varchar" })
   @IsNotEmpty()
   @IsString()
   title!: ModuleTitle;
 
   // Additional info
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   @IsOptional()
   @IsString()
   description?: string;
@@ -42,16 +38,12 @@ export class Module extends Discardable {
   @IsString()
   moduleCredit!: string;
 
-  @Column({
-    type: "varchar"
-  })
+  @Column({ type: "varchar" })
   @IsNotEmpty()
   @IsString()
   department!: Department;
 
-  @Column({
-    type: "varchar"
-  })
+  @Column({ type: "varchar" })
   @IsNotEmpty()
   @IsString()
   faculty!: Faculty;
@@ -66,87 +58,63 @@ export class Module extends Discardable {
   workload?: number[]; // Opted not to use NUSMODS Workload type
 
   // Attributes
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   @IsOptional()
   @IsBoolean()
   yearLong?: boolean; // year
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   @IsOptional()
   @IsBoolean()
   su?: boolean; // su
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   @IsOptional()
   @IsBoolean()
   graduateSu?: boolean; // grsu
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   @IsOptional()
   @IsBoolean()
   skillsFutureSingaporeFunded?: boolean; // ssgf
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   @IsOptional()
   @IsBoolean()
   skillsFutureSeries?: boolean; // sfs
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   @IsOptional()
   @IsBoolean()
   labBased?: boolean; // lab
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   @IsOptional()
   @IsBoolean()
   independentStudy?: boolean; // ism
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   @IsOptional()
   @IsBoolean()
   undergraduateResearchOpportunities?: boolean; // urop
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   @IsOptional()
   @IsBoolean()
   finalYearProject?: boolean; // fyp
 
   // Requisites
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   @IsOptional()
   @IsString()
   prerequisite?: string;
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   @IsOptional()
   @IsString()
   corequisite?: string;
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   @IsOptional()
   @IsString()
   preclusion?: string;

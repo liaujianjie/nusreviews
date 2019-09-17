@@ -6,11 +6,11 @@ import {
   Index
 } from "typeorm";
 import { AcademicYear } from "./AcademicYear";
-import { Discardable } from "./Discardable";
+import { Base } from "./Base";
 
 @Entity()
 @Index(["semester", "academicYear"], { unique: true })
-export class Semester extends Discardable {
+export class Semester extends Base {
   @PrimaryGeneratedColumn()
   id!: number;
 

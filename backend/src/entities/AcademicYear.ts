@@ -7,9 +7,10 @@ import {
   OneToMany
 } from "typeorm";
 import { Semester } from "./Semester";
+import { Base } from "./Base";
 
 @Entity()
-export class AcademicYear {
+export class AcademicYear extends Base {
   @PrimaryGeneratedColumn()
   id!: number;
 
