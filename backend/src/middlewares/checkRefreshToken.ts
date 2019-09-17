@@ -43,7 +43,7 @@ export const checkRefreshToken = async (
     return;
   }
 
-  if (!user.discardedAt) {
+  if (user.discardedAt) {
     res.status(401).send();
     return;
   }
