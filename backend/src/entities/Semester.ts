@@ -1,14 +1,22 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Index
+} from "typeorm";
+import { AcademicYear } from "./AcademicYear";
 import { Discardable } from "./Discardable";
 
 @Entity()
+@Index(["semester", "academicYear"], { unique: true })
 export class Semester extends Discardable {
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
-  academicYear!: string;
+  semester!: number;
 
-  @Column()
-  name!: string;
+  @ManyToOne(type => AcademicYear, academicYear => academicYear.semesters)
+  academicYear!: AcademicYear;
 }
