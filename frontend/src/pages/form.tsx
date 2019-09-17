@@ -108,6 +108,14 @@ const LongForm = () => {
     return questionSet.map(values => <RadioButtonGroup {...values} />);
   };
 
+  const getRadioButtonGroup = (scale: number, field: string) => {
+    return range(scale).map(num => (
+      <Grid.Column>
+        <RadioButton value={num} name={field} />
+      </Grid.Column>
+    ));
+  };
+
   return (
     <Final.Form onSubmit={onSubmit}>
       {({ handleSubmit, form, values }) => (
