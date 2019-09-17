@@ -38,5 +38,10 @@ export type LongFormReviewInput = {
   name: string;
   lecturerInput: string;
   tutorInput: string;
-  realName: string;
+  moduleInput: string;
+  workloadInput: string;
+  workloadProject: string;
+  workloadQuiz: string;
+  interestInput: string;
+  recommendInput: string;
 };

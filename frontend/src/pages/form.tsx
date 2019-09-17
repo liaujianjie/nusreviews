@@ -99,21 +99,16 @@ const DropDowns = () => {
 };
 
 const LongForm = () => {
-  const onSubmit = (values: LongFormReviewInput, event) => {
-    console.log(event);
+  const onSave = (values: LongFormReviewInput) => {
+    window.alert("Draft saved!" + values);
+  };
+
+  const onSubmit = (values: LongFormReviewInput) => {
     window.alert("Form submitted!" + JSON.stringify(values, 0, 2));
   };
 
   const getRadioButtons = (questionSet: Array<RadioFormQuestion>) => {
     return questionSet.map(values => <RadioButtonGroup {...values} />);
-  };
-
-  const getRadioButtonGroup = (scale: number, field: string) => {
-    return range(scale).map(num => (
-      <Grid.Column>
-        <RadioButton value={num} name={field} />
-      </Grid.Column>
-    ));
   };
 
   return (
@@ -143,14 +138,14 @@ const LongForm = () => {
               name="tutorInput"
               placeholder="Tell me more maybe about the teaching style, energy during class, attitude towards attendance"
               value={values["tutorInput"]}
-              question="How was your lecturer Ben Leong?"
+              question="How's the tutor?"
             />
           </FormSegment>
           <FormSegment bgColor="white">
             <LongTextInput
               name="moduleInput"
               placeholder="You could talk about what you generally learnt, took away from the module..."
-              value={values["lecturerInput"]}
+              value={values["moduleInput"]}
               question="What was the module about?"
             />
           </FormSegment>
@@ -159,19 +154,19 @@ const LongForm = () => {
             <LongTextInput
               name="workloadInput"
               placeholder="Maybe what preparation was needed for each class, time taken and effort needed for projects/assignments"
-              value={values["lecturerInput"]}
+              value={values["workloadInput"]}
               question="How was the workload (preparation, project, assignments)"
             />
             <LongTextInput
               name="workloadProject"
               placeholder="What were the deliverables for the project? How big was the team? Did you get to choose the team?"
-              value={values["tutorInput"]}
+              value={values["workloadProject"]}
               question="What were the projects like?"
             />
             <LongTextInput
               name="workloadQuiz"
               placeholder="Tell me more about its format, preparation needed..."
-              value={values["tutorInput"]}
+              value={values["workloadQuiz"]}
               question="How was the quizzes/exams?"
             />
           </FormSegment>
@@ -180,7 +175,7 @@ const LongForm = () => {
             <LongTextInput
               name="interestInput"
               placeholder="Anything memorable, anything that you enjoyed during classes..."
-              value={values["lecturerInput"]}
+              value={values["interestInput"]}
               question="Was it interesting?"
             />
           </FormSegment>
@@ -189,14 +184,19 @@ const LongForm = () => {
             <LongTextInput
               name="recommendInput"
               placeholder="Who do you think would really enjoy and/or do well in this module?"
-              value={values["lecturerInput"]}
+              value={values["recommendInput"]}
               question="Would you recommend it to me?"
             />
           </FormSegment>
 
           <FormSegment bgColor="white">
             <Grid style={{ justifyContent: "flex-end" }}>
-              <Button type="draft">Save Draft</Button>
+              <Button
+                control={<button onClick={e => onSave(values)} />}
+                type="draft"
+              >
+                Save Draft
+              </Button>
               <Form.Button type="submit">Submit</Form.Button>
             </Grid>
           </FormSegment>

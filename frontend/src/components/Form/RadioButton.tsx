@@ -30,7 +30,7 @@ const RadioButton: React.FunctionComponent<RadioButtonProps> = props => {
 
         return (
           <Form.Radio
-            label={props.label}
+            // label={props.label}
             {...neededInput}
             onChange={handleChange}
           />

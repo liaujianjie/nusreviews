@@ -2,7 +2,6 @@ import * as React from "react";
 import { Form, TextAreaProps, Grid } from "semantic-ui-react";
 import { DropDownProps } from "./Form";
 
-/* eslint-disable jsx-a11y/accessible-emoji */
 import { Field } from "react-final-form";
 
 const DropDown: React.FunctionComponent<DropDownProps> = props => {

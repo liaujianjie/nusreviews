@@ -1,6 +1,6 @@
 import * as React from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import { Form, TextAreaProps } from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
 import { LongTextInputProps } from "./Form";
 
 import { Field } from "react-final-form";
