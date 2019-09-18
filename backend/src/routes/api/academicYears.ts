@@ -4,7 +4,7 @@ import * as AcademicYearsController from "../../controllers/AcademicYearsControl
 export const router = Router();
 
 router.get("/", AcademicYearsController.index);
-router.get("/:id", AcademicYearsController.show);
-router.get("/:id/semesters", AcademicYearsController.semesters);
+router.get("/:academic_year", AcademicYearsController.show);
+router.get("/:academic_year/semesters", AcademicYearsController.semesters);
 
 export default router;

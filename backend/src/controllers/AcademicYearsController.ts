@@ -26,7 +26,9 @@ export async function show(
 ) {
   let result;
   try {
-    result = await academicYearRepository().findOneOrFail(request.params.id);
+    result = await academicYearRepository().findOneOrFail({
+      where: { academicYear: request.params.academic_year }
+    });
   } catch (error) {
     response.status(400).send();
     return;
@@ -40,10 +42,10 @@ export async function semesters(
   next: NextFunction
 ) {
   try {
-    const academicYear = await academicYearRepository().findOneOrFail(
-      request.params.id,
-      { relations: ["semesters"] }
-    );
+    const academicYear = await academicYearRepository().findOneOrFail({
+      where: { academicYear: request.params.academic_year },
+      relations: ["semesters"]
+    });
     response.status(200).send(academicYear.semesters);
   } catch (error) {
     response.status(400).send();
