@@ -20,7 +20,7 @@ export class Semester extends Base {
   @ManyToOne(type => AcademicYear, academicYear => academicYear.semesters)
   academicYear!: AcademicYear;
 
-  @OneToMany(type => ModuleSemester, moduleSemester => moduleSemester.module)
+  @OneToMany(type => ModuleSemester, moduleSemester => moduleSemester.semester)
   @IsOptional()
   moduleSemesters?: ModuleSemester[];
 }

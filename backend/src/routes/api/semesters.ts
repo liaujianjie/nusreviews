@@ -5,5 +5,6 @@ export const router = Router();
 
 router.get("/", SemestersController.index);
 router.get("/:id", SemestersController.show);
+router.get("/:id/modules", SemestersController.modules);
 
 export default router;
