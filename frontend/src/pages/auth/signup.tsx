@@ -8,14 +8,15 @@ import { FinalFormInput } from "../../components/FinalFormInput";
 import { AuthLogoContainer } from "../../components/AuthLogoContainer";
 import logo from "../../static/images/logo.svg";
 
-type SignInField = {
+type SignUpField = {
   email: string;
   password: string;
+  passwordConfirmation: string;
 };
 
-const SignInPage = () => {
-  const submit: FinalForm.FormProps<SignInField>["onSubmit"] = (
-    payload: SignInField
+const SignUpPage = () => {
+  const submit: FinalForm.FormProps<SignUpField>["onSubmit"] = (
+    payload: SignUpField
   ) => {
     // Simulate async HTTP request
     return new Promise(resolve => {
@@ -32,11 +33,11 @@ const SignInPage = () => {
         <AuthLogoContainer>
           <Image src={logo} alt="logo" size="medium" />
         </AuthLogoContainer>
-        <FinalForm.Form<SignInField>
-          initialValues={{ email: "", password: "" }}
+        <FinalForm.Form<SignUpField>
+          initialValues={{ email: "", password: "", passwordConfirmation: "" }}
           onSubmit={submit}
         >
-          {({ handleSubmit, submitting, pristine, invalid }) => (
+          {({ handleSubmit, submitting, pristine, invalid, values }) => (
             <Form error size="large">
               <FinalForm.Field
                 component={FinalFormInput}
@@ -64,6 +65,23 @@ const SignInPage = () => {
                   _.isEmpty(value) ? "Password cannot be empty." : undefined
                 }
               />
+              <FinalForm.Field
+                component={FinalFormInput}
+                name="passwordConfirmation"
+                icon="lock"
+                iconPosition="left"
+                placeholder="Confirm password"
+                type="password"
+                disabled={submitting}
+                validate={value => {
+                  if (_.isEmpty(value)) {
+                    return "Password cannot be empty.";
+                  }
+                  if (value !== values.password) {
+                    return "Passwords do not match.";
+                  }
+                }}
+              />
               <Button
                 color="blue"
                 size="large"
@@ -72,9 +90,9 @@ const SignInPage = () => {
                 disabled={pristine || invalid || submitting}
                 loading={submitting}
               >
-                Login
+                Create NUS Reviews account
               </Button>
-              <Link to="/auth/signup">
+              <Link to="/auth/signin">
                 <Button
                   basic
                   type="button"
@@ -83,7 +101,7 @@ const SignInPage = () => {
                   size="large"
                   style={{ marginTop: 16 }}
                 >
-                  Sign up for a NUS Reviews account
+                  Already have an account? Click here to log in!
                 </Button>
               </Link>
             </Form>
@@ -94,4 +112,4 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+export default SignUpPage;
