@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  OneToMany,
-  ManyToMany,
-  JoinTable
-} from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import { Discardable } from "./Discardable";
 import { ModuleCode, ModuleTitle, Department, Faculty } from "../types/modules";
 import {
@@ -16,13 +9,9 @@ import {
   IsBoolean
 } from "class-validator";
 import { ModuleSemester } from "./ModuleSemester";
-import { Semester } from "./Semester";
 
 @Entity()
 export class Module extends Discardable {
-  @PrimaryGeneratedColumn()
-  id!: number;
-
   // Basic info
   @Column({
     type: "varchar",
@@ -134,19 +123,4 @@ export class Module extends Discardable {
   @OneToMany(type => ModuleSemester, moduleSemester => moduleSemester.module)
   @IsOptional()
   moduleSemesters?: ModuleSemester[];
-
-  // @ManyToMany(type => Semester, semester => semester.modules)
-  // @JoinTable({
-  //   name: "module_semester",
-  //   joinColumn: {
-  //     name: "moduleId",
-  //     referencedColumnName: "id"
-  //   },
-  //   inverseJoinColumn: {
-  //     name: "semesterId",
-  //     referencedColumnName: "id"
-  //   }
-  // })
-  // @IsOptional()
-  // semesters?: Semester[];
 }

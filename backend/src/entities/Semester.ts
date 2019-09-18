@@ -4,21 +4,16 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   Index,
-  OneToMany,
-  ManyToMany
+  OneToMany
 } from "typeorm";
 import { AcademicYear } from "./AcademicYear";
 import { Base } from "./Base";
 import { IsOptional } from "class-validator";
 import { ModuleSemester } from "./ModuleSemester";
-import { Module } from "./Module";
 
 @Entity()
 @Index(["semester", "academicYear"], { unique: true })
 export class Semester extends Base {
-  @PrimaryGeneratedColumn()
-  id!: number;
-
   @Column()
   semester!: number;
 
@@ -28,8 +23,4 @@ export class Semester extends Base {
   @OneToMany(type => ModuleSemester, moduleSemester => moduleSemester.module)
   @IsOptional()
   moduleSemesters?: ModuleSemester[];
-
-  // @ManyToMany(type => Module, module => module.semesters)
-  // @IsOptional()
-  // modules?: Module[];
 }

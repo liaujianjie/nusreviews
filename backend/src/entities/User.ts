@@ -6,15 +6,12 @@ import {
   IsString,
   IsNumber
 } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity } from "typeorm";
 import { Discardable } from "./Discardable";
 import { UserRole } from "../types/users";
 
 @Entity()
 export class User extends Discardable {
-  @PrimaryGeneratedColumn()
-  id!: number;
-
   @Column({ unique: true })
   @IsNotEmpty()
   @Length(4, 100)
