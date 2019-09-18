@@ -1,8 +1,10 @@
-import { Column, Entity, ManyToOne, Index } from "typeorm";
+import { Column, Entity, ManyToOne, Index, OneToMany } from "typeorm";
 import { Discardable } from "./Discardable";
 import { Module } from "./Module";
 import { Semester } from "./Semester";
 import { IsOptional, IsNumber, IsString } from "class-validator";
+import { Opinion } from "./Opinion";
+import { Tip } from "./Tip";
 
 @Entity()
 @Index(["module", "semester"], { unique: true })
@@ -22,4 +24,10 @@ export class ModuleSemester extends Discardable {
   @IsOptional()
   @IsNumber()
   examDuration?: number;
+
+  @OneToMany(type => Opinion, opinion => opinion.moduleSemester)
+  opinions!: Opinion[];
+
+  @OneToMany(type => Tip, tip => tip.moduleSemester)
+  tips!: Tip[];
 }
