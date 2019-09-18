@@ -2,7 +2,7 @@ import Axios from "axios";
 import { validateSync } from "class-validator";
 import { Connection } from "typeorm";
 import { Module } from "../entities/Module";
-import { ModuleInformation } from "../types/modules";
+import { ModuleInformation, SemesterDataCondensed } from "../types/modules";
 import { Semester } from "../entities/Semester";
 import { AcademicYear } from "../entities/AcademicYear";
 import { ModuleSemester } from "../entities/ModuleSemester";
@@ -15,8 +15,6 @@ export async function getModuleInfoList() {
   );
 }
 
-let semesterList: Semester[];
-
 // TODO: Log errors into file
 export async function saveModuleInfoList(
   connection: Connection,
@@ -24,18 +22,28 @@ export async function saveModuleInfoList(
 ) {
   const academicYearRepository = connection.getRepository(AcademicYear);
   const academicYear = getAcademicYear();
-  academicYearRepository.save(academicYear);
+  await academicYearRepository.save(academicYear);
 
   const semesterRepository = connection.getRepository(Semester);
-  semesterList = getSemesterList(academicYear);
-  semesterRepository.save(semesterList);
+  const semesterList = getSemesterList(academicYear);
+  await semesterRepository.save(semesterList);
 
   const moduleRepository = connection.getRepository(Module);
   const moduleSemesterRepository = connection.getRepository(ModuleSemester);
-  const moduleList = getModuleList(moduleInfoList);
-  moduleList.forEach(result => {
-    moduleRepository.save(result.module);
-    moduleSemesterRepository.save(result.moduleSemesterList);
+
+  moduleInfoList.forEach(async moduleInfo => {
+    const module = getModule(moduleInfo);
+    if (!module) {
+      return;
+    }
+    await moduleRepository.save(module);
+    moduleInfo.semesterData.forEach(semesterData => {
+      const semester = semesterList.find(
+        semester => semester.semester === semesterData.semester
+      );
+      const moduleSemester = getModuleSemester(module, semester!, semesterData);
+      moduleSemesterRepository.save(moduleSemester);
+    });
   });
 }
 
@@ -84,38 +92,17 @@ function getModule(moduleInfo: ModuleInformation): Module | null {
   return module;
 }
 
-function getModuleList(
-  moduleInfoList: ModuleInformation[]
-): Array<{ module: Module; moduleSemesterList: ModuleSemester[] }> {
-  const moduleList: Array<{
-    module: Module;
-    moduleSemesterList: ModuleSemester[];
-  }> = [];
-  moduleInfoList.forEach(moduleInfo => {
-    const module = getModule(moduleInfo);
-    if (module) {
-      const moduleSemesterList = getModuleSemesterList(moduleInfo, module);
-      moduleList.push({ module, moduleSemesterList });
-    }
-  });
-  return moduleList;
-}
-
-function getModuleSemesterList(
-  moduleInfo: ModuleInformation,
-  module: Module
-): ModuleSemester[] {
-  const moduleSemesterList: ModuleSemester[] = [];
-  moduleInfo.semesterData.forEach(semesterData => {
-    const semester = semesterList.find(
-      semester => semester.semester === semesterData.semester
-    );
-    const moduleSemester = new ModuleSemester();
-    moduleSemester.module = module;
-    moduleSemester.semester = semester!;
+function getModuleSemester(
+  module: Module,
+  semester: Semester,
+  semesterData?: SemesterDataCondensed
+): ModuleSemester {
+  const moduleSemester = new ModuleSemester();
+  moduleSemester.module = module;
+  moduleSemester.semester = semester;
+  if (semesterData) {
     moduleSemester.examDate = semesterData.examDate;
     moduleSemester.examDuration = semesterData.examDuration;
-    moduleSemesterList.push(moduleSemester);
-  });
-  return moduleSemesterList;
+  }
+  return moduleSemester;
 }

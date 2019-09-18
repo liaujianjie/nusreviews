@@ -29,7 +29,7 @@ export class Semester extends Base {
   @IsOptional()
   moduleSemesters?: ModuleSemester[];
 
-  @ManyToMany(type => Module, module => module.semesters)
-  @IsOptional()
-  modules?: Module[];
+  // @ManyToMany(type => Module, module => module.semesters)
+  // @IsOptional()
+  // modules?: Module[];
 }

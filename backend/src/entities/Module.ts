@@ -135,18 +135,18 @@ export class Module extends Discardable {
   @IsOptional()
   moduleSemesters?: ModuleSemester[];
 
-  @ManyToMany(type => Semester, semester => semester.modules)
-  @JoinTable({
-    name: "module_semester",
-    joinColumn: {
-      name: "module_id",
-      referencedColumnName: "id"
-    },
-    inverseJoinColumn: {
-      name: "semester_id",
-      referencedColumnName: "id"
-    }
-  })
-  @IsOptional()
-  semesters?: Semester[];
+  // @ManyToMany(type => Semester, semester => semester.modules)
+  // @JoinTable({
+  //   name: "module_semester",
+  //   joinColumn: {
+  //     name: "moduleId",
+  //     referencedColumnName: "id"
+  //   },
+  //   inverseJoinColumn: {
+  //     name: "semesterId",
+  //     referencedColumnName: "id"
+  //   }
+  // })
+  // @IsOptional()
+  // semesters?: Semester[];
 }
