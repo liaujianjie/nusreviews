@@ -4,6 +4,8 @@ Steps to run the backend:
 2. Run `cd backend`
 3. Run `yarn start`
 
+[POSTMAN Workspace](https://app.getpostman.com/join-team?invite_code=ab3e3a87fb0801eb4f46552d112a4d1b)
+
 Architecture
 
 - [Data Mapper](https://github.com/typeorm/typeorm/blob/master/docs/active-record-data-mapper.md)
@@ -15,5 +17,5 @@ Architecture
       - valid for 7 days
   - Certain API actions requires an access token
   - If the access token is expired, server will return a `401`
-  - The frontend should then request for a new one by issuing a PATCH request to api/users/request_authentication with the refresh_token in the HTTP header
+  - The frontend should then request for a new one by issuing a PATCH request to api/users/refresh_authentication with the refresh_token in the HTTP header
     - Returns a new access token and refresh token
