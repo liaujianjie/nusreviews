@@ -48,10 +48,6 @@ export async function modules(
       }
     );
     const moduleSemesters = semester.moduleSemesters;
-    if (!moduleSemesters) {
-      response.status(200).send([]);
-      return;
-    }
     const modules: Module[] = [];
     moduleSemesters.forEach(moduleSemester => {
       modules.push(moduleSemester.module);

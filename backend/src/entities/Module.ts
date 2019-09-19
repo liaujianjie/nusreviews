@@ -121,6 +121,5 @@ export class Module extends Discardable {
   // Requisite tree is left out
 
   @OneToMany(type => ModuleSemester, moduleSemester => moduleSemester.module)
-  @IsOptional()
-  moduleSemesters?: ModuleSemester[];
+  moduleSemesters!: ModuleSemester[];
 }
