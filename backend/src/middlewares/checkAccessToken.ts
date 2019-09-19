@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
-import jwtSecret from "../config/jwtSecret";
 import { isJwtSignedPayload, AuthenticationToken } from "../types/users";
 
 export const checkAccessToken = (
@@ -16,7 +15,7 @@ export const checkAccessToken = (
 
   let payload: object | string;
   try {
-    payload = jwt.verify(token, jwtSecret);
+    payload = jwt.verify(token, process.env.JWT_SECRET!);
   } catch (error) {
     res.status(401).send();
     return;

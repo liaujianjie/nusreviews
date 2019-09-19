@@ -1,14 +1,9 @@
-import { Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Column } from "typeorm";
+import { Base } from "./Base";
+import { IsOptional } from "class-validator";
 
-export abstract class Discardable {
-  @CreateDateColumn()
-  createdAt!: Date;
-
-  @UpdateDateColumn()
-  updatedAt!: Date;
-
-  @Column({
-    nullable: true
-  })
+export abstract class Discardable extends Base {
+  @Column({ nullable: true })
+  @IsOptional()
   discardedAt?: Date;
 }

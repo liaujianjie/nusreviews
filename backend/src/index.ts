@@ -5,9 +5,11 @@ import * as helmet from "helmet";
 import * as morgan from "morgan";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import ormconfig from "./config/ormconfig";
+import ormconfig from "../ormconfig";
 import routes from "./routes";
-import { getModuleList } from "./utils/nusmods";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 createConnection(ormconfig)
   .then(async connection => {
@@ -22,8 +24,6 @@ createConnection(ormconfig)
     app.use("/", routes);
 
     app.listen(3000);
-
-    // getModuleList();
 
     console.log(
       "Express server has started on port 3000. Open http://localhost:3000/users to see results"

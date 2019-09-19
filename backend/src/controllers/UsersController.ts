@@ -56,7 +56,7 @@ export async function login(request: Request, response: Response) {
     !user ||
     !user.password ||
     !compareSync(password, user.password) ||
-    !user.discardedAt
+    user.discardedAt
   ) {
     response.status(400).send();
     return;
@@ -190,7 +190,7 @@ export async function undiscard(
   try {
     await userRepository().findOneOrFail(request.params.id);
     await userRepository().update(request.params.id, {
-      discardedAt: null
+      discardedAt: undefined
     });
   } catch (error) {
     response.status(400).send();

@@ -1,5 +1,4 @@
 import { sign } from "jsonwebtoken";
-import jwtSecret from "../config/jwtSecret";
 import { User } from "../entities/User";
 import {
   AuthenticationTokens,
@@ -18,7 +17,7 @@ function getJwtString(
     username: user.username,
     userRole: user.role
   };
-  return sign(payload, jwtSecret, { expiresIn });
+  return sign(payload, process.env.JWT_SECRET!, { expiresIn });
 }
 
 export function getAuthenticationTokens(user: User): AuthenticationTokens {
