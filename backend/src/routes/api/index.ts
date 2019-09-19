@@ -5,6 +5,7 @@ import semesters from "./semesters";
 import modules from "./modules";
 import moduleSemesters from "./moduleSemesters";
 import opinions from "./opinions";
+import tips from "./tips";
 
 const routes = Router();
 
@@ -14,5 +15,6 @@ routes.use("/semesters", semesters);
 routes.use("/modules", modules);
 routes.use("/module_semesters", moduleSemesters);
 routes.use("/opinions", opinions);
+routes.use("/tips", tips);
 
 export default routes;

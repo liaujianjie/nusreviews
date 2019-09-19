@@ -10,7 +10,7 @@ export const checkEditToken = (
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.body.editToken;
+  const token = req.params.editToken;
   if (!token) {
     res.status(401).send();
     return;

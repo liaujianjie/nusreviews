@@ -1,14 +1,14 @@
 import { Router } from "express";
-import * as OpinionsController from "../../controllers/OpinionsController";
+import * as TipsController from "../../controllers/TipsController";
 import { checkEditToken } from "../../middlewares/checkEditToken";
 import { checkAccessToken } from "../../middlewares/checkAccessToken";
 
 export const router = Router();
 
-router.get("/:id", OpinionsController.show);
-router.put("/:editToken", [checkEditToken], OpinionsController.update);
+router.get("/:id", TipsController.show);
+router.put("/:editToken", [checkEditToken], TipsController.update);
 
 router.use(checkAccessToken);
-// router.post("/:id/votes", VotesController.createOpinionVote);
+// router.post("/:id/votes", VotesController.createTipVote);
 
 export default router;
