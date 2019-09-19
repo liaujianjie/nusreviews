@@ -9,9 +9,10 @@ import {
   IsBoolean
 } from "class-validator";
 import { ModuleSemester } from "./ModuleSemester";
+import { Base } from "./Base";
 
 @Entity()
-export class Module extends Discardable {
+export class Module extends Base {
   // Basic info
   @Column({
     type: "varchar",

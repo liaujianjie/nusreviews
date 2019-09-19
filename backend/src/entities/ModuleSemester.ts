@@ -1,14 +1,14 @@
 import { Column, Entity, ManyToOne, Index, OneToMany } from "typeorm";
-import { Discardable } from "./Discardable";
 import { Module } from "./Module";
 import { Semester } from "./Semester";
 import { IsOptional, IsNumber, IsString } from "class-validator";
 import { Opinion } from "./Opinion";
 import { Tip } from "./Tip";
+import { Base } from "./Base";
 
 @Entity()
 @Index(["module", "semester"], { unique: true })
-export class ModuleSemester extends Discardable {
+export class ModuleSemester extends Base {
   @ManyToOne(type => Module, module => module.moduleSemesters)
   module!: Module;
 
