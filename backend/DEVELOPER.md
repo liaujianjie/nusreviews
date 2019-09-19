@@ -24,3 +24,7 @@ Architecture
 
 - Rule of thumb: resources should never be nested more than 1 level deep
 - A collection may need to be scoped by its parent, but a specific member can always be accessed directly by an id
+
+Editing anonymous items requires an `edit token` which is issued when the item is created
+
+- valid for 120 days
