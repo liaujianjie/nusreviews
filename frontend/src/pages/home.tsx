@@ -10,7 +10,7 @@ const SearchPage = () => {
         <img src={logo} alt="logo" style={{ minWidth: 450, padding: "4%" }} />
 
         <div class="ui center aligned grid">
-          <div class="eight wide column">
+          <div class="column">
             <Search
               color="blue"
               fluid
