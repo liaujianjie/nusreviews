@@ -19,3 +19,8 @@ Architecture
   - If the access token is expired, server will return a `401`
   - The frontend should then request for a new one by issuing a PATCH request to api/users/refresh_authentication with the refresh_token in the HTTP header
     - Returns a new access token and refresh token
+
+[API design Guide](http://weblog.jamisbuck.org/2007/2/5/nesting-resources)
+
+- Rule of thumb: resources should never be nested more than 1 level deep
+- A collection may need to be scoped by its parent, but a specific member can always be accessed directly by an id
