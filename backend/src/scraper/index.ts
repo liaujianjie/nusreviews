@@ -1,7 +1,7 @@
 import * as dotenv from "dotenv";
 import { createConnection } from "typeorm";
 import { saveModuleInfoList, getModuleInfoList } from "./tasks";
-import ormconfig from "../config/ormconfig";
+import ormconfig from "../../ormconfig";
 import { ModuleInformation } from "../types/modules";
 
 dotenv.config();

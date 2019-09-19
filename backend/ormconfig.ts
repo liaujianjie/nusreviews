@@ -17,7 +17,8 @@ export const postgres: ConnectionOptions = {
     entitiesDir: "src/entities",
     migrationsDir: "src/migrations",
     subscribersDir: "src/subscribers"
-  }
+  },
+  migrationsRun: true
 };
 
 export default postgres;

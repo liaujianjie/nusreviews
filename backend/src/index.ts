@@ -5,7 +5,7 @@ import * as helmet from "helmet";
 import * as morgan from "morgan";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import ormconfig from "./config/ormconfig";
+import ormconfig from "../ormconfig";
 import routes from "./routes";
 import * as dotenv from "dotenv";
 
