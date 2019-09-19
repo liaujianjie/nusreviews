@@ -8,8 +8,5 @@ export class Tip extends Base {
   moduleSemester!: ModuleSemester;
 
   @Column()
-  editToken!: string;
-
-  @Column()
   description!: string;
 }
