@@ -1,4 +1,4 @@
-import { IsNumber } from "class-validator";
+import { IsIn } from "class-validator";
 import { Column, Entity, ManyToOne, Index } from "typeorm";
 import { Base } from "./Base";
 import { User } from "./User";
@@ -14,6 +14,6 @@ export class OpinionVote extends Base {
   opinion!: Opinion;
 
   @Column()
-  @IsNumber()
+  @IsIn([1, -1])
   value!: number;
 }
