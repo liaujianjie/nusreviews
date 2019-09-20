@@ -1,27 +1,29 @@
 import * as React from "react";
-import { Form, TextAreaProps } from "semantic-ui-react";
-import { LongTextInputProps } from "./Form";
+import TextareaAutosize from "react-textarea-autosize";
+import { Form } from "semantic-ui-react";
 
 import { Field } from "react-final-form";
 
-const LongTextInput = (props: LongTextInputProps) => {
-  return (
-    <Field {...props} component="input" type="text">
-      {fieldProps => {
-        const { input } = fieldProps;
-        const handleChange = (
-          event: React.FormEvent<HTMLTextAreaElement>,
-          eventData: TextAreaProps
-        ) => {
-          const defaultEvent = { target: eventData };
-          input.onChange(defaultEvent);
-        };
+export interface LongTextInputProps {
+  name: string;
+  value?: string | number;
+  label?: string;
+  question: string;
+  children?: React.ReactNode;
+  placeholder: string;
+  rows?: number;
+}
 
+const LongTextInput: React.FunctionComponent<LongTextInputProps> = props => {
+  return (
+    <Field {...props} component="textarea">
+      {fieldProps => {
         return (
           <Form.TextArea
-            label={props.children}
+            control={TextareaAutosize}
+            label={props.question}
             placeholder={props.placeholder}
-            onChange={handleChange}
+            onChange={fieldProps.input.onChange}
             value={props.value || ""}
           />
         );

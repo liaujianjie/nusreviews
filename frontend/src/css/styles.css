@@ -1,7 +1,11 @@
+element {
+  --main-bg-color: #e5e5e5;
+}
+
 .ui.progress {
-  background-color: #d1dff2!important
+  background-color: #d1dff2 !important;
 }
 
 .ui.progress .bar {
-  background-color: #2268e2!important
+  background-color: #2268e2 !important;
 }
