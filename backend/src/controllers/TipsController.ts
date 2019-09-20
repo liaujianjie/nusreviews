@@ -1,4 +1,4 @@
-import { Request, Response, response } from "express";
+import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Tip } from "../entities/Tip";
 import { ModuleSemester } from "../entities/ModuleSemester";
@@ -9,10 +9,8 @@ export const tipsRepository = () => getRepository(Tip);
 
 export async function show(request: Request, response: Response) {
   try {
-    const moduleSemester = await tipsRepository().findOneOrFail(
-      request.params.id
-    );
-    response.status(200).send(moduleSemester);
+    const tip = await tipsRepository().findOneOrFail(request.params.id);
+    response.status(200).send(tip);
   } catch (error) {
     response.status(400).send();
     return;
@@ -54,6 +52,18 @@ export async function update(request: Request, response: Response) {
 
     await tipsRepository().save(tip);
     response.status(200).send(tip);
+  } catch (error) {
+    response.status(400).send();
+  }
+}
+
+export async function votes(request: Request, response: Response) {
+  try {
+    const tip = await getRepository(Tip).findOneOrFail(request.params.id, {
+      relations: ["tipVotes"]
+    });
+    const votes = tip.tipVotes;
+    response.status(200).send(votes);
   } catch (error) {
     response.status(400).send();
   }

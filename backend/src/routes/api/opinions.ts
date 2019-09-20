@@ -8,6 +8,7 @@ export const router = Router();
 
 router.get("/:id", OpinionsController.show);
 router.put("/:editToken", [checkEditToken], OpinionsController.update);
+router.get("/:id/votes", OpinionsController.votes);
 
 router.use(checkAccessToken);
 router.post("/:id/votes", OpinionVotesController.create);

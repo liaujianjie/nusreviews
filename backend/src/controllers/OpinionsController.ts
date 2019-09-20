@@ -57,3 +57,15 @@ export async function update(request: Request, response: Response) {
     response.status(400).send();
   }
 }
+
+export async function votes(request: Request, response: Response) {
+  try {
+    const opinion = await getRepository(Opinion).findOneOrFail(request.params.id, {
+      relations: ["opinionVotes"]
+    });
+    const votes = opinion.opinionVotes;
+    response.status(200).send(votes);
+  } catch (error) {
+    response.status(400).send();
+  }
+}
