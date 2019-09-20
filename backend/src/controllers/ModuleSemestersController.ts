@@ -4,23 +4,20 @@ import { ModuleSemester } from "../entities/ModuleSemester";
 import { Opinion } from "../entities/Opinion";
 import { Tip } from "../entities/Tip";
 
-export const moduleSemesterRepository = () => getRepository(ModuleSemester);
-
 export async function show(request: Request, response: Response) {
   try {
-    const moduleSemester = await moduleSemesterRepository().findOneOrFail(
+    const moduleSemester = await getRepository(ModuleSemester).findOneOrFail(
       request.params.id
     );
     response.status(200).send(moduleSemester);
   } catch (error) {
     response.status(400).send();
-    return;
   }
 }
 
 export async function opinions(request: Request, response: Response) {
   try {
-    const moduleSemester = await moduleSemesterRepository().findOneOrFail(
+    const moduleSemester = await getRepository(ModuleSemester).findOneOrFail(
       request.params.id
     );
     const opinions = await getRepository(Opinion).find({
@@ -34,7 +31,7 @@ export async function opinions(request: Request, response: Response) {
 
 export async function tips(request: Request, response: Response) {
   try {
-    const moduleSemester = await moduleSemesterRepository().findOneOrFail(
+    const moduleSemester = await getRepository(ModuleSemester).findOneOrFail(
       request.params.id
     );
     const tips = await getRepository(Tip).find({
