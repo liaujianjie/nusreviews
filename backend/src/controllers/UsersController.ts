@@ -49,7 +49,9 @@ export async function login(request: Request, response: Response) {
     !compareSync(password, user.password) ||
     user.discardedAt
   ) {
-    response.status(400).send();
+    response
+      .status(400)
+      .json({ message: "No such email and password combination exists." });
     return;
   }
 

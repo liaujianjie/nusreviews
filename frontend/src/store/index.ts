@@ -1,51 +1,27 @@
-import { createStore } from "redux";
+import { createStore, compose, applyMiddleware, combineReducers } from "redux";
+import thunkMiddleware from "redux-thunk";
 import { devToolsEnhancer } from "redux-devtools-extension";
 
-// Copied from backend
+import * as auth from "./auth";
 
-export interface StoreState {
-  isSidebarVisible: boolean;
-
-  // Auth states
-  encodedAccessToken: string | null;
-  encodedRefreshToken: string | null;
-  accessToken: AuthenticationToken | null;
-  refreshToken: AuthenticationToken | null;
-}
-
-// Actions
-export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
-export type TOGGLE_SIDEBAR = typeof TOGGLE_SIDEBAR;
-export interface ToggleSidebar {
-  type: TOGGLE_SIDEBAR;
-}
-export const toggleSidebar = () => ({ type: TOGGLE_SIDEBAR });
-
-// Reducer
-export const reducer = (
-  state: StoreState,
-  action: ToggleSidebar
-): StoreState => {
-  switch (action.type) {
-    case TOGGLE_SIDEBAR:
-      return Object.assign({}, state, {
-        isSidebarVisible: !state.isSidebarVisible
-      });
-    default:
-      return state;
-  }
+export type StoreState = {
+  auth: auth.AuthState;
 };
 
-// Store
-export const initialState: StoreState = {
-  isSidebarVisible: false,
-  encodedAccessToken: null,
-  encodedRefreshToken: null,
-  accessToken: null,
-  refreshToken: null
+const rootReducer = combineReducers<StoreState>({
+  auth: auth.reducer
+});
+const rootInitialState: StoreState = {
+  auth: auth.INITIAL_STATE
 };
-export const store = createStore<StoreState>(
-  reducer,
-  initialState,
+
+const composedEnhanders = compose(
+  applyMiddleware(thunkMiddleware),
   devToolsEnhancer({})
+);
+
+export const store = createStore(
+  rootReducer,
+  rootInitialState,
+  composedEnhanders
 );

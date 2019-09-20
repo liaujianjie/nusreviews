@@ -6,9 +6,7 @@ import { store } from "./src/store";
 
 exports.replaceRenderer = ({ bodyComponent, replaceBodyHTMLString }) => {
   const ConnectedBody = () => (
-    <Provider store={store}>
-      {bodyComponent}
-    </Provider>
+    <Provider store={store}>{bodyComponent}</Provider>
   );
   replaceBodyHTMLString(renderToString(<ConnectedBody />));
 };

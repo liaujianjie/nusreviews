@@ -1,4 +1,3 @@
-import { Link } from "gatsby";
 import * as React from "react";
 import { Container } from "semantic-ui-react";
 import "../css/styles.css";
@@ -20,10 +19,12 @@ const Layout = (props: LayoutProps) => {
 
   return (
     <div>
-      <NavBar/>
-      <Container style={{
-        marginTop: '6rem',
-      }}>
+      <NavBar />
+      <Container
+        style={{
+          marginTop: "6rem"
+        }}
+      >
         {props.children}
       </Container>
     </div>
@@ -32,7 +33,9 @@ const Layout = (props: LayoutProps) => {
 
 export default Layout;
 
-export const withLayout = <P extends object>(WrappedComponent: React.ComponentType<P>) =>
+export const withLayout = <P extends object>(
+  WrappedComponent: React.ComponentType<P>
+) =>
   class WithLayout extends React.Component<P & LayoutProps> {
     render() {
       return (

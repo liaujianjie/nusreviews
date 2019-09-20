@@ -1,29 +1,29 @@
 import * as React from "react";
+import { connect, MapDispatchToProps } from "react-redux";
 import { Link } from "gatsby";
 import * as FinalForm from "react-final-form";
 import * as _ from "lodash";
 
-import { Grid, Form, Button, Divider, Image } from "semantic-ui-react";
+import { Grid, Form, Button, Image } from "semantic-ui-react";
 import { FinalFormInput } from "../../components/FinalFormInput";
 import { AuthLogoContainer } from "../../components/AuthLogoContainer";
 import logo from "../../static/images/logo.svg";
+import { signIn } from "../../store/auth";
 
 type SignInField = {
   email: string;
   password: string;
 };
 
-const SignInPage = () => {
-  const submit: FinalForm.FormProps<SignInField>["onSubmit"] = (
+type OwnProps = {};
+
+const SignInPage: React.FunctionComponent<OwnProps & DispatchProps> = ({
+  signIn
+}) => {
+  const submit: FinalForm.FormProps<SignInField>["onSubmit"] = async (
     payload: SignInField
   ) => {
-    // Simulate async HTTP request
-    return new Promise(resolve => {
-      setTimeout(() => {
-        alert(JSON.stringify(payload));
-        resolve();
-      }, 2000);
-    });
+    await signIn(payload);
   };
 
   return (
@@ -94,4 +94,15 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+type DispatchProps = {
+  signIn: typeof signIn;
+};
+
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = {
+  signIn
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SignInPage);
