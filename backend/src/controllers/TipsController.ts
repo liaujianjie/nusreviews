@@ -3,7 +3,7 @@ import { getRepository } from "typeorm";
 import { Tip } from "../entities/Tip";
 import { ModuleSemester } from "../entities/ModuleSemester";
 import { generateEditToken, EditTokenSignedPayload } from "../utils/editToken";
-import { validate } from "class-validator";
+import { validateOrReject } from "class-validator";
 
 export const tipsRepository = () => getRepository(Tip);
 
@@ -28,7 +28,7 @@ export async function create(request: Request, response: Response) {
     tip.moduleSemester = moduleSemester;
     tip.description = request.body.description;
 
-    await validate(tip, { forbidNonWhitelisted: true });
+    await validateOrReject(tip);
     await tipsRepository().save(tip);
     const editToken = generateEditToken(tip, "120 days");
     const result = {
@@ -50,7 +50,7 @@ export async function update(request: Request, response: Response) {
 
     const tip = await tipsRepository().findOneOrFail(id);
     tip.description = request.body.description;
-    await validate(tip, { forbidNonWhitelisted: true });
+    await validateOrReject(tip);
 
     await tipsRepository().save(tip);
     response.status(200).send(tip);

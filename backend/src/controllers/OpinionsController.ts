@@ -1,9 +1,9 @@
-import { Request, Response, response } from "express";
+import { Request, Response} from "express";
 import { getRepository } from "typeorm";
 import { Opinion } from "../entities/Opinion";
 import { ModuleSemester } from "../entities/ModuleSemester";
 import { generateEditToken, EditTokenSignedPayload } from "../utils/editToken";
-import { validate } from "class-validator";
+import { validateOrReject } from "class-validator";
 
 export const opinionsRepository = () => getRepository(Opinion);
 
@@ -28,7 +28,7 @@ export async function create(request: Request, response: Response) {
     opinion.moduleSemester = moduleSemester;
     opinion.description = request.body.description;
 
-    await validate(opinion, { forbidNonWhitelisted: true });
+    await validateOrReject(opinion);
     await opinionsRepository().save(opinion);
     const editToken = generateEditToken(opinion, "120 days");
     const result = {
@@ -50,8 +50,7 @@ export async function update(request: Request, response: Response) {
 
     const opinion = await opinionsRepository().findOneOrFail(id);
     opinion.description = request.body.description;
-    await validate(opinion, { forbidNonWhitelisted: true });
-
+    await validateOrReject(opinion);
     await opinionsRepository().save(opinion);
     response.status(200).send(opinion);
   } catch (error) {
