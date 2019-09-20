@@ -5,19 +5,6 @@ import { ModuleSemester } from "../entities/ModuleSemester";
 import { generateEditToken, EditTokenSignedPayload } from "../utils/editToken";
 import { validateOrReject } from "class-validator";
 
-export const opinionsRepository = () => getRepository(Opinion);
-
-export async function show(request: Request, response: Response) {
-  try {
-    const moduleSemester = await opinionsRepository().findOneOrFail(
-      request.params.id
-    );
-    response.status(200).send(moduleSemester);
-  } catch (error) {
-    response.status(400).send();
-    return;
-  }
-}
 
 export async function create(request: Request, response: Response) {
   try {
@@ -29,7 +16,7 @@ export async function create(request: Request, response: Response) {
     opinion.description = request.body.description;
 
     await validateOrReject(opinion);
-    await opinionsRepository().save(opinion);
+    await getRepository(Opinion).save(opinion);
     const editToken = generateEditToken(opinion, "120 days");
     const result = {
       opinion,
@@ -42,16 +29,27 @@ export async function create(request: Request, response: Response) {
   }
 }
 
+export async function show(request: Request, response: Response) {
+  try {
+    const moduleSemester = await getRepository(Opinion).findOneOrFail(
+      request.params.id
+    );
+    response.status(200).send(moduleSemester);
+  } catch (error) {
+    response.status(400).send();
+  }
+}
+
 export async function update(request: Request, response: Response) {
   try {
     const payload = response.locals
       .editTokenSignedPayload as EditTokenSignedPayload;
     const id = payload.entityId;
 
-    const opinion = await opinionsRepository().findOneOrFail(id);
+    const opinion = await getRepository(Opinion).findOneOrFail(id);
     opinion.description = request.body.description;
     await validateOrReject(opinion);
-    await opinionsRepository().save(opinion);
+    await getRepository(Opinion).save(opinion);
     response.status(200).send(opinion);
   } catch (error) {
     response.status(400).send();

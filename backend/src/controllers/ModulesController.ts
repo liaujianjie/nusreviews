@@ -3,8 +3,6 @@ import { getRepository } from "typeorm";
 import { Module } from "../entities/Module";
 import { Semester } from "../entities/Semester";
 
-export const modulesRepository = () => getRepository(Module);
-
 export async function index(
   request: Request,
   response: Response,
@@ -12,12 +10,11 @@ export async function index(
 ) {
   let result;
   try {
-    result = await modulesRepository().find();
+    result = await getRepository(Module).find();
     // TODO: need to cut this down to send a more condensed version
     response.status(200).send(result);
   } catch (error) {
     response.status(400).send();
-    return;
   }
 }
 
@@ -27,13 +24,12 @@ export async function show(
   next: NextFunction
 ) {
   try {
-    const module = await modulesRepository().findOneOrFail({
+    const module = await getRepository(Module).findOneOrFail({
       where: { moduleCode: request.params.module_code }
     });
     response.status(200).send(module);
   } catch (error) {
     response.status(400).send();
-    return;
   }
 }
 
@@ -43,7 +39,7 @@ export async function semesters(
   next: NextFunction
 ) {
   try {
-    const module = await modulesRepository().findOneOrFail({
+    const module = await getRepository(Module).findOneOrFail({
       where: { moduleCode: request.params.module_code },
       relations: ["moduleSemesters", "moduleSemesters.semester"]
     });
@@ -55,13 +51,12 @@ export async function semesters(
     response.status(200).send(semesters);
   } catch (error) {
     response.status(400).send();
-    return;
   }
 }
 
 export async function moduleSemesters(request: Request, response: Response) {
   try {
-    const module = await modulesRepository().findOneOrFail({
+    const module = await getRepository(Module).findOneOrFail({
       where: { moduleCode: request.params.module_code },
       relations: ["moduleSemesters"]
     });
