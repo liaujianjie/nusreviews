@@ -19,8 +19,8 @@ export const signIn = ({ email, password }: SignInParameter) => async (
 
   try {
     const response = await auth.signIn({ email, password });
-    const encodedAccessToken = response.encodedAccessToken as string;
-    const encodedRefreshToken = response.encodedRefreshToken as string;
+    const encodedAccessToken = response.accessToken as string;
+    const encodedRefreshToken = response.refreshToken as string;
     const accessToken = JWT.decode(encodedAccessToken);
     const refreshToken = JWT.decode(encodedRefreshToken);
 
@@ -41,6 +41,7 @@ export const signIn = ({ email, password }: SignInParameter) => async (
       }
     });
   } catch (error) {
+    console.log(error);
     dispatch({ type: AuthAction.SIGNIN_FAILURE });
   }
 };
