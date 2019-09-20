@@ -9,6 +9,7 @@ import { FinalFormInput } from "../../components/FinalFormInput";
 import { AuthLogoContainer } from "../../components/AuthLogoContainer";
 import logo from "../../static/images/logo.svg";
 import { signIn } from "../../store/auth";
+import { withReduxStore } from "../../components/withReduxStore";
 
 type SignInField = {
   email: string;
@@ -102,7 +103,9 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = {
   signIn
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(SignInPage);
+export default withReduxStore(
+  connect(
+    null,
+    mapDispatchToProps
+  )(SignInPage)
+);
