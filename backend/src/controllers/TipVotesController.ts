@@ -15,7 +15,7 @@ export async function create(request: Request, response: Response) {
     tipVote.value = parseInt(request.body.value);
     await validateOrReject(tipVote);
     await getRepository(TipVote).save(tipVote);
-    response.status(200).send(tipVote);
+    response.status(201).send(tipVote);
   } catch (error) {
     console.error(error);
     response.status(400).send();

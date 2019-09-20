@@ -15,7 +15,7 @@ export async function create(request: Request, response: Response) {
     opinionVote.value = parseInt(request.body.value);
     await validateOrReject(opinionVote);
     await getRepository(OpinionVote).save(opinionVote);
-    response.status(200).send(opinionVote);
+    response.status(201).send(opinionVote);
   } catch (error) {
     console.error(error);
     response.status(400).send();
