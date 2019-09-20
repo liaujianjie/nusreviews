@@ -1,14 +1,26 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { Discardable } from "./Discardable";
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Index,
+  OneToMany
+} from "typeorm";
+import { AcademicYear } from "./AcademicYear";
+import { Base } from "./Base";
+import { IsOptional } from "class-validator";
+import { ModuleSemester } from "./ModuleSemester";
 
 @Entity()
-export class Semester extends Discardable {
-  @PrimaryGeneratedColumn()
-  id!: number;
-
+@Index(["semester", "academicYear"], { unique: true })
+export class Semester extends Base {
   @Column()
-  academicYear!: string;
+  semester!: number;
 
-  @Column()
-  name!: string;
+  @ManyToOne(type => AcademicYear, academicYear => academicYear.semesters)
+  academicYear!: AcademicYear;
+
+  @OneToMany(type => ModuleSemester, moduleSemester => moduleSemester.semester)
+  @IsOptional()
+  moduleSemesters?: ModuleSemester[];
 }
