@@ -35,7 +35,7 @@ export async function create(request: Request, response: Response) {
       opinion,
       editToken
     };
-    response.status(200).send(result);
+    response.status(201).send(result);
   } catch (error) {
     console.error(error);
     response.status(400).send();
