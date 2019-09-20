@@ -1,9 +1,18 @@
 import * as React from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { Form } from "semantic-ui-react";
-import { LongTextInputProps } from "./Form";
 
 import { Field } from "react-final-form";
+
+export interface LongTextInputProps {
+  name: string;
+  value?: string | number;
+  label?: string;
+  question: string;
+  children?: React.ReactNode;
+  placeholder: string;
+  rows?: number;
+}
 
 const LongTextInput: React.FunctionComponent<LongTextInputProps> = props => {
   return (

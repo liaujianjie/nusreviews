@@ -1,8 +1,23 @@
 import * as React from "react";
 import { Form, TextAreaProps, Grid } from "semantic-ui-react";
-import { DropDownProps } from "./Form";
 
 import { Field } from "react-final-form";
+
+interface DropDownOptionObj {
+  key: string;
+  value: string;
+  text: string;
+}
+
+export interface DropDownProps {
+  name: string;
+  value?: string | number;
+  label?: string;
+  question: string;
+  children?: React.ReactNode;
+  options: Array<DropDownOptionObj>;
+  placeholder: string;
+}
 
 const DropDown: React.FunctionComponent<DropDownProps> = props => {
   return (

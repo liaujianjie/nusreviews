@@ -1,4 +1,4 @@
-export const grades = [
+export const GRADES = [
   { key: "A+", text: "A+", value: "A+" },
   { key: "A", text: "A", value: "A" },
   { key: "A-", text: "A-", value: "A-" },
@@ -15,7 +15,7 @@ export const grades = [
   { key: "U", text: "U", value: "U" }
 ];
 
-export const lecturerQuestions = [
+export const LECTURER_QUESTIONS = [
   {
     scale: 5,
     name: "lecturerGeneral",
@@ -42,7 +42,7 @@ export const lecturerQuestions = [
   }
 ];
 
-export const workloadQuestions = [
+export const WORKLOAD_QUESTIONS = [
   {
     scale: 5,
     name: "workloadGeneral",
@@ -61,4 +61,64 @@ export const workloadQuestions = [
     question: "Would you recommend this to me?",
     value: ["Avoid", "Recommend"]
   }
+];
+
+export const LONG_INPUT_QUESTIONS = [
+  [
+    {
+      name: "lecturerInput",
+      placeholder:
+        "Tell me more maybe about the teaching style, energy during the module, attitude towards attendance...",
+      question: "How was your lecturer Ben Leong?"
+    },
+    {
+      name: "tutorInput",
+      placeholder:
+        "Tell me more maybe about the teaching style, energy during class, attitude towards attendance",
+      question: "How's the tutor?"
+    }
+  ],
+  [
+    {
+      name: "moduleInput",
+      placeholder:
+        "You could talk about what you generally learnt, took away from the module...",
+      question: "What was the module about?"
+    }
+  ],
+  [
+    {
+      name: "workloadInput",
+      placeholder:
+        "Maybe what preparation was needed for each class, time taken and effort needed for projects/assignments",
+      question: "How was the workload (preparation, project, assignments)"
+    },
+    {
+      name: "workloadProject",
+      placeholder:
+        "What were the deliverables for the project? How big was the team? Did you get to choose the team?",
+      question: "What were the projects like?"
+    },
+    {
+      name: "workloadQuiz",
+      placeholder: "Tell me more about its format, preparation needed...",
+      question: "How was the quizzes/exams?"
+    }
+  ],
+  [
+    {
+      name: "interestInput",
+      placeholder:
+        "Anything memorable, anything that you enjoyed during classes...",
+      question: "Was it interesting?"
+    }
+  ],
+  [
+    {
+      name: "recommendInput",
+      placeholder:
+        "Who do you think would really enjoy and/or do well in this module?",
+      question: "Would you recommend it to me?"
+    }
+  ]
 ];
