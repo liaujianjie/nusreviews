@@ -31,18 +31,6 @@ export async function show(request: Request, response: Response) {
   }
 }
 
-export async function destroy(request: Request, response: Response) {
-  try {
-    const result = await getRepository(OpinionVote).delete(request.params.id);
-    if (result.affected === 0) {
-      throw new Error("Invalid opinionVote.id");
-    }
-    response.status(200).send(result);
-  } catch (error) {
-    response.status(400).send();
-  }
-}
-
 export async function update(request: Request, response: Response) {
   try {
     const opinionVote = await getRepository(OpinionVote).findOneOrFail(request.params.id);
@@ -50,6 +38,18 @@ export async function update(request: Request, response: Response) {
     await validateOrReject(opinionVote);
     await getRepository(OpinionVote).save(opinionVote);
     response.status(200).send(opinionVote);
+  } catch (error) {
+    response.status(400).send();
+  }
+}
+
+export async function destroy(request: Request, response: Response) {
+  try {
+    const result = await getRepository(OpinionVote).delete(request.params.id);
+    if (result.affected === 0) {
+      throw new Error("Invalid opinionVote.id");
+    }
+    response.status(200).send(result);
   } catch (error) {
     response.status(400).send();
   }

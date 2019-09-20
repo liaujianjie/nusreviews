@@ -3,21 +3,17 @@ import { getRepository } from "typeorm";
 import { Semester } from "../entities/Semester";
 import { Module } from "../entities/Module";
 
-export const semesterRepository = () => getRepository(Semester);
-
 export async function index(
   request: Request,
   response: Response,
   next: NextFunction
 ) {
-  let result;
   try {
-    result = await semesterRepository().find();
+    const semester = await getRepository(Semester).find();
+    response.status(200).send(semester);
   } catch (error) {
     response.status(400).send();
-    return;
   }
-  response.status(200).send(result);
 }
 
 export async function show(
@@ -25,14 +21,12 @@ export async function show(
   response: Response,
   next: NextFunction
 ) {
-  let result;
   try {
-    result = await semesterRepository().findOneOrFail(request.params.id);
+    const semester = await getRepository(Semester).findOneOrFail(request.params.id);
+    response.status(200).send(semester);
   } catch (error) {
     response.status(400).send();
-    return;
   }
-  response.status(200).send(result);
 }
 
 export async function modules(
@@ -41,7 +35,7 @@ export async function modules(
   next: NextFunction
 ) {
   try {
-    const semester = await semesterRepository().findOneOrFail(
+    const semester = await getRepository(Semester).findOneOrFail(
       request.params.id,
       {
         relations: ["moduleSemesters", "moduleSemesters.module"]
@@ -55,6 +49,5 @@ export async function modules(
     response.status(200).send(modules);
   } catch (error) {
     response.status(400).send();
-    return;
   }
 }
