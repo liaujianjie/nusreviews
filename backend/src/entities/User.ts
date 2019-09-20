@@ -6,8 +6,10 @@ import {
   IsString,
   IsNumber
 } from "class-validator";
-import { Column, Entity } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import { Discardable } from "./Discardable";
+import { TipVote } from "./TipVote";
+import { OpinionVote } from "./OpinionVote";
 import { UserRole } from "../types/users";
 
 @Entity()
@@ -52,4 +54,10 @@ export class User extends Discardable {
   @IsOptional()
   @IsNumber()
   matriculationYear?: number;
+
+  @OneToMany(type => OpinionVote, opinionVote => opinionVote.user)
+  opinionVotes!: OpinionVote[];
+
+  @OneToMany(type => TipVote, tipVote => tipVote.user)
+  tipVotes!: TipVote[];
 }

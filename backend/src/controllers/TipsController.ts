@@ -1,18 +1,16 @@
-import { Request, Response} from "express";
+import { Request, Response } from "express";
 import { getRepository } from "typeorm";
-import { Opinion } from "../entities/Opinion";
+import { Tip } from "../entities/Tip";
 import { ModuleSemester } from "../entities/ModuleSemester";
 import { generateEditToken, EditTokenSignedPayload } from "../utils/editToken";
 import { validateOrReject } from "class-validator";
 
-export const opinionsRepository = () => getRepository(Opinion);
+export const tipsRepository = () => getRepository(Tip);
 
 export async function show(request: Request, response: Response) {
   try {
-    const moduleSemester = await opinionsRepository().findOneOrFail(
-      request.params.id
-    );
-    response.status(200).send(moduleSemester);
+    const tip = await tipsRepository().findOneOrFail(request.params.id);
+    response.status(200).send(tip);
   } catch (error) {
     response.status(400).send();
     return;
@@ -24,15 +22,15 @@ export async function create(request: Request, response: Response) {
     const moduleSemester = await getRepository(ModuleSemester).findOneOrFail(
       request.params.id
     );
-    const opinion = new Opinion();
-    opinion.moduleSemester = moduleSemester;
-    opinion.description = request.body.description;
+    const tip = new Tip();
+    tip.moduleSemester = moduleSemester;
+    tip.description = request.body.description;
 
-    await validateOrReject(opinion);
-    await opinionsRepository().save(opinion);
-    const editToken = generateEditToken(opinion, "120 days");
+    await validateOrReject(tip);
+    await tipsRepository().save(tip);
+    const editToken = generateEditToken(tip, "120 days");
     const result = {
-      opinion,
+      tip,
       editToken
     };
     response.status(200).send(result);
@@ -48,11 +46,12 @@ export async function update(request: Request, response: Response) {
       .editTokenSignedPayload as EditTokenSignedPayload;
     const id = payload.entityId;
 
-    const opinion = await opinionsRepository().findOneOrFail(id);
-    opinion.description = request.body.description;
-    await validateOrReject(opinion);
-    await opinionsRepository().save(opinion);
-    response.status(200).send(opinion);
+    const tip = await tipsRepository().findOneOrFail(id);
+    tip.description = request.body.description;
+    await validateOrReject(tip);
+
+    await tipsRepository().save(tip);
+    response.status(200).send(tip);
   } catch (error) {
     response.status(400).send();
   }
@@ -60,10 +59,10 @@ export async function update(request: Request, response: Response) {
 
 export async function votes(request: Request, response: Response) {
   try {
-    const opinion = await getRepository(Opinion).findOneOrFail(request.params.id, {
-      relations: ["opinionVotes"]
+    const tip = await getRepository(Tip).findOneOrFail(request.params.id, {
+      relations: ["tipVotes"]
     });
-    const votes = opinion.opinionVotes;
+    const votes = tip.tipVotes;
     response.status(200).send(votes);
   } catch (error) {
     response.status(400).send();

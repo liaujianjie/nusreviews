@@ -1,4 +1,4 @@
-Steps to run the backend:
+# Steps to run the backend:
 
 1. Run `docker-compose up`
 2. Run `cd backend`
@@ -6,7 +6,7 @@ Steps to run the backend:
 
 [POSTMAN Workspace](https://app.getpostman.com/join-team?invite_code=ab3e3a87fb0801eb4f46552d112a4d1b)
 
-Architecture
+# Architecture
 
 - [Data Mapper](https://github.com/typeorm/typeorm/blob/master/docs/active-record-data-mapper.md)
 - [Basic access authentication](https://en.wikipedia.org/wiki/Basic_access_authentication)
@@ -28,3 +28,27 @@ Architecture
 Editing anonymous items requires an `edit token` which is issued when the item is created
 
 - valid for 120 days
+
+# Algolia
+
+## Search API Key
+
+**092aa257d26c6e1fb8733a3c0229b176**
+
+## Developer API Key
+
+You can get it from Shawn.
+
+The Developer API key stored in .env has the following rights:
+
+- addObject
+- analytics
+- browse
+- deleteIndex
+- deleteObject
+- editSettings
+- listIndexes
+- logs
+- search
+- seeUnretrievableAttributes
+- settings
