@@ -24,13 +24,7 @@ const RadioButton: React.FunctionComponent<RadioButtonProps> = props => {
           input.onChange(defaultEvent);
         };
 
-        return (
-          <Form.Radio
-            // label={props.label}
-            {...neededInput}
-            onChange={handleChange}
-          />
-        );
+        return <Form.Radio {...neededInput} onChange={handleChange} />;
       }}
     </Field>
   );

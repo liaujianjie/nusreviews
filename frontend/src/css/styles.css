@@ -2,10 +2,6 @@ element {
   --main-bg-color: #e5e5e5;
 }
 
-.white-background {
-  background-color: #fff;
-}
-
 .ui.progress {
   background-color: #d1dff2 !important;
 }
