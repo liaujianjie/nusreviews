@@ -18,7 +18,7 @@ const Section = (props: Props) => {
     <div
       style={{
         marginBottom: "1em",
-        padding: "0.7em",
+        padding: "1em",
         background: "#fff",
         borderRadius: "0.3em",
       }}
