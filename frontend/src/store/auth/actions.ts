@@ -8,7 +8,7 @@ import {
   isAuthenticationToken
 } from "./types";
 import * as auth from "../../api/auth";
-import { Dispatch } from "react-redux";
+import { Dispatch, ActionCreator } from "react-redux";
 
 type SignInParameter = Parameters<typeof auth.signIn>[0];
 
@@ -45,3 +45,7 @@ export const signIn = ({ email, password }: SignInParameter) => async (
     dispatch({ type: AuthAction.SIGNIN_FAILURE });
   }
 };
+
+export const signOut: ActionCreator<AuthActionTypes> = () => ({
+  type: AuthAction.SIGNOUT
+});
