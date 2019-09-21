@@ -44,7 +44,7 @@ export function sendVerificationEmail(user: User) {
   const msg: MailData = {
     // to: user.email,
     to: "shawnkoh@me.com",
-    from: "test@example.com",
+    from: "mail@nus.reviews",
     subject: "Welcome to nusreviews!",
     text: `Welcome ${user.username} Click on this link to verify localhost:3000/api/v1/email_verification/${token}`,
     html: `Click on this <a href='localhost:3000/api/v1/email_verification/${token}'>link</a> to verify`
