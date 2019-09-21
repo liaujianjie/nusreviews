@@ -1,17 +1,37 @@
-export const signIn = async ({
-  email,
-  password
-}: {
+import * as _ from "lodash";
+import * as qs from "querystring";
+import { sharedHttpClient } from "./sharedHttpClient";
+
+type AuthCredentials = {
   email: string;
   password: string;
-}) => {
-  const headers = new Headers();
+};
+
+export const signIn = async ({ email, password }: AuthCredentials) => {
   const decodedCredentials = `${email}:${password}`;
   const encodedCredentials = btoa(decodedCredentials);
-  headers.set("Authorization", `Basic ${encodedCredentials}`);
-  const response = await fetch("http://localhost:3000/api/users/login", {
-    method: "POST",
-    headers
+  const response = await sharedHttpClient.post("/users/login", null, {
+    headers: { Authorization: `Basic ${encodedCredentials}` }
   });
-  return response.json();
+  return response.data;
+};
+
+export const signUp = async ({ email, password }: AuthCredentials) => {
+  const unencodedBody = {
+    username: email,
+    email,
+    password
+  };
+  const response = await sharedHttpClient.post(
+    "/users/login",
+    qs.stringify(unencodedBody),
+    {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" }
+    }
+  );
+  return response.data;
+};
+
+export const signOut = () => {
+  // TODO: clear local storage and update axios headers
 };
