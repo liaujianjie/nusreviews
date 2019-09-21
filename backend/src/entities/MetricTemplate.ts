@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, IsBoolean } from "class-validator";
 import { Entity, OneToMany, ManyToOne, Column } from "typeorm";
 import { Discardable } from "./Discardable";
 import { Metric } from "./Metric";
@@ -16,6 +16,11 @@ export class MetricTemplate extends Discardable {
   @IsNotEmpty()
   @IsString()
   name!: string;
+
+  @Column()
+  @IsNotEmpty()
+  @IsBoolean()
+  compulsory!: boolean;
 
   @Column()
   @IsNotEmpty()

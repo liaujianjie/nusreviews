@@ -2,7 +2,7 @@ import { Entity, OneToMany, ManyToOne, Column } from "typeorm";
 import { Discardable } from "./Discardable";
 import { Question } from "./Question";
 import { ReviewTemplate } from "./ReviewTemplate";
-import { IsString, IsNotEmpty } from "class-validator";
+import { IsString, IsNotEmpty, IsBoolean } from "class-validator";
 
 @Entity()
 export class QuestionTemplate extends Discardable {
@@ -16,6 +16,11 @@ export class QuestionTemplate extends Discardable {
   @IsNotEmpty()
   @IsString()
   question!: string;
+
+  @Column()
+  @IsNotEmpty()
+  @IsBoolean()
+  compulsory!: boolean;
 
   @OneToMany(type => Question, question => question.questionTemplate)
   questions!: Question[];
