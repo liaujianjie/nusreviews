@@ -10,7 +10,7 @@ export const router = Router();
 router.post("/", UsersController.create);
 router.post("/login", UsersController.login);
 // router.post("/password", UsersController.requestPasswordReset);
-router.patch(
+router.get(
   "/refresh_authentication",
   [checkRefreshToken],
   UsersController.refreshAuthentication
