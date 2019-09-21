@@ -1,9 +1,9 @@
+import { validateOrReject } from "class-validator";
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Tip } from "../entities/Tip";
 import { ModuleSemester } from "../entities/ModuleSemester";
 import { generateEditToken, EditTokenSignedPayload } from "../utils/editToken";
-import { validateOrReject } from "class-validator";
 
 export async function create(request: Request, response: Response) {
   try {
@@ -54,6 +54,11 @@ export async function update(request: Request, response: Response) {
     response.status(400).send();
   }
 }
+
+// TODO
+export async function discard(request: Request, response: Response) {}
+
+export async function undiscard(request: Request, response: Response) {}
 
 export async function votes(request: Request, response: Response) {
   try {

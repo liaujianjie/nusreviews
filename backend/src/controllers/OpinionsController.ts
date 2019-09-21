@@ -1,10 +1,9 @@
-import { Request, Response} from "express";
+import { validateOrReject } from "class-validator";
+import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Opinion } from "../entities/Opinion";
 import { ModuleSemester } from "../entities/ModuleSemester";
 import { generateEditToken, EditTokenSignedPayload } from "../utils/editToken";
-import { validateOrReject } from "class-validator";
-
 
 export async function create(request: Request, response: Response) {
   try {
@@ -56,11 +55,19 @@ export async function update(request: Request, response: Response) {
   }
 }
 
+// TODO
+export async function discard(request: Request, response: Response) {}
+
+export async function undiscard(request: Request, response: Response) {}
+
 export async function votes(request: Request, response: Response) {
   try {
-    const opinion = await getRepository(Opinion).findOneOrFail(request.params.id, {
-      relations: ["opinionVotes"]
-    });
+    const opinion = await getRepository(Opinion).findOneOrFail(
+      request.params.id,
+      {
+        relations: ["opinionVotes"]
+      }
+    );
     const votes = opinion.opinionVotes;
     response.status(200).json(votes);
   } catch (error) {
