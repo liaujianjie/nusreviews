@@ -1,10 +1,15 @@
-import { hashSync, compareSync } from "bcryptjs";
 import { validateOrReject } from "class-validator";
 import { NextFunction, Request, Response } from "express";
+import { hashSync, compareSync } from "bcryptjs";
 import { getRepository } from "typeorm";
+import { verify } from "jsonwebtoken";
 import { User } from "../entities/User";
-import { getAuthenticationTokens } from "../utils/users";
 import { JwtSignedPayload } from "../types/users";
+import { getAuthenticationTokens } from "../utils/users";
+import {
+  sendVerificationEmail,
+  isVerifyEmailSignedPayload
+} from "../utils/sendgrid";
 
 export async function create(request: Request, response: Response) {
   try {
@@ -16,6 +21,9 @@ export async function create(request: Request, response: Response) {
     await validateOrReject(user);
     user.password = hashSync(user.password!);
     await getRepository(User).save(user);
+
+    sendVerificationEmail(user);
+
     const result = { ...user, ...getAuthenticationTokens(user) };
     delete result.password;
     response.status(201).json(result);
@@ -158,7 +166,6 @@ export async function undiscard(
   response.status(200).json();
 }
 
-
 export async function login(request: Request, response: Response) {
   if (!request.headers.authorization) {
     response.status(400).send();
@@ -206,4 +213,30 @@ export async function refreshAuthentication(
 
   const result = getAuthenticationTokens(user);
   response.status(200).json(result);
+}
+
+export async function verifyEmail(request: Request, response: Response) {
+  try {
+    const token = request.params.emailVerificationToken;
+    const payload = verify(token, process.env.JWT_SECRET!);
+    if (!isVerifyEmailSignedPayload(payload)) {
+      throw new Error("Invalid token");
+    }
+
+    const user = await getRepository(User).findOneOrFail(payload.userId);
+    if (user.email !== payload.email) {
+      throw new Error("Email has changed");
+    }
+
+    const result = await getRepository(User).update(payload.userId, {
+      isVerified: true
+    });
+    if (result.affected === 0) {
+      throw new Error("Failed to update user");
+    }
+    response.status(204).send();
+  } catch (error) {
+    response.status(400).send();
+    console.error(error);
+  }
 }

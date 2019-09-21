@@ -8,9 +8,14 @@ import opinions from "./opinions";
 import opinionVotes from "./opinionVotes";
 import tips from "./tips";
 import tipVotes from "./tipVotes";
+import * as UsersController from "../../controllers/UsersController";
 
 const routes = Router();
 
+routes.get(
+  "/email_verification/:emailVerificationToken",
+  UsersController.verifyEmail
+);
 routes.use("/users", users);
 routes.use("/academic_years", academicYears);
 routes.use("/semesters", semesters);
