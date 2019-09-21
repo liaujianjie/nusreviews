@@ -2,32 +2,7 @@ import * as jwt from "jsonwebtoken";
 import * as sendgrid from "@sendgrid/mail";
 import { MailData } from "@sendgrid/helpers/classes/mail";
 import { User } from "../entities/User";
-
-export interface VerifyEmailPayload {
-  userId: number;
-  email: string;
-}
-
-export interface VerifyEmailSignedPayload extends VerifyEmailPayload {
-  iat: number;
-  exp: number;
-}
-
-export function isVerifyEmailPayload(
-  object: any
-): object is VerifyEmailPayload {
-  return typeof object.userId === "number" && typeof object.email === "string";
-}
-
-export function isVerifyEmailSignedPayload(
-  object: any
-): object is VerifyEmailSignedPayload {
-  return (
-    typeof object.iat === "number" &&
-    typeof object.exp === "number" &&
-    isVerifyEmailPayload(object)
-  );
-}
+import { VerifyEmailPayload } from "../types/emails";
 
 export function sendVerificationEmail(user: User) {
   sendgrid.setApiKey(process.env.SENDGRID_API_KEY!);

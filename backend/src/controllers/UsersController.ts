@@ -4,12 +4,10 @@ import { hashSync, compareSync } from "bcryptjs";
 import { getRepository } from "typeorm";
 import { verify } from "jsonwebtoken";
 import { User } from "../entities/User";
+import { isVerifyEmailSignedPayload } from "../types/emails";
 import { JwtSignedPayload } from "../types/users";
 import { getAuthenticationTokens } from "../utils/users";
-import {
-  sendVerificationEmail,
-  isVerifyEmailSignedPayload
-} from "../utils/sendgrid";
+import { sendVerificationEmail } from "../utils/sendgrid";
 
 export async function create(request: Request, response: Response) {
   try {
