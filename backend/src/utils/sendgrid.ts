@@ -42,6 +42,7 @@ export function sendVerificationEmail(user: User) {
   });
 
   const msg: MailData = {
+    // TODO: send to user email instead of shawn
     // to: user.email,
     to: "shawnkoh@me.com",
     from: "mail@nus.reviews",
