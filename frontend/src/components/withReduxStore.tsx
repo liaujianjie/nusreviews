@@ -6,7 +6,7 @@ import { store } from "../store";
 export const withReduxStore = <P extends object>(
   WrappedComponent: React.ComponentType<P>
 ) =>
-  class WithLayout extends React.Component<P> {
+  class WithReduxStore extends React.Component<P> {
     render() {
       return (
         <Provider store={store}>
