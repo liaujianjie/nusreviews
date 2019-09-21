@@ -9,7 +9,7 @@ export async function index(
 ) {
   try {
     const academicYear = await getRepository(AcademicYear).find();
-    response.status(200).send(academicYear);
+    response.status(200).json(academicYear);
   } catch (error) {
     response.status(400).send();
   }
@@ -24,7 +24,7 @@ export async function show(
     const academicYear = await getRepository(AcademicYear).findOneOrFail({
       where: { academicYear: request.params.academic_year }
     });
-    response.status(200).send(academicYear);
+    response.status(200).json(academicYear);
   } catch (error) {
     next(error);
   }
@@ -39,5 +39,5 @@ export async function semesters(
     where: { academicYear: request.params.academic_year },
     relations: ["semesters"]
   });
-  response.status(200).send(academicYear.semesters);
+  response.status(200).json(academicYear.semesters);
 }

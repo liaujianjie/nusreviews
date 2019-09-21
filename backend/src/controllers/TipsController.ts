@@ -31,7 +31,7 @@ export async function create(request: Request, response: Response) {
 export async function show(request: Request, response: Response) {
   try {
     const tip = await getRepository(Tip).findOneOrFail(request.params.id);
-    response.status(200).send(tip);
+    response.status(200).json(tip);
   } catch (error) {
     response.status(400).send();
     return;
@@ -49,7 +49,7 @@ export async function update(request: Request, response: Response) {
     await validateOrReject(tip);
 
     await getRepository(Tip).save(tip);
-    response.status(200).send(tip);
+    response.status(200).json(tip);
   } catch (error) {
     response.status(400).send();
   }
@@ -61,7 +61,7 @@ export async function votes(request: Request, response: Response) {
       relations: ["tipVotes"]
     });
     const votes = tip.tipVotes;
-    response.status(200).send(votes);
+    response.status(200).json(votes);
   } catch (error) {
     response.status(400).send();
   }

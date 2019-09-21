@@ -12,7 +12,7 @@ export async function index(
   try {
     result = await getRepository(Module).find();
     // TODO: need to cut this down to send a more condensed version
-    response.status(200).send(result);
+    response.status(200).json(result);
   } catch (error) {
     response.status(400).send();
   }
@@ -27,7 +27,7 @@ export async function show(
     const module = await getRepository(Module).findOneOrFail({
       where: { moduleCode: request.params.module_code }
     });
-    response.status(200).send(module);
+    response.status(200).json(module);
   } catch (error) {
     response.status(400).send();
   }
@@ -48,7 +48,7 @@ export async function semesters(
     moduleSemesters.forEach(moduleSemester => {
       semesters.push(moduleSemester.semester);
     });
-    response.status(200).send(semesters);
+    response.status(200).json(semesters);
   } catch (error) {
     response.status(400).send();
   }
@@ -61,7 +61,7 @@ export async function moduleSemesters(request: Request, response: Response) {
       relations: ["moduleSemesters"]
     });
     const moduleSemesters = module.moduleSemesters;
-    response.status(200).send(moduleSemesters);
+    response.status(200).json(moduleSemesters);
   } catch (error) {
     response.status(400).send();
   }
