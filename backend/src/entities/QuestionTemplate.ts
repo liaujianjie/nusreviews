@@ -10,6 +10,7 @@ export class QuestionTemplate extends Discardable {
     type => ReviewTemplate,
     reviewTemplate => reviewTemplate.metricTemplates
   )
+  @IsNotEmpty()
   reviewTemplate!: ReviewTemplate;
 
   @Column()
