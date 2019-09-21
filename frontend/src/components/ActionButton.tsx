@@ -5,12 +5,14 @@ type Props = {
   icon: string,
   name: string,
   transparent: boolean,
+  onClick: Function
 }
 
 const ActionButton = (props: Props) => {
-  const { icon, name, transparent } = props;
+  const { icon, name, transparent, onClick } = props;
   return (
     <Button 
+      onClick={(e, data) => onClick(e, data)}
       style={{
         backgroundColor: (transparent ? 'transparent' : '#fc4838'),
         color: (transparent ? '#fc4838' : '#fff'),
@@ -22,3 +24,5 @@ const ActionButton = (props: Props) => {
 };
 
 export default ActionButton;
+
+
