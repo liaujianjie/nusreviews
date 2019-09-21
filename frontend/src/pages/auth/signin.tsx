@@ -21,10 +21,10 @@ type OwnProps = {};
 const SignInPage: React.FunctionComponent<OwnProps & DispatchProps> = ({
   signIn
 }) => {
-  const submit: FinalForm.FormProps<SignInField>["onSubmit"] = async (
-    payload: SignInField
-  ) => {
-    await signIn(payload);
+  const submit: FinalForm.FormProps<
+    SignInField
+  >["onSubmit"] = async credentials => {
+    await signIn(credentials);
   };
 
   return (
