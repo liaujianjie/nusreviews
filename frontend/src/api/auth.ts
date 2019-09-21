@@ -23,7 +23,7 @@ export const signUp = async ({ email, password }: AuthCredentials) => {
     password
   };
   const response = await sharedHttpClient.post(
-    "/users/login",
+    "/users",
     qs.stringify(unencodedBody),
     {
       headers: { "Content-Type": "application/x-www-form-urlencoded" }
