@@ -25,7 +25,7 @@ export async function create(request: Request, response: Response) {
 export async function show(request: Request, response: Response) {
   try {
     const opinionVote = await getRepository(OpinionVote).findOneOrFail(request.params.id);
-    response.status(200).send(opinionVote);
+    response.status(200).json(opinionVote);
   } catch (error) {
     response.status(400).send();
   }
@@ -37,7 +37,7 @@ export async function update(request: Request, response: Response) {
     opinionVote.value = parseInt(request.body.value);
     await validateOrReject(opinionVote);
     await getRepository(OpinionVote).save(opinionVote);
-    response.status(200).send(opinionVote);
+    response.status(200).json(opinionVote);
   } catch (error) {
     response.status(400).send();
   }
@@ -49,7 +49,7 @@ export async function destroy(request: Request, response: Response) {
     if (result.affected === 0) {
       throw new Error("Invalid opinionVote.id");
     }
-    response.status(200).send(result);
+    response.status(200).json(result);
   } catch (error) {
     response.status(400).send();
   }

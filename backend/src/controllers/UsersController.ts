@@ -18,7 +18,7 @@ export async function create(request: Request, response: Response) {
     await getRepository(User).save(user);
     const result = { ...user, ...getAuthenticationTokens(user) };
     delete result.password;
-    response.status(200).send(result);
+    response.status(201).json(result);
   } catch (error) {
     response.status(400).send();
     console.error(error);
@@ -32,7 +32,7 @@ export async function index(
 ) {
   try {
     const userList = await getRepository(User).find();
-    response.status(200).send(userList);
+    response.status(200).json(userList);
   } catch (error) {
     response.status(400).send();
   }
@@ -45,7 +45,7 @@ export async function show(
 ) {
   try {
     const user = await getRepository(User).findOneOrFail(request.params.id);
-    response.status(200).send(user);
+    response.status(200).json(user);
   } catch (error) {
     response.status(400).send();
   }
@@ -86,7 +86,7 @@ export async function changePassword(request: Request, response: Response) {
     user.password = newPassword;
     await validateOrReject(user);
     await repo.update(id, { password: hashSync(newPassword) });
-    response.status(200).send();
+    response.status(200).json();
   } catch (error) {
     response.status(400).send();
     console.error(error);
@@ -109,7 +109,7 @@ export async function discard(
     response.status(400).send();
     return;
   }
-  response.status(200).send();
+  response.status(200).json();
 }
 
 export async function undiscard(
@@ -126,7 +126,7 @@ export async function undiscard(
     response.status(400).send();
     return;
   }
-  response.status(200).send();
+  response.status(200).json();
 }
 
 
@@ -157,7 +157,7 @@ export async function login(request: Request, response: Response) {
   }
 
   const result = getAuthenticationTokens(user);
-  response.status(200).send(result);
+  response.status(200).json(result);
 }
 
 export async function refreshAuthentication(
@@ -176,5 +176,5 @@ export async function refreshAuthentication(
   }
 
   const result = getAuthenticationTokens(user);
-  response.status(200).send(result);
+  response.status(200).json(result);
 }
