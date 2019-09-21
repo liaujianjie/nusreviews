@@ -48,10 +48,6 @@ export async function semesters(
       relations: ["moduleSemesters", "moduleSemesters.semester"]
     });
     const moduleSemesters = module.moduleSemesters;
-    if (!moduleSemesters) {
-      response.status(200).send([]);
-      return;
-    }
     const semesters: Semester[] = [];
     moduleSemesters.forEach(moduleSemester => {
       semesters.push(moduleSemester.semester);
@@ -70,11 +66,7 @@ export async function moduleSemesters(request: Request, response: Response) {
       relations: ["moduleSemesters"]
     });
     const moduleSemesters = module.moduleSemesters;
-    if (moduleSemesters) {
-      response.status(200).send(moduleSemesters);
-    } else {
-      response.status(200).send([]);
-    }
+    response.status(200).send(moduleSemesters);
   } catch (error) {
     response.status(400).send();
   }

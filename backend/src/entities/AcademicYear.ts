@@ -1,4 +1,4 @@
-import { IsString, IsOptional } from "class-validator";
+import { IsString } from "class-validator";
 import { Column, Entity, Index, OneToMany } from "typeorm";
 import { Semester } from "./Semester";
 import { Base } from "./Base";
@@ -11,6 +11,5 @@ export class AcademicYear extends Base {
   academicYear!: string;
 
   @OneToMany(type => Semester, semester => semester.academicYear)
-  @IsOptional()
-  semesters?: Semester[];
+  semesters!: Semester[];
 }

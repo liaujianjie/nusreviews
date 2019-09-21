@@ -1,5 +1,5 @@
 import { hashSync, compareSync } from "bcryptjs";
-import { validate } from "class-validator";
+import { validateOrReject } from "class-validator";
 import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { User } from "../entities/User";
@@ -9,31 +9,22 @@ import { JwtSignedPayload } from "../types/users";
 const userRepository = () => getRepository(User);
 
 export async function create(request: Request, response: Response) {
-  const user = new User();
-
-  user.username = request.body.username;
-  user.password = request.body.password;
-  user.email = request.body.email;
-
-  const errors = await validate(user);
-  if (errors.length > 0) {
-    response.status(400).send(errors);
-    return;
-  }
-
-  user.password = hashSync(user.password!);
-
   try {
+    const user = new User();
+    user.username = request.body.username;
+    user.password = request.body.password;
+    user.email = request.body.email;
+
+    await validateOrReject(user);
+    user.password = hashSync(user.password!);
     await userRepository().save(user);
+    const result = { ...user, ...getAuthenticationTokens(user) };
+    delete result.password;
+    response.status(200).send(result);
   } catch (error) {
     response.status(400).send();
     console.error(error);
-    return;
   }
-
-  const result = { ...user, ...getAuthenticationTokens(user) };
-  delete result.password;
-  response.status(200).send(result);
 }
 
 export async function login(request: Request, response: Response) {
@@ -116,21 +107,15 @@ export async function changePassword(request: Request, response: Response) {
     return;
   }
 
-  user.password = newPassword;
-  const errors = await validate(user);
-  if (errors.length > 0) {
-    response.status(400).send(errors);
-    return;
-  }
-
   try {
+    user.password = newPassword;
+    await validateOrReject(user);
     await repo.update(id, { password: hashSync(newPassword) });
+    response.status(200).send();
   } catch (error) {
     response.status(400).send();
     console.error(error);
-    return;
   }
-  response.status(200).send();
 }
 
 // export async function resetPassword(request: Request, response: Response) {

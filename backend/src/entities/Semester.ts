@@ -1,14 +1,12 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
   ManyToOne,
   Index,
   OneToMany
 } from "typeorm";
 import { AcademicYear } from "./AcademicYear";
 import { Base } from "./Base";
-import { IsOptional } from "class-validator";
 import { ModuleSemester } from "./ModuleSemester";
 
 @Entity()
@@ -21,6 +19,5 @@ export class Semester extends Base {
   academicYear!: AcademicYear;
 
   @OneToMany(type => ModuleSemester, moduleSemester => moduleSemester.semester)
-  @IsOptional()
-  moduleSemesters?: ModuleSemester[];
+  moduleSemesters!: ModuleSemester[];
 }
