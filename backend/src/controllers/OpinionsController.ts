@@ -34,7 +34,7 @@ export async function show(request: Request, response: Response) {
     const moduleSemester = await getRepository(Opinion).findOneOrFail(
       request.params.id
     );
-    response.status(200).send(moduleSemester);
+    response.status(200).json(moduleSemester);
   } catch (error) {
     response.status(400).send();
   }
@@ -50,7 +50,7 @@ export async function update(request: Request, response: Response) {
     opinion.description = request.body.description;
     await validateOrReject(opinion);
     await getRepository(Opinion).save(opinion);
-    response.status(200).send(opinion);
+    response.status(200).json(opinion);
   } catch (error) {
     response.status(400).send();
   }
@@ -62,7 +62,7 @@ export async function votes(request: Request, response: Response) {
       relations: ["opinionVotes"]
     });
     const votes = opinion.opinionVotes;
-    response.status(200).send(votes);
+    response.status(200).json(votes);
   } catch (error) {
     response.status(400).send();
   }

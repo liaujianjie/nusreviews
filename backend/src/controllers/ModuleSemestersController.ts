@@ -9,7 +9,7 @@ export async function show(request: Request, response: Response) {
     const moduleSemester = await getRepository(ModuleSemester).findOneOrFail(
       request.params.id
     );
-    response.status(200).send(moduleSemester);
+    response.status(200).json(moduleSemester);
   } catch (error) {
     response.status(400).send();
   }
@@ -23,7 +23,7 @@ export async function opinions(request: Request, response: Response) {
     const opinions = await getRepository(Opinion).find({
       where: { moduleSemester: moduleSemester }
     });
-    response.status(200).send(opinions);
+    response.status(200).json(opinions);
   } catch (error) {
     response.status(400).send();
   }
@@ -37,7 +37,7 @@ export async function tips(request: Request, response: Response) {
     const tips = await getRepository(Tip).find({
       where: { moduleSemester: moduleSemester }
     });
-    response.status(200).send(tips);
+    response.status(200).json(tips);
   } catch (error) {
     response.status(400).send();
   }
