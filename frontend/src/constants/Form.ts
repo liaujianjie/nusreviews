@@ -62,3 +62,17 @@ export const WORKLOAD_QUESTIONS = [
     value: ["Avoid", "Recommend"]
   }
 ];
+
+export const SHORT_REVIEW_TIPS = {
+  name: "shortReviewTip",
+  placeholder:
+    "Are the lecturers worth going for/how much time should I take to prepare for tutorials...",
+  question: "What are some tips for doing well in this module?"
+};
+
+export const SHORT_REVIEW_OPINION = {
+  name: "shortReviewOpinion",
+  placeholder:
+    "Tell me more maybe about the teaching style, energy during the module, attitude towards attendance...",
+  question: "What were the best parts of the module?"
+};

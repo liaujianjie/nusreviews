@@ -1,34 +1,49 @@
 import * as React from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import { Form } from "semantic-ui-react";
+import { Form, Popup } from "semantic-ui-react";
 
-import { Field } from "react-final-form";
+import * as FinalForm from "react-final-form";
+import WordCountWrap from "./WordCountWrap";
 
 export interface LongTextInputProps {
-  name: string;
   value?: string | number;
   label?: string;
-  question: string;
   children?: React.ReactNode;
-  placeholder: string;
   rows?: number;
+  wordLimit?: number;
+  question?: string;
+  name: string;
+  placeholder: string;
 }
 
 const LongTextInput: React.FunctionComponent<LongTextInputProps> = props => {
+  const { wordLimit, placeholder, question } = props;
   return (
-    <Field {...props} component="textarea">
-      {fieldProps => {
+    <FinalForm.Field {...props}>
+      {({ input, meta }) => {
         return (
-          <Form.TextArea
-            control={TextareaAutosize}
-            label={props.question}
-            placeholder={props.placeholder}
-            onChange={fieldProps.input.onChange}
-            value={props.value || ""}
+          <Popup
+            inverted
+            on="focus"
+            open={meta.dirty && meta.error}
+            trigger={
+              <WordCountWrap wordLimit={wordLimit} text={input.value}>
+                <Form.TextArea
+                  control={TextareaAutosize}
+                  label={question}
+                  placeholder={placeholder}
+                  {...input}
+                  style={{ width: "100%", minHeight: "6em" }}
+                />
+              </WordCountWrap>
+            }
+            error={meta.dirty && meta.error}
+            content={meta.error}
+            position="right center"
           />
         );
       }}
-    </Field>
+    </FinalForm.Field>
   );
 };
 

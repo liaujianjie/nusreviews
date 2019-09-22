@@ -22,8 +22,7 @@ export interface DropDownProps {
 const DropDown: React.FunctionComponent<DropDownProps> = props => {
   return (
     <Field {...props} component="select">
-      {fieldProps => {
-        const { input } = fieldProps;
+      {({ input }) => {
         const handleChange = (
           event: React.FormEvent<HTMLTextAreaElement>,
           eventData: TextAreaProps
