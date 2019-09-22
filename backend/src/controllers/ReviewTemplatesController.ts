@@ -67,17 +67,78 @@ export async function show(request: Request, response: Response) {
 }
 
 export async function discard(request: Request, response: Response) {
-  const result = await getRepository(ReviewTemplate).update(request.params.id, {
-    discardedAt: new Date()
-  });
-  console.error(result);
-  response.sendStatus(204);
+  try {
+    await getManager().transaction(async transactionalEntityManager => {
+      await transactionalEntityManager.update(
+        ReviewTemplate,
+        {
+          discardedAt: IsNull(),
+          id: request.params.id
+        },
+        { discardedAt: new Date() }
+      );
+      await transactionalEntityManager.update(
+        MetricTemplate,
+        {
+          discardedAt: IsNull(),
+          reviewTemplate: { id: request.params.id }
+        },
+        { discardedAt: new Date() }
+      );
+      await transactionalEntityManager.update(
+        QuestionTemplate,
+        {
+          discardedAt: IsNull(),
+          reviewTemplate: { id: request.params.id }
+        },
+        { discardedAt: new Date() }
+      );
+    });
+    response.sendStatus(204);
+  } catch (error) {
+    response.sendStatus(400);
+  }
 }
 
 export async function undiscard(request: Request, response: Response) {
-  const result = await getRepository(ReviewTemplate).update(request.params.id, {
-    discardedAt: undefined
-  });
-  console.error(result.affected);
-  response.sendStatus(200);
+  try {
+    await getManager().transaction(async transactionalEntityManager => {
+      // Discard existing
+      await transactionalEntityManager.update(
+        ReviewTemplate,
+        { discardedAt: IsNull() },
+        { discardedAt: new Date() }
+      );
+      await transactionalEntityManager.update(
+        MetricTemplate,
+        { discardedAt: IsNull() },
+        { discardedAt: new Date() }
+      );
+      await transactionalEntityManager.update(
+        QuestionTemplate,
+        { discardedAt: IsNull() },
+        { discardedAt: new Date() }
+      );
+
+      // Undiscard selected
+      await transactionalEntityManager.update(
+        ReviewTemplate,
+        { id: request.params.id },
+        { discardedAt: undefined }
+      );
+      await transactionalEntityManager.update(
+        MetricTemplate,
+        { reviewTemplate: { id: request.params.id } },
+        { discardedAt: undefined }
+      );
+      await transactionalEntityManager.update(
+        QuestionTemplate,
+        { reviewTemplate: { id: request.params.id } },
+        { discardedAt: undefined }
+      );
+    });
+    response.sendStatus(204);
+  } catch (error) {
+    response.sendStatus(400);
+  }
 }
