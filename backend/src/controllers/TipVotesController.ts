@@ -15,7 +15,8 @@ export async function create(request: Request, response: Response) {
     tipVote.value = parseInt(request.body.value);
     await validateOrReject(tipVote);
     await getRepository(TipVote).save(tipVote);
-    response.status(200).send(tipVote);
+    
+    response.status(201).send(tipVote);
   } catch (error) {
     console.error(error);
     response.status(400).send();
@@ -25,7 +26,7 @@ export async function create(request: Request, response: Response) {
 export async function show(request: Request, response: Response) {
   try {
     const tipVote = await getRepository(TipVote).findOneOrFail(request.params.id);
-    response.status(200).send(tipVote);
+    response.status(200).json(tipVote);
   } catch (error) {
     response.status(400).send();
   }
@@ -33,24 +34,37 @@ export async function show(request: Request, response: Response) {
 
 export async function update(request: Request, response: Response) {
   try {
-    const tipVote = await getRepository(TipVote).findOneOrFail(request.params.id);
+    const tipVote = await checkUser(request, response);
     tipVote.value = parseInt(request.body.value);
     await validateOrReject(tipVote);
     await getRepository(TipVote).save(tipVote);
-    response.status(200).send(tipVote);
+    response.status(200).json(tipVote);
   } catch (error) {
+    console.error(error);
     response.status(400).send();
   }
 }
 
 export async function destroy(request: Request, response: Response) {
   try {
+    await checkUser(request, response);
     const result = await getRepository(TipVote).delete(request.params.id);
     if (result.affected === 0) {
-      throw new Error("Invalid tipVote.id");
+      throw new Error("Failed to destroy");
     }
-    response.status(200).send(result);
+    response.status(200).json(result);
   } catch (error) {
     response.status(400).send();
   }
+}
+
+async function checkUser(request: Request, response: Response) {
+  const payload = response.locals.jwtPayload as JwtSignedPayload;
+  const tipVote = await getRepository(TipVote).findOneOrFail(request.params.id, {
+    relations: ["user"]
+  });
+  if (payload.userId !== tipVote.user.id) {
+    throw new Error("Invalid user");
+  }
+  return tipVote;
 }

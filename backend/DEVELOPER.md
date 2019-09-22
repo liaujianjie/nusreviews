@@ -1,10 +1,15 @@
 # Steps to run the backend:
 
-1. Run `docker-compose up`
-2. Run `cd backend`
-3. Run `yarn start`
+On development
 
-[POSTMAN Workspace](https://app.getpostman.com/join-team?invite_code=ab3e3a87fb0801eb4f46552d112a4d1b)
+1. Run `docker-compose up`
+
+On all
+
+1. Run `cd backend`
+2. Run `yarn start`
+
+[API Documentation](https://documenter.getpostman.com/view/8059258/SVmyQwss?version=latest)
 
 # Architecture
 
