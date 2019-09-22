@@ -13,7 +13,7 @@ interface RadioGroupProps {
 const RadioButtonGroup: React.FunctionComponent<RadioGroupProps> = props => {
   const { scale, name, question, value } = props;
   const radioButtons = range(scale).map(num => (
-    <RadioButton value={num} name={name} />
+    <RadioButton value={num} name={name} onClick={props.onClick} />
   ));
 
   const radioButtonGroup = (

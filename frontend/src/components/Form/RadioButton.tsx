@@ -21,6 +21,7 @@ const RadioButton: React.FunctionComponent<RadioButtonProps> = props => {
           eventData: CheckboxProps
         ) => {
           const defaultEvent = { target: eventData };
+          props.onClick && props.onClick();
           input.onChange(defaultEvent);
         };
 
