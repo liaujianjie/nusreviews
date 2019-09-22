@@ -93,23 +93,3 @@ export const ShortReview = (props: ShortReviewProps) => {
 };
 
 export default ShortReview;
-
-// export const ShortReview = (props: ShortReviewProps) => {
-//   const [showModal, setShowModal] = React.useState(false);
-//   const { buttonName, ...formProps } = props;
-
-//   return (
-//     <FormModal
-//       open={showModal}
-//       formProps={formProps}
-//       onClose={() => setShowModal(false)}
-//     >
-//       <ActionButton
-//         onClick={() => setShowModal(true)}
-//         icon="plus"
-//         name={buttonName}
-//         transparent={false}
-//       />
-//     </FormModal>
-//   );
-// };
