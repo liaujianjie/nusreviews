@@ -15,6 +15,8 @@ import {
 import ActionButton from "../components/ActionButton";
 import Section from "../components/Section";
 import RatingCard from "../components/RatingCard";
+import ShortReview from "../components/Form/ShortReview";
+import { SHORT_REVIEW_TIPS, SHORT_REVIEW_OPINION } from "../constants/Form";
 
 export const ratings = [
   {
@@ -180,10 +182,10 @@ const DiscussionSection = () => {
           </Grid.Row>
           <Grid.Row textAlign="center">
             <Grid.Column width={8}>
-              <ActionButton icon="plus" name="Add Tip" />
+              <ShortReview buttonName="Add Tip" {...SHORT_REVIEW_TIPS} />
             </Grid.Column>
             <Grid.Column width={8}>
-              <ActionButton icon="plus" name="Add Opinion" />
+              <ShortReview buttonName="Add Opinion" {...SHORT_REVIEW_OPINION} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
