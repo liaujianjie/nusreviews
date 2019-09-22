@@ -58,7 +58,8 @@ export async function index(request: Request, response: Response) {
 export async function show(request: Request, response: Response) {
   try {
     const reviewTemplate = await getRepository(ReviewTemplate).findOneOrFail(
-      request.params.id
+      request.params.id,
+      { relations: ["metricTemplates", "questionTemplates"] }
     );
     response.status(200).json(reviewTemplate);
   } catch (error) {
