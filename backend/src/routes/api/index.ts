@@ -10,6 +10,7 @@ import tips from "./tips";
 import tipVotes from "./tipVotes";
 import reviewTemplates from "./reviewTemplates";
 import reviews from "./reviews";
+import metrics from "./metrics";
 import * as UsersController from "../../controllers/UsersController";
 import * as ReviewsController from "../../controllers/ReviewsController";
 import { checkEditToken } from "../../middlewares/checkEditToken";
@@ -31,6 +32,7 @@ routes.use("/tips", tips);
 routes.use("/tip_votes", tipVotes);
 routes.use("/review_templates", reviewTemplates);
 routes.use("/reviews", reviews);
+routes.use("/metrics", metrics);
 
 routes.use(checkEditToken);
 routes.post("/edit_review/:editToken", ReviewsController.update);
