@@ -1,16 +1,8 @@
 import * as React from "react";
-import * as algoliasearch from "algoliasearch";
-import {
-  InstantSearch,
-  Hits,
-  SearchBox,
-  Highlight,
-  ClearRefinements,
-  Configure
-} from "react-instantsearch-dom";
+import { InstantSearch, CurrentRefinements } from "react-instantsearch-dom";
 import { connectSearchBox } from "react-instantsearch/connectors";
 import { withLayout } from "../components/Layout";
-import { Grid, Search, Icon } from "semantic-ui-react";
+import { Grid, Search } from "semantic-ui-react";
 import logo from "../assets/logo.svg";
 
 const SemanticSearchBox = ({ currentRefinement, refine }) => (
@@ -22,7 +14,7 @@ const SemanticSearchBox = ({ currentRefinement, refine }) => (
     input={{ fluid: true }}
     value={currentRefinement}
     onSearchChange={event => refine(event.currentTarget.value)}
-  ></Search>
+  />
 );
 
 const SearchPage = () => {
@@ -36,10 +28,11 @@ const SearchPage = () => {
             <InstantSearch
               apiKey="3EJTXIKS8B"
               appId="092aa257d26c6e1fb8733a3c0229b176"
-              indexName="Modules"
+              indexName="modules"
             >
               <header className="header">
                 <CustomSearchBox />
+                hello+{event.currentTarget.currentRefinement}
               </header>
             </InstantSearch>
           </div>

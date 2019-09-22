@@ -15,3 +15,18 @@ createConnection(ormconfig)
     modulesIndex.addObjects(moduleList);
   })
   .catch(error => console.error(error));
+
+modulesIndex.setSettings(
+  {
+    searchableAttributes: [
+      "moduleCode",
+      "description",
+      "faculty",
+      "department",
+      "title"
+    ]
+  },
+  content => {
+    console.log(content);
+  }
+);

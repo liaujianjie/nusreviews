@@ -1,16 +1,14 @@
 import * as React from "react";
-import {
-  Card,
-  Container,
-  Rating,
-  Header
-} from "semantic-ui-react";
+import { Card, Container, Rating, Header, Button } from "semantic-ui-react";
 import { withLayout } from "../components/Layout";
 import RatingCard from "../components/RatingCard";
 import { ratings } from "./module";
 import Section from "../components/Section";
+import { connectInfiniteHits } from "react-instantsearch-dom";
+import { CurrentRefinements } from "react-instantsearch-dom";
+import { InstantSearch } from "react-instantsearch-dom";
 
-const Details = () => {
+const Details = hits => {
   const ModuleOptions = [
     {
       key: "1920sem1",
@@ -29,7 +27,7 @@ const Details = () => {
     }
   ];
 
-  return ModuleOptions.map(mod => (
+  return hits.map(hit => (
     <Card.Group>
       <Card color="orange" fluid>
         <Card.Content extra>
@@ -37,9 +35,9 @@ const Details = () => {
             topLeft={
               <a href="../module">
                 <Header as="h2">
-                  {mod.code}
+                  {hit.moduleCode}
                   <Header.Subheader style={{ color: "black" }}>
-                    {mod.name}
+                    {hit.title}
                   </Header.Subheader>
                 </Header>
               </a>
@@ -47,13 +45,13 @@ const Details = () => {
             topRight={
               <b style={{ color: "black" }}>
                 Overall Rating:
-                <Rating icon="star" defaultRating={mod.value} maxRating={5} />
+                <Rating icon="star" defaultRating={0} maxRating={5} disabled />
               </b>
             }
             body={
               <div>
                 <p style={{ color: "black" }}>
-                  {mod.description}
+                  {hit.description}
                   <br />
                   <br />
                   <RatingCard ratings={ratings} />
@@ -67,7 +65,7 @@ const Details = () => {
   ));
 };
 
-const ModuleList = () => {
+const ModuleList = (hasMore, refineNext) => {
   return (
     <div>
       <Container
@@ -75,11 +73,24 @@ const ModuleList = () => {
           marginTop: "6rem"
         }}
       >
-        <h1>Search Results for CS321:</h1>
-        <Details />
+        <h1>Search Results for {CurrentRefinements}:</h1>
+
+        <InstantSearch
+          apiKey="3EJTXIKS8B"
+          appId="092aa257d26c6e1fb8733a3c0229b176"
+          indexName="modules"
+        >
+          <header className="header">
+            <CustomInfiniteHits />
+            <Button disabled={!hasMore} onClick={refineNext}>
+              Show more
+            </Button>
+          </header>
+        </InstantSearch>
       </Container>
     </div>
   );
 };
 
+const CustomInfiniteHits = connectInfiniteHits(Details);
 export default withLayout(ModuleList);
