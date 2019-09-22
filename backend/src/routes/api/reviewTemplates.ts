@@ -11,7 +11,7 @@ router.get("/:id", ReviewTemplatesController.show);
 
 router.use(checkAccessToken);
 router.use(checkRole([UserRole.Admin]));
-router.post("/:id", ReviewTemplatesController.create);
+router.post("/", ReviewTemplatesController.create);
 router.delete("/:id/discard", ReviewTemplatesController.discard);
 router.patch("/:id/undiscard", ReviewTemplatesController.undiscard);
 
