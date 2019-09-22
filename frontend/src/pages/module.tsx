@@ -15,6 +15,7 @@ import {
 import ActionButton from "../components/ActionButton";
 import Section from "../components/Section";
 import RatingCard from "../components/RatingCard";
+import { withAuth } from "../components/withAuth";
 
 export const ratings = [
   {
@@ -311,4 +312,4 @@ const ModulePage = () => {
   );
 };
 
-export default withLayout(ModulePage);
+export default withAuth(withLayout(ModulePage));

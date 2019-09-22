@@ -10,6 +10,7 @@ import { AuthLogoContainer } from "../../components/AuthLogoContainer";
 import logo from "../../static/images/logo.svg";
 import { signUp } from "../../store/auth";
 import { withReduxStore } from "../../components/withReduxStore";
+import { withAuth } from "../../components/withAuth";
 
 type SignUpField = {
   email: string;
@@ -121,9 +122,11 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = {
   signUp
 };
 
-export default withReduxStore(
-  connect(
-    null,
-    mapDispatchToProps
-  )(SignUpPage)
+export default withAuth(
+  withReduxStore(
+    connect(
+      null,
+      mapDispatchToProps
+    )(SignUpPage)
+  )
 );

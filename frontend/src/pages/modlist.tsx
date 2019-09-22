@@ -1,14 +1,10 @@
 import * as React from "react";
-import {
-  Card,
-  Container,
-  Rating,
-  Header
-} from "semantic-ui-react";
+import { Card, Container, Rating, Header } from "semantic-ui-react";
 import { withLayout } from "../components/Layout";
 import RatingCard from "../components/RatingCard";
 import { ratings } from "./module";
 import Section from "../components/Section";
+import { withAuth } from "../components/withAuth";
 
 const Details = () => {
   const ModuleOptions = [
@@ -82,4 +78,4 @@ const ModuleList = () => {
   );
 };
 
-export default withLayout(ModuleList);
+export default withAuth(withLayout(ModuleList));
