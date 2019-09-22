@@ -16,11 +16,9 @@ interface ShortReviewProps {
   question: string;
 }
 
-export const ShortReview = (props: ShortReviewProps) => {
+export const ShortReview: React.FunctionComponent<ShortReviewProps> = props => {
   const [open, setOpen] = React.useState(false);
-  const { buttonName, ...formProps } = props;
-
-  const { question, ...longTextInputProps } = formProps;
+  const { buttonName, question, ...formProps } = props;
 
   const wordLimit = 300;
 
@@ -63,11 +61,7 @@ export const ShortReview = (props: ShortReviewProps) => {
           >
             <Modal.Header>{question}</Modal.Header>
             <Modal.Content style={{ paddingBottom: "0.5em" }}>
-              <LongTextInput
-                {...longTextInputProps}
-                value={formValue}
-                wordLimit={300}
-              />
+              <LongTextInput {...formProps} value={formValue} wordLimit={300} />
             </Modal.Content>
             <Modal.Actions>
               <ActionButton

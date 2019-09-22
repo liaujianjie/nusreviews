@@ -1,7 +1,6 @@
 import * as React from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { Form, Popup } from "semantic-ui-react";
-
 import * as FinalForm from "react-final-form";
 import WordCountWrap from "./WordCountWrap";
 
@@ -18,6 +17,7 @@ export interface LongTextInputProps {
 
 const LongTextInput: React.FunctionComponent<LongTextInputProps> = props => {
   const { wordLimit, placeholder, question } = props;
+
   return (
     <FinalForm.Field {...props}>
       {({ input, meta }) => {
