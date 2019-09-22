@@ -11,6 +11,8 @@ import tipVotes from "./tipVotes";
 import reviewTemplates from "./reviewTemplates";
 import reviews from "./reviews";
 import * as UsersController from "../../controllers/UsersController";
+import * as ReviewsController from "../../controllers/ReviewsController";
+import { checkEditToken } from "../../middlewares/checkEditToken";
 
 const routes = Router();
 
@@ -29,5 +31,9 @@ routes.use("/tips", tips);
 routes.use("/tip_votes", tipVotes);
 routes.use("/review_templates", reviewTemplates);
 routes.use("/reviews", reviews);
+
+routes.use(checkEditToken);
+routes.post("/edit_review/:editToken", ReviewsController.update);
+routes.post("/discard_review/:editToken", ReviewsController.discard);
 
 export default routes;
