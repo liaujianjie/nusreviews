@@ -12,7 +12,7 @@ const WordCountWrap = (props: WordCountWrapProps) => {
   if (!wordLimit) return children;
   const wordCount = text ? text.length : 0;
   return (
-    <Segment basic style={{ padding: "0px" }}>
+    <Segment basic style={{ padding: "0px", paddingBottom: "1.8em" }}>
       {children}
       <Label
         attached="bottom right"

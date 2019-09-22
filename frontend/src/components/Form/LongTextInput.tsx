@@ -24,8 +24,9 @@ const LongTextInput: React.FunctionComponent<LongTextInputProps> = props => {
         return (
           <Popup
             inverted
-            on="focus"
-            open={meta.dirty && meta.error}
+            position="top left"
+            // can't seem to get it to popup when the modal reopens because there's no change in the open props
+            open={meta.error}
             trigger={
               <WordCountWrap wordLimit={wordLimit} text={input.value}>
                 <Form.TextArea
@@ -33,13 +34,13 @@ const LongTextInput: React.FunctionComponent<LongTextInputProps> = props => {
                   label={question}
                   placeholder={placeholder}
                   {...input}
+                  // couldn't find a way to get the textarea to occupy entire width on ShortReview form
                   style={{ width: "100%", minHeight: "6em" }}
                 />
               </WordCountWrap>
             }
-            error={meta.dirty && meta.error}
+            error={meta.error}
             content={meta.error}
-            position="right center"
           />
         );
       }}

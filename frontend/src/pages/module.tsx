@@ -314,4 +314,4 @@ const ModulePage = () => {
   );
 };
 
-export default withAuth(withLayout(ModulePage));
+export default withLayout(ModulePage);

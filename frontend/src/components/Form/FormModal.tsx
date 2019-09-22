@@ -3,7 +3,6 @@ import { Modal } from "semantic-ui-react";
 import LongTextInput from "./LongTextInput";
 import * as FinalForm from "react-final-form";
 import ActionButton from "../ActionButton";
-import { ReactNode } from "react-redux";
 
 interface TextFieldObj {
   name: string;
@@ -14,6 +13,7 @@ interface TextFieldObj {
 interface FormModalProps {
   open: boolean;
   formProps: TextFieldObj;
+  children: React.ReactNode;
   onClose(): void;
 }
 
@@ -36,7 +36,7 @@ export const FormModal = (props: FormModalProps) => {
 
   const formValidation = (values: FormValues) => {
     const errors = {};
-    const currentWords = values[formProps.name];
+    const currentWords = values[formProps.name]; // done like this for the two different shortReviews
     if (currentWords && currentWords.length > wordLimit) {
       errors[formProps.name] = `only ${wordLimit} characters pls`;
     }
@@ -45,33 +45,43 @@ export const FormModal = (props: FormModalProps) => {
 
   return (
     <FinalForm.Form onSubmit={onSubmit} validate={formValidation}>
-      {({ values, invalid, pristine }) => (
-        <Modal
-          open={open}
-          onClose={onClose}
-          size="tiny"
-          trigger={props.children}
-          style={{ top: "30%" }}
-        >
-          <Modal.Header>{question}</Modal.Header>
-          <Modal.Content>
-            <LongTextInput
-              {...longTextInputProps}
-              value={values[formProps.name]}
-              wordLimit={300}
-            />
-          </Modal.Content>
-          <Modal.Actions>
-            <ActionButton onClick={onClose} name="Cancel" transparent={true} />
-            <ActionButton
-              name="Add Opinion"
-              transparent={false}
-              onClick={() => onSubmit(values)}
-              disabled={pristine || invalid}
-            />
-          </Modal.Actions>
-        </Modal>
-      )}
+      {({ values, invalid, form }) => {
+        const formValue = values[formProps.name];
+        return (
+          <Modal
+            open={open}
+            onClose={onClose}
+            size="tiny"
+            trigger={props.children}
+            style={{ top: "30%" }}
+          >
+            <Modal.Header>{question}</Modal.Header>
+            <Modal.Content>
+              <LongTextInput
+                {...longTextInputProps}
+                value={formValue}
+                wordLimit={300}
+              />
+            </Modal.Content>
+            <Modal.Actions>
+              <ActionButton
+                onClick={onClose}
+                name="Cancel"
+                transparent={true}
+              />
+              <ActionButton
+                name="Add Opinion"
+                transparent={false}
+                onClick={() => {
+                  onSubmit(values);
+                  form.reset();
+                }}
+                disabled={!formValue || invalid}
+              />
+            </Modal.Actions>
+          </Modal>
+        );
+      }}
     </FinalForm.Form>
   );
 };
