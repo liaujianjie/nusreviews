@@ -7,7 +7,7 @@ const NavBar = () => {
     <Menu fixed="top" verticalAlign="middle" borderless>
       <Container>
         <Menu.Item>
-          <a href="../search">
+          <a href="../home">
             <Image src={logo} alt="logo" size="small" />
           </a>
         </Menu.Item>

@@ -1,10 +1,18 @@
 import * as React from "react";
 import { Form, InputProps } from "semantic-ui-react";
-import { ShortTextInputProps } from "./Form";
 
 import { Field } from "react-final-form";
 
-const ShortTextInput = (props: ShortTextInputProps) => {
+export interface ShortTextInputProps {
+  name: string;
+  value?: string | number;
+  label?: string;
+  question: string;
+  children?: React.ReactNode;
+  placeholder: string;
+}
+
+const ShortTextInput: React.FunctionComponent<ShortTextInputProps> = props => {
   return (
     <Field {...props} component="input" type="text">
       {fieldProps => {
@@ -19,7 +27,7 @@ const ShortTextInput = (props: ShortTextInputProps) => {
 
         return (
           <Form.Input
-            label={props.children}
+            label={props.question}
             placeholder={props.placeholder}
             onChange={handleChange}
             value={props.value || ""}
