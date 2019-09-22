@@ -1,19 +1,19 @@
-import { validateOrReject } from "class-validator";
 import { Response, Request } from "express";
 import { getRepository, getManager } from "typeorm";
-import { ReviewTemplate } from "../entities/ReviewTemplate";
 import { MetricTemplate } from "../entities/MetricTemplate";
 import { QuestionTemplate } from "../entities/QuestionTemplate";
+import { ReviewTemplate } from "../entities/ReviewTemplate";
+import { getEntityArray } from "../utils/entities";
 
 export async function create(request: Request, response: Response) {
   try {
     const reviewTemplate = new ReviewTemplate();
-    const metricTemplates = await arrayify(
+    const metricTemplates = await getEntityArray(
       request.body.metricTemplates,
       MetricTemplate,
       { reviewTemplate: reviewTemplate }
     );
-    const questionTemplates = await arrayify(
+    const questionTemplates = await getEntityArray(
       request.body.questionTemplates,
       QuestionTemplate,
       { reviewTemplate: reviewTemplate }
@@ -67,21 +67,4 @@ export async function undiscard(request: Request, response: Response) {
   });
   console.error(result.affected);
   response.sendStatus(200);
-}
-
-// TODO turn this into a more generic function
-async function arrayify<T, U>(
-  source: T[],
-  constructor: new () => U,
-  args?: any
-): Promise<U[]> {
-  // Awaiting a Promise.all unrolls all internal promises in the array, throwing necessary errors
-  return await Promise.all(
-    source.map(async data => {
-      const combinedData = { ...data, ...args };
-      const val = Object.assign(new constructor(), combinedData);
-      await validateOrReject(val);
-      return val;
-    })
-  );
 }
