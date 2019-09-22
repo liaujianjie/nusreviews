@@ -1,7 +1,29 @@
 import * as React from "react";
+import * as algoliasearch from "algoliasearch";
+import {
+  InstantSearch,
+  Hits,
+  SearchBox,
+  Highlight,
+  ClearRefinements,
+  Configure
+} from "react-instantsearch-dom";
+import { connectSearchBox } from "react-instantsearch/connectors";
 import { withLayout } from "../components/Layout";
-import { Grid, Search, Message } from "semantic-ui-react";
+import { Grid, Search, Icon } from "semantic-ui-react";
 import logo from "../assets/logo.svg";
+
+const SemanticSearchBox = ({ currentRefinement, refine }) => (
+  <Search
+    color="blue"
+    fluid
+    size="massive"
+    placeholder="Search modules or lecturers"
+    input={{ fluid: true }}
+    value={currentRefinement}
+    onSearchChange={event => refine(event.currentTarget.value)}
+  ></Search>
+);
 
 const SearchPage = () => {
   return (
@@ -11,19 +33,20 @@ const SearchPage = () => {
 
         <div class="ui center aligned grid">
           <div class="column">
-            <Search
-              color="blue"
-              fluid
-              size="massive"
-              placeholder="Search modules or lecturers"
-              input={{ fluid: true }}
+            <InstantSearch
+              apiKey="3EJTXIKS8B"
+              appId="092aa257d26c6e1fb8733a3c0229b176"
+              indexName="Modules"
             >
-              <input type="text" />
-            </Search>
+              <header className="header">
+                <CustomSearchBox />
+              </header>
+            </InstantSearch>
           </div>
         </div>
       </Grid.Column>
     </Grid>
   );
 };
+const CustomSearchBox = connectSearchBox(SemanticSearchBox);
 export default withLayout(SearchPage);
