@@ -227,7 +227,7 @@ export async function verifyEmail(request: Request, response: Response) {
     }
 
     const result = await getRepository(User).update(payload.userId, {
-      isVerified: true
+      emailVerified: true
     });
     if (result.affected === 0) {
       throw new Error("Failed to update user");
