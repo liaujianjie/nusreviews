@@ -11,6 +11,6 @@ router.get("/:id", ReviewsController.show);
 router.use(checkAccessToken);
 router.use(checkRole([UserRole.Admin]));
 router.delete("/:id", ReviewsController.discard);
-router.patch("/:id", ReviewsController.undiscard);
+router.patch("/:id/undiscard", ReviewsController.undiscard);
 
 export default router;

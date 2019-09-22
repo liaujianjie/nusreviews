@@ -61,6 +61,37 @@ export async function show(request: Request, response: Response) {
 
 export async function update(request: Request, response: Response) {}
 
-export async function discard(request: Request, response: Response) {}
+export async function discard(request: Request, response: Response) {
+  try {
+    const review = await getRepository(Review).findOneOrFail(
+      request.params.id,
+      { relations: ["metrics", "questions"] }
+    );
+    const discardedAt = new Date();
+    review.discardedAt = discardedAt;
+    review.metrics.forEach(metric => (metric.discardedAt = discardedAt));
+    review.questions.forEach(question => (question.discardedAt = discardedAt));
+    await getRepository(Review).save(review);
+    response.sendStatus(204);
+  } catch (error) {
+    response.sendStatus(400);
+  }
+}
 
-export async function undiscard(request: Request, response: Response) {}
+export async function undiscard(request: Request, response: Response) {
+  try {
+    const review = await getRepository(Review).findOneOrFail(
+      request.params.id,
+      { relations: ["metrics", "questions"] }
+    );
+    const discardedAt = undefined;
+    review.discardedAt = discardedAt;
+    review.metrics.forEach(metric => (metric.discardedAt = discardedAt));
+    review.questions.forEach(question => (question.discardedAt = discardedAt));
+    await getRepository(Review).save(review);
+    response.sendStatus(204);
+  } catch (error) {
+    console.error(error);
+    response.sendStatus(400);
+  }
+}
