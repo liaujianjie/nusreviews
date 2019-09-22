@@ -17,28 +17,26 @@ export async function create(request: Request, response: Response) {
     const moduleSemester = await getRepository(ModuleSemester).findOneOrFail(
       request.params.id
     );
+
     const review = new Review();
     review.reviewTemplate = reviewTemplate;
     review.moduleSemester = moduleSemester;
     review.expectedGrade = request.body.expectedGrade;
     review.actualGrade = request.body.actualGrade;
-    await validateOrReject(review);
-
     review.metrics = await getEntityArray(request.body.metrics, Metric, {
       review: review
     });
     review.questions = await getEntityArray(request.body.questions, Question, {
       review: review
     });
+    await validateOrReject(review);
 
-    // metrics and questions are saved by cascade
     await getRepository(Review).save(review);
     const editToken = generateEditToken(review, "120 days");
     const result = {
       review: review.stringify(),
       editToken
     };
-    console.log(result);
     response.status(201).json(result);
   } catch (error) {
     console.error(error);
