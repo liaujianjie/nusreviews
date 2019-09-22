@@ -31,34 +31,6 @@ export async function create(request: Request, response: Response) {
   }
 }
 
-<<<<<<< HEAD
-export async function login(request: Request, response: Response) {
-  if (!request.headers.authorization) {
-    response.status(400).send();
-    return;
-  }
-  const b64auth = request.headers.authorization.split(" ")[1];
-  const [login, password] = Buffer.from(b64auth, "base64")
-    .toString()
-    .split(":");
-
-  const user = await userRepository()
-    .createQueryBuilder("user")
-    .addSelect("user.password")
-    .where("user.username = :login OR user.email = :login", { login })
-    .getOne();
-
-  if (
-    !user ||
-    !user.password ||
-    !compareSync(password, user.password) ||
-    user.discardedAt
-  ) {
-    response
-      .status(400)
-      .json({ message: "No such email and password combination exists." });
-    return;
-=======
 export async function index(
   request: Request,
   response: Response,
@@ -69,7 +41,6 @@ export async function index(
     response.status(200).json(userList);
   } catch (error) {
     response.status(400).send();
->>>>>>> 63e2800... Rearrange controllers to follow CRUD format
   }
 }
 
