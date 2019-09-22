@@ -10,6 +10,8 @@ import LongTextInput from "../components/Form/LongTextInput";
 import ModuleDetail from "../components/Form/ModuleDetail";
 // constants
 import { LECTURER_QUESTIONS, WORKLOAD_QUESTIONS } from "../constants/Form";
+// hoc
+import { withAuth } from "../components/withAuth";
 
 interface RadioFormQuestion {
   scale: number;
@@ -146,4 +148,4 @@ const LongForm = () => {
   );
 };
 
-export default withLayout(LongForm);
+export default withAuth(withLayout(LongForm));

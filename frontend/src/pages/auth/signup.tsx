@@ -1,12 +1,16 @@
 import * as React from "react";
+import { connect, MapDispatchToProps } from "react-redux";
 import { Link } from "gatsby";
 import * as FinalForm from "react-final-form";
 import * as _ from "lodash";
 
-import { Grid, Form, Button, Divider, Image } from "semantic-ui-react";
+import { Grid, Form, Button, Image } from "semantic-ui-react";
 import { FinalFormInput } from "../../components/FinalFormInput";
 import { AuthLogoContainer } from "../../components/AuthLogoContainer";
 import logo from "../../static/images/logo.svg";
+import { signUp } from "../../store/auth";
+import { withReduxStore } from "../../components/withReduxStore";
+import { withAuth } from "../../components/withAuth";
 
 type SignUpField = {
   email: string;
@@ -14,17 +18,15 @@ type SignUpField = {
   passwordConfirmation: string;
 };
 
-const SignUpPage = () => {
-  const submit: FinalForm.FormProps<SignUpField>["onSubmit"] = (
-    payload: SignUpField
-  ) => {
-    // Simulate async HTTP request
-    return new Promise(resolve => {
-      setTimeout(() => {
-        alert(JSON.stringify(payload));
-        resolve();
-      }, 2000);
-    });
+type OwnProps = {};
+
+const SignUpPage: React.FunctionComponent<OwnProps & DispatchProps> = ({
+  signUp
+}) => {
+  const submit: FinalForm.FormProps<
+    SignUpField
+  >["onSubmit"] = async credentials => {
+    await signUp(credentials);
   };
 
   return (
@@ -112,4 +114,19 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+type DispatchProps = {
+  signUp: typeof signUp;
+};
+
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = {
+  signUp
+};
+
+export default withAuth(
+  withReduxStore(
+    connect(
+      null,
+      mapDispatchToProps
+    )(SignUpPage)
+  )
+);

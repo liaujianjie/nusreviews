@@ -5,6 +5,7 @@ import { IsOptional, IsNumber, IsString } from "class-validator";
 import { Opinion } from "./Opinion";
 import { Tip } from "./Tip";
 import { Base } from "./Base";
+import { Review } from "./Review";
 
 @Entity()
 @Index(["module", "semester"], { unique: true })
@@ -30,4 +31,7 @@ export class ModuleSemester extends Base {
 
   @OneToMany(type => Tip, tip => tip.moduleSemester)
   tips!: Tip[];
+
+  @OneToMany(type => Review, review => review.moduleSemester)
+  reviews!: Review[];
 }
