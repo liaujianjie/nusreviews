@@ -20,11 +20,10 @@ const Layout = (props: LayoutProps) => {
   return (
     <div>
       <NavBar />
-      <Container
-        style={{
-          marginTop: "6rem"
-        }}
-      >
+      <Container style={{
+        marginTop: '6rem',
+        paddingBottom: '2rem',
+      }}>
         {props.children}
       </Container>
     </div>
