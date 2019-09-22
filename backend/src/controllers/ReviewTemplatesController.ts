@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { getRepository, getManager } from "typeorm";
+import { getRepository, getManager, IsNull } from "typeorm";
 import { MetricTemplate } from "../entities/MetricTemplate";
 import { QuestionTemplate } from "../entities/QuestionTemplate";
 import { ReviewTemplate } from "../entities/ReviewTemplate";
@@ -20,13 +20,26 @@ export async function create(request: Request, response: Response) {
     );
 
     await getManager().transaction(async transactionalEntityManager => {
+      await transactionalEntityManager.update(
+        ReviewTemplate,
+        { discardedAt: IsNull() },
+        { discardedAt: new Date() }
+      );
+      await transactionalEntityManager.update(
+        MetricTemplate,
+        { discardedAt: IsNull() },
+        { discardedAt: new Date() }
+      );
+      await transactionalEntityManager.update(
+        QuestionTemplate,
+        { discardedAt: IsNull() },
+        { discardedAt: new Date() }
+      );
       await transactionalEntityManager.save(reviewTemplate);
       await transactionalEntityManager.save(metricTemplates);
       await transactionalEntityManager.save(questionTemplates);
     });
-    // TODO: discard all other ReviewTemplates; there should only be one active at any point of time
-
-    response.status(200).send();
+    response.status(201).send(reviewTemplate);
   } catch (error) {
     console.error(error);
     response.sendStatus(400);
