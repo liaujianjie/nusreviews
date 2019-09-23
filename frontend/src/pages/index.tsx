@@ -1,5 +1,9 @@
 import * as React from "react";
-import { InstantSearch, CurrentRefinements } from "react-instantsearch-dom";
+import {
+  InstantSearch,
+  CurrentRefinements,
+  Hits
+} from "react-instantsearch-dom";
 import { connectSearchBox } from "react-instantsearch/connectors";
 import { withLayout } from "../components/Layout";
 import { Grid, Search } from "semantic-ui-react";
@@ -32,7 +36,7 @@ const SearchPage = () => {
             >
               <header className="header">
                 <CustomSearchBox />
-                hello+{event.currentTarget.currentRefinement}
+                <Hits />
               </header>
             </InstantSearch>
           </div>
