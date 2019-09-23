@@ -58,7 +58,7 @@ export async function show(
 }
 
 export async function changePassword(request: Request, response: Response) {
-  const payload = response.locals.jwtPayload as JwtSignedPayload;
+  const payload = response.locals.payload as JwtSignedPayload;
   const id = payload.userId;
 
   const oldPasswordB64 = request.body.oldPassword;
@@ -169,7 +169,7 @@ export async function refreshAuthentication(
   request: Request,
   response: Response
 ) {
-  const payload = response.locals.jwtPayload as JwtSignedPayload;
+  const payload = response.locals.payload as JwtSignedPayload;
 
   let user: User;
   try {

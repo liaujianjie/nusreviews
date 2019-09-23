@@ -28,7 +28,7 @@ export const checkRefreshToken = async (
     return;
   }
 
-  res.locals.jwtPayload = payload;
+  res.locals.payload = payload;
 
   if (payload.type !== AuthenticationToken.RefreshToken) {
     res.status(401).send();

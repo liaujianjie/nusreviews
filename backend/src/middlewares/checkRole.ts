@@ -3,7 +3,7 @@ import { UserRole, JwtSignedPayload } from "../types/users";
 
 export const checkRole = (roles: Array<UserRole>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    const payload = res.locals.jwtPayload as JwtSignedPayload;
+    const payload = res.locals.payload as JwtSignedPayload;
     const userRole = payload.userRole;
 
     if (roles.includes(userRole)) {
