@@ -6,7 +6,12 @@ import { Module } from "../entities/Module";
 
 dotenv.config();
 
-const client = algoliasearch("3EJTXIKS8B", process.env.ALGOLIA_DEVELOPER_KEY!);
+export const ALGOLIA_APPLICATION_ID = "3EJTXIKS8B";
+
+const client = algoliasearch(
+  ALGOLIA_APPLICATION_ID,
+  process.env.ALGOLIA_DEVELOPER_KEY!
+);
 const modulesIndex = client.initIndex("modules");
 
 createConnection(ormconfig)

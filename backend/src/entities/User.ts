@@ -38,7 +38,7 @@ export class User extends Discardable {
 
   @Column({ default: false })
   @IsNotEmpty()
-  isVerified: boolean = false;
+  emailVerified: boolean = false;
 
   @Column({ nullable: true })
   @IsOptional()

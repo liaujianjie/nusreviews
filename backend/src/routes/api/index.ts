@@ -8,9 +8,22 @@ import opinions from "./opinions";
 import opinionVotes from "./opinionVotes";
 import tips from "./tips";
 import tipVotes from "./tipVotes";
+import reviewTemplates from "./reviewTemplates";
+import reviews from "./reviews";
+import metrics from "./metrics";
+import questions from "./questions";
+import * as UsersController from "../../controllers/UsersController";
+import * as ReviewsController from "../../controllers/ReviewsController";
+import * as OpinionsController from "../../controllers/OpinionsController";
+import * as TipsController from "../../controllers/TipsController";
+import { checkEditToken } from "../../middlewares/checkEditToken";
 
 const routes = Router();
 
+routes.get(
+  "/email_verification/:emailVerificationToken",
+  UsersController.verifyEmail
+);
 routes.use("/users", users);
 routes.use("/academic_years", academicYears);
 routes.use("/semesters", semesters);
@@ -20,5 +33,15 @@ routes.use("/opinions", opinions);
 routes.use("/opinion_votes", opinionVotes);
 routes.use("/tips", tips);
 routes.use("/tip_votes", tipVotes);
+routes.use("/review_templates", reviewTemplates);
+routes.use("/reviews", reviews);
+routes.use("/metrics", metrics);
+routes.use("/questions", questions);
+
+routes.use(checkEditToken);
+routes.post("/edit_review", ReviewsController.update);
+routes.post("/delete_review", ReviewsController.discard);
+routes.post("/edit_opinion", OpinionsController.update);
+routes.post("/edit_tip", TipsController.update);
 
 export default routes;

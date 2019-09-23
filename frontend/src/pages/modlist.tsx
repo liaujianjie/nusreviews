@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { Card, Container, Rating, Header, Button } from "semantic-ui-react";
 import { withLayout } from "../components/Layout";
 import RatingCard from "../components/RatingCard";
@@ -7,6 +8,7 @@ import Section from "../components/Section";
 import { connectInfiniteHits } from "react-instantsearch-dom";
 import { CurrentRefinements } from "react-instantsearch-dom";
 import { InstantSearch } from "react-instantsearch-dom";
+import { withAuth } from "../components/withAuth";
 
 const Details = hits => {
   const ModuleOptions = [
@@ -91,6 +93,7 @@ const ModuleList = (hasMore, refineNext) => {
     </div>
   );
 };
+
 
 const CustomInfiniteHits = connectInfiniteHits(Details);
 export default withLayout(ModuleList);

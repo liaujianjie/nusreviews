@@ -2,21 +2,17 @@ import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { AcademicYear } from "../entities/AcademicYear";
 
-export const academicYearRepository = () => getRepository(AcademicYear);
-
 export async function index(
   request: Request,
   response: Response,
   next: NextFunction
 ) {
-  let result;
   try {
-    result = await academicYearRepository().find();
+    const academicYear = await getRepository(AcademicYear).find();
+    response.status(200).json(academicYear);
   } catch (error) {
     response.status(400).send();
-    return;
   }
-  response.status(200).send(result);
 }
 
 export async function show(
@@ -24,16 +20,14 @@ export async function show(
   response: Response,
   next: NextFunction
 ) {
-  let result;
   try {
-    result = await academicYearRepository().findOneOrFail({
+    const academicYear = await getRepository(AcademicYear).findOneOrFail({
       where: { academicYear: request.params.academic_year }
     });
+    response.status(200).json(academicYear);
   } catch (error) {
-    response.status(400).send();
-    return;
+    next(error);
   }
-  response.status(200).send(result);
 }
 
 export async function semesters(
@@ -41,14 +35,9 @@ export async function semesters(
   response: Response,
   next: NextFunction
 ) {
-  try {
-    const academicYear = await academicYearRepository().findOneOrFail({
-      where: { academicYear: request.params.academic_year },
-      relations: ["semesters"]
-    });
-    response.status(200).send(academicYear.semesters);
-  } catch (error) {
-    response.status(400).send();
-    return;
-  }
+  const academicYear = await getRepository(AcademicYear).findOneOrFail({
+    where: { academicYear: request.params.academic_year },
+    relations: ["semesters"]
+  });
+  response.status(200).json(academicYear.semesters);
 }

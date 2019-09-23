@@ -8,6 +8,7 @@ import { connectSearchBox } from "react-instantsearch/connectors";
 import { withLayout } from "../components/Layout";
 import { Grid, Search } from "semantic-ui-react";
 import logo from "../assets/logo.svg";
+import { withAuth } from "../components/withAuth";
 
 const SemanticSearchBox = ({ currentRefinement, refine }) => (
   <Search
@@ -45,5 +46,7 @@ const SearchPage = () => {
     </Grid>
   );
 };
+
 const CustomSearchBox = connectSearchBox(SemanticSearchBox);
 export default withLayout(SearchPage);
+

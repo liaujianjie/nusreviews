@@ -9,8 +9,7 @@ export const checkRole = (roles: Array<UserRole>) => {
     if (roles.includes(userRole)) {
       next();
     } else {
-      res.status(401).send();
-      console.error("checkRole failed: unpermitted role");
+      res.status(403).send();
     }
   };
 };
