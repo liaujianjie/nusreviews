@@ -30,9 +30,16 @@ const RadioButton: React.FunctionComponent<RadioButtonProps> = props => {
         };
 
         return (
-          <div>
+          <div
+            style={{
+              width: "17px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center"
+            }}
+          >
             <Form.Radio {...neededInput} onChange={handleChange} />
-            <label style={{ position: "relative", right: "50%", top: "1m" }}>
+            <label style={{ whiteSpace: "nowrap", paddingTop: "0.2em" }}>
               {props.label}
             </label>
           </div>
