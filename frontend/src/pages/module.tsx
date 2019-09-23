@@ -18,6 +18,7 @@ import RatingCard from "../components/RatingCard";
 import { withAuth } from "../components/withAuth";
 import ShortReview from "../components/Form/ShortReview";
 import { SHORT_REVIEW_TIPS, SHORT_REVIEW_OPINION } from "../constants/Form";
+import RatingForm from "../components/Form/RatingForm";
 
 export const ratings = [
   {
@@ -105,7 +106,7 @@ const RatingSection = () => {
           defaultValue={semesterOptions[0].value}
         />
       }
-      topRight={<ActionButton icon="plus" name="Add Rating" />}
+      topRight={<RatingForm moduleName={"CS3216"} />}
       body={<RatingCard ratings={ratings} />}
     />
   );
@@ -314,4 +315,4 @@ const ModulePage = () => {
   );
 };
 
-export default withAuth(withLayout(ModulePage));
+export default withLayout(ModulePage);

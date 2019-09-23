@@ -49,15 +49,18 @@ export const ShortReview: React.FunctionComponent<ShortReviewProps> = props => {
 
   return (
     <FinalForm.Form onSubmit={onSubmit} validate={formValidation}>
-      {({ values, invalid, form }) => {
+      {({ values, invalid, form, pristine }) => {
         const formValue = values[formProps.name];
         return (
           <Modal
             open={open}
             onClose={onClose}
             trigger={modalTrigger}
-            size="small"
-            style={{ top: "30%" }}
+            style={{
+              position: "unset",
+              marginTop: "auto",
+              margin: "auto"
+            }}
           >
             <Modal.Header>{question}</Modal.Header>
             <Modal.Content style={{ paddingBottom: "0.5em" }}>
@@ -76,7 +79,7 @@ export const ShortReview: React.FunctionComponent<ShortReviewProps> = props => {
                   onSubmit(values);
                   form.reset();
                 }}
-                disabled={!formValue || invalid}
+                disabled={pristine || invalid}
               />
             </Modal.Actions>
           </Modal>
