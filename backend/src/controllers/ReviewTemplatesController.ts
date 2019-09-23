@@ -1,32 +1,45 @@
-import { validateOrReject } from "class-validator";
 import { Response, Request } from "express";
-import { getRepository, getManager } from "typeorm";
-import { ReviewTemplate } from "../entities/ReviewTemplate";
+import { getRepository, getManager, IsNull } from "typeorm";
 import { MetricTemplate } from "../entities/MetricTemplate";
 import { QuestionTemplate } from "../entities/QuestionTemplate";
+import { ReviewTemplate } from "../entities/ReviewTemplate";
+import { getEntityArray } from "../utils/entities";
 
 export async function create(request: Request, response: Response) {
   try {
     const reviewTemplate = new ReviewTemplate();
-    const metricTemplates = await arrayify(
+    const metricTemplates = await getEntityArray(
       request.body.metricTemplates,
       MetricTemplate,
       { reviewTemplate: reviewTemplate }
     );
-    const questionTemplates = await arrayify(
+    const questionTemplates = await getEntityArray(
       request.body.questionTemplates,
       QuestionTemplate,
       { reviewTemplate: reviewTemplate }
     );
 
     await getManager().transaction(async transactionalEntityManager => {
+      await transactionalEntityManager.update(
+        ReviewTemplate,
+        { discardedAt: IsNull() },
+        { discardedAt: new Date() }
+      );
+      await transactionalEntityManager.update(
+        MetricTemplate,
+        { discardedAt: IsNull() },
+        { discardedAt: new Date() }
+      );
+      await transactionalEntityManager.update(
+        QuestionTemplate,
+        { discardedAt: IsNull() },
+        { discardedAt: new Date() }
+      );
       await transactionalEntityManager.save(reviewTemplate);
       await transactionalEntityManager.save(metricTemplates);
       await transactionalEntityManager.save(questionTemplates);
     });
-    // TODO: discard all other ReviewTemplates; there should only be one active at any point of time
-
-    response.status(200).send();
+    response.status(201).send(reviewTemplate);
   } catch (error) {
     console.error(error);
     response.sendStatus(400);
@@ -45,7 +58,8 @@ export async function index(request: Request, response: Response) {
 export async function show(request: Request, response: Response) {
   try {
     const reviewTemplate = await getRepository(ReviewTemplate).findOneOrFail(
-      request.params.id
+      request.params.id,
+      { relations: ["metricTemplates", "questionTemplates"] }
     );
     response.status(200).json(reviewTemplate);
   } catch (error) {
@@ -54,34 +68,78 @@ export async function show(request: Request, response: Response) {
 }
 
 export async function discard(request: Request, response: Response) {
-  const result = await getRepository(ReviewTemplate).update(request.params.id, {
-    discardedAt: new Date()
-  });
-  console.error(result);
-  response.sendStatus(204);
+  try {
+    await getManager().transaction(async transactionalEntityManager => {
+      await transactionalEntityManager.update(
+        ReviewTemplate,
+        {
+          discardedAt: IsNull(),
+          id: request.params.id
+        },
+        { discardedAt: new Date() }
+      );
+      await transactionalEntityManager.update(
+        MetricTemplate,
+        {
+          discardedAt: IsNull(),
+          reviewTemplate: { id: request.params.id }
+        },
+        { discardedAt: new Date() }
+      );
+      await transactionalEntityManager.update(
+        QuestionTemplate,
+        {
+          discardedAt: IsNull(),
+          reviewTemplate: { id: request.params.id }
+        },
+        { discardedAt: new Date() }
+      );
+    });
+    response.sendStatus(204);
+  } catch (error) {
+    response.sendStatus(400);
+  }
 }
 
 export async function undiscard(request: Request, response: Response) {
-  const result = await getRepository(ReviewTemplate).update(request.params.id, {
-    discardedAt: undefined
-  });
-  console.error(result.affected);
-  response.sendStatus(200);
-}
+  try {
+    await getManager().transaction(async transactionalEntityManager => {
+      // Discard existing
+      await transactionalEntityManager.update(
+        ReviewTemplate,
+        { discardedAt: IsNull() },
+        { discardedAt: new Date() }
+      );
+      await transactionalEntityManager.update(
+        MetricTemplate,
+        { discardedAt: IsNull() },
+        { discardedAt: new Date() }
+      );
+      await transactionalEntityManager.update(
+        QuestionTemplate,
+        { discardedAt: IsNull() },
+        { discardedAt: new Date() }
+      );
 
-// TODO turn this into a more generic function
-async function arrayify<T, U>(
-  source: T[],
-  constructor: new () => U,
-  args?: any
-): Promise<U[]> {
-  // Awaiting a Promise.all unrolls all internal promises in the array, throwing necessary errors
-  return await Promise.all(
-    source.map(async data => {
-      const combinedData = { ...data, ...args };
-      const val = Object.assign(new constructor(), combinedData);
-      await validateOrReject(val);
-      return val;
-    })
-  );
+      // Undiscard selected
+      await transactionalEntityManager.update(
+        ReviewTemplate,
+        { id: request.params.id },
+        { discardedAt: undefined }
+      );
+      await transactionalEntityManager.update(
+        MetricTemplate,
+        { reviewTemplate: { id: request.params.id } },
+        { discardedAt: undefined }
+      );
+      await transactionalEntityManager.update(
+        QuestionTemplate,
+        { reviewTemplate: { id: request.params.id } },
+        { discardedAt: undefined }
+      );
+    });
+    response.sendStatus(204);
+  } catch (error) {
+    response.sendStatus(400);
+  }
 }

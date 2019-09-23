@@ -10,22 +10,27 @@ export const checkEditToken = (
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.params.editToken;
-  if (!token) {
-    res.status(401).send();
+  if (!req.headers.authorization) {
+    res.sendStatus(401);
+    return;
+  }
+  const arr = req.headers.authorization.split(" ");
+  if (arr[0] !== "Bearer" || !arr[1]) {
+    res.sendStatus(401);
     return;
   }
 
+  const token = arr[1];
   let payload: object | string;
   try {
     payload = jwt.verify(token, process.env.JWT_SECRET!);
   } catch (error) {
-    res.status(401).send();
+    res.sendStatus(401);
     return;
   }
 
   if (!isEditTokenSignedPayload(payload)) {
-    res.status(401).send();
+    res.sendStatus(401);
     return;
   }
 
@@ -33,6 +38,6 @@ export const checkEditToken = (
   if (Object.values(EditableEntityType).includes(payload.type)) {
     next();
   } else {
-    res.status(401).send();
+    res.sendStatus(401);
   }
 };
