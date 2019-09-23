@@ -5,9 +5,9 @@ import { getRepository } from "typeorm";
 import { verify } from "jsonwebtoken";
 import { User } from "../entities/User";
 import { isVerifyEmailSignedPayload } from "../types/emails";
-import { JwtSignedPayload } from "../types/users";
 import { getAuthenticationTokens } from "../utils/users";
 import { sendVerificationEmail } from "../utils/sendgrid";
+import { AccessTokenSignedPayload } from "../types/tokens";
 
 export async function create(request: Request, response: Response) {
   try {
@@ -58,7 +58,7 @@ export async function show(
 }
 
 export async function changePassword(request: Request, response: Response) {
-  const payload = response.locals.payload as JwtSignedPayload;
+  const payload = response.locals.payload as AccessTokenSignedPayload;
   const id = payload.userId;
 
   const oldPasswordB64 = request.body.oldPassword;
@@ -169,7 +169,7 @@ export async function refreshAuthentication(
   request: Request,
   response: Response
 ) {
-  const payload = response.locals.payload as JwtSignedPayload;
+  const payload = response.locals.payload as AccessTokenSignedPayload;
 
   let user: User;
   try {

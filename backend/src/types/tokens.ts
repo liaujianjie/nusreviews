@@ -40,7 +40,7 @@ export type EntityTokenSignedPayload<Entity> = EntityTokenPayload<Entity> &
 
 export function isBearerToken(token: string): token is BearerToken {
   const words = token.split(" ");
-  return words[0] !== "Bearer" && !!words[1];
+  return words[0] === "Bearer" && !!words[1];
 }
 
 function isPayload<T>(payload: any): payload is Payload<T> {

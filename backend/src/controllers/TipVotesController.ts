@@ -2,14 +2,14 @@ import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { TipVote } from "../entities/TipVote";
 import { validateOrReject } from "class-validator";
-import { JwtSignedPayload } from "../types/users";
 import { User } from "../entities/User";
 import { Tip } from "../entities/Tip";
+import { AccessTokenSignedPayload } from "../types/tokens";
 
 export async function create(request: Request, response: Response) {
   try {
     const tipVote = new TipVote();
-    const payload = response.locals.payload as JwtSignedPayload;
+    const payload = response.locals.payload as AccessTokenSignedPayload;
     tipVote.user = await getRepository(User).findOneOrFail(payload.userId);
     tipVote.tip = await getRepository(Tip).findOneOrFail(request.params.id);
     tipVote.value = parseInt(request.body.value);
@@ -61,7 +61,7 @@ export async function destroy(request: Request, response: Response) {
 }
 
 async function checkUser(request: Request, response: Response) {
-  const payload = response.locals.payload as JwtSignedPayload;
+  const payload = response.locals.payload as AccessTokenSignedPayload;
   const tipVote = await getRepository(TipVote).findOneOrFail(
     request.params.id,
     {

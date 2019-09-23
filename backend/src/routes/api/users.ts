@@ -2,7 +2,6 @@ import { Router } from "express";
 import * as UsersController from "../../controllers/UsersController";
 import { checkRole } from "../../middlewares/checkRole";
 import { checkBearerToken } from "../../middlewares/checkBearerToken";
-import { checkRefreshToken } from "../../middlewares/checkRefreshToken";
 import { UserRole } from "../../types/users";
 import { BearerTokenType } from "../../types/tokens";
 
@@ -13,7 +12,7 @@ router.post("/login", UsersController.login);
 // router.post("/password", UsersController.requestPasswordReset);
 router.get(
   "/refresh_authentication",
-  [checkRefreshToken],
+  [checkBearerToken(BearerTokenType.RefreshToken)],
   UsersController.refreshAuthentication
 );
 

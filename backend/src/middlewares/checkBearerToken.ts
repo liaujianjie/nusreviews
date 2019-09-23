@@ -13,14 +13,15 @@ export const checkBearerToken = (type: BearerTokenType) => (
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.headers.authorization;
-  if (!token || !isBearerToken(token)) {
+  const bearerToken = req.headers.authorization;
+  if (!bearerToken || !isBearerToken(bearerToken)) {
     res.sendStatus(401);
     return;
   }
 
-  let payload: object | string;
+  const token = bearerToken.split(" ")[1];
 
+  let payload: object | string;
   try {
     payload = jwt.verify(token, process.env.JWT_SECRET!);
   } catch (error) {

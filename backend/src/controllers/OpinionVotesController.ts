@@ -2,14 +2,14 @@ import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { OpinionVote } from "../entities/OpinionVote";
 import { validateOrReject } from "class-validator";
-import { JwtSignedPayload } from "../types/users";
 import { User } from "../entities/User";
 import { Opinion } from "../entities/Opinion";
+import { AccessTokenSignedPayload } from "../types/tokens";
 
 export async function create(request: Request, response: Response) {
   try {
     const opinionVote = new OpinionVote();
-    const payload = response.locals.payload as JwtSignedPayload;
+    const payload = response.locals.payload as AccessTokenSignedPayload;
     opinionVote.user = await getRepository(User).findOneOrFail(payload.userId);
     opinionVote.opinion = await getRepository(Opinion).findOneOrFail(
       request.params.id
@@ -61,7 +61,7 @@ export async function destroy(request: Request, response: Response) {
 }
 
 async function checkUser(request: Request, response: Response) {
-  const payload = response.locals.payload as JwtSignedPayload;
+  const payload = response.locals.payload as AccessTokenSignedPayload;
   const opinionVote = await getRepository(OpinionVote).findOneOrFail(
     request.params.id,
     {
