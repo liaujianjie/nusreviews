@@ -49,6 +49,10 @@ export const checkBearerToken = (type: BearerTokenType) => (
         return;
       }
       break;
+
+    default:
+      res.sendStatus(401);
+      return;
   }
 
   res.locals.payload = payload;
