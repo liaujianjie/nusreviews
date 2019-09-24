@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Form, FormProps, Field } from "react-final-form";
 import _ from "lodash";
 
-import { InputGroup, Button, Intent, Card } from "@blueprintjs/core";
+import { InputGroup, Button, Intent } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
 import { signIn } from "../../../store/auth";

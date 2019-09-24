@@ -5,11 +5,11 @@ export const INITIAL_STATE: AuthState = {
   encodedRefreshToken: null,
   accessToken: null,
   refreshToken: null,
-  authenticating: false
+  authenticating: true
 };
 
 export const reducer = (
-  state: AuthState = INITIAL_STATE,
+  state: AuthState = { ...INITIAL_STATE },
   action: AuthActionTypes
 ) => {
   switch (action.type) {
@@ -20,11 +20,11 @@ export const reducer = (
     case AuthAction.SIGNUP_SUCCESS:
       return { ...action.payload, authenticating: false };
     case AuthAction.LOAD_FROM_LOCALSTORAGE:
-      return { ...state, ...action.payload };
+      return { ...state, ...action.payload, authenticating: false };
     case AuthAction.SIGNIN_FAILURE:
     case AuthAction.SIGNUP_FAILURE:
     case AuthAction.SIGNOUT:
-      return INITIAL_STATE;
+      return { ...INITIAL_STATE, authenticating: false };
     default:
       return state;
   }

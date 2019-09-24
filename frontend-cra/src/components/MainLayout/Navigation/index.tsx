@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import _ from "lodash";
 
 import {
@@ -11,11 +12,15 @@ import {
   MenuItem
 } from "@blueprintjs/core";
 
+import { signOut } from "../../../store/auth";
 import { useRouter } from "../../../hooks/useRouter";
 import logo from "./logo.svg";
 import "./style.css";
 
-export const Navigation: React.FunctionComponent = () => {
+const mapDispatchToProps = { signOut };
+type ConnectedProps = typeof mapDispatchToProps;
+
+const _Navigation: React.FunctionComponent<ConnectedProps> = ({ signOut }) => {
   // Temporarily use private APIs so that we can use the router state as a hook
   const { location } = useRouter();
 
@@ -40,7 +45,7 @@ export const Navigation: React.FunctionComponent = () => {
           position="bottom-right"
           content={
             <Menu>
-              <MenuItem text="Sign out"></MenuItem>
+              <MenuItem text="Sign out" onClick={signOut} />
             </Menu>
           }
         >
@@ -50,3 +55,8 @@ export const Navigation: React.FunctionComponent = () => {
     </Navbar>
   );
 };
+
+export const Navigation = connect(
+  null,
+  mapDispatchToProps
+)(_Navigation);

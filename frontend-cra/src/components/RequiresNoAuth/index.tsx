@@ -8,7 +8,8 @@ import { useRouter } from "../../hooks/useRouter";
 import { Redirect } from "react-router";
 
 const mapStateToProps = (rootState: StoreState) => ({
-  isAuthenticated: Boolean(rootState.auth.accessToken)
+  isAuthenticated: Boolean(rootState.auth.accessToken),
+  isAuthenticating: rootState.auth.authenticating
 });
 const mapDispatchToProps = {
   loadAuthStateFromLocalStorage: loadFromLoadStorage
@@ -16,8 +17,8 @@ const mapDispatchToProps = {
 type ConnectedProps = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps;
 
-// @ts-ignore
 const _RequiresNoAuth: React.FunctionComponent<ConnectedProps> = ({
+  isAuthenticating,
   isAuthenticated,
   loadAuthStateFromLocalStorage,
   children
@@ -27,13 +28,13 @@ const _RequiresNoAuth: React.FunctionComponent<ConnectedProps> = ({
 
   useEffect(() => {
     loadAuthStateFromLocalStorage();
-  }, []);
+  }, [loadAuthStateFromLocalStorage]);
 
-  if (isAuthPage && isAuthenticated) {
+  if (!isAuthenticating && isAuthPage && isAuthenticated) {
     return <Redirect to="/" />;
   }
 
-  return children;
+  return <>{children}</>;
 };
 
 export const RequiresNoAuth = connect(

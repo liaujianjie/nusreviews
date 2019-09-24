@@ -19,7 +19,7 @@ export const SignInPage: React.FunctionComponent = () => {
         <Card>
           <div className="SignInPage__logo-container">
             <Center>
-              <img src={logo} height={32} />
+              <img src={logo} height={32} alt="NUS Reviews logo" />
             </Center>
           </div>
           <div className="SignInPage__form-container">

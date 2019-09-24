@@ -1,4 +1,3 @@
-import { AuthState } from "..";
 import { getAuthTokenFromJwt } from "./getAuthTokenFromJwt";
 
 /**
@@ -10,11 +9,6 @@ export const getTokensFromResponse = (response: any) => {
   const encodedRefreshToken = response.refreshToken as string;
   const accessToken = getAuthTokenFromJwt(encodedAccessToken);
   const refreshToken = getAuthTokenFromJwt(encodedRefreshToken);
-
-  console.log({
-    encodedAccessToken,
-    encodedRefreshToken
-  });
 
   // Guard against invalid JWTs
   if (!accessToken || !refreshToken) {

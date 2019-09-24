@@ -1,4 +1,3 @@
-import * as _ from "lodash";
 import * as qs from "querystring";
 
 import { sharedHttpClient } from "./sharedHttpClient";
