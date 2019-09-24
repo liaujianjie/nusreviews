@@ -38,9 +38,14 @@ export function sendEntityEmail<Entity extends Base>(
   const msg: MailData = {
     to: user.email,
     from: "mail@nus.reviews",
-    subject: "Welcome to nusreviews!",
-    text: `Thanks ${user.username} Send a POST request to nus.reviews/api/v1/verify_email/${token}`,
-    html: `Thanks ${user.username} for creating a Send a POST request to nus.reviews/api/v1/verify_email/${token}`
+    subject: `Thanks for creating a ${entity.entityName}!`,
+    // Todo: use email template
+    text: `Thanks ${user.username} for creating a ${
+      entity.entityName
+    }! You may edit it by sending a POST request to nus.reviews/api/v1/edit_${entity.entityName.toLowerCase()}/${token}`,
+    html: `Thanks ${user.username} for creating a ${
+      entity.entityName
+    }! You may edit it by sending a POST request to nus.reviews/api/v1/edit_${entity.entityName.toLowerCase()}/${token}`
   };
   sendgrid.send(msg);
 }

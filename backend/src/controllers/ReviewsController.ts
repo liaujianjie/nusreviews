@@ -9,13 +9,17 @@ import { Review } from "../entities/Review";
 import { getEntityArray } from "../utils/entities";
 import {
   EntityTokenSignedPayload,
-  EntityTokenPayload,
-  BearerTokenType
+  AccessTokenSignedPayload
 } from "../types/tokens";
 import { sign } from "jsonwebtoken";
+import { sendEntityEmail } from "../utils/sendgrid";
+import { User } from "../entities/User";
 
 export async function create(request: Request, response: Response) {
   try {
+    const payload = response.locals.payload as AccessTokenSignedPayload;
+    const user = await getRepository(User).findOneOrFail(payload.userId);
+
     const reviewTemplate = await getRepository(ReviewTemplate).findOneOrFail({
       discardedAt: IsNull()
     });
@@ -37,9 +41,10 @@ export async function create(request: Request, response: Response) {
     await validateOrReject(review);
 
     await getRepository(Review).save(review);
+    sendEntityEmail(user, review);
 
-    const payload = review.createPayload();
-    const entityToken = sign(payload, process.env.JWT_SECRET!, {
+    const entityTokenPayload = review.createPayload();
+    const entityToken = sign(entityTokenPayload, process.env.JWT_SECRET!, {
       expiresIn: "120 days"
     });
     const result = {
