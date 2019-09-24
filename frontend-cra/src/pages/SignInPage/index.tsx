@@ -1,42 +1,43 @@
 import React from "react";
 
-import { InputGroup, Button, Intent, Card } from "@blueprintjs/core";
-import { IconNames } from "@blueprintjs/icons";
+import { Button, Intent, Card } from "@blueprintjs/core";
 
+import { RequiresNoAuth } from "../../components/RequiresNoAuth";
 import { Center } from "../../components/Center";
+import { SignInForm } from "./SignInForm";
+import logo from "./logo.svg";
+import { useRouter } from "../../hooks/useRouter";
 
 import "./style.css";
 
 export const SignInPage: React.FunctionComponent = () => {
+  const router = useRouter();
+
   return (
-    <Center>
-      <Card>
-        <div className="SignInPage__form-container">
-          <InputGroup
-            placeholder="e0123456a@u.nus.edu"
-            // onChange={this.handleUsernameChange}
-            // value={this.state.username}
-            leftIcon={IconNames.USER}
-            large
-          />
-          <InputGroup
-            placeholder="Password"
-            // onChange={this.handlePasswordChange}
-            // value={this.state.password}
-            type="password"
-            leftIcon={IconNames.LOCK}
-            large
-          />
-          <Button type="submit" intent={Intent.PRIMARY} large>
-            Sign in
-          </Button>
-          {/* <span className="SignInPage--sign-up-prompt">
-        Don't have an account?
-        <br />
-        <Link to="/auth/signup">Click here to sign up!</Link>
-      </span> */}
-        </div>
-      </Card>
-    </Center>
+    <RequiresNoAuth>
+      <Center>
+        <Card>
+          <div className="SignInPage__logo-container">
+            <Center>
+              <img src={logo} height={32} />
+            </Center>
+          </div>
+          <div className="SignInPage__form-container">
+            <SignInForm />
+          </div>
+          <div className="SignInPage__signup-button-container">
+            <Button
+              type="submit"
+              intent={Intent.PRIMARY}
+              large
+              minimal
+              onClick={() => router.history.push("/auth/signup")}
+            >
+              Don't have an account? Click here to sign up!
+            </Button>
+          </div>
+        </Card>
+      </Center>
+    </RequiresNoAuth>
   );
 };

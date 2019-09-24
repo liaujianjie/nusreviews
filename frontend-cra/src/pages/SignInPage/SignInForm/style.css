@@ -1,0 +1,8 @@
+.SignInForm__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.SignInForm__form > *:not(:last-child) {
+  margin-bottom: 8px;
+}

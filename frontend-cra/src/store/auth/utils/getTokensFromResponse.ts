@@ -11,6 +11,11 @@ export const getTokensFromResponse = (response: any) => {
   const accessToken = getAuthTokenFromJwt(encodedAccessToken);
   const refreshToken = getAuthTokenFromJwt(encodedRefreshToken);
 
+  console.log({
+    encodedAccessToken,
+    encodedRefreshToken
+  });
+
   // Guard against invalid JWTs
   if (!accessToken || !refreshToken) {
     throw new Error("Invalid JWT for access token or refresh token.");

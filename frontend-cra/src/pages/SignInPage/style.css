@@ -1,8 +1,8 @@
-.SignInPage__form-container {
-  display: flex;
-  flex-direction: column;
+.SignInPage__logo-container {
+  padding: 32px;
+  padding-top: 16px;
 }
 
-.SignInPage__form-container > *:not(:last-child) {
-  margin-bottom: 8px;
+.SignInPage__signup-button-container {
+  padding-top: 24px;
 }

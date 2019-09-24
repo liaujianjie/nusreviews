@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { __RouterContext as RouterContext } from "react-router";
+import React from "react";
 import _ from "lodash";
 
 import {
@@ -12,12 +11,13 @@ import {
   MenuItem
 } from "@blueprintjs/core";
 
+import { useRouter } from "../../../hooks/useRouter";
 import logo from "./logo.svg";
 import "./style.css";
 
 export const Navigation: React.FunctionComponent = () => {
   // Temporarily use private APIs so that we can use the router state as a hook
-  const { location } = useContext(RouterContext);
+  const { location } = useRouter();
 
   // Hide navbar in home page and in auth pages
   if (location.pathname === "/" || _.startsWith(location.pathname, "/auth")) {
