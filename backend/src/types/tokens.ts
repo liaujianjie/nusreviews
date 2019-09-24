@@ -54,9 +54,10 @@ function hasTokenLifespan(payload: any) {
 
 function hasCredentials(payload: any) {
   return (
-    typeof payload.userId === "number" &&
+    typeof payload.id === "number" &&
     typeof payload.username === "string" &&
-    Object.values(UserRole).includes(payload.userRole)
+    typeof payload.email === "string" &&
+    Object.values(UserRole).includes(payload.role)
   );
 }
 
