@@ -18,7 +18,9 @@ export const FinalFormInput: React.FunctionComponent<
       inverted
       on="focus"
       open={meta.dirty && meta.error && meta.active}
-      trigger={<Form.Input {...otherProps} error={meta.dirty && meta.error} />}
+      trigger={
+        <Form.Input {...otherProps} error={Boolean(meta.dirty && meta.error)} />
+      }
       content={meta.error}
       position="right center"
     />

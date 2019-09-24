@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 import * as qs from "querystring";
+
 import { sharedHttpClient } from "./sharedHttpClient";
 
 type AuthCredentials = {
@@ -30,8 +31,4 @@ export const signUp = async ({ email, password }: AuthCredentials) => {
     }
   );
   return response.data;
-};
-
-export const signOut = () => {
-  // TODO: clear local storage and update axios headers
 };

@@ -1,8 +1,16 @@
 import * as React from "react";
-import { Menu, Search, Image, Container } from "semantic-ui-react";
+import { Menu, Search, Image, Container, Button } from "semantic-ui-react";
 import logo from "../static/images/logo.svg";
+import { connect } from "react-redux";
+import { signOut } from "../store/auth";
+import { StoreState } from "../store";
 
-const NavBar = () => {
+type OwnProps = {};
+
+const NavBar: React.FunctionComponent<OwnProps & ConnectedProps> = ({
+  username,
+  signOut
+}) => {
   return (
     <Menu fixed="top" verticalAlign="middle" borderless>
       <Container>
@@ -16,11 +24,10 @@ const NavBar = () => {
             <Search size="mini" fluid placeholder="Search a module" />
           </Menu.Item>
           <Menu.Item>
-            <Image
-              src="https://66.media.tumblr.com/d4743332c9f25d147aac03ec12b9c9a2/tumblr_ory27uhmTl1w84hv9o6_250.jpg"
-              avatar
-            />
-            <span>Jennie Kim</span>
+            <span style={{ marginRight: 16 }}>{username}</span>
+            <Button onClick={signOut} basic>
+              Sign out
+            </Button>
           </Menu.Item>
         </Menu.Menu>
       </Container>
@@ -28,4 +35,18 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+type ConnectedProps = ReturnType<typeof mapStateToProps> &
+  typeof mapDispatchToProps;
+const mapStateToProps = (rootState: StoreState) => ({
+  username: rootState.auth.accessToken
+    ? rootState.auth.accessToken.username
+    : ""
+});
+const mapDispatchToProps = {
+  signOut
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NavBar);
