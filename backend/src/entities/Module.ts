@@ -1,5 +1,4 @@
 import { Column, Entity, OneToMany } from "typeorm";
-import { Discardable } from "./Discardable";
 import { ModuleCode, ModuleTitle, Department, Faculty } from "../types/modules";
 import {
   IsArray,

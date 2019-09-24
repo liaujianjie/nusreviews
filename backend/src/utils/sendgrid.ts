@@ -2,13 +2,14 @@ import * as jwt from "jsonwebtoken";
 import * as sendgrid from "@sendgrid/mail";
 import { MailData } from "@sendgrid/helpers/classes/mail";
 import { User } from "../entities/User";
-import { VerifyEmailPayload } from "../types/emails";
+import { EntityTokenPayload, BearerTokenType } from "../types/tokens";
 
 export function sendVerificationEmail(user: User) {
   sendgrid.setApiKey(process.env.SENDGRID_API_KEY!);
 
-  const payload: VerifyEmailPayload = {
-    userId: user.id,
+  const payload: EntityTokenPayload<User> = {
+    type: BearerTokenType.EntityToken,
+    id: user.id,
     email: user.email
   };
 
@@ -17,13 +18,11 @@ export function sendVerificationEmail(user: User) {
   });
 
   const msg: MailData = {
-    // TODO: send to user email instead of shawn
-    // to: user.email,
-    to: "shawnkoh@me.com",
+    to: user.email,
     from: "mail@nus.reviews",
     subject: "Welcome to nusreviews!",
-    text: `Welcome ${user.username} Click on this link to verify localhost:3000/api/v1/email_verification/${token}`,
-    html: `Click on this <a href='localhost:3000/api/v1/email_verification/${token}'>link</a> to verify`
+    text: `Welcome ${user.username} Send a POST request to nus.reviews/api/v1/verify_email/${token}`,
+    html: `Welcome ${user.username} Send a POST request to nus.reviews/api/v1/verify_email/${token}`
   };
   sendgrid.send(msg);
 }

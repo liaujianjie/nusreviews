@@ -1,11 +1,12 @@
+import { hashSync, compareSync } from "bcryptjs";
 import { validateOrReject } from "class-validator";
 import { NextFunction, Request, Response } from "express";
-import { hashSync, compareSync } from "bcryptjs";
 import { getRepository } from "typeorm";
-import { verify } from "jsonwebtoken";
 import { User } from "../entities/User";
-import { isVerifyEmailSignedPayload } from "../types/emails";
-import { JwtSignedPayload } from "../types/users";
+import {
+  AccessTokenSignedPayload,
+  EntityTokenSignedPayload
+} from "../types/tokens";
 import { getAuthenticationTokens } from "../utils/users";
 import { sendVerificationEmail } from "../utils/sendgrid";
 
@@ -26,7 +27,7 @@ export async function create(request: Request, response: Response) {
     delete result.password;
     response.status(201).json(result);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
     console.error(error);
   }
 }
@@ -40,7 +41,7 @@ export async function index(
     const userList = await getRepository(User).find();
     response.status(200).json(userList);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
@@ -53,12 +54,12 @@ export async function show(
     const user = await getRepository(User).findOneOrFail(request.params.id);
     response.status(200).json(user);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
 export async function changePassword(request: Request, response: Response) {
-  const payload = response.locals.jwtPayload as JwtSignedPayload;
+  const payload = response.locals.payload as AccessTokenSignedPayload;
   const id = payload.userId;
 
   const oldPasswordB64 = request.body.oldPassword;
@@ -68,8 +69,7 @@ export async function changePassword(request: Request, response: Response) {
     typeof oldPasswordB64 !== "string" ||
     typeof newPasswordB64 !== "string"
   ) {
-    response.status(400).send();
-    console.log(request.headers);
+    response.sendStatus(400);
     return;
   }
 
@@ -84,7 +84,7 @@ export async function changePassword(request: Request, response: Response) {
     .getOne();
 
   if (!user || !user.password || !compareSync(oldPassword, user.password)) {
-    response.status(400).send();
+    response.sendStatus(400);
     return;
   }
 
@@ -94,7 +94,7 @@ export async function changePassword(request: Request, response: Response) {
     await repo.update(id, { password: hashSync(newPassword) });
     response.status(200).json();
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
     console.error(error);
   }
 }
@@ -112,7 +112,7 @@ export async function discard(
       discardedAt: new Date()
     });
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
     return;
   }
   response.status(200).json();
@@ -129,7 +129,7 @@ export async function undiscard(
       discardedAt: undefined
     });
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
     return;
   }
   response.status(200).json();
@@ -137,7 +137,7 @@ export async function undiscard(
 
 export async function login(request: Request, response: Response) {
   if (!request.headers.authorization) {
-    response.status(400).send();
+    response.sendStatus(400);
     return;
   }
   const b64auth = request.headers.authorization.split(" ")[1];
@@ -157,7 +157,7 @@ export async function login(request: Request, response: Response) {
     !compareSync(password, user.password) ||
     user.discardedAt
   ) {
-    response.status(400).send();
+    response.sendStatus(400);
     return;
   }
 
@@ -169,13 +169,13 @@ export async function refreshAuthentication(
   request: Request,
   response: Response
 ) {
-  const payload = response.locals.jwtPayload as JwtSignedPayload;
+  const payload = response.locals.payload as AccessTokenSignedPayload;
 
   let user: User;
   try {
     user = await getRepository(User).findOneOrFail(payload.userId);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
     console.error(error);
     return;
   }
@@ -186,18 +186,17 @@ export async function refreshAuthentication(
 
 export async function verifyEmail(request: Request, response: Response) {
   try {
-    const token = request.params.emailVerificationToken;
-    const payload = verify(token, process.env.JWT_SECRET!);
-    if (!isVerifyEmailSignedPayload(payload)) {
-      throw new Error("Invalid token");
+    const payload = response.locals.payload as EntityTokenSignedPayload<User>;
+    if (!payload.id) {
+      throw new Error("No id provided");
     }
 
-    const user = await getRepository(User).findOneOrFail(payload.userId);
+    const user = await getRepository(User).findOneOrFail(payload.id);
     if (user.email !== payload.email) {
       throw new Error("Email has changed");
     }
 
-    const result = await getRepository(User).update(payload.userId, {
+    const result = await getRepository(User).update(payload.id, {
       emailVerified: true
     });
     if (result.affected === 0) {
@@ -205,7 +204,7 @@ export async function verifyEmail(request: Request, response: Response) {
     }
     response.status(204).send();
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
     console.error(error);
   }
 }

@@ -41,7 +41,8 @@ export class Review extends Discardable {
   @OneToMany(type => Question, question => question.review, { cascade: true })
   questions!: Question[];
 
-  stringify() {
+  // Use () => {} to make sure the context of `this` doesnt change
+  public stringify = () => {
     const metricStrings = this.metrics.map(metric => {
       delete metric.review;
       return metric;
@@ -52,6 +53,10 @@ export class Review extends Discardable {
       return question;
     });
 
-    return { ...this, metrics: metricStrings, questions: questionStrings };
-  }
+    return {
+      ...(this as Review),
+      metrics: metricStrings,
+      questions: questionStrings
+    };
+  };
 }
