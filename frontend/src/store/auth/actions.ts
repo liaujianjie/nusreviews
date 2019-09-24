@@ -7,6 +7,7 @@ import {
   loadTokensFromLocalStorage
 } from "./lib/localstorage";
 import { getTokensFromResponse } from "./utils/getTokensFromResponse";
+import { setHttpClientAuthToken, unsetHttpClientAuthToken } from "./lib/axios";
 
 type SignInParameter = Parameters<typeof auth.signIn>[0];
 
@@ -19,6 +20,7 @@ export const signIn = ({ email, password }: SignInParameter) => async (
     const response = await auth.signIn({ email, password });
     const tokens = getTokensFromResponse(response);
     saveTokensToLocalStorage(tokens);
+    setHttpClientAuthToken(tokens.encodedAccessToken);
     dispatch({
       type: AuthAction.SIGNIN_SUCCESS,
       payload: tokens
@@ -38,6 +40,7 @@ export const signUp = ({ email, password }: SignInParameter) => async (
     const response = await auth.signUp({ email, password });
     const tokens = getTokensFromResponse(response);
     saveTokensToLocalStorage(tokens);
+    setHttpClientAuthToken(tokens.encodedAccessToken);
     dispatch({
       type: AuthAction.SIGNUP_SUCCESS,
       payload: tokens
@@ -50,6 +53,7 @@ export const signUp = ({ email, password }: SignInParameter) => async (
 
 export const signOut: ActionCreator<AuthActionTypes> = () => {
   clearTokensFromLocalStorage();
+  unsetHttpClientAuthToken();
   return {
     type: AuthAction.SIGNOUT
   };
@@ -62,6 +66,8 @@ export const loadFromLoadStorage = () => {
       type: AuthAction.LOAD_FROM_LOCALSTORAGE
     };
   }
+
+  setHttpClientAuthToken(persistedTokens.encodedAccessToken);
 
   const mockResponse = {
     accessToken: persistedTokens.encodedAccessToken,
