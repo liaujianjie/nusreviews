@@ -1,7 +1,7 @@
+import { validateOrReject } from "class-validator";
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { TipVote } from "../entities/TipVote";
-import { validateOrReject } from "class-validator";
 import { User } from "../entities/User";
 import { Tip } from "../entities/Tip";
 import { AccessTokenSignedPayload } from "../types/tokens";

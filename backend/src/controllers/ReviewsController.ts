@@ -8,10 +8,7 @@ import { ReviewTemplate } from "../entities/ReviewTemplate";
 import { Question } from "../entities/Question";
 import { Review } from "../entities/Review";
 import { getEntityArray } from "../utils/entities";
-import {
-  EntityTokenSignedPayload,
-  AccessTokenSignedPayload
-} from "../types/tokens";
+import { AccessTokenSignedPayload } from "../types/tokens";
 import { sendEntityEmail } from "../utils/sendgrid";
 
 export async function create(request: Request, response: Response) {
@@ -78,64 +75,7 @@ export async function show(request: Request, response: Response) {
   }
 }
 
-export async function update(request: Request, response: Response) {
-  try {
-    const entityTokenSignedPayload = response.locals
-      .payload as EntityTokenSignedPayload<Review>;
-    const review = await getRepository(Review).findOneOrFail(
-      entityTokenSignedPayload.id,
-      {
-        relations: ["reviewTemplate", "moduleSemester", "metrics", "questions"]
-      }
-    );
-
-    const newMetrics = await getEntityArray(request.body.metrics, Metric, {
-      review: review
-    });
-
-    const newQuestions = await getEntityArray(
-      request.body.questions,
-      Question,
-      {
-        review: review
-      }
-    );
-
-    review.expectedGrade = request.body.expectedGrade;
-    review.actualGrade = request.body.actualGrade;
-    review.metrics.forEach(metric => {
-      const newMetric = newMetrics.find(
-        newMetric => metric.metricTemplate === newMetric.metricTemplate
-      );
-      Object.assign(metric, newMetric);
-    });
-
-    review.questions.forEach(question => {
-      const newQuestion = newQuestions.find(
-        newQuestion =>
-          question.questionTemplate === newQuestion.questionTemplate
-      );
-      Object.assign(question, newQuestion);
-    });
-    await validateOrReject(review);
-    await getRepository(Review).save(review);
-
-    const entityTokenPayload = review.createPayload();
-
-    const entityToken = sign(entityTokenPayload, process.env.JWT_SECRET!, {
-      expiresIn: "120 days"
-    });
-
-    const result = {
-      review: review.stringify(),
-      entityToken
-    };
-    response.status(200).json(result);
-  } catch (error) {
-    console.error(error);
-    response.sendStatus(400);
-  }
-}
+export async function update(request: Request, response: Response) {}
 
 export async function discard(request: Request, response: Response) {
   try {

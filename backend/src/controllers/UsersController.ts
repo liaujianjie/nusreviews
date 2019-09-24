@@ -3,10 +3,7 @@ import { validateOrReject } from "class-validator";
 import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { User } from "../entities/User";
-import {
-  AccessTokenSignedPayload,
-  EntityTokenSignedPayload
-} from "../types/tokens";
+import { AccessTokenSignedPayload } from "../types/tokens";
 import { getAuthenticationTokens } from "../utils/users";
 import { sendVerificationEmail } from "../utils/sendgrid";
 
@@ -184,35 +181,4 @@ export async function refreshAuthentication(
 
   const result = getAuthenticationTokens(user);
   response.status(200).json(result);
-}
-
-export async function verifyEmail(request: Request, response: Response) {
-  try {
-    const entityTokenSignedPayload = response.locals
-      .payload as EntityTokenSignedPayload<User>;
-    if (!entityTokenSignedPayload.id) {
-      throw new Error("No id provided");
-    }
-
-    const user = await getRepository(User).findOneOrFail(
-      entityTokenSignedPayload.id
-    );
-    if (user.email !== entityTokenSignedPayload.email) {
-      throw new Error("Email has changed");
-    }
-
-    const result = await getRepository(User).update(
-      entityTokenSignedPayload.id,
-      {
-        emailVerified: true
-      }
-    );
-    if (result.affected === 0) {
-      throw new Error("Failed to update user");
-    }
-    response.status(204).send();
-  } catch (error) {
-    response.sendStatus(400);
-    console.error(error);
-  }
 }

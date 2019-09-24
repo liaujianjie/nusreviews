@@ -52,22 +52,7 @@ export async function show(request: Request, response: Response) {
   }
 }
 
-export async function update(request: Request, response: Response) {
-  try {
-    const entityTokenSignedPayload = response.locals
-      .payload as EntityTokenSignedPayload<Opinion>;
-
-    const opinion = await getRepository(Opinion).findOneOrFail(
-      entityTokenSignedPayload.id
-    );
-    opinion.description = request.body.description;
-    await validateOrReject(opinion);
-    await getRepository(Opinion).save(opinion);
-    response.status(200).json(opinion);
-  } catch (error) {
-    response.sendStatus(400);
-  }
-}
+export async function update(request: Request, response: Response) {}
 
 export async function discard(request: Request, response: Response) {
   try {

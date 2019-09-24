@@ -12,10 +12,7 @@ import reviewTemplates from "./reviewTemplates";
 import reviews from "./reviews";
 import metrics from "./metrics";
 import questions from "./questions";
-import * as UsersController from "../../controllers/UsersController";
-import * as ReviewsController from "../../controllers/ReviewsController";
-import * as OpinionsController from "../../controllers/OpinionsController";
-import * as TipsController from "../../controllers/TipsController";
+import * as TokensController from "../../controllers/TokensController";
 import { checkBearerToken } from "../../middlewares/checkBearerToken";
 import { BearerTokenType } from "../../types/tokens";
 
@@ -36,10 +33,10 @@ routes.use("/metrics", metrics);
 routes.use("/questions", questions);
 
 routes.use(checkBearerToken(BearerTokenType.EntityToken));
-routes.post("/verify_email", UsersController.verifyEmail);
-routes.post("/edit_review", ReviewsController.update);
-routes.post("/delete_review", ReviewsController.discard);
-routes.post("/edit_opinion", OpinionsController.update);
-routes.post("/edit_tip", TipsController.update);
+routes.post("/verify_email", TokensController.verifyEmail);
+routes.post("/edit_review", TokensController.editReview);
+routes.post("/delete_review", TokensController.deleteReview);
+routes.post("/edit_opinion", TokensController.editOpinion);
+routes.post("/edit_tip", TokensController.editTip);
 
 export default routes;
