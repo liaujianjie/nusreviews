@@ -16,14 +16,11 @@ import * as UsersController from "../../controllers/UsersController";
 import * as ReviewsController from "../../controllers/ReviewsController";
 import * as OpinionsController from "../../controllers/OpinionsController";
 import * as TipsController from "../../controllers/TipsController";
-import { checkEditToken } from "../../middlewares/checkEditToken";
+import { checkBearerToken } from "../../middlewares/checkBearerToken";
+import { BearerTokenType } from "../../types/tokens";
 
 const routes = Router();
 
-routes.get(
-  "/email_verification/:emailVerificationToken",
-  UsersController.verifyEmail
-);
 routes.use("/users", users);
 routes.use("/academic_years", academicYears);
 routes.use("/semesters", semesters);
@@ -38,7 +35,8 @@ routes.use("/reviews", reviews);
 routes.use("/metrics", metrics);
 routes.use("/questions", questions);
 
-routes.use(checkEditToken);
+routes.use(checkBearerToken(BearerTokenType.EntityToken));
+routes.post("/verify_email", UsersController.verifyEmail);
 routes.post("/edit_review", ReviewsController.update);
 routes.post("/delete_review", ReviewsController.discard);
 routes.post("/edit_opinion", OpinionsController.update);

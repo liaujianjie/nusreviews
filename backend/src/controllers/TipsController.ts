@@ -1,9 +1,14 @@
 import { validateOrReject } from "class-validator";
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
+import { sign } from "jsonwebtoken";
 import { Tip } from "../entities/Tip";
 import { ModuleSemester } from "../entities/ModuleSemester";
-import { generateEditToken, EditTokenSignedPayload } from "../utils/editToken";
+import {
+  EntityTokenSignedPayload,
+  EntityTokenPayload,
+  BearerTokenType
+} from "../types/tokens";
 
 export async function create(request: Request, response: Response) {
   try {
@@ -16,15 +21,24 @@ export async function create(request: Request, response: Response) {
 
     await validateOrReject(tip);
     await getRepository(Tip).save(tip);
-    const editToken = generateEditToken(tip, "120 days");
+
+    const payload: EntityTokenPayload<Tip> = {
+      type: BearerTokenType.EntityToken,
+      id: tip.id
+    };
+
+    const entityToken = sign(payload, process.env.JWT_SECRET!, {
+      expiresIn: "120 days"
+    });
+
     const result = {
       tip,
-      editToken
+      entityToken
     };
-    response.status(201).send(result);
+    response.status(201).json(result);
   } catch (error) {
     console.error(error);
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
@@ -33,25 +47,23 @@ export async function show(request: Request, response: Response) {
     const tip = await getRepository(Tip).findOneOrFail(request.params.id);
     response.status(200).json(tip);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
     return;
   }
 }
 
 export async function update(request: Request, response: Response) {
   try {
-    const payload = response.locals
-      .editTokenSignedPayload as EditTokenSignedPayload;
-    const id = payload.entityId;
+    const payload = response.locals.payload as EntityTokenSignedPayload<Tip>;
 
-    const tip = await getRepository(Tip).findOneOrFail(id);
+    const tip = await getRepository(Tip).findOneOrFail(payload.id);
     tip.description = request.body.description;
     await validateOrReject(tip);
 
     await getRepository(Tip).save(tip);
     response.status(200).json(tip);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
@@ -85,6 +97,6 @@ export async function votes(request: Request, response: Response) {
     const votes = tip.tipVotes;
     response.status(200).json(votes);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }

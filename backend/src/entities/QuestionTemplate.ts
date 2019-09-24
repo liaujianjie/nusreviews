@@ -28,6 +28,11 @@ export class QuestionTemplate extends Discardable {
   @IsBoolean()
   compulsory!: boolean;
 
+  @Column()
+  @IsNotEmpty()
+  @IsBoolean()
+  showInPreview!: boolean;
+
   @OneToMany(type => Question, question => question.questionTemplate)
   questions!: Question[];
 }
