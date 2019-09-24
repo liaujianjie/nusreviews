@@ -1,5 +1,8 @@
 .DiscussionSection__left-header {
   margin: 0px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: slategray;
 }
 
 .DiscussionSection__divider {

@@ -1,15 +1,10 @@
 .Section__header-container {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-
-  margin-bottom: 24px;
-}
-
-.Section__header-container {
-  display: flex;
   flex-direction: row;
+  align-items: stretch;
   justify-content: space-between;
+
+  margin-bottom: 32px;
 }
 
 .Section__left-header-container {

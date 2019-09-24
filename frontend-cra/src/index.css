@@ -30,6 +30,19 @@ main {
   padding-right: 15px;
 }
 
+/* NATIVE BROWSER OVERRIDES */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
+  margin: 0px;
+}
+
 /* BLUEPRINT OVERRIDES */
 
 .bp3-navbar {
