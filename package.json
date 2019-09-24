@@ -1,5 +1,9 @@
 {
   "name": "nusreviews",
   "private": true,
-	"workspaces": ["frontend", "backend"]
+  "workspaces": [
+    "frontend",
+    "frontend-cra",
+    "backend"
+  ]
 }
