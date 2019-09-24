@@ -1454,6 +1454,18 @@
     react-split-pane "^0.1.77"
     react-treebeard "^2.1.0"
 
+"@types/algoliasearch-helper@*":
+  version "2.26.1"
+  resolved "https://registry.yarnpkg.com/@types/algoliasearch-helper/-/algoliasearch-helper-2.26.1.tgz#60cf377e7cb4bd9a55f7eba35182792763230a24"
+  integrity sha512-JN1wq/yLxxBcc6MeSe57F9Aqv8wL964L0nBOUTSQ5OECzWxaECuGYV06VnGKn/c+9AGB97RAgqx2PUbYflZNqA==
+  dependencies:
+    "@types/algoliasearch" "*"
+
+"@types/algoliasearch@*":
+  version "3.34.2"
+  resolved "https://registry.yarnpkg.com/@types/algoliasearch/-/algoliasearch-3.34.2.tgz#f3daed26185a21b77632c28835e340147532f575"
+  integrity sha512-a+ztY3iL+Dpor7wYaF4CO6obUYcVEyXue1ppQklP1VCUP+VGZyzMcYiZodNs9DFV1HEOW5VCLTIqiZ4ikQpKzA==
+
 "@types/algoliasearch@^3.34.1":
   version "3.34.1"
   resolved "https://registry.yarnpkg.com/@types/algoliasearch/-/algoliasearch-3.34.1.tgz#dbe1e3d1ff4badebc85ff9c157a7d476f6694d55"
@@ -1712,6 +1724,39 @@
   integrity sha1-+VW8fQ77wlMV8QZ2McHTDt3Yisg=
   dependencies:
     "@types/react" "*"
+
+"@types/react-instantsearch-core@*":
+  version "5.2.9"
+  resolved "https://registry.yarnpkg.com/@types/react-instantsearch-core/-/react-instantsearch-core-5.2.9.tgz#c8050dedefcb86ff01a0ff584c1801f5b165fe4a"
+  integrity sha512-tem7Vc8R1SZlt5hxW/xAJT3jUbfwBEg6ZYf9lWr8DtccFRZkzbC8dVhV9os3Fq73hqYXWImB/sS3/wfRqwdW2g==
+  dependencies:
+    "@types/algoliasearch-helper" "*"
+    "@types/react" "*"
+
+"@types/react-instantsearch-dom@*", "@types/react-instantsearch-dom@^5.2.6":
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/@types/react-instantsearch-dom/-/react-instantsearch-dom-5.2.6.tgz#b47fc2c19b1aa8df06a95f67d01f5485abace8f0"
+  integrity sha512-gx7QBnL+rG50IUaIoj2SVwXT4O5HVOayQoEqiWF1RU1py43E+Wtlyi6WCdTEfEOz0sj6kWNEXAPMhfz+vjl9mQ==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-instantsearch-core" "*"
+
+"@types/react-instantsearch-native@*":
+  version "5.3.3"
+  resolved "https://registry.yarnpkg.com/@types/react-instantsearch-native/-/react-instantsearch-native-5.3.3.tgz#bb186032f4513925549709ad93aa34a972fe89ee"
+  integrity sha512-P6boMo3dIk9ANpbBIjFqu2GeyWkip1lEe75p2IUxlpbUo1CgCDpg1dfwZKLaJltklOAfEPbAqmRHyx6hdEDXcQ==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-instantsearch-core" "*"
+
+"@types/react-instantsearch@^5.2.3":
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/@types/react-instantsearch/-/react-instantsearch-5.2.3.tgz#8e093a35746040e17854f2643c3c2fdc849174c5"
+  integrity sha512-PUgHWwPBXqlV4wSPYeUJOPe+uCaIbdJ19p1HDDQfSDvYChEeRurQ4PXyvkFbRyHpKcNE6A3faQFwQjYQI5D/vA==
+  dependencies:
+    "@types/react-instantsearch-core" "*"
+    "@types/react-instantsearch-dom" "*"
+    "@types/react-instantsearch-native" "*"
 
 "@types/react-redux@^5.0.21":
   version "5.0.21"
