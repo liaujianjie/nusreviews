@@ -33,7 +33,7 @@ const _Navigation: React.FunctionComponent<ConnectedProps> = ({ signOut }) => {
     <Navbar className="Navigation">
       <Navbar.Group align={Alignment.LEFT}>
         <Navbar.Heading>
-          <img src={logo} alt="NUS Reviews logo" />
+          <img src={logo} alt="NUS Reviews logo" height={20} />
         </Navbar.Heading>
       </Navbar.Group>
       <Navbar.Group>

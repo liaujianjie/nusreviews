@@ -9,6 +9,7 @@ import { IconNames } from "@blueprintjs/icons";
 import { signIn } from "../../../store/auth";
 
 import "./style.css";
+import { FinalInputGroup } from "./FinalInputGroup";
 
 type FormShape = {
   email: string;
@@ -34,37 +35,27 @@ const _SignInForm: React.FunctionComponent<ConnectedProps> = ({ signIn }) => {
           <form className="SignInForm__form" onSubmit={handleSubmit}>
             <Field
               name="email"
+              component={FinalInputGroup}
               validate={value =>
                 !_.endsWith(value, "@u.nus.edu")
                   ? "You need to login with a NUS student email."
                   : undefined
               }
-            >
-              {({ input }) => (
-                <InputGroup
-                  {...input}
-                  placeholder="e0123456a@u.nus.edu"
-                  leftIcon={IconNames.USER}
-                  large
-                />
-              )}
-            </Field>
+              placeholder="e0123456a@u.nus.edu"
+              leftIcon={IconNames.USER}
+              large
+            />
             <Field
               name="password"
+              component={FinalInputGroup}
               validate={value =>
                 _.isEmpty(value) ? "Password cannot be empty." : undefined
               }
-            >
-              {({ input }) => (
-                <InputGroup
-                  {...input}
-                  placeholder="Password"
-                  type="password"
-                  leftIcon={IconNames.LOCK}
-                  large
-                />
-              )}
-            </Field>
+              placeholder="Password"
+              type="password"
+              leftIcon={IconNames.LOCK}
+              large
+            />
             <Button
               type="submit"
               intent={Intent.PRIMARY}
