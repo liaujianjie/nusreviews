@@ -7,7 +7,7 @@ export const postgres: ConnectionOptions = {
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
   database: process.env.DB_NAME,
-  // ssl: true,
+  ssl: true,
   synchronize: true,
   logging: false,
   entities: ["src/entities/**/*.ts"],
