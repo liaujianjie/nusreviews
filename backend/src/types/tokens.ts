@@ -32,7 +32,7 @@ export type RefreshTokenPayload = Payload<BearerTokenType.RefreshToken> &
 export type RefreshTokenSignedPayload = RefreshTokenPayload & TokenLifespan;
 
 export type EntityTokenPayload<Entity> = Payload<BearerTokenType.EntityToken> &
-  Partial<Entity>;
+  Partial<Entity> & { entityName: string };
 export type EntityTokenSignedPayload<Entity> = EntityTokenPayload<Entity> &
   TokenLifespan;
 

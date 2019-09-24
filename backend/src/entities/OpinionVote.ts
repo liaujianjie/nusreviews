@@ -16,4 +16,6 @@ export class OpinionVote extends Base {
   @Column()
   @IsIn([1, -1])
   value!: number;
+
+  entityName = "OpinionVote";
 }

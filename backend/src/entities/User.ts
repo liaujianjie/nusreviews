@@ -10,6 +10,7 @@ import { Discardable } from "./Discardable";
 import { TipVote } from "./TipVote";
 import { OpinionVote } from "./OpinionVote";
 import { UserRole } from "../types/users";
+import { BearerTokenType, EntityTokenPayload } from "../types/tokens";
 
 @Entity()
 export class User extends Discardable {
@@ -54,4 +55,15 @@ export class User extends Discardable {
 
   @OneToMany(type => TipVote, tipVote => tipVote.user)
   tipVotes!: TipVote[];
+
+  createPayload = (): EntityTokenPayload<User> => ({
+    type: BearerTokenType.EntityToken,
+    entityName: this.entityName,
+    id: this.id,
+    email: this.email,
+    role: this.role,
+    username: this.username
+  });
+
+  entityName = "User";
 }

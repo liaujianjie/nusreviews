@@ -22,10 +22,7 @@ export async function create(request: Request, response: Response) {
     await validateOrReject(tip);
     await getRepository(Tip).save(tip);
 
-    const payload: EntityTokenPayload<Tip> = {
-      type: BearerTokenType.EntityToken,
-      id: tip.id
-    };
+    const payload = tip.createPayload();
 
     const entityToken = sign(payload, process.env.JWT_SECRET!, {
       expiresIn: "120 days"

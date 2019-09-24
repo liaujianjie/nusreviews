@@ -3,11 +3,7 @@ import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Opinion } from "../entities/Opinion";
 import { ModuleSemester } from "../entities/ModuleSemester";
-import {
-  EntityTokenSignedPayload,
-  EntityTokenPayload,
-  BearerTokenType
-} from "../types/tokens";
+import { EntityTokenSignedPayload } from "../types/tokens";
 import { sign } from "jsonwebtoken";
 
 export async function create(request: Request, response: Response) {
@@ -21,10 +17,7 @@ export async function create(request: Request, response: Response) {
 
     await validateOrReject(opinion);
     await getRepository(Opinion).save(opinion);
-    const payload: EntityTokenPayload<Opinion> = {
-      type: BearerTokenType.EntityToken,
-      id: opinion.id
-    };
+    const payload = opinion.createPayload();
     const entityToken = sign(payload, process.env.JWT_SECRET!, {
       expiresIn: "120 days"
     });

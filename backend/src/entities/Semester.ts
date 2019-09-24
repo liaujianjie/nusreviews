@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  Index,
-  OneToMany
-} from "typeorm";
+import { Column, Entity, ManyToOne, Index, OneToMany } from "typeorm";
 import { AcademicYear } from "./AcademicYear";
 import { Base } from "./Base";
 import { ModuleSemester } from "./ModuleSemester";
@@ -20,4 +14,6 @@ export class Semester extends Base {
 
   @OneToMany(type => ModuleSemester, moduleSemester => moduleSemester.semester)
   moduleSemesters!: ModuleSemester[];
+
+  entityName = "Semester";
 }

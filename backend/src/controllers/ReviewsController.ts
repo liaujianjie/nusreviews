@@ -37,10 +37,8 @@ export async function create(request: Request, response: Response) {
     await validateOrReject(review);
 
     await getRepository(Review).save(review);
-    const payload: EntityTokenPayload<Review> = {
-      type: BearerTokenType.EntityToken,
-      id: review.id
-    };
+
+    const payload = review.createPayload();
     const entityToken = sign(payload, process.env.JWT_SECRET!, {
       expiresIn: "120 days"
     });
@@ -115,10 +113,7 @@ export async function update(request: Request, response: Response) {
     await validateOrReject(review);
     await getRepository(Review).save(review);
 
-    const entityTokenPayload: EntityTokenPayload<Review> = {
-      type: BearerTokenType.EntityToken,
-      id: review.id
-    };
+    const entityTokenPayload = review.createPayload();
 
     const entityToken = sign(entityTokenPayload, process.env.JWT_SECRET!, {
       expiresIn: "120 days"

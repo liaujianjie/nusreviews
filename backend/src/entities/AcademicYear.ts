@@ -12,4 +12,6 @@ export class AcademicYear extends Base {
 
   @OneToMany(type => Semester, semester => semester.academicYear)
   semesters!: Semester[];
+
+  entityName = "AcademicYear";
 }

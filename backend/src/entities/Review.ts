@@ -12,6 +12,7 @@ import { Question } from "./Question";
 import { ReviewTemplate } from "./ReviewTemplate";
 import { ModuleSemester } from "./ModuleSemester";
 import { Grade } from "../types/reviews";
+import { EntityType } from "../types/tokens";
 
 @Entity()
 export class Review extends Discardable {
@@ -80,4 +81,6 @@ export class Review extends Discardable {
       questions: questionStrings
     };
   };
+
+  entityName = "Review";
 }
