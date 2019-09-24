@@ -1,12 +1,14 @@
 import * as React from "react";
 import { Menu, Search, Image, Container, Button } from "semantic-ui-react";
 import logo from "../static/images/logo.svg";
-import { connect, MapDispatchToProps } from "react-redux";
+import { connect } from "react-redux";
 import { signOut } from "../store/auth";
+import { StoreState } from "../store";
 
 type OwnProps = {};
 
-const NavBar: React.FunctionComponent<OwnProps & DispatchProps> = ({
+const NavBar: React.FunctionComponent<OwnProps & ConnectedProps> = ({
+  username,
   signOut
 }) => {
   return (
@@ -22,7 +24,7 @@ const NavBar: React.FunctionComponent<OwnProps & DispatchProps> = ({
             <Search size="mini" fluid placeholder="Search a module" />
           </Menu.Item>
           <Menu.Item>
-            <span style={{ marginRight: 16 }}>Jennie Kim</span>
+            <span style={{ marginRight: 16 }}>{username}</span>
             <Button onClick={signOut} basic>
               Sign out
             </Button>
@@ -33,15 +35,16 @@ const NavBar: React.FunctionComponent<OwnProps & DispatchProps> = ({
   );
 };
 
-type DispatchProps = {
-  signOut: typeof signOut;
-};
-
-const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = {
+type ConnectedProps = ReturnType<typeof mapStateToProps> &
+  typeof mapDispatchToProps;
+const mapStateToProps = (rootState: StoreState) => ({
+  username: rootState.auth.accessToken.username
+});
+const mapDispatchToProps = {
   signOut
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(NavBar);
