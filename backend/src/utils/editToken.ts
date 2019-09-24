@@ -1,9 +1,9 @@
 import { sign } from "jsonwebtoken";
 import { Opinion } from "../entities/Opinion";
+import { Review } from "../entities/Review";
 import { Tip } from "../entities/Tip";
 
-// export type EditableEntity = Opinion | Review | Tip;
-export type EditableEntity = Opinion | Tip;
+export type EditableEntity = Opinion | Review | Tip;
 
 export enum EditableEntityType {
   Opinion = "OPINION",
