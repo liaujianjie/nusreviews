@@ -21,11 +21,7 @@ body,
   background: #f4f6f8;
 }
 
-#root {
-  min-height: 100%;
-  overflow: scroll;
-}
-
 main {
-  height: 100%;
+  height: calc(100% - 50px);
+  overflow: scroll;
 }
