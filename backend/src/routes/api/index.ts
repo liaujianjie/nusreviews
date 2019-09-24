@@ -37,6 +37,8 @@ routes.post("/verify_email", TokensController.verifyEmail);
 routes.post("/edit_review", TokensController.editReview);
 routes.post("/delete_review", TokensController.deleteReview);
 routes.post("/edit_opinion", TokensController.editOpinion);
+routes.post("/delete_opinion", TokensController.deleteOpinion);
 routes.post("/edit_tip", TokensController.editTip);
+routes.post("/delete_tip", TokensController.deleteTip);
 
 export default routes;

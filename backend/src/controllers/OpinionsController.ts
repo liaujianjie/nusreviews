@@ -49,8 +49,6 @@ export async function show(request: Request, response: Response) {
   }
 }
 
-export async function update(request: Request, response: Response) {}
-
 export async function discard(request: Request, response: Response) {
   try {
     const result = await getRepository(Opinion).update(request.params.id, {

@@ -4,10 +4,7 @@ import { getRepository } from "typeorm";
 import { sign } from "jsonwebtoken";
 import { ModuleSemester } from "../entities/ModuleSemester";
 import { Tip } from "../entities/Tip";
-import {
-  EntityTokenSignedPayload,
-  AccessTokenSignedPayload
-} from "../types/tokens";
+import { AccessTokenSignedPayload } from "../types/tokens";
 import { sendEntityEmail } from "../utils/sendgrid";
 
 export async function create(request: Request, response: Response) {
@@ -48,24 +45,6 @@ export async function show(request: Request, response: Response) {
   } catch (error) {
     response.sendStatus(400);
     return;
-  }
-}
-
-export async function update(request: Request, response: Response) {
-  try {
-    const entityTokenSignedPayload = response.locals
-      .payload as EntityTokenSignedPayload<Tip>;
-
-    const tip = await getRepository(Tip).findOneOrFail(
-      entityTokenSignedPayload.id
-    );
-    tip.description = request.body.description;
-    await validateOrReject(tip);
-
-    await getRepository(Tip).save(tip);
-    response.status(200).json(tip);
-  } catch (error) {
-    response.sendStatus(400);
   }
 }
 

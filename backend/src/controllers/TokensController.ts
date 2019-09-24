@@ -29,6 +29,23 @@ export async function editOpinion(request: Request, response: Response) {
   }
 }
 
+export async function deleteOpinion(request: Request, response: Response) {
+  try {
+    const entityTokenSignedPayload = response.locals
+      .payload as EntityTokenSignedPayload<Opinion>;
+
+    const result = await getRepository(Opinion).update(
+      entityTokenSignedPayload.id,
+      {
+        discardedAt: new Date()
+      }
+    );
+    response.sendStatus(204);
+  } catch (error) {
+    response.sendStatus(400);
+  }
+}
+
 export async function editReview(request: Request, response: Response) {
   try {
     const entityTokenSignedPayload = response.locals
@@ -96,7 +113,7 @@ export async function deleteReview(request: Request, response: Response) {
       entityTokenSignedPayload.id,
       { relations: ["metrics", "questions"] }
     );
-    review.discard();
+    review.setDiscardedAt(new Date());
 
     await getRepository(Review).save(review);
     response.sendStatus(204);
@@ -118,6 +135,23 @@ export async function editTip(request: Request, response: Response) {
 
     await getRepository(Tip).save(tip);
     response.status(200).json(tip);
+  } catch (error) {
+    response.sendStatus(400);
+  }
+}
+
+export async function deleteTip(request: Request, response: Response) {
+  try {
+    const entityTokenSignedPayload = response.locals
+      .payload as EntityTokenSignedPayload<Tip>;
+
+    const result = await getRepository(Tip).update(
+      entityTokenSignedPayload.id,
+      {
+        discardedAt: new Date()
+      }
+    );
+    response.sendStatus(204);
   } catch (error) {
     response.sendStatus(400);
   }

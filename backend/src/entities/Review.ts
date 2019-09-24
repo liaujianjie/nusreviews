@@ -81,8 +81,7 @@ export class Review extends Discardable {
     };
   };
 
-  public discard = () => {
-    const discardedAt = new Date();
+  public setDiscardedAt = (discardedAt?: Date) => {
     this.discardedAt = discardedAt;
     this.metrics.forEach(metric => (metric.discardedAt = discardedAt));
     this.questions.forEach(question => (question.discardedAt = discardedAt));
