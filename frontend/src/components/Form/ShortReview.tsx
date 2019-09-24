@@ -53,11 +53,18 @@ export const ShortReview: React.FunctionComponent<ShortReviewProps> = props => {
         const formValue = values[formProps.name];
         return (
           <Modal
+            className="scrolling"
             open={open}
             onClose={onClose}
             trigger={modalTrigger}
             size="small"
-            style={{ top: "30%" }}
+            closeIcon
+            style={{
+              overflowY: "auto",
+              height: "fit-content",
+              alignSelf: "center",
+              maxHeight: "90%"
+            }}
           >
             <Modal.Header>{question}</Modal.Header>
             <Modal.Content style={{ paddingBottom: "0.5em" }}>
