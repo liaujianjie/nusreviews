@@ -14,7 +14,7 @@ export async function index(
     // TODO: need to cut this down to send a more condensed version
     response.status(200).json(result);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
@@ -29,7 +29,7 @@ export async function show(
     });
     response.status(200).json(module);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
@@ -50,7 +50,7 @@ export async function semesters(
     });
     response.status(200).json(semesters);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
@@ -63,6 +63,6 @@ export async function moduleSemesters(request: Request, response: Response) {
     const moduleSemesters = module.moduleSemesters;
     response.status(200).json(moduleSemesters);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }

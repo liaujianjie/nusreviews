@@ -11,7 +11,7 @@ export async function index(
     const academicYear = await getRepository(AcademicYear).find();
     response.status(200).json(academicYear);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 

@@ -12,7 +12,7 @@ export async function index(
     const semester = await getRepository(Semester).find();
     response.status(200).json(semester);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
@@ -22,10 +22,12 @@ export async function show(
   next: NextFunction
 ) {
   try {
-    const semester = await getRepository(Semester).findOneOrFail(request.params.id);
+    const semester = await getRepository(Semester).findOneOrFail(
+      request.params.id
+    );
     response.status(200).json(semester);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
@@ -48,6 +50,6 @@ export async function modules(
     });
     response.status(200).json(modules);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }

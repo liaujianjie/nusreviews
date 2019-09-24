@@ -19,7 +19,7 @@ export async function create(request: Request, response: Response) {
     response.status(201).send(tipVote);
   } catch (error) {
     console.error(error);
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
@@ -30,7 +30,7 @@ export async function show(request: Request, response: Response) {
     );
     response.status(200).json(tipVote);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
@@ -43,7 +43,7 @@ export async function update(request: Request, response: Response) {
     response.status(200).json(tipVote);
   } catch (error) {
     console.error(error);
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
@@ -56,7 +56,7 @@ export async function destroy(request: Request, response: Response) {
     }
     response.status(200).json(result);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
