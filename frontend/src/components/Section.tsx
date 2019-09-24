@@ -3,14 +3,14 @@ import { Divider, Grid, Segment } from "semantic-ui-react";
 import ActionButton from "./ActionButton";
 
 type Props = {
-  topLeft: React.ReactNode,
-  topRight: React.ReactNode,
-  body: React.ReactNode,
+  topLeft: React.ReactNode;
+  topRight: React.ReactNode;
+  body: React.ReactNode;
   action: {
-    name: string,
-    icon: string,
-  }
-}
+    name: string;
+    icon: string;
+  };
+};
 
 const Section = (props: Props) => {
   const { topLeft, topRight, body, action } = props;
@@ -20,45 +20,45 @@ const Section = (props: Props) => {
         marginBottom: "1em",
         padding: "1em",
         background: "#fff",
-        borderRadius: "0.3em",
+        borderRadius: "0.3em"
       }}
     >
-      <Segment 
-        style = {{
-          borderWidth: "0px",
+      <Segment
+        style={{
+          borderWidth: "0px"
         }}
-        attached='top'
+        attached="top"
       >
-        <Grid verticalAlign='middle'>
-          <Grid.Column floated='left' width={10}>
+        <Grid verticalAlign="middle">
+          <Grid.Column floated="left" width={10}>
             {topLeft}
           </Grid.Column>
-          <Grid.Column floated='right' width={6} textAlign='right'>
+          <Grid.Column floated="right" width={6} textAlign="right">
             {topRight}
           </Grid.Column>
         </Grid>
       </Segment>
-      <Segment 
+      <Segment
         attached
-        style = {{
-          borderWidth: "0px",
+        style={{
+          borderWidth: "0px"
         }}
-      > 
-        {body} 
+      >
+        {body}
       </Segment>
-      { action && 
-        <Segment 
+      {action && (
+        <Segment
           attached
-          style = {{
-            borderWidth: "0px",
+          style={{
+            borderWidth: "0px"
           }}
-          textAlign='center'
+          textAlign="center"
         >
-          <ActionButton name={action.name} icon={action.icon} transparent/>
+          <ActionButton name={action.name} icon={action.icon} transparent />
         </Segment>
-      }
+      )}
     </div>
-  )
+  );
 };
 
 export default Section;

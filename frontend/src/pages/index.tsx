@@ -10,19 +10,19 @@ import { Grid, Search } from "semantic-ui-react";
 import logo from "../assets/logo.svg";
 import { withAuth } from "../components/withAuth";
 
-const SemanticSearchBox = ({ currentRefinement, refine }) => (
+const SemanticSearchBox = ({ query, refine }) => (
   <Search
     color="blue"
     fluid
     size="massive"
     placeholder="Search modules or lecturers"
     input={{ fluid: true }}
-    value={currentRefinement}
+    value={query}
     onSearchChange={event => refine(event.currentTarget.value)}
   />
 );
 
-const SearchPage = () => {
+const SearchPage = ({ query, onChange, onSubmit }) => {
   return (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
       <Grid.Column>
@@ -30,9 +30,24 @@ const SearchPage = () => {
 
         <div class="ui center aligned grid">
           <div class="column">
+            <div>
+              <h2>Home</h2>
+              <p>
+                Try to search for a product like "apple iphone" and submit the
+                form.
+              </p>
+              <form onSubmit={onSubmit}>
+                <input
+                  placeholder="Search for a product..."
+                  value={query}
+                  onChange={onChange}
+                />
+                <button>Go to the results page</button>
+              </form>
+            </div>
             <InstantSearch
-              apiKey="3EJTXIKS8B"
-              appId="092aa257d26c6e1fb8733a3c0229b176"
+              appId="3EJTXIKS8B"
+              apiKey="092aa257d26c6e1fb8733a3c0229b176"
               indexName="modules"
             >
               <header className="header">
@@ -49,4 +64,3 @@ const SearchPage = () => {
 
 const CustomSearchBox = connectSearchBox(SemanticSearchBox);
 export default withLayout(SearchPage);
-

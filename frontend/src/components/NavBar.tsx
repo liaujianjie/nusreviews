@@ -28,8 +28,8 @@ const NavBar = () => {
         <Menu.Menu position="right">
           <Menu.Item>
             <InstantSearch
-              apiKey="3EJTXIKS8B"
-              appId="092aa257d26c6e1fb8733a3c0229b176"
+              appId="3EJTXIKS8B"
+              apiKey="092aa257d26c6e1fb8733a3c0229b176"
               indexName="modules"
             >
               <CustomSearchBox />

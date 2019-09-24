@@ -1,13 +1,31 @@
 import * as React from "react";
-import { Card, Container, Header } from "semantic-ui-react";
+import { Card, Container, Header, Search } from "semantic-ui-react";
 import { withLayout } from "../components/Layout";
 import RatingCard from "../components/RatingCard";
 import { ratings } from "./module";
 import Section from "../components/Section";
-import { Highlight, InfiniteHits, Configure } from "react-instantsearch-dom";
-import { CurrentRefinements } from "react-instantsearch-dom";
-import { InstantSearch } from "react-instantsearch-dom";
+import {
+  Highlight,
+  InfiniteHits,
+  Configure,
+  connectSearchBox,
+  InstantSearch
+} from "react-instantsearch-dom";
+import { connectStateResults } from "react-instantsearch/connectors";
 import { withAuth } from "../components/withAuth";
+
+const SemanticSearchBox = ({ currentRefinement, refine }) => (
+  <Search
+    color="blue"
+    fluid
+    size="massive"
+    placeholder="Search modules or lecturers"
+    input={{ fluid: true }}
+    value={currentRefinement}
+    onSearchChange={event => refine(event.currentTarget.value)}
+    showNoResults={false}
+  />
+);
 
 function Hit(props) {
   return (
@@ -20,7 +38,7 @@ function Hit(props) {
                 <Header as="h2">
                   <Highlight attribute="moduleCode" hit={props.hit} />
                   <Header.Subheader style={{ color: "black" }}>
-                    <Highlight attribute="title" hit={props.hit} />
+                    <Highlight attribute="faculty" hit={props.hit} />
                   </Header.Subheader>
                 </Header>
               </a>
@@ -42,6 +60,23 @@ function Hit(props) {
   );
 }
 
+const StateResults = ({ searchResults, searchState }) => {
+  return searchResults && searchResults.nbHits !== 0 ? (
+    <div>
+      <h1>
+        Search results found for <strong>{searchState.query}</strong>:
+      </h1>
+      <InfiniteHits hitComponent={Hit} />
+    </div>
+  ) : (
+    <div>
+      <h1>
+        No results found for <strong>{searchState.query}</strong>.
+      </h1>
+    </div>
+  );
+};
+
 const ModuleList = () => {
   return (
     <div>
@@ -50,19 +85,19 @@ const ModuleList = () => {
           marginTop: "6rem"
         }}
       >
-        <h1>Search Results for {CurrentRefinements}:</h1>
-
         <InstantSearch
-          apiKey="3EJTXIKS8B"
-          appId="092aa257d26c6e1fb8733a3c0229b176"
+          appId="3EJTXIKS8B"
+          apiKey="092aa257d26c6e1fb8733a3c0229b176"
           indexName="modules"
         >
           <Configure hitsPerPage={10} />
-          <InfiniteHits hitComponent={Hit} />
+          <CustomSearchBox />
+          <CustomStateResults />
         </InstantSearch>
       </Container>
     </div>
   );
 };
-
+const CustomSearchBox = connectSearchBox(SemanticSearchBox);
+const CustomStateResults = connectStateResults(StateResults);
 export default withLayout(ModuleList);
