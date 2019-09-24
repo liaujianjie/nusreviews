@@ -59,8 +59,14 @@ export enum AuthAction {
   SIGNIN_BEGIN = "AUTH::SIGNIN_BEGIN",
   SIGNIN_SUCCESS = "AUTH::SIGNIN_SUCCESS",
   SIGNIN_FAILURE = "AUTH::SIGNIN_FAILURE",
-  SIGNOUT = "AUTH::SIGNOUT"
+  SIGNOUT = "AUTH::SIGNOUT",
+  LOAD_FROM_LOCALSTORAGE = "AUTH::LOAD_FROM_LOCALSTORAGE"
 }
+
+type AuthStateWithoutLoadingState = Pick<
+  AuthState,
+  "encodedAccessToken" | "encodedRefreshToken" | "accessToken" | "refreshToken"
+>;
 
 interface AuthSignOutAction {
   type: typeof AuthAction.SIGNOUT;
@@ -71,12 +77,7 @@ interface AuthSignInBeginAction {
 }
 interface AuthSignInSuccessAction {
   type: AuthAction.SIGNIN_SUCCESS;
-  payload: {
-    encodedAccessToken: string;
-    encodedRefreshToken: string;
-    accessToken: AuthenticationToken;
-    refreshToken: AuthenticationToken;
-  };
+  payload: AuthStateWithoutLoadingState;
 }
 interface AuthSignInFailureAction {
   type: typeof AuthAction.SIGNIN_FAILURE;
@@ -87,15 +88,15 @@ interface AuthSignUpBeginAction {
 }
 interface AuthSignUpSuccessAction {
   type: typeof AuthAction.SIGNUP_SUCCESS;
-  payload: {
-    encodedAccessToken: string;
-    encodedRefreshToken: string;
-    accessToken: AuthenticationToken;
-    refreshToken: AuthenticationToken;
-  };
+  payload: AuthStateWithoutLoadingState;
 }
 interface AuthSignUpFailureAction {
   type: typeof AuthAction.SIGNUP_FAILURE;
+}
+
+interface AuthLoadFromLocalStorageAction {
+  type: typeof AuthAction.LOAD_FROM_LOCALSTORAGE;
+  payload?: AuthStateWithoutLoadingState;
 }
 
 export type AuthActionTypes =
@@ -105,4 +106,5 @@ export type AuthActionTypes =
   | AuthSignInFailureAction
   | AuthSignUpBeginAction
   | AuthSignUpSuccessAction
-  | AuthSignUpFailureAction;
+  | AuthSignUpFailureAction
+  | AuthLoadFromLocalStorageAction;

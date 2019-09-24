@@ -1,13 +1,12 @@
-import * as JWT from "jsonwebtoken";
-
-import {
-  AuthState,
-  AuthActionTypes,
-  AuthAction,
-  isAuthenticationToken
-} from "./types";
+import { AuthState, AuthActionTypes, AuthAction } from "./types";
 import * as auth from "../../api/auth";
 import { Dispatch, ActionCreator } from "react-redux";
+import {
+  saveTokensToLocalStorage,
+  clearTokensFromLocalStorage,
+  loadTokensFromLocalStorage
+} from "./localstorage";
+import { getTokensFromResponse } from "./utils/getTokensFromResponse";
 
 type SignInParameter = Parameters<typeof auth.signIn>[0];
 
@@ -18,9 +17,11 @@ export const signIn = ({ email, password }: SignInParameter) => async (
 
   try {
     const response = await auth.signIn({ email, password });
+    const tokens = getTokensFromResponse(response);
+    saveTokensToLocalStorage(tokens);
     dispatch({
       type: AuthAction.SIGNIN_SUCCESS,
-      payload: getAuthStateFromAuthResponse(response)
+      payload: tokens
     });
   } catch (error) {
     console.log(error);
@@ -35,9 +36,11 @@ export const signUp = ({ email, password }: SignInParameter) => async (
 
   try {
     const response = await auth.signUp({ email, password });
+    const tokens = getTokensFromResponse(response);
+    saveTokensToLocalStorage(tokens);
     dispatch({
       type: AuthAction.SIGNUP_SUCCESS,
-      payload: getAuthStateFromAuthResponse(response)
+      payload: tokens
     });
   } catch (error) {
     console.log(error);
@@ -45,32 +48,27 @@ export const signUp = ({ email, password }: SignInParameter) => async (
   }
 };
 
-export const signOut: ActionCreator<AuthActionTypes> = () => ({
-  type: AuthAction.SIGNOUT
-});
+export const signOut: ActionCreator<AuthActionTypes> = () => {
+  clearTokensFromLocalStorage();
+  return {
+    type: AuthAction.SIGNOUT
+  };
+};
 
-const getAuthStateFromAuthResponse = (
-  response: any
-): Pick<
-  AuthState,
-  "encodedAccessToken" | "encodedRefreshToken" | "accessToken" | "refreshToken"
-> => {
-  const encodedAccessToken = response.accessToken as string;
-  const encodedRefreshToken = response.refreshToken as string;
-  const accessToken = JWT.decode(encodedAccessToken);
-  const refreshToken = JWT.decode(encodedRefreshToken);
-
-  if (
-    !isAuthenticationToken(accessToken) ||
-    !isAuthenticationToken(refreshToken)
-  ) {
-    throw new Error("Invalid JWT for access token or refresh token.");
+export const loadFromLoadStorage = () => {
+  const persistedTokens = loadTokensFromLocalStorage();
+  if (!persistedTokens) {
+    return {
+      type: AuthAction.LOAD_FROM_LOCALSTORAGE
+    };
   }
 
+  const mockResponse = {
+    accessToken: persistedTokens.encodedAccessToken,
+    refreshToken: persistedTokens.encodedRefreshToken
+  };
   return {
-    encodedAccessToken,
-    encodedRefreshToken,
-    accessToken,
-    refreshToken
+    type: AuthAction.LOAD_FROM_LOCALSTORAGE,
+    payload: getTokensFromResponse(mockResponse)
   };
 };

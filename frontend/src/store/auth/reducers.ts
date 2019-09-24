@@ -19,6 +19,8 @@ export const reducer = (
     case AuthAction.SIGNIN_SUCCESS:
     case AuthAction.SIGNUP_SUCCESS:
       return { ...action.payload, authenticating: false };
+    case AuthAction.LOAD_FROM_LOCALSTORAGE:
+      return { ...state, ...action.payload };
     case AuthAction.SIGNIN_FAILURE:
     case AuthAction.SIGNUP_FAILURE:
     case AuthAction.SIGNOUT:
