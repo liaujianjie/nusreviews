@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Menu, Search, Image, Container } from "semantic-ui-react";
+import { Menu, Search, Image, Container, Button } from "semantic-ui-react";
 import logo from "../static/images/logo.svg";
 import { InstantSearch } from "react-instantsearch-dom";
 import { connectSearchBox } from "react-instantsearch/connectors";
@@ -30,7 +30,12 @@ const HeaderSearchBox = ({ currentRefinement, refine }) => {
   );
 };
 
-const NavBar = () => {
+type OwnProps = {};
+
+const NavBar: React.FunctionComponent<OwnProps & ConnectedProps> = ({
+  username,
+  signOut
+}) => {
   return (
     <Menu fixed="top" verticalAlign="middle" borderless>
       <Container>
@@ -50,11 +55,10 @@ const NavBar = () => {
             </InstantSearch>
           </Menu.Item>
           <Menu.Item>
-            <Image
-              src="https://66.media.tumblr.com/d4743332c9f25d147aac03ec12b9c9a2/tumblr_ory27uhmTl1w84hv9o6_250.jpg"
-              avatar
-            />
-            <span>Jennie Kim</span>
+            <span style={{ marginRight: 16 }}>{username}</span>
+            <Button onClick={signOut} basic>
+              Sign out
+            </Button>
           </Menu.Item>
         </Menu.Menu>
       </Container>
