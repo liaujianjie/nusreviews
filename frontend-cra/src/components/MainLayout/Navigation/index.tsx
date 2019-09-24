@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
+import { __RouterContext as RouterContext } from "react-router";
+import _ from "lodash";
 
 import {
   Navbar,
   Alignment,
   Button,
-  Text,
   InputGroup,
   Popover,
   Menu,
@@ -15,6 +16,14 @@ import logo from "./logo.svg";
 import "./style.css";
 
 export const Navigation: React.FunctionComponent = () => {
+  // Temporarily use private APIs so that we can use the router state as a hook
+  const { location } = useContext(RouterContext);
+
+  // Hide navbar in home page and in auth pages
+  if (location.pathname === "/" || _.startsWith(location.pathname, "/auth")) {
+    return null;
+  }
+
   return (
     <Navbar className="Navigation">
       <Navbar.Group align={Alignment.LEFT}>

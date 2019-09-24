@@ -23,5 +23,6 @@ const composedEnhanders = compose(
 export const store = createStore(
   rootReducer,
   rootInitialState,
+  // @ts-ignore
   composedEnhanders
 );

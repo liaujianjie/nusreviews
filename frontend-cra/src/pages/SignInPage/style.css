@@ -1,0 +1,8 @@
+.SignInPage__form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.SignInPage__form-container > *:not(:last-child) {
+  margin-bottom: 8px;
+}
