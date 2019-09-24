@@ -38,7 +38,9 @@ const NavBar: React.FunctionComponent<OwnProps & ConnectedProps> = ({
 type ConnectedProps = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps;
 const mapStateToProps = (rootState: StoreState) => ({
-  username: rootState.auth.accessToken.username
+  username: rootState.auth.accessToken
+    ? rootState.auth.accessToken.username
+    : ""
 });
 const mapDispatchToProps = {
   signOut
