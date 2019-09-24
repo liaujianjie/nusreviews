@@ -61,6 +61,8 @@ export async function show(request: Request, response: Response) {
       request.params.id,
       {
         relations: [
+          "moduleSemester",
+          "moduleSemester.module",
           "metrics",
           "metrics.metricTemplate",
           "questions",
