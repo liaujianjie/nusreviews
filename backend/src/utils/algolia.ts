@@ -17,6 +17,10 @@ const modulesIndex = client.initIndex("modules");
 createConnection(ormconfig)
   .then(async connection => {
     const moduleList = await connection.getRepository(Module).find();
-    modulesIndex.addObjects(moduleList);
+    const objects: any[] = [];
+    moduleList.forEach(module => {
+      objects.push({ ...module, objectID: module.moduleCode });
+    });
+    modulesIndex.saveObjects(objects);
   })
   .catch(error => console.error(error));
