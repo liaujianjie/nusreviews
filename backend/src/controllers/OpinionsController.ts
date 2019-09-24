@@ -1,20 +1,16 @@
 import { validateOrReject } from "class-validator";
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
-import { Opinion } from "../entities/Opinion";
-import { ModuleSemester } from "../entities/ModuleSemester";
-import {
-  EntityTokenSignedPayload,
-  AccessTokenSignedPayload
-} from "../types/tokens";
 import { sign } from "jsonwebtoken";
+import { ModuleSemester } from "../entities/ModuleSemester";
+import { Opinion } from "../entities/Opinion";
+import { AccessTokenSignedPayload } from "../types/tokens";
 import { sendEntityEmail } from "../utils/sendgrid";
 
 export async function create(request: Request, response: Response) {
   try {
     const accessTokenSignedPayload = response.locals
       .payload as AccessTokenSignedPayload;
-
     const moduleSemester = await getRepository(ModuleSemester).findOneOrFail(
       request.params.id
     );
@@ -29,6 +25,7 @@ export async function create(request: Request, response: Response) {
     const entityToken = sign(entityTokenPayload, process.env.JWT_SECRET!, {
       expiresIn: "120 days"
     });
+
     const result = {
       opinion,
       entityToken

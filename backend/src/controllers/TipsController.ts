@@ -2,12 +2,18 @@ import { validateOrReject } from "class-validator";
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { sign } from "jsonwebtoken";
-import { Tip } from "../entities/Tip";
 import { ModuleSemester } from "../entities/ModuleSemester";
-import { EntityTokenSignedPayload } from "../types/tokens";
+import { Tip } from "../entities/Tip";
+import {
+  EntityTokenSignedPayload,
+  AccessTokenSignedPayload
+} from "../types/tokens";
+import { sendEntityEmail } from "../utils/sendgrid";
 
 export async function create(request: Request, response: Response) {
   try {
+    const accessTokenSignedPayload = response.locals
+      .payload as AccessTokenSignedPayload;
     const moduleSemester = await getRepository(ModuleSemester).findOneOrFail(
       request.params.id
     );
@@ -18,9 +24,8 @@ export async function create(request: Request, response: Response) {
     await validateOrReject(tip);
     await getRepository(Tip).save(tip);
 
-    const payload = tip.createPayload();
-
-    const entityToken = sign(payload, process.env.JWT_SECRET!, {
+    const entityTokenPayload = tip.createPayload();
+    const entityToken = sign(entityTokenPayload, process.env.JWT_SECRET!, {
       expiresIn: "120 days"
     });
 
@@ -28,6 +33,7 @@ export async function create(request: Request, response: Response) {
       tip,
       entityToken
     };
+    sendEntityEmail(accessTokenSignedPayload, tip, entityToken);
     response.status(201).json(result);
   } catch (error) {
     console.error(error);
