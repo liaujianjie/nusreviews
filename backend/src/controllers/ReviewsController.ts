@@ -59,7 +59,14 @@ export async function show(request: Request, response: Response) {
   try {
     const review = await getRepository(Review).findOneOrFail(
       request.params.id,
-      { relations: ["metrics", "questions"] }
+      {
+        relations: [
+          "metrics",
+          "metrics.metricTemplate",
+          "questions",
+          "questions.questionTemplate"
+        ]
+      }
     );
     response.status(200).json(review.stringify());
   } catch (error) {
