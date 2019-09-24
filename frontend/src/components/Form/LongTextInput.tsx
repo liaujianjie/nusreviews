@@ -1,6 +1,6 @@
 import * as React from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import { Form, Popup } from "semantic-ui-react";
+import { Form, Message } from "semantic-ui-react";
 import * as FinalForm from "react-final-form";
 import WordCountWrap from "./WordCountWrap";
 
@@ -21,27 +21,28 @@ const LongTextInput: React.FunctionComponent<LongTextInputProps> = props => {
   return (
     <FinalForm.Field {...props}>
       {({ input, meta }) => {
+        const err = meta.error ? (
+          <Message negative compact style={{ position: "fixed" }} size="tiny">
+            {meta.error}
+          </Message>
+        ) : (
+          undefined
+        );
         return (
-          <Popup
-            inverted
-            position="top left"
-            // can't seem to get it to popup when the modal reopens because there's no change in the open props
-            open={meta.error}
-            trigger={
-              <WordCountWrap wordLimit={wordLimit} text={input.value}>
-                <Form.TextArea
-                  control={TextareaAutosize}
-                  label={question}
-                  placeholder={placeholder}
-                  {...input}
-                  // couldn't find a way to get the textarea to occupy entire width on ShortReview form
-                  style={{ width: "100%", minHeight: "6em" }}
-                />
-              </WordCountWrap>
-            }
-            error={meta.error}
-            content={meta.error}
-          />
+          <WordCountWrap wordLimit={wordLimit} text={input.value}>
+            <Form.TextArea
+              control={TextareaAutosize}
+              label={question}
+              placeholder={placeholder}
+              {...input}
+              // couldn't find a way to get the textarea to occupy entire width on ShortReview form
+              style={{
+                width: "100%",
+                minHeight: "6em"
+              }}
+            />
+            {err}
+          </WordCountWrap>
         );
       }}
     </FinalForm.Field>
