@@ -11,41 +11,26 @@ const LOCALSTORAGE_ACCESSTOKEN = "accessToken";
 const LOCALSTORAGE_REFRESHTOKEN = "refreshToken";
 
 export const clearTokensFromLocalStorage = () => {
-  if (!window || window.localStorage) {
-    return;
-  }
-
   // Clear tokens persisted on local storage on sign out
-  window.localStorage.removeItem(LOCALSTORAGE_ACCESSTOKEN);
-  window.localStorage.removeItem(LOCALSTORAGE_REFRESHTOKEN);
+  localStorage.removeItem(LOCALSTORAGE_ACCESSTOKEN);
+  localStorage.removeItem(LOCALSTORAGE_REFRESHTOKEN);
 };
 
 export const saveTokensToLocalStorage = ({
   encodedAccessToken,
   encodedRefreshToken
 }: LocalStorageEncodedTokens) => {
-  if (!window || window.localStorage) {
-    return;
-  }
-
-  window.localStorage.setItem(LOCALSTORAGE_ACCESSTOKEN, encodedAccessToken);
-  window.localStorage.setItem(LOCALSTORAGE_REFRESHTOKEN, encodedRefreshToken);
+  localStorage.setItem(LOCALSTORAGE_ACCESSTOKEN, encodedAccessToken);
+  localStorage.setItem(LOCALSTORAGE_REFRESHTOKEN, encodedRefreshToken);
 };
 
 export const loadTokensFromLocalStorage = ():
   | LocalStorageEncodedTokens
   | undefined => {
-  if (!window || window.localStorage) {
-    return;
-  }
+  const encodedAccessToken = localStorage.getItem(LOCALSTORAGE_ACCESSTOKEN);
+  const encodedRefreshToken = localStorage.getItem(LOCALSTORAGE_REFRESHTOKEN);
 
-  const encodedAccessToken = window.localStorage.getItem(
-    LOCALSTORAGE_ACCESSTOKEN
-  );
-  const encodedRefreshToken = window.localStorage.getItem(
-    LOCALSTORAGE_REFRESHTOKEN
-  );
-
+  // Guard against empty tokens
   if (!encodedAccessToken || !encodedRefreshToken) {
     return;
   }
