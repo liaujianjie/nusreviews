@@ -59,8 +59,9 @@ export async function show(
 }
 
 export async function changePassword(request: Request, response: Response) {
-  const payload = response.locals.payload as AccessTokenSignedPayload;
-  const id = payload.userId;
+  const accessTokenSignedPayload = response.locals
+    .payload as AccessTokenSignedPayload;
+  const id = accessTokenSignedPayload.id;
 
   const oldPasswordB64 = request.body.oldPassword;
   const newPasswordB64 = request.body.newPassword;
@@ -169,11 +170,12 @@ export async function refreshAuthentication(
   request: Request,
   response: Response
 ) {
-  const payload = response.locals.payload as AccessTokenSignedPayload;
+  const accessTokenSignedPayload = response.locals
+    .payload as AccessTokenSignedPayload;
 
   let user: User;
   try {
-    user = await getRepository(User).findOneOrFail(payload.userId);
+    user = await getRepository(User).findOneOrFail(accessTokenSignedPayload.id);
   } catch (error) {
     response.sendStatus(400);
     console.error(error);
@@ -186,19 +188,25 @@ export async function refreshAuthentication(
 
 export async function verifyEmail(request: Request, response: Response) {
   try {
-    const payload = response.locals.payload as EntityTokenSignedPayload<User>;
-    if (!payload.id) {
+    const entityTokenSignedPayload = response.locals
+      .payload as EntityTokenSignedPayload<User>;
+    if (!entityTokenSignedPayload.id) {
       throw new Error("No id provided");
     }
 
-    const user = await getRepository(User).findOneOrFail(payload.id);
-    if (user.email !== payload.email) {
+    const user = await getRepository(User).findOneOrFail(
+      entityTokenSignedPayload.id
+    );
+    if (user.email !== entityTokenSignedPayload.email) {
       throw new Error("Email has changed");
     }
 
-    const result = await getRepository(User).update(payload.id, {
-      emailVerified: true
-    });
+    const result = await getRepository(User).update(
+      entityTokenSignedPayload.id,
+      {
+        emailVerified: true
+      }
+    );
     if (result.affected === 0) {
       throw new Error("Failed to update user");
     }

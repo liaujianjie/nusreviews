@@ -18,9 +18,10 @@ type TokenLifespan = {
 };
 
 type Credentials = {
-  userId: number;
+  id: number;
+  email: string;
+  role: UserRole;
   username: string;
-  userRole: UserRole;
 };
 
 export type AccessTokenPayload = Payload<BearerTokenType.AccessToken> &

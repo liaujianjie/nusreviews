@@ -1,6 +1,7 @@
 import { validateOrReject } from "class-validator";
 import { Response, Request } from "express";
 import { getRepository, IsNull } from "typeorm";
+import { sign } from "jsonwebtoken";
 import { Metric } from "../entities/Metric";
 import { ModuleSemester } from "../entities/ModuleSemester";
 import { ReviewTemplate } from "../entities/ReviewTemplate";
@@ -11,14 +12,12 @@ import {
   EntityTokenSignedPayload,
   AccessTokenSignedPayload
 } from "../types/tokens";
-import { sign } from "jsonwebtoken";
 import { sendEntityEmail } from "../utils/sendgrid";
-import { User } from "../entities/User";
 
 export async function create(request: Request, response: Response) {
   try {
-    const payload = response.locals.payload as AccessTokenSignedPayload;
-    const user = await getRepository(User).findOneOrFail(payload.userId);
+    const accessTokenSignedPayload = response.locals
+      .payload as AccessTokenSignedPayload;
 
     const reviewTemplate = await getRepository(ReviewTemplate).findOneOrFail({
       discardedAt: IsNull()
@@ -39,9 +38,7 @@ export async function create(request: Request, response: Response) {
       review: review
     });
     await validateOrReject(review);
-
     await getRepository(Review).save(review);
-    sendEntityEmail(user, review);
 
     const entityTokenPayload = review.createPayload();
     const entityToken = sign(entityTokenPayload, process.env.JWT_SECRET!, {
@@ -51,6 +48,7 @@ export async function create(request: Request, response: Response) {
       review: review.stringify(),
       entityToken
     };
+    sendEntityEmail(accessTokenSignedPayload, review, entityToken);
     response.status(201).json(result);
   } catch (error) {
     console.error(error);
@@ -82,10 +80,14 @@ export async function show(request: Request, response: Response) {
 
 export async function update(request: Request, response: Response) {
   try {
-    const payload = response.locals.payload as EntityTokenSignedPayload<Review>;
-    const review = await getRepository(Review).findOneOrFail(payload.id, {
-      relations: ["reviewTemplate", "moduleSemester", "metrics", "questions"]
-    });
+    const entityTokenSignedPayload = response.locals
+      .payload as EntityTokenSignedPayload<Review>;
+    const review = await getRepository(Review).findOneOrFail(
+      entityTokenSignedPayload.id,
+      {
+        relations: ["reviewTemplate", "moduleSemester", "metrics", "questions"]
+      }
+    );
 
     const newMetrics = await getEntityArray(request.body.metrics, Metric, {
       review: review

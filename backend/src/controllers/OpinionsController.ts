@@ -3,11 +3,18 @@ import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Opinion } from "../entities/Opinion";
 import { ModuleSemester } from "../entities/ModuleSemester";
-import { EntityTokenSignedPayload } from "../types/tokens";
+import {
+  EntityTokenSignedPayload,
+  AccessTokenSignedPayload
+} from "../types/tokens";
 import { sign } from "jsonwebtoken";
+import { sendEntityEmail } from "../utils/sendgrid";
 
 export async function create(request: Request, response: Response) {
   try {
+    const accessTokenSignedPayload = response.locals
+      .payload as AccessTokenSignedPayload;
+
     const moduleSemester = await getRepository(ModuleSemester).findOneOrFail(
       request.params.id
     );
@@ -17,14 +24,16 @@ export async function create(request: Request, response: Response) {
 
     await validateOrReject(opinion);
     await getRepository(Opinion).save(opinion);
-    const payload = opinion.createPayload();
-    const entityToken = sign(payload, process.env.JWT_SECRET!, {
+
+    const entityTokenPayload = opinion.createPayload();
+    const entityToken = sign(entityTokenPayload, process.env.JWT_SECRET!, {
       expiresIn: "120 days"
     });
     const result = {
       opinion,
       entityToken
     };
+    sendEntityEmail(accessTokenSignedPayload, opinion, entityToken);
     response.status(201).json(result);
   } catch (error) {
     console.error(error);
@@ -45,11 +54,12 @@ export async function show(request: Request, response: Response) {
 
 export async function update(request: Request, response: Response) {
   try {
-    const payload = response.locals.payload as EntityTokenSignedPayload<
-      Opinion
-    >;
+    const entityTokenSignedPayload = response.locals
+      .payload as EntityTokenSignedPayload<Opinion>;
 
-    const opinion = await getRepository(Opinion).findOneOrFail(payload.id);
+    const opinion = await getRepository(Opinion).findOneOrFail(
+      entityTokenSignedPayload.id
+    );
     opinion.description = request.body.description;
     await validateOrReject(opinion);
     await getRepository(Opinion).save(opinion);

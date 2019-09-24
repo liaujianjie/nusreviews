@@ -3,6 +3,7 @@ import * as sendgrid from "@sendgrid/mail";
 import { MailData } from "@sendgrid/helpers/classes/mail";
 import { User } from "../entities/User";
 import { Base } from "../entities/Base";
+import { AccessTokenSignedPayload } from "../types/tokens";
 
 export function sendVerificationEmail(user: User) {
   sendgrid.setApiKey(process.env.SENDGRID_API_KEY!);
@@ -24,26 +25,27 @@ export function sendVerificationEmail(user: User) {
 }
 
 export function sendEntityEmail<Entity extends Base>(
-  user: User,
-  entity: Entity
+  accessTokenSignedPayload: AccessTokenSignedPayload,
+  entity: Entity,
+  token?: string
 ) {
   sendgrid.setApiKey(process.env.SENDGRID_API_KEY!);
 
-  const payload = user.createPayload();
-
-  const token = jwt.sign(payload, process.env.JWT_SECRET!, {
-    expiresIn: "7 days"
-  });
+  token =
+    token ||
+    jwt.sign(entity.createPayload(), process.env.JWT_SECRET!, {
+      expiresIn: "7 days"
+    });
 
   const msg: MailData = {
-    to: user.email,
+    to: accessTokenSignedPayload.email,
     from: "mail@nus.reviews",
     subject: `Thanks for creating a ${entity.entityName}!`,
     // Todo: use email template
-    text: `Thanks ${user.username} for creating a ${
+    text: `Thanks ${accessTokenSignedPayload.username} for creating a ${
       entity.entityName
     }! You may edit it by sending a POST request to nus.reviews/api/v1/edit_${entity.entityName.toLowerCase()}/${token}`,
-    html: `Thanks ${user.username} for creating a ${
+    html: `Thanks ${accessTokenSignedPayload.username} for creating a ${
       entity.entityName
     }! You may edit it by sending a POST request to nus.reviews/api/v1/edit_${entity.entityName.toLowerCase()}/${token}`
   };
