@@ -45,13 +45,11 @@ export const RatingForm: React.FunctionComponent<RatingFormProps> = props => {
           open={open}
           onClose={onClose}
           trigger={modalTrigger}
+          closeIcon
           style={{
-            position: "unset",
-            marginTop: "auto",
-            margin: "auto",
-            width: "80%"
-          }} // margin doesn't cover marginTop for Modal Semantic UI
-          // modal out of the box doesn't seem to do centering right on our page
+            width: "80%",
+            overflowY: "auto"
+          }}
         >
           <RatingPage
             questions={questionSegment[pageNum]}
@@ -67,11 +65,10 @@ export const RatingForm: React.FunctionComponent<RatingFormProps> = props => {
           className="scrolling"
           open={open}
           onClose={onClose}
+          closeIcon
           trigger={modalTrigger}
           style={{
-            position: "unset",
-            marginTop: "auto",
-            margin: "auto",
+            overflowY: "auto",
             width: "36em"
           }}
         >

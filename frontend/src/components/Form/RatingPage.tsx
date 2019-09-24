@@ -16,14 +16,6 @@ interface RatingPageProps {
 export const RatingPage: React.FunctionComponent<RatingPageProps> = props => {
   const { lastPage, questions, moduleName, onClose } = props;
 
-  React.useEffect(() => {
-    // body tag needs to be set to scrolling, but somehow there's another semantic lifecycle that is overriding this
-    document.body.classList.add("scrolling");
-    return () => {
-      document.body.classList.remove("scrolling");
-    };
-  });
-
   const onSubmit = values => {
     window.alert("Form submitted!" + JSON.stringify(values, 0, 2));
     props.onSubmit();
@@ -45,33 +37,25 @@ export const RatingPage: React.FunctionComponent<RatingPageProps> = props => {
     <FinalForm.Form onSubmit={onSubmit} validate={formValidation}>
       {({ values, invalid, form, pristine }) => {
         return (
-          <>
-            <Modal.Content scrolling style={{ paddingBottom: "0" }}>
-              <div>
-                <div style={{ textAlign: "center", paddingBottom: "1em" }}>
-                  <Header as="h3">
-                    How was{" "}
-                    <Header
-                      as="h3"
-                      color="orange"
-                      style={{ display: "inline" }}
-                    >
-                      {moduleName}
-                    </Header>
-                    ?
+          <Modal.Content>
+            <div>
+              <div style={{ textAlign: "center", paddingBottom: "1em" }}>
+                <Header as="h3">
+                  How was{" "}
+                  <Header as="h3" color="orange" style={{ display: "inline" }}>
+                    {moduleName}
                   </Header>
-                  <div style={{ padding: "0em 0.3em 0.6em" }}>
-                    <b>43 other students</b> have been searching for reviews on
-                    this module for the past week, let them know what you think!
-                  </div>
-                  <div>(your ratings will be kept confidential!)</div>
+                  ?
+                </Header>
+                <div style={{ padding: "0em 0.3em 0.6em" }}>
+                  <b>43 other students</b> have been searching for reviews on
+                  this module for the past week, let them know what you think!
                 </div>
-                <div>{getQuestions()}</div>
+                <div>(your ratings will be kept confidential!)</div>
               </div>
-            </Modal.Content>
-            <Modal.Actions
-              style={{ display: "flex", justifyContent: "flex-end" }}
-            >
+              <div>{getQuestions()}</div>
+            </div>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <ActionButton
                 onClick={onClose}
                 name="Continue Later"
@@ -86,8 +70,8 @@ export const RatingPage: React.FunctionComponent<RatingPageProps> = props => {
                 }}
                 disabled={pristine || invalid}
               />
-            </Modal.Actions>
-          </>
+            </div>
+          </Modal.Content>
         );
       }}
     </FinalForm.Form>
