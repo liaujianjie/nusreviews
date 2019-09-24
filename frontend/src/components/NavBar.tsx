@@ -1,8 +1,14 @@
 import * as React from "react";
-import { Menu, Search, Image, Container } from "semantic-ui-react";
+import { Menu, Search, Image, Container, Button } from "semantic-ui-react";
 import logo from "../static/images/logo.svg";
+import { connect, MapDispatchToProps } from "react-redux";
+import { signOut } from "../store/auth";
 
-const NavBar = () => {
+type OwnProps = {};
+
+const NavBar: React.FunctionComponent<OwnProps & DispatchProps> = ({
+  signOut
+}) => {
   return (
     <Menu fixed="top" verticalAlign="middle" borderless>
       <Container>
@@ -16,11 +22,10 @@ const NavBar = () => {
             <Search size="mini" fluid placeholder="Search a module" />
           </Menu.Item>
           <Menu.Item>
-            <Image
-              src="https://66.media.tumblr.com/d4743332c9f25d147aac03ec12b9c9a2/tumblr_ory27uhmTl1w84hv9o6_250.jpg"
-              avatar
-            />
-            <span>Jennie Kim</span>
+            <span style={{ marginRight: 16 }}>Jennie Kim</span>
+            <Button onClick={signOut} basic>
+              Sign out
+            </Button>
           </Menu.Item>
         </Menu.Menu>
       </Container>
@@ -28,4 +33,15 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+type DispatchProps = {
+  signOut: typeof signOut;
+};
+
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = {
+  signOut
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(NavBar);
