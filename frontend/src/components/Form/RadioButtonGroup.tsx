@@ -61,7 +61,7 @@ const RadioButtonGroup: React.FunctionComponent<RadioGroupProps> = props => {
       style={{
         display: "flex",
         justifyContent: "space-between",
-        padding: "0em 3em"
+        padding: "0em 2em"
       }}
     >
       {radioButtons(true)}
