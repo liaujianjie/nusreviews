@@ -37,7 +37,7 @@ export const RatingPage: React.FunctionComponent<RatingPageProps> = props => {
     <FinalForm.Form onSubmit={onSubmit} validate={formValidation}>
       {({ values, invalid, form, pristine }) => {
         return (
-          <Modal.Content>
+          <Modal.Content style={{ padding: "1em" }}>
             <div>
               <div style={{ textAlign: "center", paddingBottom: "1em" }}>
                 <Header as="h3">

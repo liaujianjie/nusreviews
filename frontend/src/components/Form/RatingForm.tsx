@@ -48,7 +48,9 @@ export const RatingForm: React.FunctionComponent<RatingFormProps> = props => {
           closeIcon
           style={{
             width: "80%",
-            overflowY: "auto"
+            overflowY: "auto",
+            height: "90%",
+            alignSelf: "center"
           }}
         >
           <RatingPage
@@ -69,7 +71,9 @@ export const RatingForm: React.FunctionComponent<RatingFormProps> = props => {
           trigger={modalTrigger}
           style={{
             overflowY: "auto",
-            width: "36em"
+            width: "36em",
+            height: "90%",
+            alignSelf: "center"
           }}
         >
           <RatingPage
