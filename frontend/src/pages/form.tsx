@@ -13,11 +13,11 @@ import { LECTURER_QUESTIONS, WORKLOAD_QUESTIONS } from "../constants/Form";
 // hoc
 import { withAuth } from "../components/withAuth";
 
-interface RadioFormQuestion {
+export interface RadioFormQuestion {
   scale: number;
   name: string;
   question: string;
-  value: Array<string>;
+  label: Array<string>;
 }
 
 const getRadioButtons = (questionSet: Array<RadioFormQuestion>) => {

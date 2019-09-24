@@ -5,7 +5,9 @@ import * as FinalForm from "react-final-form";
 
 export interface RadioButtonProps {
   name: string;
+  label?: string;
   value?: string | number;
+  onClick?: Function;
 }
 
 const RadioButton: React.FunctionComponent<RadioButtonProps> = props => {
@@ -35,13 +37,12 @@ const RadioButton: React.FunctionComponent<RadioButtonProps> = props => {
               width: "17px",
               display: "flex",
               flexDirection: "column",
-              alignItems: "center"
+              alignItems: "center",
+              textAlign: "center"
             }}
           >
             <Form.Radio {...neededInput} onChange={handleChange} />
-            <label style={{ whiteSpace: "nowrap", paddingTop: "0.2em" }}>
-              {props.label}
-            </label>
+            <label style={{ paddingTop: "0.2em" }}>{props.label}</label>
           </div>
         );
       }}

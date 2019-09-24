@@ -1,32 +1,28 @@
-/*
-What do we need to build this:
-1. WizardPage - a Large component maintaing the page, each page should have a FinalForm component for validation
-    - Props: onSave, onDraft, Module, Questions, ModuleDetails (how many students have done this form)
-    - Should handle question string to RadioButtonGroup transition
-    - Should handle RadioButtonGroup onClick to progressBar transformation
-2. Wizard - Manage pagination, form submission and drafting, pass down these Axios calls to each page
-3. 
-
-*/
-
 import * as React from "react";
 import * as FinalForm from "react-final-form";
 import RadioButtonGroup from "./RadioButtonGroup";
 import ActionButton from "../ActionButton";
-import { Segment, Modal, Header, Radio } from "semantic-ui-react";
-import { RadioButtonProps } from "./RadioButton";
+import { Modal, Header } from "semantic-ui-react";
+import { RadioFormQuestion } from "../../pages/form";
 
 interface RatingPageProps {
-  questions: Array<RadioButtonProps>;
-  questionsPerPage: number;
+  questions: Array<RadioFormQuestion>;
   moduleName: string;
   lastPage: boolean;
   onSubmit: Function;
-  onClsoe: Function;
+  onClose: Function;
 }
 
 export const RatingPage: React.FunctionComponent<RatingPageProps> = props => {
   const { lastPage, questions, moduleName, onClose } = props;
+
+  React.useEffect(() => {
+    // body tag needs to be set to scrolling, but somehow there's another semantic lifecycle that is overriding this
+    document.body.classList.add("scrolling");
+    return () => {
+      document.body.classList.remove("scrolling");
+    };
+  });
 
   const onSubmit = values => {
     window.alert("Form submitted!" + JSON.stringify(values, 0, 2));
@@ -50,12 +46,32 @@ export const RatingPage: React.FunctionComponent<RatingPageProps> = props => {
       {({ values, invalid, form, pristine }) => {
         return (
           <>
-            <Segment basic style={{ padding: "2em 2em 0em 2em" }}>
-              <Header as="h3">{moduleName}</Header>
-              <span>Help your fellow students out please!</span>
-              <Segment basic>{getQuestions()}</Segment>
-            </Segment>
-            <Modal.Actions>
+            <Modal.Content scrolling style={{ paddingBottom: "0" }}>
+              <div>
+                <div style={{ textAlign: "center", paddingBottom: "1em" }}>
+                  <Header as="h3">
+                    How was{" "}
+                    <Header
+                      as="h3"
+                      color="orange"
+                      style={{ display: "inline" }}
+                    >
+                      {moduleName}
+                    </Header>
+                    ?
+                  </Header>
+                  <div style={{ padding: "0em 0.3em 0.6em" }}>
+                    <b>43 other students</b> have been searching for reviews on
+                    this module for the past week, let them know what you think!
+                  </div>
+                  <div>(your ratings will be kept confidential!)</div>
+                </div>
+                <div>{getQuestions()}</div>
+              </div>
+            </Modal.Content>
+            <Modal.Actions
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
               <ActionButton
                 onClick={onClose}
                 name="Continue Later"
