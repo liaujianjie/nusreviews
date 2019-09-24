@@ -1,4 +1,10 @@
-import { IsOptional, IsEnum, IsNotEmpty } from "class-validator";
+import {
+  IsOptional,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsString
+} from "class-validator";
 import { Entity, OneToMany, ManyToOne, Column } from "typeorm";
 import { Discardable } from "./Discardable";
 import { Metric } from "./Metric";
@@ -16,6 +22,21 @@ export class Review extends Discardable {
   @ManyToOne(type => ModuleSemester, moduleSemester => moduleSemester.reviews)
   @IsNotEmpty()
   moduleSemester!: ModuleSemester;
+
+  @Column({ nullable: true })
+  @IsOptional()
+  @IsNumber()
+  programmeYear?: number;
+
+  @Column({ nullable: true })
+  @IsOptional()
+  @IsString()
+  faculty?: string;
+
+  @Column({ nullable: true })
+  @IsOptional()
+  @IsString()
+  major?: string;
 
   @Column({
     type: "enum",

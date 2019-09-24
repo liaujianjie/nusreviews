@@ -3,8 +3,7 @@ import {
   IsNotEmpty,
   IsEmail,
   IsOptional,
-  IsString,
-  IsNumber
+  IsString
 } from "class-validator";
 import { Column, Entity, OneToMany } from "typeorm";
 import { Discardable } from "./Discardable";
@@ -49,11 +48,6 @@ export class User extends Discardable {
   @IsOptional()
   @IsString()
   major?: string;
-
-  @Column({ nullable: true })
-  @IsOptional()
-  @IsNumber()
-  matriculationYear?: number;
 
   @OneToMany(type => OpinionVote, opinionVote => opinionVote.user)
   opinionVotes!: OpinionVote[];
