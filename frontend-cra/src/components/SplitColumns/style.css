@@ -1,0 +1,15 @@
+.SplitColumns {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  width: calc(100% + 32px);
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+.SplitColumns > * {
+  width: calc((100% - 32px - 32px) / 2);
+  margin-left: 16px;
+  margin-right: 16px;
+}

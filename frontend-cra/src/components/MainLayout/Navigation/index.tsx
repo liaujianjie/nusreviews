@@ -1,43 +1,72 @@
 import React from "react";
+import { connect } from "react-redux";
+import _ from "lodash";
 
 import {
   Navbar,
   Alignment,
   Button,
-  Text,
   InputGroup,
   Popover,
   Menu,
   MenuItem
 } from "@blueprintjs/core";
 
+import { StoreState } from "../../../store";
+import { signOut } from "../../../store/auth";
+import { useRouter } from "../../../hooks/useRouter";
 import logo from "./logo.svg";
 import "./style.css";
 
-export const Navigation: React.FunctionComponent = () => {
+const mapStateToProps = (rootState: StoreState) => ({
+  user: rootState.auth.accessToken
+});
+const mapDispatchToProps = { signOut };
+type ConnectedProps = ReturnType<typeof mapStateToProps> &
+  typeof mapDispatchToProps;
+
+const _Navigation: React.FunctionComponent<ConnectedProps> = ({
+  user,
+  signOut
+}) => {
+  // Temporarily use private APIs so that we can use the router state as a hook
+  const { location } = useRouter();
+
+  const shouldShowSearchbar =
+    location.pathname !== "/" && !_.startsWith(location.pathname, "/auth");
+
   return (
     <Navbar className="Navigation">
       <Navbar.Group align={Alignment.LEFT}>
         <Navbar.Heading>
-          <img src={logo} alt="NUS Reviews logo" />
+          <img src={logo} alt="NUS Reviews logo" height={20} />
         </Navbar.Heading>
       </Navbar.Group>
-      <Navbar.Group>
-        <InputGroup type="search" leftIcon="search"></InputGroup>
-      </Navbar.Group>
-      <Navbar.Group align={Alignment.RIGHT}>
-        <Popover
-          minimal
-          position="bottom-right"
-          content={
-            <Menu>
-              <MenuItem text="Sign out"></MenuItem>
-            </Menu>
-          }
-        >
-          <Button minimal text="jianjie@u.nus.edu" />
-        </Popover>
-      </Navbar.Group>
+      {shouldShowSearchbar && (
+        <Navbar.Group>
+          <InputGroup type="search" leftIcon="search"></InputGroup>
+        </Navbar.Group>
+      )}
+      {user && (
+        <Navbar.Group align={Alignment.RIGHT}>
+          <Popover
+            minimal
+            position="bottom-right"
+            content={
+              <Menu>
+                <MenuItem text="Sign out" onClick={signOut} />
+              </Menu>
+            }
+          >
+            <Button minimal text={user.username} />
+          </Popover>
+        </Navbar.Group>
+      )}
     </Navbar>
   );
 };
+
+export const Navigation = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(_Navigation);
