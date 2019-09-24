@@ -32,13 +32,40 @@ routes.use("/reviews", reviews);
 routes.use("/metrics", metrics);
 routes.use("/questions", questions);
 
-routes.use(checkBearerToken(BearerTokenType.EntityToken));
-routes.post("/verify_email", TokensController.verifyEmail);
-routes.post("/edit_review", TokensController.editReview);
-routes.post("/delete_review", TokensController.deleteReview);
-routes.post("/edit_opinion", TokensController.editOpinion);
-routes.post("/delete_opinion", TokensController.deleteOpinion);
-routes.post("/edit_tip", TokensController.editTip);
-routes.post("/delete_tip", TokensController.deleteTip);
+routes.post(
+  "/verify_email",
+  [checkBearerToken(BearerTokenType.EntityToken, "User")],
+  TokensController.verifyEmail
+);
+routes.post(
+  "/edit_review",
+  [checkBearerToken(BearerTokenType.EntityToken, "Review")],
+  TokensController.editReview
+);
+routes.post(
+  "/delete_review",
+  [checkBearerToken(BearerTokenType.EntityToken, "Review")],
+  TokensController.deleteReview
+);
+routes.post(
+  "/edit_opinion",
+  [checkBearerToken(BearerTokenType.EntityToken, "Opinion")],
+  TokensController.editOpinion
+);
+routes.post(
+  "/delete_opinion",
+  [checkBearerToken(BearerTokenType.EntityToken, "Opinion")],
+  TokensController.deleteOpinion
+);
+routes.post(
+  "/edit_tip",
+  [checkBearerToken(BearerTokenType.EntityToken, "Tip")],
+  TokensController.editTip
+);
+routes.post(
+  "/delete_tip",
+  [checkBearerToken(BearerTokenType.EntityToken, "Tip")],
+  TokensController.deleteTip
+);
 
 export default routes;
