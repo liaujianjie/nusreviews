@@ -1,0 +1,14 @@
+.AttributeRating {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.AttributeRating__label {
+  margin: 0px;
+  margin-bottom: 8px;
+}
+
+.AttributeRating:not(:last-child) {
+  margin-bottom: 20px;
+}
