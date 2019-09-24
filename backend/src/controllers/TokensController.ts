@@ -2,32 +2,14 @@ import { validateOrReject } from "class-validator";
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { sign } from "jsonwebtoken";
-import { Tip } from "../entities/Tip";
-import { Opinion } from "../entities/Opinion";
-import { Review } from "../entities/Review";
-import { Question } from "../entities/Question";
 import { Metric } from "../entities/Metric";
+import { Opinion } from "../entities/Opinion";
+import { Question } from "../entities/Question";
+import { Review } from "../entities/Review";
+import { Tip } from "../entities/Tip";
 import { User } from "../entities/User";
 import { EntityTokenSignedPayload } from "../types/tokens";
 import { getEntityArray } from "../utils/entities";
-
-export async function editTip(request: Request, response: Response) {
-  try {
-    const entityTokenSignedPayload = response.locals
-      .payload as EntityTokenSignedPayload<Tip>;
-
-    const tip = await getRepository(Tip).findOneOrFail(
-      entityTokenSignedPayload.id
-    );
-    tip.description = request.body.description;
-    await validateOrReject(tip);
-
-    await getRepository(Tip).save(tip);
-    response.status(200).json(tip);
-  } catch (error) {
-    response.sendStatus(400);
-  }
-}
 
 export async function editOpinion(request: Request, response: Response) {
   try {
@@ -39,6 +21,7 @@ export async function editOpinion(request: Request, response: Response) {
     );
     opinion.description = request.body.description;
     await validateOrReject(opinion);
+
     await getRepository(Opinion).save(opinion);
     response.status(200).json(opinion);
   } catch (error) {
@@ -104,7 +87,41 @@ export async function editReview(request: Request, response: Response) {
   }
 }
 
-export async function deleteReview(request: Request, response: Response) {}
+export async function deleteReview(request: Request, response: Response) {
+  try {
+    const entityTokenSignedPayload = response.locals
+      .payload as EntityTokenSignedPayload<Review>;
+
+    const review = await getRepository(Review).findOneOrFail(
+      entityTokenSignedPayload.id,
+      { relations: ["metrics", "questions"] }
+    );
+    review.discard();
+
+    await getRepository(Review).save(review);
+    response.sendStatus(204);
+  } catch (error) {
+    response.sendStatus(400);
+  }
+}
+
+export async function editTip(request: Request, response: Response) {
+  try {
+    const entityTokenSignedPayload = response.locals
+      .payload as EntityTokenSignedPayload<Tip>;
+
+    const tip = await getRepository(Tip).findOneOrFail(
+      entityTokenSignedPayload.id
+    );
+    tip.description = request.body.description;
+    await validateOrReject(tip);
+
+    await getRepository(Tip).save(tip);
+    response.status(200).json(tip);
+  } catch (error) {
+    response.sendStatus(400);
+  }
+}
 
 export async function verifyEmail(request: Request, response: Response) {
   try {

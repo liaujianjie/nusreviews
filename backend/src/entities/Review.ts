@@ -12,7 +12,6 @@ import { Question } from "./Question";
 import { ReviewTemplate } from "./ReviewTemplate";
 import { ModuleSemester } from "./ModuleSemester";
 import { Grade } from "../types/reviews";
-import { EntityType } from "../types/tokens";
 
 @Entity()
 export class Review extends Discardable {
@@ -80,6 +79,13 @@ export class Review extends Discardable {
       metrics: metricStrings,
       questions: questionStrings
     };
+  };
+
+  public discard = () => {
+    const discardedAt = new Date();
+    this.discardedAt = discardedAt;
+    this.metrics.forEach(metric => (metric.discardedAt = discardedAt));
+    this.questions.forEach(question => (question.discardedAt = discardedAt));
   };
 
   entityName = "Review";

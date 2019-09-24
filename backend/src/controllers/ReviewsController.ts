@@ -83,10 +83,8 @@ export async function discard(request: Request, response: Response) {
       request.params.id,
       { relations: ["metrics", "questions"] }
     );
-    const discardedAt = new Date();
-    review.discardedAt = discardedAt;
-    review.metrics.forEach(metric => (metric.discardedAt = discardedAt));
-    review.questions.forEach(question => (question.discardedAt = discardedAt));
+    review.discard();
+
     await getRepository(Review).save(review);
     response.sendStatus(204);
   } catch (error) {
