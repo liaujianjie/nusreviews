@@ -5,7 +5,7 @@ import {
   saveTokensToLocalStorage,
   clearTokensFromLocalStorage,
   loadTokensFromLocalStorage
-} from "./localstorage";
+} from "./lib/localstorage";
 import { getTokensFromResponse } from "./utils/getTokensFromResponse";
 
 type SignInParameter = Parameters<typeof auth.signIn>[0];

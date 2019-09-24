@@ -30,6 +30,7 @@ export const loadTokensFromLocalStorage = ():
   const encodedAccessToken = localStorage.getItem(LOCALSTORAGE_ACCESSTOKEN);
   const encodedRefreshToken = localStorage.getItem(LOCALSTORAGE_REFRESHTOKEN);
 
+  // Guard against empty tokens
   if (!encodedAccessToken || !encodedRefreshToken) {
     return;
   }
