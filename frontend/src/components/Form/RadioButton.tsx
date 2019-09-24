@@ -1,18 +1,25 @@
 import * as React from "react";
 import { Form, CheckboxProps } from "semantic-ui-react";
 
-import { Field } from "react-final-form";
+import * as FinalForm from "react-final-form";
 
 export interface RadioButtonProps {
   name: string;
+  label?: string;
   value?: string | number;
+  onClick?: Function;
 }
 
 const RadioButton: React.FunctionComponent<RadioButtonProps> = props => {
   return (
-    <Field name={props.name} value={props.value} component="input" type="radio">
+    <FinalForm.Field
+      name={props.name}
+      value={props.value}
+      component="input"
+      type="radio"
+    >
       {({ input }) => {
-        const { type, ...neededInput } = input;
+        const { type, onChange, ...neededInput } = input;
 
         // because semantic UI sets provides a synthetic event as the first param
         const handleChange = (
@@ -21,12 +28,25 @@ const RadioButton: React.FunctionComponent<RadioButtonProps> = props => {
         ) => {
           const defaultEvent = { target: eventData };
           props.onClick && props.onClick();
-          input.onChange(defaultEvent);
+          onChange(defaultEvent);
         };
 
-        return <Form.Radio {...neededInput} onChange={handleChange} />;
+        return (
+          <div
+            style={{
+              width: "17px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center"
+            }}
+          >
+            <Form.Radio {...neededInput} onChange={handleChange} />
+            <label style={{ paddingTop: "0.2em" }}>{props.label}</label>
+          </div>
+        );
       }}
-    </Field>
+    </FinalForm.Field>
   );
 };
 

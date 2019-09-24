@@ -49,7 +49,7 @@ export const ShortReview: React.FunctionComponent<ShortReviewProps> = props => {
 
   return (
     <FinalForm.Form onSubmit={onSubmit} validate={formValidation}>
-      {({ values, invalid, form }) => {
+      {({ values, invalid, form, pristine }) => {
         const formValue = values[formProps.name];
         return (
           <Modal
@@ -83,7 +83,7 @@ export const ShortReview: React.FunctionComponent<ShortReviewProps> = props => {
                   onSubmit(values);
                   form.reset();
                 }}
-                disabled={!formValue || invalid}
+                disabled={pristine || invalid}
               />
             </Modal.Actions>
           </Modal>

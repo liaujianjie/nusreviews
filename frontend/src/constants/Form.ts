@@ -15,30 +15,75 @@ export const GRADES = [
   { key: "U", text: "U", value: "U" }
 ];
 
+export const RATING_QUESTIONS = [
+  {
+    scale: 5,
+    name: "worloadRating",
+    question: "How as the workload?",
+    label: ["Chill", "Shag"]
+  },
+  {
+    scale: 5,
+    name: "interestingRating",
+    question: "Was it interesting?",
+    label: ["Boring", "Interesting"]
+  },
+  {
+    scale: 5,
+    name: "recommendRating",
+    question: "Would you recommend this module to me?",
+    label: ["Avoid", "Recommend"]
+  },
+  {
+    scale: 5,
+    name: "oneRating",
+    question: "question one",
+    label: ["one", "two"]
+  },
+  {
+    scale: 5,
+    name: "twoRating",
+    question: "question two",
+    label: ["one", "two"]
+  },
+  {
+    scale: 5,
+    name: "threeRating",
+    question: "question three",
+    label: ["one", "two"]
+  },
+  {
+    scale: 5,
+    name: "fourRating",
+    question: "question four",
+    label: ["one", "two"]
+  }
+];
+
 export const LECTURER_QUESTIONS = [
   {
     scale: 5,
     name: "lecturerGeneral",
     question: "How was your lecturer, Ben Leong?",
-    value: ["Below Expectations", "Amazing"]
+    label: ["Below Expectations", "Amazing"]
   },
   {
     scale: 5,
     name: "lecturerKnowledge",
     question: "Level of knowledge?",
-    value: ["Poor", "Good"]
+    label: ["Poor", "Good"]
   },
   {
     scale: 5,
     name: "lecturerStyle",
     question: "Engaging teaching style?",
-    value: ["Boring", "Engaging"]
+    label: ["Boring", "Engaging"]
   },
   {
     scale: 5,
     name: "lecturerEnergy",
     question: "Energy during the module?",
-    value: ["Dull", "Passionate"]
+    label: ["Dull", "Passionate"]
   }
 ];
 
@@ -47,19 +92,19 @@ export const WORKLOAD_QUESTIONS = [
     scale: 5,
     name: "workloadGeneral",
     question: "How was the workload (project, assignments)?",
-    value: ["Chill", "Shag"]
+    label: ["Chill", "Shag"]
   },
   {
     scale: 5,
     name: "workloadInteresting",
     question: "Was it interesting?",
-    value: ["Boring", "Interesting"]
+    label: ["Boring", "Interesting"]
   },
   {
     scale: 5,
     name: "workloadRecommend",
     question: "Would you recommend this to me?",
-    value: ["Avoid", "Recommend"]
+    label: ["Avoid", "Recommend"]
   }
 ];
 
