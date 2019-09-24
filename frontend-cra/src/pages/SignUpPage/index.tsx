@@ -4,35 +4,35 @@ import { Button, Card } from "@blueprintjs/core";
 
 import { RequiresNoAuth } from "../../components/RequiresNoAuth";
 import { Center } from "../../components/Center";
-import { SignInForm } from "./SignInForm";
+import { SignUpForm } from "./SignUpForm";
 import logo from "./logo.svg";
 import { useRouter } from "../../hooks/useRouter";
 
 import "./style.css";
 
-export const SignInPage: React.FunctionComponent = () => {
+export const SignUpPage: React.FunctionComponent = () => {
   const router = useRouter();
 
   return (
     <RequiresNoAuth>
       <Center>
         <Card>
-          <div className="SignInPage__logo-container">
+          <div className="SignUpPage__logo-container">
             <Center>
               <img src={logo} height={32} alt="NUS Reviews logo" />
             </Center>
           </div>
-          <div className="SignInPage__form-container">
-            <SignInForm />
+          <div className="SignUpPage__form-container">
+            <SignUpForm />
           </div>
-          <div className="SignInPage__signup-button-container">
+          <div className="SignUpPage__signup-button-container">
             <Button
               type="submit"
               large
               minimal
-              onClick={() => router.history.push("/auth/signup")}
+              onClick={() => router.history.push("/auth/signin")}
             >
-              Don't have an account? Click here to sign up!
+              Already have an account? Sign in here!
             </Button>
           </div>
         </Card>

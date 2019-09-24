@@ -1,0 +1,12 @@
+.LongReviewSection__left-header {
+  margin: 0px;
+}
+
+.LongReviewSection__reviews-container > *:not(:last-child) {
+  margin-bottom: 32px;
+}
+
+.LongReviewSection__divider {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

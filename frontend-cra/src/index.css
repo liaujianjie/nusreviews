@@ -24,4 +24,54 @@ body,
 main {
   height: calc(100% - 50px);
   overflow: scroll;
+
+  /* Mimic the horizontal paddings from the Blueprint navbar */
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* BLUEPRINT OVERRIDES */
+
+.bp3-navbar {
+  background-color: #2873e6;
+  box-shadow: none;
+}
+
+.bp3-card {
+  padding: 32px;
+}
+
+.bp3-progress-bar.bp3-intent-primary .bp3-progress-meter {
+  background-color: #2873e6;
+  box-shadow: none;
+}
+
+.bp3-button.bp3-intent-primary {
+  background-color: #fc4838;
+  box-shadow: none;
+}
+
+.bp3-button.bp3-intent-primary.bp3-disabled {
+  background-color: #fc4838;
+  opacity: 0.5;
+}
+
+.bp3-button.bp3-intent-primary:hover {
+  background-color: #fc4838;
+}
+
+.bp3-tag.bp3-minimal.bp3-intent-primary {
+  color: #2873e6;
+}
+.bp3-button.bp3-minimal,
+*:not(.bp3-navbar) .bp3-button.bp3-minimal.bp3-active,
+*:not(.bp3-navbar) .bp3-button.bp3-minimal:hover {
+  color: #2873e6;
+}
+
+.bp3-button.bp3-minimal.bp3-active {
+  background-color: rgba(146, 171, 222, 0.1);
+}
+.bp3-button.bp3-minimal:hover {
+  background-color: rgba(146, 171, 222, 0.25);
 }

@@ -6,39 +6,40 @@ import _ from "lodash";
 import { Button, Intent } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
-import { signIn } from "../../../store/auth";
+import { FinalInputGroup } from "../../../components/FinalInputGroup";
+import { signUp } from "../../../store/auth";
 
 import "./style.css";
-import { FinalInputGroup } from "../../../components/FinalInputGroup";
 
 type FormShape = {
   email: string;
   password: string;
+  passwordConfirmation: string;
 };
 
 const mapDispatchToProps = {
-  signIn
+  signUp
 };
 type ConnectedProps = typeof mapDispatchToProps;
 
-const _SignInForm: React.FunctionComponent<ConnectedProps> = ({ signIn }) => {
+const _SignUpForm: React.FunctionComponent<ConnectedProps> = ({ signUp }) => {
   const handleSubmit: FormProps<FormShape>["onSubmit"] = async credentials => {
-    await signIn(credentials);
+    await signUp(credentials);
   };
   return (
     <Form<FormShape>
       onSubmit={handleSubmit}
-      initialValues={{ email: "", password: "" }}
+      initialValues={{ email: "", password: "", passwordConfirmation: "" }}
     >
-      {({ handleSubmit, submitting, pristine, invalid }) => {
+      {({ handleSubmit, submitting, pristine, invalid, values }) => {
         return (
-          <form className="SignInForm__form" onSubmit={handleSubmit}>
+          <form className="SignUpForm__form" onSubmit={handleSubmit}>
             <Field
               name="email"
               component={FinalInputGroup}
               validate={value =>
                 !_.endsWith(value, "@u.nus.edu")
-                  ? "You need to login with a NUS student email."
+                  ? "You need to sign up with your NUS student email in order to prove that your are an NUS student."
                   : undefined
               }
               placeholder="e0123456a@u.nus.edu"
@@ -52,6 +53,19 @@ const _SignInForm: React.FunctionComponent<ConnectedProps> = ({ signIn }) => {
                 _.isEmpty(value) ? "Password cannot be empty." : undefined
               }
               placeholder="Password"
+              type="password"
+              leftIcon={IconNames.LOCK}
+              large
+            />
+            <Field
+              name="passwordConfirmation"
+              component={FinalInputGroup}
+              validate={value =>
+                values.password !== value
+                  ? "Passwords do not match."
+                  : undefined
+              }
+              placeholder="Confirm password"
               type="password"
               leftIcon={IconNames.LOCK}
               large
@@ -72,7 +86,7 @@ const _SignInForm: React.FunctionComponent<ConnectedProps> = ({ signIn }) => {
   );
 };
 
-export const SignInForm = connect(
+export const SignUpForm = connect(
   null,
   mapDispatchToProps
-)(_SignInForm);
+)(_SignUpForm);
