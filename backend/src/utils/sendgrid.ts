@@ -2,13 +2,14 @@ import * as jwt from "jsonwebtoken";
 import * as sendgrid from "@sendgrid/mail";
 import { MailData } from "@sendgrid/helpers/classes/mail";
 import { User } from "../entities/User";
-import { VerifyEmailPayload } from "../types/emails";
+import { EntityTokenPayload, BearerTokenType } from "../types/tokens";
 
 export function sendVerificationEmail(user: User) {
   sendgrid.setApiKey(process.env.SENDGRID_API_KEY!);
 
-  const payload: VerifyEmailPayload = {
-    userId: user.id,
+  const payload: EntityTokenPayload<User> = {
+    type: BearerTokenType.EntityToken,
+    id: user.id,
     email: user.email
   };
 

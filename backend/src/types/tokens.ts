@@ -31,7 +31,7 @@ export type RefreshTokenPayload = Payload<BearerTokenType.RefreshToken> &
   Credentials;
 export type RefreshTokenSignedPayload = RefreshTokenPayload & TokenLifespan;
 
-export type EntityTokenPayload<Entity> = Payload<BearerTokenType.RefreshToken> &
+export type EntityTokenPayload<Entity> = Payload<BearerTokenType.EntityToken> &
   Partial<Entity>;
 export type EntityTokenSignedPayload<Entity> = EntityTokenPayload<Entity> &
   TokenLifespan;
