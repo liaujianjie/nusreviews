@@ -49,7 +49,8 @@ export const RatingForm: React.FunctionComponent<RatingFormProps> = props => {
           style={{
             width: "80%",
             overflowY: "auto",
-            height: "90%",
+            maxHeight: "90%",
+            height: "fit-content",
             alignSelf: "center"
           }}
         >
@@ -72,7 +73,8 @@ export const RatingForm: React.FunctionComponent<RatingFormProps> = props => {
           style={{
             overflowY: "auto",
             width: "36em",
-            height: "90%",
+            maxHeight: "90%",
+            height: "fit-content",
             alignSelf: "center"
           }}
         >
