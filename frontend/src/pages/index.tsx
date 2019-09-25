@@ -34,7 +34,6 @@ const SearchPage = ({ query, onChange, onSubmit }) => {
               appId="3EJTXIKS8B"
               apiKey="092aa257d26c6e1fb8733a3c0229b176"
               indexName="modules"
-              searchState={this.state.searchState}
             >
               <header className="header">
                 <CustomSearchBox />

@@ -4,6 +4,28 @@ import logo from "../static/images/logo.svg";
 import { InstantSearch } from "react-instantsearch-dom";
 import { connectSearchBox } from "react-instantsearch/connectors";
 
+const HeaderSearchBox = ({ currentRefinement, refine }) => {
+  const [searchState, setSearchState] = React.useState({
+    query: ""
+  });
+
+  const handleInputChange = (event: { target: { value: any } }) => {
+    setSearchState({ query: event.target.value });
+  };
+
+  return (
+    <Search
+      color="blue"
+      fluid
+      size="large"
+      placeholder="Search a module"
+      input={{ fluid: true }}
+      value={searchState.query}
+      onSearchChange={handleInputChange}
+    />
+  );
+};
+
 type OwnProps = {};
 
 const NavBar: React.FunctionComponent<OwnProps & ConnectedProps> = ({

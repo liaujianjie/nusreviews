@@ -14,7 +14,7 @@ import {
 import { connectStateResults } from "react-instantsearch/connectors";
 import { withAuth } from "../components/withAuth";
 
-const VirtualSB = connectSearchBox(() => <span />);
+const SearchBoxContainer = connectSearchBox(() => <span />);
 const SemanticSearchBox = ({ currentRefinement, refine }) => (
   <Search
     color="blue"
@@ -79,9 +79,11 @@ const StateResults = ({ searchResults, searchState }) => {
 };
 
 const ModuleList = () => {
-  const [searchState, setSearchState] = React.useState({
-    query: ""
-  });
+  const state = {
+    searchState: {
+      query: ""
+    }
+  };
 
   const handleInputChange = (event: {
     persist: () => void;
@@ -89,9 +91,13 @@ const ModuleList = () => {
   }) => {
     event.persist();
 
-    setSearchState({ ...searchState, query: event.target.value });
+    this.setState((state: { searchState: any }) => ({
+      searchState: {
+        ...state.searchState,
+        query: event.target.value
+      }
+    }));
   };
-
   return (
     <div>
       <Container
