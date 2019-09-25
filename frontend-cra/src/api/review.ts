@@ -1,4 +1,5 @@
 import { sharedHttpClient } from "./sharedHttpClient";
+import * as qs from "querystring";
 
 export const getQuestions = async (moduleId: number, type: string) => {
   const response = await sharedHttpClient.get(`/review_templates/${moduleId}`);
@@ -16,9 +17,12 @@ export const postQuestions = (moduleId: number, payload: any) => {
 
 export const postOpinion = (moduleId: number, payload: any) => {
   console.log("posting opinion", payload);
-  return sharedHttpClient.post(`/module_semesters/${moduleId}/opinions`, {
-    description: "some opinion"
-  });
+  return sharedHttpClient.post(
+    `/module_semesters/${moduleId}/opinions`,
+    qs.stringify({
+      description: "some opinion"
+    })
+  );
 };
 
 export const reviewTemplate = {
