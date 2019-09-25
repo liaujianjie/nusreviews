@@ -8,10 +8,10 @@ const HeaderSearchBox = ({ currentRefinement, refine }) => (
   <Search
     color="blue"
     fluid
-    size="small"
+    size="large"
     placeholder="Search a module"
     input={{ fluid: true }}
-    value={currentRefinement}
+    value={this.state.searchState.query}
     onSearchChange={event => refine(event.currentTarget.value)}
   />
 );

@@ -14,6 +14,7 @@ import {
 import { connectStateResults } from "react-instantsearch/connectors";
 import { withAuth } from "../components/withAuth";
 
+const VirtualSB = connectSearchBox(() => <span />);
 const SemanticSearchBox = ({ currentRefinement, refine }) => (
   <Search
     color="blue"
@@ -27,7 +28,7 @@ const SemanticSearchBox = ({ currentRefinement, refine }) => (
   />
 );
 
-function Hit(props) {
+function Hit(props: { hit: any }) {
   return (
     <Card.Group>
       <Card color="orange" fluid>
@@ -78,6 +79,25 @@ const StateResults = ({ searchResults, searchState }) => {
 };
 
 const ModuleList = () => {
+  const state = {
+    searchState: {
+      query: ""
+    }
+  };
+
+  const handleInputChange = (event: {
+    persist: () => void;
+    target: { value: any };
+  }) => {
+    event.persist();
+
+    this.setState((state: { searchState: any }) => ({
+      searchState: {
+        ...state.searchState,
+        query: event.target.value
+      }
+    }));
+  };
   return (
     <div>
       <Container
@@ -91,7 +111,10 @@ const ModuleList = () => {
           indexName="modules"
         >
           <Configure hitsPerPage={10} />
-          <CustomSearchBox />
+          <div>
+            <CustomSearchBox />
+          </div>
+
           <CustomStateResults />
         </InstantSearch>
       </Container>
