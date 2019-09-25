@@ -1,4 +1,4 @@
-import { compareSync } from "bcryptjs";
+import { compareSync, hashSync } from "bcryptjs";
 import { validateOrReject } from "class-validator";
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
@@ -11,7 +11,8 @@ import { Tip } from "../entities/Tip";
 import { User } from "../entities/User";
 import {
   EntityTokenSignedPayload,
-  AccessTokenSignedPayload
+  AccessTokenSignedPayload,
+  ResetPasswordTokenSignedPayload
 } from "../types/tokens";
 import { getEntityArray } from "../utils/entities";
 import { getAuthenticationTokens } from "../utils/users";
@@ -208,9 +209,12 @@ export async function deleteTip(request: Request, response: Response) {
         discardedAt: new Date()
       }
     );
+    if (result.affected === 0) {
+      throw new Error("Not found");
+    }
     response.sendStatus(204);
   } catch (error) {
-    response.sendStatus(400);
+    response.sendStatus(404);
   }
 }
 
@@ -239,6 +243,25 @@ export async function verifyEmail(request: Request, response: Response) {
       throw new Error("Failed to update user");
     }
     response.status(204).send();
+  } catch (error) {
+    response.sendStatus(400);
+    console.error(error);
+  }
+}
+
+export async function resetPassword(request: Request, response: Response) {
+  try {
+    const payload = response.locals.payload as ResetPasswordTokenSignedPayload;
+    const newPassword = request.body.newPassword;
+
+    const user = await getRepository(User).findOneOrFail(payload.id);
+    user.password = newPassword;
+    await validateOrReject(user);
+
+    await getRepository(User).update(payload.id, {
+      password: hashSync(newPassword)
+    });
+    response.sendStatus(204);
   } catch (error) {
     response.sendStatus(400);
     console.error(error);

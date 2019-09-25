@@ -3,7 +3,12 @@ import * as sendgrid from "@sendgrid/mail";
 import { MailData } from "@sendgrid/helpers/classes/mail";
 import { User } from "../entities/User";
 import { Base } from "../entities/Base";
-import { AccessTokenSignedPayload } from "../types/tokens";
+import {
+  AccessTokenSignedPayload,
+  EntityTokenPayload,
+  BearerTokenType,
+  ResetPasswordTokenPayload
+} from "../types/tokens";
 
 const baseUrl = "https://nus.reviews";
 
@@ -29,13 +34,19 @@ export function sendVerificationEmail(user: User) {
 export function sendResetPasswordEmail(user: User) {
   sendgrid.setApiKey(process.env.SENDGRID_API_KEY!);
 
-  const payload = user.createPayload();
+  const payload: ResetPasswordTokenPayload = {
+    type: BearerTokenType.ResetPasswordToken,
+    id: user.id,
+    email: user.email,
+    role: user.role,
+    username: user.username
+  };
 
   const token = jwt.sign(payload, process.env.JWT_SECRET!, {
     expiresIn: "3 hours"
   });
 
-  const message = `We heard that you lost your GitHub password. Sorry about that!
+  const message = `We heard that you lost your nus.reviews password. Sorry about that!
 
 But don’t worry! You can use the following link to reset your password:
 

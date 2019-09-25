@@ -36,6 +36,11 @@ routes.use("/questions", questions);
 routes.post("/login", TokensController.login);
 routes.post("/request_reset_password", UsersController.requestResetPassword);
 routes.post(
+  "/reset_password",
+  [checkBearerToken(BearerTokenType.ResetPasswordToken)],
+  TokensController.resetPassword
+);
+routes.post(
   "/refresh_authentication",
   [checkBearerToken(BearerTokenType.RefreshToken)],
   TokensController.refreshAuthentication
