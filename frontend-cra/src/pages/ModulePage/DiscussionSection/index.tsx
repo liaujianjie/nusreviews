@@ -1,5 +1,6 @@
 import React from "react";
 import _ from "lodash";
+import { OPINIONS_TYPE, TIPS_TYPE } from "../../../constants/type";
 
 import { Button, Divider } from "@blueprintjs/core";
 
@@ -11,53 +12,48 @@ import { DiscussionRow } from "./DiscussionRow";
 
 import "./style.css";
 
-type OwnProps = {};
+type OwnProps = {
+  opinions: OPINIONS_TYPE;
+  tips: TIPS_TYPE;
+};
 
-export const DiscussionSection: React.FunctionComponent<OwnProps> = ({}) => {
+export const DiscussionSection: React.FunctionComponent<OwnProps> = ({
+  opinions,
+  tips
+}) => {
   return (
     <Section
       leftHeader={
-        <h2 className="DiscussionSection__left-header">Student discussion</h2>
+        <h4 className="DiscussionSection__left-header">Student discussion</h4>
       }
       body={
-        <div>
-          <SplitColumns>
-            <DiscussionColumn title="What were the best parts?">
+        <SplitColumns>
+          <DiscussionColumn title="What were the best parts?">
+            {opinions.map(entry => (
               <DiscussionRow
-                message="I found the module surprisingly beautiful but in a horribly uncomfortable kinda way."
+                message={entry.description}
                 author="Computer Science, Y4, AY17/18"
+                vote={entry.opinionVotes.length}
               />
+            ))}
+            <Button icon="plus" intent="primary" text="Add opinion" />
+          </DiscussionColumn>
+          <DiscussionColumn title="Any tips and tricks?">
+            {tips.map(entry => (
               <DiscussionRow
-                message="I found the module surprisingly beautiful but in a horribly uncomfortable kinda way."
+                message={entry.description}
                 author="Computer Science, Y4, AY17/18"
+                vote={entry.tipVotes.length}
               />
-              <DiscussionRow
-                message="I found the module surprisingly beautiful but in a horribly uncomfortable kinda way."
-                author="Computer Science, Y4, AY17/18"
-              />
-              <Button icon="plus" intent="primary" text="Add tip" />
-            </DiscussionColumn>
-            <DiscussionColumn title="Any tips and tricks?">
-              <DiscussionRow
-                message="I found the module surprisingly beautiful but in a horribly uncomfortable kinda way."
-                author="Computer Science, Y4, AY17/18"
-              />
-              <DiscussionRow
-                message="I found the module surprisingly beautiful but in a horribly uncomfortable kinda way."
-                author="Computer Science, Y4, AY17/18"
-              />
-              <DiscussionRow
-                message="I found the module surprisingly beautiful but in a horribly uncomfortable kinda way."
-                author="Computer Science, Y4, AY17/18"
-              />
-              <Button icon="plus" intent="primary" text="Add opinion" />
-            </DiscussionColumn>
-          </SplitColumns>
-          <Divider className="DiscussionSection__divider" />
-          <Center>
-            <Button minimal text="Load more" />
-          </Center>
-        </div>
+            ))}
+            <Button icon="plus" intent="primary" text="Add tip" />
+          </DiscussionColumn>
+        </SplitColumns>
+      }
+      action={
+        <Center>
+          <Button icon="chevron-down" minimal text="More discussions" />
+        </Center>
       }
     />
   );

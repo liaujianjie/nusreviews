@@ -7,8 +7,16 @@
 .AttributeRating__label {
   margin: 0px;
   margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .AttributeRating:not(:last-child) {
   margin-bottom: 20px;
+}
+
+.AttributeRating__description {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
 }

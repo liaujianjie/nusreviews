@@ -1,22 +1,25 @@
 import React from "react";
-import { Tag } from "@blueprintjs/core";
+import { Button, Tag } from "@blueprintjs/core";
 
 import "./style.css";
+import { REVIEW_TYPE } from "../../../../constants/type";
 
 type OwnProps = {
-  author: string;
+  semester: string;
+  preview: string;
+  programmeYear: string;
+  major: string;
   expectedGrade: string;
   actualGrade: string;
-  message: string;
-  semester: string;
 };
 
-export const LongReview: React.FunctionComponent<OwnProps> = ({
-  author,
+export const LongReview: React.FunctionComponent<REVIEW_TYPE> = ({
+  semester,
+  preview,
+  programmeYear,
+  major,
   expectedGrade,
-  actualGrade,
-  message,
-  semester
+  actualGrade
 }) => {
   return (
     <div className="LongReview">
@@ -31,12 +34,14 @@ export const LongReview: React.FunctionComponent<OwnProps> = ({
         </span>
         <Tag minimal>{semester}</Tag>
       </div>
-      <p>
-        {message} <a href="#">Read more</a>
-      </p>
+      <p>{preview}</p>
       <div className="LongReview__footer-container">
-        <div className="bp3-text-disabled">{author}</div>
-        {/* <Tag minimal>something else here...</Tag> */}
+        <div className="bp3-text-disabled">{`${
+          major ? major : "Hidden Major"
+        }, ${
+          programmeYear ? "Y" + programmeYear : "Hidden Programme Year"
+        }`}</div>
+        <Button rightIcon="arrow-right" minimal text="Read more" />
       </div>
     </div>
   );

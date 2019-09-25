@@ -62,6 +62,8 @@ span {
 .bp3-button.bp3-intent-primary {
   background-color: #fc4838;
   box-shadow: none;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .bp3-button.bp3-intent-primary.bp3-disabled {
@@ -80,6 +82,7 @@ span {
 *:not(.bp3-navbar) .bp3-button.bp3-minimal.bp3-active,
 *:not(.bp3-navbar) .bp3-button.bp3-minimal:hover {
   color: #2873e6;
+  font-weight: 700;
 }
 
 .bp3-button.bp3-minimal.bp3-active {
