@@ -57,9 +57,9 @@ export async function destroy(request: Request, response: Response) {
     if (result.affected === 0) {
       throw new Error("Failed to destroy");
     }
-    response.status(200).json(result);
+    response.sendStatus(204);
   } catch (error) {
-    response.sendStatus(400);
+    response.sendStatus(404);
   }
 }
 

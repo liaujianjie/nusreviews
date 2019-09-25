@@ -90,7 +90,7 @@ export async function changePassword(request: Request, response: Response) {
     user.password = newPassword;
     await validateOrReject(user);
     await repo.update(id, { password: hashSync(newPassword) });
-    response.status(200).json();
+    response.sendStatus(204);
   } catch (error) {
     response.sendStatus(400);
     console.error(error);
@@ -107,11 +107,11 @@ export async function discard(
     await getRepository(User).update(request.params.id, {
       discardedAt: new Date()
     });
+    response.sendStatus(204);
   } catch (error) {
     response.sendStatus(400);
     return;
   }
-  response.status(200).json();
 }
 
 export async function undiscard(
@@ -124,9 +124,9 @@ export async function undiscard(
     await getRepository(User).update(request.params.id, {
       discardedAt: undefined
     });
+    response.sendStatus(204);
   } catch (error) {
     response.sendStatus(400);
     return;
   }
-  response.status(200).json();
 }

@@ -8,6 +8,7 @@ import { BearerTokenType } from "../../types/tokens";
 export const router = Router();
 
 router.post("/", UsersController.create);
+
 router.use(checkBearerToken(BearerTokenType.AccessToken));
 router.patch("/change_password", UsersController.changePassword);
 
