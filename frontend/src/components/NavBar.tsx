@@ -4,18 +4,6 @@ import logo from "../static/images/logo.svg";
 import { InstantSearch } from "react-instantsearch-dom";
 import { connectSearchBox } from "react-instantsearch/connectors";
 
-const HeaderSearchBox = ({ currentRefinement, refine }) => (
-  <Search
-    color="blue"
-    fluid
-    size="large"
-    placeholder="Search a module"
-    input={{ fluid: true }}
-    value={this.state.searchState.query}
-    onSearchChange={event => refine(event.currentTarget.value)}
-  />
-);
-
 type OwnProps = {};
 
 const NavBar: React.FunctionComponent<OwnProps & ConnectedProps> = ({
@@ -32,13 +20,14 @@ const NavBar: React.FunctionComponent<OwnProps & ConnectedProps> = ({
         </Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item>
-            <InstantSearch
-              appId="3EJTXIKS8B"
-              apiKey="092aa257d26c6e1fb8733a3c0229b176"
-              indexName="modules"
-            >
-              <CustomSearchBox />
-            </InstantSearch>
+            <Search
+              color="blue"
+              fluid
+              size="large"
+              placeholder="Search a module"
+              input={{ fluid: true }}
+              value={searchState.query}
+            />
           </Menu.Item>
           <Menu.Item>
             <span style={{ marginRight: 16 }}>{username}</span>
