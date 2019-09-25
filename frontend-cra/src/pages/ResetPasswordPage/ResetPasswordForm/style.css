@@ -1,0 +1,8 @@
+.ResetPasswordForm__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.ResetPasswordForm__form > *:not(:last-child) {
+  margin-bottom: 8px;
+}

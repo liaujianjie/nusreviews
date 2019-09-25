@@ -45,3 +45,27 @@ export const requestPasswordReset = async ({
   );
   return response.data;
 };
+
+type ResetPasswordPayload = {
+  token: string;
+  password: string;
+};
+
+export const resetPassword = async ({
+  token,
+  password
+}: ResetPasswordPayload) => {
+  const unencodedBody = {
+    password
+  };
+  const response = await sharedHttpClient.post(
+    "/request_reset_password",
+    qs.stringify(unencodedBody),
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+  return response.data;
+};
