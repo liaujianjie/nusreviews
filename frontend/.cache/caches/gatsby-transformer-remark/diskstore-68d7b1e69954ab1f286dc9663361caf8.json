@@ -1,0 +1,142 @@
+{
+  "expireTime": 9007200823886050000,
+  "key": "transformer-remark-markdown-html-ast-3e4631bbac6df7688b0a9a06000cec38-gatsby-remark-imagesgatsby-remark-prismjsgatsby-remark-copy-linked-filesgatsby-remark-autolink-headers-",
+  "val": {
+    "type": "root",
+    "children": [
+      {
+        "type": "element",
+        "tagName": "p",
+        "properties": {},
+        "children": [
+          {
+            "type": "text",
+            "value": "My awesome article",
+            "position": {
+              "start": { "line": 2, "column": 1, "offset": 1 },
+              "end": { "line": 2, "column": 19, "offset": 19 }
+            }
+          }
+        ],
+        "position": {
+          "start": { "line": 2, "column": 1, "offset": 1 },
+          "end": { "line": 2, "column": 19, "offset": 19 }
+        }
+      },
+      { "type": "text", "value": "\n" },
+      {
+        "type": "element",
+        "tagName": "h2",
+        "properties": { "id": "todo" },
+        "children": [
+          {
+            "type": "element",
+            "tagName": "a",
+            "properties": {
+              "href": "#todo",
+              "aria-label": "todo permalink",
+              "class": "anchor"
+            },
+            "children": [
+              {
+                "type": "raw",
+                "value": "<svg aria-hidden=\"true\" focusable=\"false\" height=\"16\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16\"><path fill-rule=\"evenodd\" d=\"M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z\"></path></svg>"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "value": "TODO",
+            "position": {
+              "start": { "line": 4, "column": 4, "offset": 24 },
+              "end": { "line": 4, "column": 8, "offset": 28 }
+            }
+          }
+        ],
+        "position": {
+          "start": { "line": 4, "column": 1, "offset": 21 },
+          "end": { "line": 4, "column": 8, "offset": 28 }
+        }
+      },
+      { "type": "text", "value": "\n" },
+      {
+        "type": "element",
+        "tagName": "ul",
+        "properties": {},
+        "children": [
+          { "type": "text", "value": "\n" },
+          {
+            "type": "element",
+            "tagName": "li",
+            "properties": { "className": ["task-list-item"] },
+            "children": [
+              {
+                "type": "element",
+                "tagName": "input",
+                "properties": {
+                  "type": "checkbox",
+                  "checked": true,
+                  "disabled": true
+                },
+                "children": []
+              },
+              { "type": "text", "value": " " },
+              {
+                "type": "text",
+                "value": "Replace image",
+                "position": {
+                  "start": { "line": 6, "column": 9, "offset": 38 },
+                  "end": { "line": 6, "column": 22, "offset": 51 }
+                }
+              }
+            ],
+            "position": {
+              "start": { "line": 6, "column": 1, "offset": 30 },
+              "end": { "line": 6, "column": 22, "offset": 51 }
+            }
+          },
+          { "type": "text", "value": "\n" },
+          {
+            "type": "element",
+            "tagName": "li",
+            "properties": { "className": ["task-list-item"] },
+            "children": [
+              {
+                "type": "element",
+                "tagName": "input",
+                "properties": {
+                  "type": "checkbox",
+                  "checked": false,
+                  "disabled": true
+                },
+                "children": []
+              },
+              { "type": "text", "value": " " },
+              {
+                "type": "text",
+                "value": "Write an awesome article",
+                "position": {
+                  "start": { "line": 7, "column": 9, "offset": 60 },
+                  "end": { "line": 7, "column": 33, "offset": 84 }
+                }
+              }
+            ],
+            "position": {
+              "start": { "line": 7, "column": 1, "offset": 52 },
+              "end": { "line": 7, "column": 33, "offset": 84 }
+            }
+          },
+          { "type": "text", "value": "\n" }
+        ],
+        "position": {
+          "start": { "line": 6, "column": 1, "offset": 30 },
+          "end": { "line": 7, "column": 33, "offset": 84 }
+        }
+      }
+    ],
+    "position": {
+      "start": { "line": 1, "column": 1, "offset": 0 },
+      "end": { "line": 8, "column": 1, "offset": 85 }
+    }
+  }
+}

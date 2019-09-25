@@ -1,0 +1,6 @@
+{
+  "componentChunkName": "component---src-pages-auth-signup-tsx",
+  "path": "/auth/signup/",
+  "webpackCompilationHash": "",
+  "result": { "pageContext": { "isCreatedByStatefulCreatePages": true } }
+}
