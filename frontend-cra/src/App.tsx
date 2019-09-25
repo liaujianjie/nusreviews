@@ -8,6 +8,7 @@ import { MainLayout } from "./components/MainLayout";
 import { HomePage } from "./pages/HomePage";
 import { SignInPage } from "./pages/SignInPage";
 import { SignUpPage } from "./pages/SignUpPage";
+import { ResetPasswordRequestPage } from "./pages/ResetPasswordRequestPage";
 import { ModulePage } from "./pages/ModulePage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 
@@ -19,6 +20,11 @@ const App: React.FunctionComponent = () => {
           <Switch>
             <Route exact path="/auth/signin" component={SignInPage} />
             <Route exact path="/auth/signup" component={SignUpPage} />
+            <Route
+              exact
+              path="/auth/reset-password-request"
+              component={ResetPasswordRequestPage}
+            />
             <Route exact path="/module/:moduleId" component={ModulePage} />
             <Route exact path="/" component={HomePage} />
             <Route component={NotFoundPage} />

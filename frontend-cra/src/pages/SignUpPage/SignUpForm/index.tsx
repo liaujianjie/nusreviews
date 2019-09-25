@@ -77,7 +77,7 @@ const _SignUpForm: React.FunctionComponent<ConnectedProps> = ({ signUp }) => {
               loading={submitting}
               disabled={pristine || invalid || submitting}
             >
-              Sign in
+              Create my account
             </Button>
           </form>
         );
