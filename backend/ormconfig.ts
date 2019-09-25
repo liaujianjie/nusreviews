@@ -10,13 +10,13 @@ export const postgres: ConnectionOptions = {
   ssl: true,
   synchronize: true,
   logging: false,
-  entities: ["src/entities/**/*.ts"],
-  migrations: ["src/migrations/**/*.ts"],
-  subscribers: ["src/subscribers/**/*.ts"],
+  entities: ["./src/entities/**/*.{js, ts}"],
+  migrations: ["./src/migrations/**/*.{js, ts}"],
+  subscribers: ["./src/subscribers/**/*.{js, ts}"],
   cli: {
-    entitiesDir: "src/entities",
-    migrationsDir: "src/migrations",
-    subscribersDir: "src/subscribers"
+    entitiesDir: "./src/entities",
+    migrationsDir: "./src/migrations",
+    subscribersDir: "./src/subscribers"
   },
   migrationsRun: true
 };
