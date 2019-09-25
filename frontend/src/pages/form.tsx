@@ -13,19 +13,19 @@ import { LECTURER_QUESTIONS, WORKLOAD_QUESTIONS } from "../constants/Form";
 // hoc
 import { withAuth } from "../components/withAuth";
 
-interface RadioFormQuestion {
+export interface RadioFormQuestion {
   scale: number;
   name: string;
   question: string;
-  value: Array<string>;
+  label: Array<string>;
 }
 
 const getRadioButtons = (questionSet: Array<RadioFormQuestion>) => {
   return questionSet.map(values => <RadioButtonGroup {...values} />);
 };
 
+// names of form fields
 export type LongFormReviewInput = {
-  test: string;
   expectedGrade: string;
   actualGrade: string;
   name: string;
@@ -49,8 +49,9 @@ const LongForm = () => {
   };
 
   return (
-    <Final.Form onSubmit={onSubmit}>
-      {({ handleSubmit, form, values }) => (
+    // initialValues for following up on drafts
+    <Final.Form onSubmit={onSubmit} initialValues={{}}>
+      {({ handleSubmit, form, values, pristine }) => (
         <Form
           onSubmit={e => {
             handleSubmit(e);
@@ -139,7 +140,9 @@ const LongForm = () => {
               >
                 Save Draft
               </Button>
-              <Form.Button type="submit">Submit</Form.Button>
+              <Form.Button type="submit" disabled={pristine}>
+                Submit
+              </Form.Button>
             </Grid>
           </FormSegment>
         </Form>
@@ -148,4 +151,4 @@ const LongForm = () => {
   );
 };
 
-export default withAuth(withLayout(LongForm));
+export default withLayout(LongForm);
