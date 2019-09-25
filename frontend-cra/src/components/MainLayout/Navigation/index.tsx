@@ -63,7 +63,7 @@ const _Navigation: React.FunctionComponent<ConnectedProps> = ({
                 </Menu>
               }
             >
-              <Button minimal text={user.email} />
+              <Button minimal text={user.username} />
             </Popover>
           </Navbar.Group>
         )}

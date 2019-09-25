@@ -21,9 +21,9 @@ export const isAuthenticationTokenType = (
 
 export type AuthenticationToken = {
   type: AuthenticationTokenType;
-  id: number;
-  email: string;
-  role: UserRole;
+  userId: number;
+  username: string;
+  userRole: UserRole;
   iat: number;
   exp: number;
 };
@@ -34,9 +34,9 @@ export const isAuthenticationToken = (
   if (
     !object ||
     !isAuthenticationTokenType(object.type) ||
-    !isUserRole(object.role) ||
-    !_.isString(object.email) ||
-    !_.isFinite(object.id) ||
+    !isUserRole(object.userRole) ||
+    !_.isString(object.username) ||
+    !_.isFinite(object.userId) ||
     !_.isFinite(object.iat) ||
     !_.isFinite(object.exp)
   ) {
