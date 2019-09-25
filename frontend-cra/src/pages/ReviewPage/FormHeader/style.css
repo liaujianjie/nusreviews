@@ -1,0 +1,21 @@
+.FormHeader__top-row-container {
+  display: flex;
+}
+
+.FormHeader__module-row {
+  flex: 1 1 0;
+}
+
+.FormHeader__inline-container {
+  display: flex;
+  align-items: center;
+}
+
+.FormHeader__module-semester {
+  background-color: #f4f6f8;
+  border-radius: 8px;
+}
+
+.FormHeader__module-description {
+  color: grey;
+}
