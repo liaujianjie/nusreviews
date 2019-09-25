@@ -5,7 +5,8 @@ import {
   BearerTokenType,
   isAccessTokenSignedPayload,
   isRefreshTokenSignedPayload,
-  isEntityTokenSignedPayload
+  isEntityTokenSignedPayload,
+  isResetPasswordTokenSignedPayload
 } from "../types/tokens";
 
 export const checkBearerToken = (
@@ -49,6 +50,13 @@ export const checkBearerToken = (
         !entityName ||
         payload.entityName !== entityName
       ) {
+        res.sendStatus(401);
+        return;
+      }
+      break;
+
+    case BearerTokenType.ResetPasswordToken:
+      if (!isResetPasswordTokenSignedPayload(payload)) {
         res.sendStatus(401);
         return;
       }

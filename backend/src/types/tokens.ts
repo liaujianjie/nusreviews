@@ -5,7 +5,8 @@ export type BearerToken = string;
 export enum BearerTokenType {
   AccessToken,
   RefreshToken,
-  EntityToken
+  EntityToken,
+  ResetPasswordToken
 }
 
 type Payload<BearerTokenType> = {
@@ -35,6 +36,13 @@ export type RefreshTokenSignedPayload = RefreshTokenPayload & TokenLifespan;
 export type EntityTokenPayload<Entity> = Payload<BearerTokenType.EntityToken> &
   Partial<Entity> & { id: number; entityName: string };
 export type EntityTokenSignedPayload<Entity> = EntityTokenPayload<Entity> &
+  TokenLifespan;
+
+export type ResetPasswordTokenPayload = Payload<
+  BearerTokenType.ResetPasswordToken
+> &
+  Credentials;
+export type ResetPasswordTokenSignedPayload = ResetPasswordTokenPayload &
   TokenLifespan;
 
 // Type checkers
@@ -103,4 +111,18 @@ export function isEntityTokenSignedPayload<Entity>(
   payload: any
 ): payload is EntityTokenSignedPayload<Entity> {
   return isEntityTokenPayload(payload) && hasTokenLifespan(payload);
+}
+
+export function isResetPasswordTokenPayload(
+  payload: any
+): payload is ResetPasswordTokenPayload {
+  return (
+    isPayload(payload) && payload.type === BearerTokenType.ResetPasswordToken
+  );
+}
+
+export function isResetPasswordTokenSignedPayload(
+  payload: any
+): payload is ResetPasswordTokenSignedPayload {
+  return isResetPasswordTokenPayload(payload) && hasTokenLifespan(payload);
 }
