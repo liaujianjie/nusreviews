@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import _ from "lodash";
 
@@ -41,7 +42,9 @@ const _Navigation: React.FunctionComponent<ConnectedProps> = ({
       <MaxWidthContainer>
         <Navbar.Group align={Alignment.LEFT}>
           <Navbar.Heading>
-            <img src={logo} alt="NUS Reviews logo" height={20} />
+            <Link to="/">
+              <img src={logo} alt="NUS Reviews logo" height={20} />
+            </Link>
           </Navbar.Heading>
         </Navbar.Group>
         {shouldShowSearchbar && (
