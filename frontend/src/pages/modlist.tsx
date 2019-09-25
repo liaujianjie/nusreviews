@@ -79,11 +79,9 @@ const StateResults = ({ searchResults, searchState }) => {
 };
 
 const ModuleList = () => {
-  const state = {
-    searchState: {
-      query: ""
-    }
-  };
+  const [searchState, setSearchState] = React.useState({
+    query: ""
+  });
 
   const handleInputChange = (event: {
     persist: () => void;
@@ -91,13 +89,9 @@ const ModuleList = () => {
   }) => {
     event.persist();
 
-    this.setState((state: { searchState: any }) => ({
-      searchState: {
-        ...state.searchState,
-        query: event.target.value
-      }
-    }));
+    setSearchState({ ...searchState, query: event.target.value });
   };
+
   return (
     <div>
       <Container
