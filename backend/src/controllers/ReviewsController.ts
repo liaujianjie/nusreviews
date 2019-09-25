@@ -6,8 +6,13 @@ import { ModuleSemester } from "../entities/ModuleSemester";
 import { ReviewTemplate } from "../entities/ReviewTemplate";
 import { Question } from "../entities/Question";
 import { Review } from "../entities/Review";
-import { generateEditToken, EditTokenSignedPayload } from "../utils/editToken";
 import { getEntityArray } from "../utils/entities";
+import {
+  EntityTokenSignedPayload,
+  EntityTokenPayload,
+  BearerTokenType
+} from "../types/tokens";
+import { sign } from "jsonwebtoken";
 
 export async function create(request: Request, response: Response) {
   try {
@@ -32,10 +37,16 @@ export async function create(request: Request, response: Response) {
     await validateOrReject(review);
 
     await getRepository(Review).save(review);
-    const editToken = generateEditToken(review, "120 days");
+    const payload: EntityTokenPayload<Review> = {
+      type: BearerTokenType.EntityToken,
+      id: review.id
+    };
+    const entityToken = sign(payload, process.env.JWT_SECRET!, {
+      expiresIn: "120 days"
+    });
     const result = {
       review: review.stringify(),
-      editToken
+      entityToken
     };
     response.status(201).json(result);
   } catch (error) {
@@ -48,7 +59,16 @@ export async function show(request: Request, response: Response) {
   try {
     const review = await getRepository(Review).findOneOrFail(
       request.params.id,
-      { relations: ["metrics", "questions"] }
+      {
+        relations: [
+          "moduleSemester",
+          "moduleSemester.module",
+          "metrics",
+          "metrics.metricTemplate",
+          "questions",
+          "questions.questionTemplate"
+        ]
+      }
     );
     response.status(200).json(review.stringify());
   } catch (error) {
@@ -59,9 +79,8 @@ export async function show(request: Request, response: Response) {
 
 export async function update(request: Request, response: Response) {
   try {
-    const payload = response.locals
-      .editTokenSignedPayload as EditTokenSignedPayload;
-    const review = await getRepository(Review).findOneOrFail(payload.entityId, {
+    const payload = response.locals.payload as EntityTokenSignedPayload<Review>;
+    const review = await getRepository(Review).findOneOrFail(payload.id, {
       relations: ["reviewTemplate", "moduleSemester", "metrics", "questions"]
     });
 
@@ -96,10 +115,18 @@ export async function update(request: Request, response: Response) {
     await validateOrReject(review);
     await getRepository(Review).save(review);
 
-    const editToken = generateEditToken(review, "120 days");
+    const entityTokenPayload: EntityTokenPayload<Review> = {
+      type: BearerTokenType.EntityToken,
+      id: review.id
+    };
+
+    const entityToken = sign(entityTokenPayload, process.env.JWT_SECRET!, {
+      expiresIn: "120 days"
+    });
+
     const result = {
       review: review.stringify(),
-      editToken
+      entityToken
     };
     response.status(200).json(result);
   } catch (error) {

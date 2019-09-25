@@ -53,7 +53,7 @@ const SignUpPage: React.FunctionComponent<OwnProps & DispatchProps> = ({
                     ? "You need to login with a NUS student email."
                     : undefined
                 }
-                autofocus
+                autoFocus
               />
               <FinalForm.Field
                 component={FinalFormInput}

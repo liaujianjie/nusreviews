@@ -12,7 +12,7 @@ export async function show(request: Request, response: Response) {
     );
     response.status(200).json(moduleSemester);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
@@ -26,7 +26,7 @@ export async function opinions(request: Request, response: Response) {
     });
     response.status(200).json(opinions);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
@@ -40,7 +40,7 @@ export async function tips(request: Request, response: Response) {
     });
     response.status(200).json(tips);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 

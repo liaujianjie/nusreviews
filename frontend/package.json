@@ -14,8 +14,6 @@
     "lint:js": "xo",
     "lint:css": "stylelint \"src/**/*.css\"",
     "lint:scss": "stylelint src/**/*.scss --syntax scss",
-    "test": "npm run lint && jest",
-    "test:watch": "jest --watch",
     "generate": "plop --plopfile ./generators/plopfile.js",
     "graphql-types": "gql-gen --url http://localhost:8000/___graphql --template typescript --out ./src/graphql-types.d.ts",
     "precommit": "lint-staged",
@@ -78,7 +76,6 @@
     "@storybook/addon-options": "^3.2.14",
     "@storybook/react": "^3.2.14",
     "@types/enzyme": "^2.8.9",
-    "@types/jest": "^19.2.2",
     "@types/node": "^7.0.15",
     "@types/react-instantsearch": "^5.2.3",
     "@types/react-instantsearch-dom": "^5.2.6",
@@ -100,7 +97,6 @@
     "eslint-plugin-react": "^7.1.0",
     "flat": "^2.0.1",
     "husky": "0.13.3",
-    "jest": "19.0.2",
     "lint-staged": "3.4.0",
     "mkdirp": "^0.5.1",
     "plop": "^1.7.4",
@@ -112,7 +108,6 @@
     "storybook-readme": "^3.0.6",
     "stylelint": "^7.10.1",
     "stylelint-config-standard": "^16.0.0",
-    "ts-jest": "19.0.8",
     "ts-lint": "4.5.1",
     "xo": "^0.18.1"
   },
@@ -120,32 +115,6 @@
     "gatsby",
     "starter"
   ],
-  "jest": {
-    "globals": {
-      "__LINK_PREFIX__": "",
-      "__PREFIX_LINKS__": ""
-    },
-    "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/templates/",
-      "/.cache"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "collectCoverage": true,
-    "coverageReporters": [
-      "lcov",
-      "text",
-      "html"
-    ]
-  },
   "lint-staged": {
     "*.{ts,tsx}": [
       "tslint --fix",

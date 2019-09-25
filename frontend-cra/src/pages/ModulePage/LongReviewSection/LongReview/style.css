@@ -1,0 +1,20 @@
+.LongReview {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.LongReview > *:not(:last-child) {
+  margin-bottom: 12px;
+}
+
+.LongReview__header-container,
+.LongReview__footer-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.LongReview__grades-container > *:not(:last-child) {
+  margin-right: 12px;
+}

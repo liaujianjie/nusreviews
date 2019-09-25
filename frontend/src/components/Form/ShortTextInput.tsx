@@ -15,8 +15,7 @@ export interface ShortTextInputProps {
 const ShortTextInput: React.FunctionComponent<ShortTextInputProps> = props => {
   return (
     <Field {...props} component="input" type="text">
-      {fieldProps => {
-        const { input } = fieldProps;
+      {({ input }) => {
         const handleChange = (
           event: React.FormEvent<HTMLInputElement>,
           eventData: InputProps

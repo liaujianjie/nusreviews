@@ -3,7 +3,12 @@ import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Opinion } from "../entities/Opinion";
 import { ModuleSemester } from "../entities/ModuleSemester";
-import { generateEditToken, EditTokenSignedPayload } from "../utils/editToken";
+import {
+  EntityTokenSignedPayload,
+  EntityTokenPayload,
+  BearerTokenType
+} from "../types/tokens";
+import { sign } from "jsonwebtoken";
 
 export async function create(request: Request, response: Response) {
   try {
@@ -16,15 +21,21 @@ export async function create(request: Request, response: Response) {
 
     await validateOrReject(opinion);
     await getRepository(Opinion).save(opinion);
-    const editToken = generateEditToken(opinion, "120 days");
+    const payload: EntityTokenPayload<Opinion> = {
+      type: BearerTokenType.EntityToken,
+      id: opinion.id
+    };
+    const entityToken = sign(payload, process.env.JWT_SECRET!, {
+      expiresIn: "120 days"
+    });
     const result = {
       opinion,
-      editToken
+      entityToken
     };
-    response.status(201).send(result);
+    response.status(201).json(result);
   } catch (error) {
     console.error(error);
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
@@ -35,23 +46,23 @@ export async function show(request: Request, response: Response) {
     );
     response.status(200).json(moduleSemester);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
 export async function update(request: Request, response: Response) {
   try {
-    const payload = response.locals
-      .editTokenSignedPayload as EditTokenSignedPayload;
-    const id = payload.entityId;
+    const payload = response.locals.payload as EntityTokenSignedPayload<
+      Opinion
+    >;
 
-    const opinion = await getRepository(Opinion).findOneOrFail(id);
+    const opinion = await getRepository(Opinion).findOneOrFail(payload.id);
     opinion.description = request.body.description;
     await validateOrReject(opinion);
     await getRepository(Opinion).save(opinion);
     response.status(200).json(opinion);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
 
@@ -88,6 +99,6 @@ export async function votes(request: Request, response: Response) {
     const votes = opinion.opinionVotes;
     response.status(200).json(votes);
   } catch (error) {
-    response.status(400).send();
+    response.sendStatus(400);
   }
 }
