@@ -1,7 +1,7 @@
+import { validateOrReject } from "class-validator";
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { TipVote } from "../entities/TipVote";
-import { validateOrReject } from "class-validator";
 import { User } from "../entities/User";
 import { Tip } from "../entities/Tip";
 import { AccessTokenSignedPayload } from "../types/tokens";
@@ -9,8 +9,11 @@ import { AccessTokenSignedPayload } from "../types/tokens";
 export async function create(request: Request, response: Response) {
   try {
     const tipVote = new TipVote();
-    const payload = response.locals.payload as AccessTokenSignedPayload;
-    tipVote.user = await getRepository(User).findOneOrFail(payload.userId);
+    const accessTokenSignedPayload = response.locals
+      .payload as AccessTokenSignedPayload;
+    tipVote.user = await getRepository(User).findOneOrFail(
+      accessTokenSignedPayload.id
+    );
     tipVote.tip = await getRepository(Tip).findOneOrFail(request.params.id);
     tipVote.value = parseInt(request.body.value);
     await validateOrReject(tipVote);
@@ -61,14 +64,15 @@ export async function destroy(request: Request, response: Response) {
 }
 
 async function checkUser(request: Request, response: Response) {
-  const payload = response.locals.payload as AccessTokenSignedPayload;
+  const accessTokenSignedPayload = response.locals
+    .payload as AccessTokenSignedPayload;
   const tipVote = await getRepository(TipVote).findOneOrFail(
     request.params.id,
     {
       relations: ["user"]
     }
   );
-  if (payload.userId !== tipVote.user.id) {
+  if (accessTokenSignedPayload.id !== tipVote.user.id) {
     throw new Error("Invalid user");
   }
   return tipVote;

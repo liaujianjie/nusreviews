@@ -35,4 +35,6 @@ export class QuestionTemplate extends Discardable {
 
   @OneToMany(type => Question, question => question.questionTemplate)
   questions!: Question[];
+
+  entityName = "QuestionTemplate";
 }

@@ -16,4 +16,6 @@ export class TipVote extends Base {
   @Column()
   @IsIn([1, -1])
   value!: number;
+
+  entityName = "TipVote";
 }

@@ -18,9 +18,10 @@ type TokenLifespan = {
 };
 
 type Credentials = {
-  userId: number;
+  id: number;
+  email: string;
+  role: UserRole;
   username: string;
-  userRole: UserRole;
 };
 
 export type AccessTokenPayload = Payload<BearerTokenType.AccessToken> &
@@ -32,7 +33,7 @@ export type RefreshTokenPayload = Payload<BearerTokenType.RefreshToken> &
 export type RefreshTokenSignedPayload = RefreshTokenPayload & TokenLifespan;
 
 export type EntityTokenPayload<Entity> = Payload<BearerTokenType.EntityToken> &
-  Partial<Entity>;
+  Partial<Entity> & { id: number; entityName: string };
 export type EntityTokenSignedPayload<Entity> = EntityTokenPayload<Entity> &
   TokenLifespan;
 
@@ -53,9 +54,10 @@ function hasTokenLifespan(payload: any) {
 
 function hasCredentials(payload: any) {
   return (
-    typeof payload.userId === "number" &&
+    typeof payload.id === "number" &&
     typeof payload.username === "string" &&
-    Object.values(UserRole).includes(payload.userRole)
+    typeof payload.email === "string" &&
+    Object.values(UserRole).includes(payload.role)
   );
 }
 

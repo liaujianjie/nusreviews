@@ -8,11 +8,10 @@ import {
   isEntityTokenSignedPayload
 } from "../types/tokens";
 
-export const checkBearerToken = (type: BearerTokenType) => (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const checkBearerToken = (
+  type: BearerTokenType,
+  entityName?: string
+) => (req: Request, res: Response, next: NextFunction) => {
   const bearerToken = req.headers.authorization;
   if (!bearerToken || !isBearerToken(bearerToken)) {
     res.sendStatus(401);
@@ -45,7 +44,11 @@ export const checkBearerToken = (type: BearerTokenType) => (
       break;
 
     case BearerTokenType.EntityToken:
-      if (!isEntityTokenSignedPayload(payload)) {
+      if (
+        !isEntityTokenSignedPayload(payload) ||
+        !entityName ||
+        payload.entityName !== entityName
+      ) {
         res.sendStatus(401);
         return;
       }

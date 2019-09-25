@@ -13,4 +13,6 @@ export class Tip extends Discardable {
 
   @OneToMany(type => TipVote, tipVote => tipVote.tip)
   tipVotes!: TipVote[];
+
+  entityName = "Tip";
 }

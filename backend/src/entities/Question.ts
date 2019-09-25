@@ -19,4 +19,6 @@ export class Question extends Discardable {
   @IsNotEmpty()
   @IsString()
   answer!: string;
+
+  entityName = "Question";
 }

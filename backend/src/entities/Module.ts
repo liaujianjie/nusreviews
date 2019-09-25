@@ -122,4 +122,6 @@ export class Module extends Base {
 
   @OneToMany(type => ModuleSemester, moduleSemester => moduleSemester.module)
   moduleSemesters!: ModuleSemester[];
+
+  entityName = "Module";
 }

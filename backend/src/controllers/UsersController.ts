@@ -3,10 +3,7 @@ import { validateOrReject } from "class-validator";
 import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { User } from "../entities/User";
-import {
-  AccessTokenSignedPayload,
-  EntityTokenSignedPayload
-} from "../types/tokens";
+import { AccessTokenSignedPayload } from "../types/tokens";
 import { getAuthenticationTokens } from "../utils/users";
 import { sendVerificationEmail } from "../utils/sendgrid";
 
@@ -59,8 +56,9 @@ export async function show(
 }
 
 export async function changePassword(request: Request, response: Response) {
-  const payload = response.locals.payload as AccessTokenSignedPayload;
-  const id = payload.userId;
+  const accessTokenSignedPayload = response.locals
+    .payload as AccessTokenSignedPayload;
+  const id = accessTokenSignedPayload.id;
 
   const oldPasswordB64 = request.body.oldPassword;
   const newPasswordB64 = request.body.newPassword;
@@ -92,14 +90,12 @@ export async function changePassword(request: Request, response: Response) {
     user.password = newPassword;
     await validateOrReject(user);
     await repo.update(id, { password: hashSync(newPassword) });
-    response.status(200).json();
+    response.sendStatus(204);
   } catch (error) {
     response.sendStatus(400);
     console.error(error);
   }
 }
-
-// export async function resetPassword(request: Request, response: Response) {
 
 export async function discard(
   request: Request,
@@ -111,11 +107,11 @@ export async function discard(
     await getRepository(User).update(request.params.id, {
       discardedAt: new Date()
     });
+    response.sendStatus(204);
   } catch (error) {
     response.sendStatus(400);
     return;
   }
-  response.status(200).json();
 }
 
 export async function undiscard(
@@ -128,83 +124,9 @@ export async function undiscard(
     await getRepository(User).update(request.params.id, {
       discardedAt: undefined
     });
+    response.sendStatus(204);
   } catch (error) {
     response.sendStatus(400);
     return;
-  }
-  response.status(200).json();
-}
-
-export async function login(request: Request, response: Response) {
-  if (!request.headers.authorization) {
-    response.sendStatus(400);
-    return;
-  }
-  const b64auth = request.headers.authorization.split(" ")[1];
-  const [login, password] = Buffer.from(b64auth, "base64")
-    .toString()
-    .split(":");
-
-  const user = await getRepository(User)
-    .createQueryBuilder("user")
-    .addSelect("user.password")
-    .where("user.username = :login OR user.email = :login", { login })
-    .getOne();
-
-  if (
-    !user ||
-    !user.password ||
-    !compareSync(password, user.password) ||
-    user.discardedAt
-  ) {
-    response.sendStatus(400);
-    return;
-  }
-
-  const result = getAuthenticationTokens(user);
-  response.status(200).json(result);
-}
-
-export async function refreshAuthentication(
-  request: Request,
-  response: Response
-) {
-  const payload = response.locals.payload as AccessTokenSignedPayload;
-
-  let user: User;
-  try {
-    user = await getRepository(User).findOneOrFail(payload.userId);
-  } catch (error) {
-    response.sendStatus(400);
-    console.error(error);
-    return;
-  }
-
-  const result = getAuthenticationTokens(user);
-  response.status(200).json(result);
-}
-
-export async function verifyEmail(request: Request, response: Response) {
-  try {
-    const payload = response.locals.payload as EntityTokenSignedPayload<User>;
-    if (!payload.id) {
-      throw new Error("No id provided");
-    }
-
-    const user = await getRepository(User).findOneOrFail(payload.id);
-    if (user.email !== payload.email) {
-      throw new Error("Email has changed");
-    }
-
-    const result = await getRepository(User).update(payload.id, {
-      emailVerified: true
-    });
-    if (result.affected === 0) {
-      throw new Error("Failed to update user");
-    }
-    response.status(204).send();
-  } catch (error) {
-    response.sendStatus(400);
-    console.error(error);
   }
 }

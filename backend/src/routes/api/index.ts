@@ -12,10 +12,7 @@ import reviewTemplates from "./reviewTemplates";
 import reviews from "./reviews";
 import metrics from "./metrics";
 import questions from "./questions";
-import * as UsersController from "../../controllers/UsersController";
-import * as ReviewsController from "../../controllers/ReviewsController";
-import * as OpinionsController from "../../controllers/OpinionsController";
-import * as TipsController from "../../controllers/TipsController";
+import * as TokensController from "../../controllers/TokensController";
 import { checkBearerToken } from "../../middlewares/checkBearerToken";
 import { BearerTokenType } from "../../types/tokens";
 
@@ -35,11 +32,47 @@ routes.use("/reviews", reviews);
 routes.use("/metrics", metrics);
 routes.use("/questions", questions);
 
-routes.use(checkBearerToken(BearerTokenType.EntityToken));
-routes.post("/verify_email", UsersController.verifyEmail);
-routes.post("/edit_review", ReviewsController.update);
-routes.post("/delete_review", ReviewsController.discard);
-routes.post("/edit_opinion", OpinionsController.update);
-routes.post("/edit_tip", TipsController.update);
+routes.post("/login", TokensController.login);
+// routes.post("/reset_password", UsersController.requestPasswordReset);
+routes.post(
+  "/refresh_authentication",
+  [checkBearerToken(BearerTokenType.RefreshToken)],
+  TokensController.refreshAuthentication
+);
+routes.post(
+  "/verify_email",
+  [checkBearerToken(BearerTokenType.EntityToken, "User")],
+  TokensController.verifyEmail
+);
+routes.post(
+  "/edit_review",
+  [checkBearerToken(BearerTokenType.EntityToken, "Review")],
+  TokensController.editReview
+);
+routes.post(
+  "/delete_review",
+  [checkBearerToken(BearerTokenType.EntityToken, "Review")],
+  TokensController.deleteReview
+);
+routes.post(
+  "/edit_opinion",
+  [checkBearerToken(BearerTokenType.EntityToken, "Opinion")],
+  TokensController.editOpinion
+);
+routes.post(
+  "/delete_opinion",
+  [checkBearerToken(BearerTokenType.EntityToken, "Opinion")],
+  TokensController.deleteOpinion
+);
+routes.post(
+  "/edit_tip",
+  [checkBearerToken(BearerTokenType.EntityToken, "Tip")],
+  TokensController.editTip
+);
+routes.post(
+  "/delete_tip",
+  [checkBearerToken(BearerTokenType.EntityToken, "Tip")],
+  TokensController.deleteTip
+);
 
 export default routes;

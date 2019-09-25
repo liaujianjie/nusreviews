@@ -13,4 +13,6 @@ export class Opinion extends Discardable {
 
   @OneToMany(type => OpinionVote, opinionVote => opinionVote.opinion)
   opinionVotes!: OpinionVote[];
+
+  entityName = "Opinion";
 }
