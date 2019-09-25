@@ -9,14 +9,10 @@ const HeaderSearchBox = ({ currentRefinement, refine }) => {
     query: ""
   });
 
-  const handleInputChange = (event: {
-    persist: () => void;
-    target: { value: any };
-  }) => {
-    event.persist();
-
-    setSearchState({ ...searchState, query: event.target.value });
+  const handleInputChange = (event: { target: { value: any } }) => {
+    setSearchState({ query: event.target.value });
   };
+
   return (
     <Search
       color="blue"
@@ -25,7 +21,7 @@ const HeaderSearchBox = ({ currentRefinement, refine }) => {
       placeholder="Search a module"
       input={{ fluid: true }}
       value={searchState.query}
-      onSearchChange={event => refine(event.currentTarget.value)}
+      onSearchChange={handleInputChange}
     />
   );
 };
@@ -46,13 +42,14 @@ const NavBar: React.FunctionComponent<OwnProps & ConnectedProps> = ({
         </Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item>
-            <InstantSearch
-              appId="3EJTXIKS8B"
-              apiKey="092aa257d26c6e1fb8733a3c0229b176"
-              indexName="modules"
-            >
-              <CustomSearchBox />
-            </InstantSearch>
+            <Search
+              color="blue"
+              fluid
+              size="large"
+              placeholder="Search a module"
+              input={{ fluid: true }}
+              value={searchState.query}
+            />
           </Menu.Item>
           <Menu.Item>
             <span style={{ marginRight: 16 }}>{username}</span>
