@@ -4,9 +4,8 @@ import { reviewTemplate, getQuestions } from "../../../api/review";
 import * as _ from "lodash";
 import RadioButtonGroup from "../../../components/RadioButtonGroup/index";
 import * as FinalForm from "react-final-form";
-import form from "semantic-ui-form";
 
-interface QuestionsProps {
+interface RatingModalProps {
   buttonName: string;
 }
 
@@ -19,7 +18,7 @@ interface Question {
   compulsory: boolean;
 }
 
-export const RatingModal: React.FunctionComponent<QuestionsProps> = props => {
+export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
   const [open, setOpen] = React.useState(false);
   const [pageNum, setPageNum] = React.useState(0);
   const questions = reviewTemplate.metricTemplates;
@@ -65,7 +64,7 @@ export const RatingModal: React.FunctionComponent<QuestionsProps> = props => {
       <Button onClick={() => setOpen(true)}>{buttonName}</Button>
       <Dialog isOpen={open}>
         <FinalForm.Form onSubmit={onSubmit} validate={formValidation}>
-          {({ handleSubmit, invalid, form }) => {
+          {({ handleSubmit, invalid, form, pristine }) => {
             return (
               <div className="RatingModal__container">
                 {getQuestions()}
@@ -75,6 +74,7 @@ export const RatingModal: React.FunctionComponent<QuestionsProps> = props => {
                     handleSubmit();
                     form.reset();
                   }}
+                  disabled={invalid || pristine}
                 >
                   {lastPage ? "Submit" : "Next"}
                 </Button>

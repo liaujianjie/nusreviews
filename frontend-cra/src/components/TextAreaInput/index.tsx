@@ -12,7 +12,7 @@ interface TextAreaProps {
   compulsory: boolean;
 }
 
-const FinalTextAreaGroup: React.FunctionComponent<
+export const FinalTextAreaGroup: React.FunctionComponent<
   FinalForm.FieldRenderProps<string, HTMLElement>
 > = props => {
   return <TextArea {...props} {...props.input} />;

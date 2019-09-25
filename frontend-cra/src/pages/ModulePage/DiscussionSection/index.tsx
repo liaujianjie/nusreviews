@@ -10,6 +10,7 @@ import { DiscussionColumn } from "./DiscussionColumn";
 import { DiscussionRow } from "./DiscussionRow";
 
 import "./style.css";
+import ShortReviewModal from "../../ReviewPage/ShortReviewModal";
 
 type OwnProps = {};
 
@@ -35,7 +36,13 @@ export const DiscussionSection: React.FunctionComponent<OwnProps> = ({}) => {
                 message="I found the module surprisingly beautiful but in a horribly uncomfortable kinda way."
                 author="Computer Science, Y4, AY17/18"
               />
-              <Button icon="plus" intent="primary" text="Add tip" />
+              <ShortReviewModal
+                buttonName="Add tip"
+                name="Tip 1"
+                question="What tip do you want to give"
+                placeholder="any tip"
+              />
+              {/* <Button icon="plus" intent="primary" text="Add tip" /> */}
             </DiscussionColumn>
             <DiscussionColumn title="Any tips and tricks?">
               <DiscussionRow
@@ -50,7 +57,12 @@ export const DiscussionSection: React.FunctionComponent<OwnProps> = ({}) => {
                 message="I found the module surprisingly beautiful but in a horribly uncomfortable kinda way."
                 author="Computer Science, Y4, AY17/18"
               />
-              <Button icon="plus" intent="primary" text="Add opinion" />
+              <ShortReviewModal
+                buttonName="Add Opinion"
+                name="Opinion 1"
+                question="What opinion do you want to give"
+                placeholder="any opinion"
+              />
             </DiscussionColumn>
           </SplitColumns>
           <Divider className="DiscussionSection__divider" />
