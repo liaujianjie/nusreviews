@@ -97,8 +97,6 @@ export async function changePassword(request: Request, response: Response) {
   }
 }
 
-// export async function resetPassword(request: Request, response: Response) {
-
 export async function discard(
   request: Request,
   response: Response,
@@ -131,54 +129,4 @@ export async function undiscard(
     return;
   }
   response.status(200).json();
-}
-
-export async function login(request: Request, response: Response) {
-  if (!request.headers.authorization) {
-    response.sendStatus(400);
-    return;
-  }
-  const b64auth = request.headers.authorization.split(" ")[1];
-  const [login, password] = Buffer.from(b64auth, "base64")
-    .toString()
-    .split(":");
-
-  const user = await getRepository(User)
-    .createQueryBuilder("user")
-    .addSelect("user.password")
-    .where("user.username = :login OR user.email = :login", { login })
-    .getOne();
-
-  if (
-    !user ||
-    !user.password ||
-    !compareSync(password, user.password) ||
-    user.discardedAt
-  ) {
-    response.sendStatus(400);
-    return;
-  }
-
-  const result = getAuthenticationTokens(user);
-  response.status(200).json(result);
-}
-
-export async function refreshAuthentication(
-  request: Request,
-  response: Response
-) {
-  const accessTokenSignedPayload = response.locals
-    .payload as AccessTokenSignedPayload;
-
-  let user: User;
-  try {
-    user = await getRepository(User).findOneOrFail(accessTokenSignedPayload.id);
-  } catch (error) {
-    response.sendStatus(400);
-    console.error(error);
-    return;
-  }
-
-  const result = getAuthenticationTokens(user);
-  response.status(200).json(result);
 }

@@ -32,6 +32,13 @@ routes.use("/reviews", reviews);
 routes.use("/metrics", metrics);
 routes.use("/questions", questions);
 
+routes.post("/login", TokensController.login);
+// routes.post("/reset_password", UsersController.requestPasswordReset);
+routes.post(
+  "/refresh_authentication",
+  [checkBearerToken(BearerTokenType.RefreshToken)],
+  TokensController.refreshAuthentication
+);
 routes.post(
   "/verify_email",
   [checkBearerToken(BearerTokenType.EntityToken, "User")],

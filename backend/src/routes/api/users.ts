@@ -8,14 +8,6 @@ import { BearerTokenType } from "../../types/tokens";
 export const router = Router();
 
 router.post("/", UsersController.create);
-router.post("/login", UsersController.login);
-// router.post("/password", UsersController.requestPasswordReset);
-router.get(
-  "/refresh_authentication",
-  [checkBearerToken(BearerTokenType.RefreshToken)],
-  UsersController.refreshAuthentication
-);
-
 router.use(checkBearerToken(BearerTokenType.AccessToken));
 router.patch("/change_password", UsersController.changePassword);
 
