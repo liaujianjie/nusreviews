@@ -1,15 +1,16 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useState } from "react";
 import { Form, FormProps, Field } from "react-final-form";
 import _ from "lodash";
 
-import { Button, Intent } from "@blueprintjs/core";
+import { Button, Intent, Callout } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
 import { FinalInputGroup } from "../../../components/FinalInputGroup";
-import { signUp } from "../../../store/auth";
+import { useRouter } from "../../../hooks/useRouter";
+import { resetPassword } from "../../../api/auth";
 
 import "./style.css";
+import { decode } from "jsonwebtoken";
 
 type FormShape = {
   email: string;
@@ -17,34 +18,67 @@ type FormShape = {
   passwordConfirmation: string;
 };
 
-const mapDispatchToProps = {
-  signUp
-};
-type ConnectedProps = typeof mapDispatchToProps;
+export const ResetPasswordForm: React.FunctionComponent = ({}) => {
+  const [hasReset, updateHasReset] = useState(false);
+  const { location } = useRouter();
+  const splitPathname = _.split(location.pathname, "/");
+  const token = splitPathname.length === 4 ? _.last(splitPathname)! : "";
+  let decodedToken = { email: "" };
+  try {
+    decodedToken = decode(token) as typeof decodedToken;
+  } catch (error) {}
 
-const _SignUpForm: React.FunctionComponent<ConnectedProps> = ({ signUp }) => {
-  const handleSubmit: FormProps<FormShape>["onSubmit"] = async credentials => {
-    await signUp(credentials);
+  const handleSubmit: FormProps<FormShape>["onSubmit"] = async ({
+    password
+  }) => {
+    if (!token) {
+      throw new Error("No token provided");
+    }
+
+    try {
+      await resetPassword({ password, token });
+      updateHasReset(true);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  if (hasReset) {
+    return (
+      <p>
+        Your password has been reset, head back to the sign in page again to
+        sign in!
+      </p>
+    );
+  }
+
+  if (!token || !decodedToken) {
+    return (
+      <Callout intent="danger">
+        The URL is malformed, please make sure that you have copy and pasted the
+        link sent to your email correctly.
+      </Callout>
+    );
+  }
+
   return (
     <Form<FormShape>
       onSubmit={handleSubmit}
-      initialValues={{ email: "", password: "", passwordConfirmation: "" }}
+      initialValues={{
+        password: "",
+        passwordConfirmation: "",
+        email: decodedToken.email
+      }}
     >
       {({ handleSubmit, submitting, pristine, invalid, values }) => {
         return (
-          <form className="SignUpForm__form" onSubmit={handleSubmit}>
+          <form className="ResetPasswordForm__form" onSubmit={handleSubmit}>
             <Field
               name="email"
               component={FinalInputGroup}
-              validate={value =>
-                !_.endsWith(value, "@u.nus.edu")
-                  ? "You need to sign up with your NUS student email in order to prove that your are an NUS student."
-                  : undefined
-              }
-              placeholder="e0123456a@u.nus.edu"
               leftIcon={IconNames.USER}
               large
+              disabled
             />
             <Field
               name="password"
@@ -77,7 +111,7 @@ const _SignUpForm: React.FunctionComponent<ConnectedProps> = ({ signUp }) => {
               loading={submitting}
               disabled={pristine || invalid || submitting}
             >
-              Create my account
+              Change my password
             </Button>
           </form>
         );
@@ -85,8 +119,3 @@ const _SignUpForm: React.FunctionComponent<ConnectedProps> = ({ signUp }) => {
     </Form>
   );
 };
-
-export const SignUpForm = connect(
-  null,
-  mapDispatchToProps
-)(_SignUpForm);
