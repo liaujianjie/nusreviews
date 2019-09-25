@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, FormProps, Field } from "react-final-form";
 import _ from "lodash";
 
@@ -6,6 +6,7 @@ import { Button, Intent } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
 import { FinalInputGroup } from "../../../components/FinalInputGroup";
+import { requestPasswordReset } from "../../../api/auth";
 
 import "./style.css";
 
@@ -14,7 +15,25 @@ type FormShape = {
 };
 
 export const ResetPasswordRequestForm: React.FunctionComponent = ({}) => {
-  const handleSubmit = () => {};
+  const [requested, updateRequested] = useState(false);
+  const handleSubmit: FormProps<FormShape>["onSubmit"] = async ({ email }) => {
+    try {
+      await requestPasswordReset({ email });
+      updateRequested(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (requested) {
+    return (
+      <p>
+        Your request to reset your password has been received. Please check your
+        email for instructions on how to reset!
+      </p>
+    );
+  }
+
   return (
     <Form<FormShape> onSubmit={handleSubmit} initialValues={{ email: "" }}>
       {({ handleSubmit, submitting, pristine, invalid, values }) => {
