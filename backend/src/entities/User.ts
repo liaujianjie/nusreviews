@@ -3,14 +3,14 @@ import {
   IsNotEmpty,
   IsEmail,
   IsOptional,
-  IsString,
-  IsNumber
+  IsString
 } from "class-validator";
 import { Column, Entity, OneToMany } from "typeorm";
 import { Discardable } from "./Discardable";
 import { TipVote } from "./TipVote";
 import { OpinionVote } from "./OpinionVote";
 import { UserRole } from "../types/users";
+import { BearerTokenType, EntityTokenPayload } from "../types/tokens";
 
 @Entity()
 export class User extends Discardable {
@@ -50,14 +50,20 @@ export class User extends Discardable {
   @IsString()
   major?: string;
 
-  @Column({ nullable: true })
-  @IsOptional()
-  @IsNumber()
-  matriculationYear?: number;
-
   @OneToMany(type => OpinionVote, opinionVote => opinionVote.user)
   opinionVotes!: OpinionVote[];
 
   @OneToMany(type => TipVote, tipVote => tipVote.user)
   tipVotes!: TipVote[];
+
+  createPayload = (): EntityTokenPayload<User> => ({
+    type: BearerTokenType.EntityToken,
+    entityName: this.entityName,
+    id: this.id,
+    email: this.email,
+    role: this.role,
+    username: this.username
+  });
+
+  entityName = "User";
 }

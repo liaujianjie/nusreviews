@@ -5,7 +5,8 @@ export type BearerToken = string;
 export enum BearerTokenType {
   AccessToken,
   RefreshToken,
-  EntityToken
+  EntityToken,
+  ResetPasswordToken
 }
 
 type Payload<BearerTokenType> = {
@@ -18,9 +19,10 @@ type TokenLifespan = {
 };
 
 type Credentials = {
-  userId: number;
+  id: number;
+  email: string;
+  role: UserRole;
   username: string;
-  userRole: UserRole;
 };
 
 export type AccessTokenPayload = Payload<BearerTokenType.AccessToken> &
@@ -32,8 +34,15 @@ export type RefreshTokenPayload = Payload<BearerTokenType.RefreshToken> &
 export type RefreshTokenSignedPayload = RefreshTokenPayload & TokenLifespan;
 
 export type EntityTokenPayload<Entity> = Payload<BearerTokenType.EntityToken> &
-  Partial<Entity>;
+  Partial<Entity> & { id: number; entityName: string };
 export type EntityTokenSignedPayload<Entity> = EntityTokenPayload<Entity> &
+  TokenLifespan;
+
+export type ResetPasswordTokenPayload = Payload<
+  BearerTokenType.ResetPasswordToken
+> &
+  Credentials;
+export type ResetPasswordTokenSignedPayload = ResetPasswordTokenPayload &
   TokenLifespan;
 
 // Type checkers
@@ -53,9 +62,10 @@ function hasTokenLifespan(payload: any) {
 
 function hasCredentials(payload: any) {
   return (
-    typeof payload.userId === "number" &&
+    typeof payload.id === "number" &&
     typeof payload.username === "string" &&
-    Object.values(UserRole).includes(payload.userRole)
+    typeof payload.email === "string" &&
+    Object.values(UserRole).includes(payload.role)
   );
 }
 
@@ -101,4 +111,18 @@ export function isEntityTokenSignedPayload<Entity>(
   payload: any
 ): payload is EntityTokenSignedPayload<Entity> {
   return isEntityTokenPayload(payload) && hasTokenLifespan(payload);
+}
+
+export function isResetPasswordTokenPayload(
+  payload: any
+): payload is ResetPasswordTokenPayload {
+  return (
+    isPayload(payload) && payload.type === BearerTokenType.ResetPasswordToken
+  );
+}
+
+export function isResetPasswordTokenSignedPayload(
+  payload: any
+): payload is ResetPasswordTokenSignedPayload {
+  return isResetPasswordTokenPayload(payload) && hasTokenLifespan(payload);
 }

@@ -9,8 +9,11 @@ import { AccessTokenSignedPayload } from "../types/tokens";
 export async function create(request: Request, response: Response) {
   try {
     const opinionVote = new OpinionVote();
-    const payload = response.locals.payload as AccessTokenSignedPayload;
-    opinionVote.user = await getRepository(User).findOneOrFail(payload.userId);
+    const accessTokenSignedPayload = response.locals
+      .payload as AccessTokenSignedPayload;
+    opinionVote.user = await getRepository(User).findOneOrFail(
+      accessTokenSignedPayload.id
+    );
     opinionVote.opinion = await getRepository(Opinion).findOneOrFail(
       request.params.id
     );
@@ -54,21 +57,22 @@ export async function destroy(request: Request, response: Response) {
     if (result.affected === 0) {
       throw new Error("Failed to destroy");
     }
-    response.status(200).json(result);
+    response.sendStatus(204);
   } catch (error) {
-    response.sendStatus(400);
+    response.sendStatus(404);
   }
 }
 
 async function checkUser(request: Request, response: Response) {
-  const payload = response.locals.payload as AccessTokenSignedPayload;
+  const accessTokenSignedPayload = response.locals
+    .payload as AccessTokenSignedPayload;
   const opinionVote = await getRepository(OpinionVote).findOneOrFail(
     request.params.id,
     {
       relations: ["user"]
     }
   );
-  if (payload.userId !== opinionVote.user.id) {
+  if (accessTokenSignedPayload.id !== opinionVote.user.id) {
     throw new Error("Invalid user");
   }
   return opinionVote;

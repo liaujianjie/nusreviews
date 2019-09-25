@@ -20,4 +20,6 @@ export class ReviewTemplate extends Discardable {
 
   @OneToMany(type => Review, review => review.reviewTemplate)
   reviews!: Review[];
+
+  entityName = "ReviewTemplate";
 }

@@ -1,5 +1,6 @@
 import React from "react";
 
+import { MaxWidthContainer } from "../MaxWidthContainer";
 import { Navigation } from "./Navigation";
 
 export const MainLayout: React.FunctionComponent = ({ children }) => {
@@ -8,7 +9,9 @@ export const MainLayout: React.FunctionComponent = ({ children }) => {
       <header>
         <Navigation />
       </header>
-      <main>{children}</main>
+      <main>
+        <MaxWidthContainer>{children}</MaxWidthContainer>
+      </main>
     </>
   );
 };

@@ -10,7 +10,7 @@ type AuthCredentials = {
 export const signIn = async ({ email, password }: AuthCredentials) => {
   const decodedCredentials = `${email}:${password}`;
   const encodedCredentials = btoa(decodedCredentials);
-  const response = await sharedHttpClient.post("/users/login", null, {
+  const response = await sharedHttpClient.post("/login", null, {
     headers: { Authorization: `Basic ${encodedCredentials}` }
   });
   return response.data;
@@ -24,9 +24,47 @@ export const signUp = async ({ email, password }: AuthCredentials) => {
   };
   const response = await sharedHttpClient.post(
     "/users",
+    qs.stringify(unencodedBody)
+  );
+  return response.data;
+};
+
+type RequestPasswordResetPayload = {
+  email: string;
+};
+
+export const requestPasswordReset = async ({
+  email
+}: RequestPasswordResetPayload) => {
+  const unencodedBody = {
+    email
+  };
+  const response = await sharedHttpClient.post(
+    "/request_reset_password",
+    qs.stringify(unencodedBody)
+  );
+  return response.data;
+};
+
+type ResetPasswordPayload = {
+  token: string;
+  password: string;
+};
+
+export const resetPassword = async ({
+  token,
+  password
+}: ResetPasswordPayload) => {
+  const unencodedBody = {
+    password
+  };
+  const response = await sharedHttpClient.post(
+    "/request_reset_password",
     qs.stringify(unencodedBody),
     {
-      headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     }
   );
   return response.data;

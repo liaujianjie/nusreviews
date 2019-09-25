@@ -34,4 +34,6 @@ export class ModuleSemester extends Base {
 
   @OneToMany(type => Review, review => review.moduleSemester)
   reviews!: Review[];
+
+  entityName = "ModuleSemester";
 }

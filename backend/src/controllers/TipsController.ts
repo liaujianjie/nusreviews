@@ -2,16 +2,15 @@ import { validateOrReject } from "class-validator";
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { sign } from "jsonwebtoken";
-import { Tip } from "../entities/Tip";
 import { ModuleSemester } from "../entities/ModuleSemester";
-import {
-  EntityTokenSignedPayload,
-  EntityTokenPayload,
-  BearerTokenType
-} from "../types/tokens";
+import { Tip } from "../entities/Tip";
+import { AccessTokenSignedPayload } from "../types/tokens";
+import { sendEntityEmail } from "../utils/sendgrid";
 
 export async function create(request: Request, response: Response) {
   try {
+    const accessTokenSignedPayload = response.locals
+      .payload as AccessTokenSignedPayload;
     const moduleSemester = await getRepository(ModuleSemester).findOneOrFail(
       request.params.id
     );
@@ -22,12 +21,8 @@ export async function create(request: Request, response: Response) {
     await validateOrReject(tip);
     await getRepository(Tip).save(tip);
 
-    const payload: EntityTokenPayload<Tip> = {
-      type: BearerTokenType.EntityToken,
-      id: tip.id
-    };
-
-    const entityToken = sign(payload, process.env.JWT_SECRET!, {
+    const entityTokenPayload = tip.createPayload();
+    const entityToken = sign(entityTokenPayload, process.env.JWT_SECRET!, {
       expiresIn: "120 days"
     });
 
@@ -35,6 +30,7 @@ export async function create(request: Request, response: Response) {
       tip,
       entityToken
     };
+    sendEntityEmail(accessTokenSignedPayload, tip, entityToken);
     response.status(201).json(result);
   } catch (error) {
     console.error(error);
@@ -49,21 +45,6 @@ export async function show(request: Request, response: Response) {
   } catch (error) {
     response.sendStatus(400);
     return;
-  }
-}
-
-export async function update(request: Request, response: Response) {
-  try {
-    const payload = response.locals.payload as EntityTokenSignedPayload<Tip>;
-
-    const tip = await getRepository(Tip).findOneOrFail(payload.id);
-    tip.description = request.body.description;
-    await validateOrReject(tip);
-
-    await getRepository(Tip).save(tip);
-    response.status(200).json(tip);
-  } catch (error) {
-    response.sendStatus(400);
   }
 }
 

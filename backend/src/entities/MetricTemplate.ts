@@ -44,4 +44,6 @@ export class MetricTemplate extends Discardable {
 
   @OneToMany(type => Metric, metric => metric.metricTemplate)
   metrics!: Metric[];
+
+  entityName = "MetricTemplate";
 }

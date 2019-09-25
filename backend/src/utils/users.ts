@@ -10,16 +10,18 @@ import {
 export function getAuthenticationTokens(user: User): AuthenticationTokens {
   const accessTokenPayload: AccessTokenPayload = {
     type: BearerTokenType.AccessToken,
-    userId: user.id,
-    username: user.username,
-    userRole: user.role
+    id: user.id,
+    email: user.email,
+    role: user.role,
+    username: user.username
   };
 
   const refreshTokenPayload: RefreshTokenPayload = {
     type: BearerTokenType.RefreshToken,
-    userId: user.id,
-    username: user.username,
-    userRole: user.role
+    id: user.id,
+    email: user.email,
+    role: user.role,
+    username: user.username
   };
 
   return {

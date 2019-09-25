@@ -1,0 +1,14 @@
+.AuthCardContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+}
+
+.AuthCardContainer > * {
+  width: 480px;
+  padding: 16px;
+}
+
+.AuthCardContainer > *:not(:last-child) {
+  margin-bottom: 16px;
+}

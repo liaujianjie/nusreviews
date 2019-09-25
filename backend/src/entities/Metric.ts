@@ -18,4 +18,6 @@ export class Metric extends Discardable {
   @IsNotEmpty()
   @IsNumber()
   value!: number;
+
+  entityName = "Metric";
 }

@@ -1,0 +1,27 @@
+/**
+ * Mobile responsiveness breakpoints copied from Boostrap.
+ * 
+ * See: https://getbootstrap.com/docs/4.1/layout/grid/#variables
+ */
+
+.MaxWidthContainer {
+  margin: 0px auto;
+  width: 100%;
+  height: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+  .MaxWidthContainer {
+    width: 768px;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .MaxWidthContainer {
+    width: 992px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .MaxWidthContainer {
+    width: 1200px;
+  }
+}

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import _ from "lodash";
 
@@ -12,6 +13,7 @@ import {
   MenuItem
 } from "@blueprintjs/core";
 
+import { MaxWidthContainer } from "../../MaxWidthContainer";
 import { StoreState } from "../../../store";
 import { signOut } from "../../../store/auth";
 import { useRouter } from "../../../hooks/useRouter";
@@ -37,31 +39,35 @@ const _Navigation: React.FunctionComponent<ConnectedProps> = ({
 
   return (
     <Navbar className="Navigation">
-      <Navbar.Group align={Alignment.LEFT}>
-        <Navbar.Heading>
-          <img src={logo} alt="NUS Reviews logo" height={20} />
-        </Navbar.Heading>
-      </Navbar.Group>
-      {shouldShowSearchbar && (
-        <Navbar.Group>
-          <InputGroup type="search" leftIcon="search"></InputGroup>
+      <MaxWidthContainer>
+        <Navbar.Group align={Alignment.LEFT}>
+          <Navbar.Heading>
+            <Link to="/">
+              <img src={logo} alt="NUS Reviews logo" height={20} />
+            </Link>
+          </Navbar.Heading>
         </Navbar.Group>
-      )}
-      {user && (
-        <Navbar.Group align={Alignment.RIGHT}>
-          <Popover
-            minimal
-            position="bottom-right"
-            content={
-              <Menu>
-                <MenuItem text="Sign out" onClick={signOut} />
-              </Menu>
-            }
-          >
-            <Button minimal text={user.username} />
-          </Popover>
-        </Navbar.Group>
-      )}
+        {shouldShowSearchbar && (
+          <Navbar.Group>
+            <InputGroup type="search" leftIcon="search"></InputGroup>
+          </Navbar.Group>
+        )}
+        {user && (
+          <Navbar.Group align={Alignment.RIGHT}>
+            <Popover
+              minimal
+              position="bottom-right"
+              content={
+                <Menu>
+                  <MenuItem text="Sign out" onClick={signOut} />
+                </Menu>
+              }
+            >
+              <Button minimal text={user.email} />
+            </Popover>
+          </Navbar.Group>
+        )}
+      </MaxWidthContainer>
     </Navbar>
   );
 };
