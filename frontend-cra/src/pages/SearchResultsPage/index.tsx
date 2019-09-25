@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Card, Container, Header, Search } from "semantic-ui-react";
+import { Card, Elevation } from "@blueprintjs/core";
 import { withLayout } from "../components/Layout";
 import RatingCard from "../components/RatingCard";
 import { ratings } from "./module";
-import Section from "../components/Section";
+import { Section } from "../Section";
 import {
   Highlight,
   InfiniteHits,
@@ -33,14 +33,14 @@ const SemanticSearchBox = (
 function Hit(props: { hit: any }) {
   return (
     <Card.Group>
-      <Card color="orange" fluid>
+      <Card interactive={true} elevation={Elevation.TWO}>
         <Card.Content extra>
           <Section
             topLeft={
               <a href="../module">
                 <Header as="h2">
                   <Highlight attribute="moduleCode" hit={props.hit} />
-                  <Header.Subheader style={{ color: "black" }}>
+                  <Headers.Subheader style={{ color: "black" }}>
                     <Highlight attribute="faculty" hit={props.hit} />
                   </Header.Subheader>
                 </Header>
@@ -102,7 +102,7 @@ const ModuleList = () => {
   };
   return (
     <div>
-      <Container
+      <div
         style={{
           marginTop: "6rem"
         }}
@@ -119,7 +119,7 @@ const ModuleList = () => {
 
           <CustomStateResults />
         </InstantSearch>
-      </Container>
+      </div>
     </div>
   );
 };

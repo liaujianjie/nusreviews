@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useRouter } from "../../hooks/useRouter";
+import { InputGroup } from "@blueprintjs/core";
 
 export const SearchBar: React.FunctionComponent<SearchBarProps> = props => {
     const [searchState, setSearchState] = React.useState({
