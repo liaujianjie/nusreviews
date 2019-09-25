@@ -1,0 +1,11 @@
+.RadioButtonGroup__container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.RadioButtonGroup__right-segment {
+  min-width: 20em;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 5em 1fr 1fr 1fr 1fr 1fr 5em;
+}

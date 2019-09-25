@@ -1,6 +1,8 @@
 import React from "react";
 import { Button } from "@blueprintjs/core";
 
+import * as _ from "lodash";
+
 import { RequiresAuth } from "../../components/RequiresAuth";
 import { Center } from "../../components/Center";
 
@@ -9,27 +11,39 @@ import FormHeader from "./FormHeader/index";
 import * as FinalForm from "react-final-form";
 import { getQuestions, reviewTemplate, postQuestions } from "../../api/review";
 import Metrics from "./Metrics";
+import RadioButtonGroup from "../../components/RadioButtonGroup/index";
+import Questions from "./Questions/index";
 
 export const ReviewPage: React.FunctionComponent = () => {
   const onSubmit = (values: any) => {
-    postQuestions(1, values);
+    console.log(values);
+    // postQuestions(1, values);
   };
   // const reviewTemplate = getQuestions(moduleId, "questionTemplates")
-  const displayQuestions = reviewTemplate.metricTemplates;
+  const displayMetrics = reviewTemplate.metricTemplates;
+  const displayQuestions = reviewTemplate.questionTemplates;
+
+  const metricQuestions = reviewTemplate.metricTemplates.map(metric => {
+    return <RadioButtonGroup {...metric} />;
+  });
 
   return (
     // <RequiresAuth>
     <Center>
       <FinalForm.Form onSubmit={onSubmit}>
-        {({ handleSubmit, invalid, pristine }) => (
+        {({ handleSubmit }) => (
           <>
             <FormHeader
               moduleCode="cs3216"
               moduleDescription="AY2019/2020, SEM1"
               moduleSemester="Software Engineering for Digital Markets"
             />
-            <Metrics metrics={displayQuestions} />
-            {/* <Questions /> */}
+            <div className="RatingForm__questions-container">
+              <Metrics metrics={displayMetrics} />
+            </div>
+            <div className="RatingForm__questions-container">
+              <Questions questions={displayQuestions} />
+            </div>
             <Button onClick={(e: any) => handleSubmit()}>Submit Review</Button>
           </>
         )}

@@ -1,3 +1,9 @@
 .HomePage__searchbar-container > * {
   width: 560px;
 }
+
+.RatingForm__questions-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}

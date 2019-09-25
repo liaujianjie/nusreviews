@@ -1,5 +1,6 @@
 import * as React from "react";
 import RadioButtonGroup from "../../../components/RadioButtonGroup/index";
+import * as FinalForm from "react-final-form";
 
 interface MetricsProps {
   metrics: Array<Metric>;
@@ -16,12 +17,8 @@ interface Metric {
 
 export const Metrics: React.FunctionComponent<MetricsProps> = props => {
   const { metrics } = props;
-  return (
-    <div className="RatingForm__questions-container">
-      metrics.map(metric => <RadioButtonGroup {...metric} />
-      );
-    </div>
-  );
+  const getMetric = metrics.map(metric => <RadioButtonGroup {...metric} />);
+  return <div className="RatingForm__questions-container">{getMetric} </div>;
 };
 
 export default Metrics;
