@@ -1,6 +1,8 @@
 import * as React from "react";
 import "./style.css";
 import FormSegment from "../FormSegment";
+import * as FinalForm from "react-final-form";
+import DropDown from "../DropDown";
 
 interface FormHeaderProps {
   moduleCode?: string;
@@ -22,9 +24,23 @@ export const FormHeader: React.FunctionComponent<FormHeaderProps> = props => {
             <h3>{moduleDescription}</h3>
           </div>
         </div>
-        <div>
+        <div className="FormHeader__form-tip">
           <h4>Do as you wish, there are no compulsory fields</h4>
         </div>
+      </div>
+      <div className="FormHeader__bot-row-container">
+        <DropDown
+          name="expectedGrade"
+          placeholder={GRADES[0].text}
+          options={GRADES}
+          label="Expected Grade"
+        />
+        <DropDown
+          name="actualGrade"
+          placeholder={GRADES[0].text}
+          options={GRADES}
+          label="Actual Grade"
+        />
       </div>
     </FormSegment>
   );

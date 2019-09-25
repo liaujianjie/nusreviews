@@ -1,5 +1,5 @@
 import React from "react";
-import { InputGroup } from "@blueprintjs/core";
+import { InputGroup, Button } from "@blueprintjs/core";
 
 import { RequiresAuth } from "../../components/RequiresAuth";
 import { Center } from "../../components/Center";
@@ -7,16 +7,28 @@ import { Center } from "../../components/Center";
 import "./style.css";
 import FormSegment from "./FormSegment";
 import FormHeader from "./FormHeader/index";
+import * as FinalForm from "react-final-form";
 
 export const ReviewPage: React.FunctionComponent = () => {
+  const onSubmit = (values: any) => {
+    window.alert("Form submitted!" + JSON.stringify(values));
+  };
+
   return (
     // <RequiresAuth>
     <Center>
-      <FormHeader
-        moduleCode="cs"
-        moduleDescription="asd"
-        moduleSemester="asd"
-      />
+      <FinalForm.Form onSubmit={onSubmit}>
+        {({ handleSubmit, invalid, pristine }) => (
+          <>
+            <FormHeader
+              moduleCode="cs3216"
+              moduleDescription="AY2019/2020, SEM1"
+              moduleSemester="Software Engineering for Digital Markets"
+            />
+            <Button onClick={(e: any) => handleSubmit()}>Submit Review</Button>
+          </>
+        )}
+      </FinalForm.Form>
     </Center>
     // </RequiresAuth>
   );
