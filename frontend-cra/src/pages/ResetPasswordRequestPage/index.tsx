@@ -1,16 +1,16 @@
 import React from "react";
 
-import { Card, Icon } from "@blueprintjs/core";
+import { Button, Card, Icon, Divider } from "@blueprintjs/core";
 
 import { RequiresNoAuth } from "../../components/RequiresNoAuth";
 import { Center } from "../../components/Center";
 import { AuthCardContainer } from "../../components/AuthCardContainer";
+import { ResetPasswordRequestForm } from "./ResetPasswordRequestForm";
 import { useRouter } from "../../hooks/useRouter";
-import { SignUpForm } from "./SignUpForm";
 
 import "./style.css";
 
-export const SignUpPage: React.FunctionComponent = () => {
+export const ResetPasswordRequestPage: React.FunctionComponent = () => {
   const router = useRouter();
 
   return (
@@ -21,13 +21,13 @@ export const SignUpPage: React.FunctionComponent = () => {
             <Icon icon="arrow-left" /> <span>Go back to sign in page</span>
           </Card>
           <Card>
-            <div className="SignUpPage__logo-container">
+            <div className="ResetPasswordRequestPage__logo-container">
               <Center>
-                <h1>Sign up for NUS Reviews</h1>
+                <h1>Request for password reset</h1>
               </Center>
             </div>
-            <div className="SignUpPage__form-container">
-              <SignUpForm />
+            <div className="ResetPasswordRequestPage__form-container">
+              <ResetPasswordRequestForm />
             </div>
           </Card>
         </AuthCardContainer>
