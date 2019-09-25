@@ -13,6 +13,7 @@ import reviews from "./reviews";
 import metrics from "./metrics";
 import questions from "./questions";
 import * as TokensController from "../../controllers/TokensController";
+import * as UsersController from "../../controllers/UsersController";
 import { checkBearerToken } from "../../middlewares/checkBearerToken";
 import { BearerTokenType } from "../../types/tokens";
 
@@ -33,7 +34,7 @@ routes.use("/metrics", metrics);
 routes.use("/questions", questions);
 
 routes.post("/login", TokensController.login);
-// routes.post("/reset_password", UsersController.requestPasswordReset);
+routes.post("/request_reset_password", UsersController.requestResetPassword);
 routes.post(
   "/refresh_authentication",
   [checkBearerToken(BearerTokenType.RefreshToken)],

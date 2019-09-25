@@ -5,7 +5,10 @@ import { getRepository } from "typeorm";
 import { User } from "../entities/User";
 import { AccessTokenSignedPayload } from "../types/tokens";
 import { getAuthenticationTokens } from "../utils/users";
-import { sendVerificationEmail } from "../utils/sendgrid";
+import {
+  sendVerificationEmail,
+  sendResetPasswordEmail
+} from "../utils/sendgrid";
 
 export async function create(request: Request, response: Response) {
   try {
@@ -128,5 +131,24 @@ export async function undiscard(
   } catch (error) {
     response.sendStatus(400);
     return;
+  }
+}
+
+export async function requestResetPassword(
+  request: Request,
+  response: Response
+) {
+  try {
+    const email = request.body.email;
+
+    const user = await getRepository(User).findOneOrFail({
+      where: { email }
+    });
+
+    sendResetPasswordEmail(user);
+    response.sendStatus(204);
+  } catch (error) {
+    response.sendStatus(404);
+    console.error(error);
   }
 }
