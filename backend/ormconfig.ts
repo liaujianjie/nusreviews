@@ -10,9 +10,9 @@ export const postgres: ConnectionOptions = {
   ssl: true,
   synchronize: true,
   logging: false,
-  entities: ["./src/entities/**/*.{js, ts}"],
-  migrations: ["./src/migrations/**/*.{js, ts}"],
-  subscribers: ["./src/subscribers/**/*.{js, ts}"],
+  entities: ["./src/entities/**/*.{js,ts}"],
+  migrations: ["./src/migrations/**/*.{js,ts}"],
+  subscribers: ["./src/subscribers/**/*.{js,ts}"],
   cli: {
     entitiesDir: "./src/entities",
     migrationsDir: "./src/migrations",
