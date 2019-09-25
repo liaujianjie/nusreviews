@@ -1,9 +1,10 @@
 import React from "react";
 
-import { Button, Card } from "@blueprintjs/core";
+import { Button, Card, Icon, Divider } from "@blueprintjs/core";
 
 import { RequiresNoAuth } from "../../components/RequiresNoAuth";
 import { Center } from "../../components/Center";
+import { AuthCardContainer } from "../../components/AuthCardContainer";
 import { SignUpForm } from "./SignUpForm";
 import logo from "./logo.svg";
 import { useRouter } from "../../hooks/useRouter";
@@ -16,26 +17,21 @@ export const SignUpPage: React.FunctionComponent = () => {
   return (
     <RequiresNoAuth>
       <Center>
-        <Card>
-          <div className="SignUpPage__logo-container">
-            <Center>
-              <img src={logo} height={32} alt="NUS Reviews logo" />
-            </Center>
-          </div>
-          <div className="SignUpPage__form-container">
-            <SignUpForm />
-          </div>
-          <div className="SignUpPage__signup-button-container">
-            <Button
-              type="submit"
-              large
-              minimal
-              onClick={() => router.history.push("/auth/signin")}
-            >
-              Already have an account? Sign in here!
-            </Button>
-          </div>
-        </Card>
+        <AuthCardContainer>
+          <Card interactive onClick={() => router.history.push("/auth/signin")}>
+            <Icon icon="arrow-left" /> <span>Go back to sign in page</span>
+          </Card>
+          <Card>
+            <div className="SignUpPage__logo-container">
+              <Center>
+                <h1>Sign up for NUS Reviews</h1>
+              </Center>
+            </div>
+            <div className="SignUpPage__form-container">
+              <SignUpForm />
+            </div>
+          </Card>
+        </AuthCardContainer>
       </Center>
     </RequiresNoAuth>
   );
