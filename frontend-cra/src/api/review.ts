@@ -9,7 +9,7 @@ export const postQuestions = (moduleId: number, payload: any) => {
   return sharedHttpClient.post(`/module_semesters/${moduleId}/reviews`);
 };
 
-const reviewTemplate = {
+export const reviewTemplate = {
   metricTemplates: [
     {
       name: "How was the your lecturer, $lecturerName?",

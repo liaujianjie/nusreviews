@@ -1,18 +1,21 @@
 import React from "react";
-import { InputGroup, Button } from "@blueprintjs/core";
+import { Button } from "@blueprintjs/core";
 
 import { RequiresAuth } from "../../components/RequiresAuth";
 import { Center } from "../../components/Center";
 
 import "./style.css";
-import FormSegment from "./FormSegment";
 import FormHeader from "./FormHeader/index";
 import * as FinalForm from "react-final-form";
+import { getQuestions, reviewTemplate, postQuestions } from "../../api/review";
+import Metrics from "./Metrics";
 
 export const ReviewPage: React.FunctionComponent = () => {
   const onSubmit = (values: any) => {
-    window.alert("Form submitted!" + JSON.stringify(values));
+    postQuestions(1, values);
   };
+  // const reviewTemplate = getQuestions(moduleId, "questionTemplates")
+  const displayQuestions = reviewTemplate.metricTemplates;
 
   return (
     // <RequiresAuth>
@@ -25,6 +28,8 @@ export const ReviewPage: React.FunctionComponent = () => {
               moduleDescription="AY2019/2020, SEM1"
               moduleSemester="Software Engineering for Digital Markets"
             />
+            <Metrics metrics={displayQuestions} />
+            {/* <Questions /> */}
             <Button onClick={(e: any) => handleSubmit()}>Submit Review</Button>
           </>
         )}

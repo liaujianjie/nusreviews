@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import * as React from "react";
 
-export default class BoilerTemplate extends Component {
-  render() {
-    return <div></div>;
-  }
-}
+export const BoilerTemplate = props => {
+  return <div></div>;
+};
+
+export default BoilerTemplate;
