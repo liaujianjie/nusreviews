@@ -4,17 +4,31 @@ import logo from "../static/images/logo.svg";
 import { InstantSearch } from "react-instantsearch-dom";
 import { connectSearchBox } from "react-instantsearch/connectors";
 
-const HeaderSearchBox = ({ currentRefinement, refine }) => (
-  <Search
-    color="blue"
-    fluid
-    size="large"
-    placeholder="Search a module"
-    input={{ fluid: true }}
-    value={this.state.searchState.query}
-    onSearchChange={event => refine(event.currentTarget.value)}
-  />
-);
+const HeaderSearchBox = ({ currentRefinement, refine }) => {
+  const [searchState, setSearchState] = React.useState({
+    query: ""
+  });
+
+  const handleInputChange = (event: {
+    persist: () => void;
+    target: { value: any };
+  }) => {
+    event.persist();
+
+    setSearchState({ ...searchState, query: event.target.value });
+  };
+  return (
+    <Search
+      color="blue"
+      fluid
+      size="large"
+      placeholder="Search a module"
+      input={{ fluid: true }}
+      value={searchState.query}
+      onSearchChange={event => refine(event.currentTarget.value)}
+    />
+  );
+};
 
 const NavBar = () => {
   return (
