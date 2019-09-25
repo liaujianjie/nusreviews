@@ -6,7 +6,19 @@ export const getQuestions = async (moduleId: number, type: string) => {
 };
 
 export const postQuestions = (moduleId: number, payload: any) => {
-  return sharedHttpClient.post(`/module_semesters/${moduleId}/reviews`);
+  console.log("posting", payload);
+  return sharedHttpClient.post(`/module_semesters/${moduleId}/reviews`, {
+    params: {
+      ...payload
+    }
+  });
+};
+
+export const postOpinion = (moduleId: number, payload: any) => {
+  console.log("posting opinion", payload);
+  return sharedHttpClient.post(`/module_semesters/${moduleId}/opinions`, {
+    description: "some opinion"
+  });
 };
 
 export const reviewTemplate = {

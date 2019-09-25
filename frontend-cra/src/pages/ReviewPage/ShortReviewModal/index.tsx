@@ -4,6 +4,7 @@ import RadioButtonGroup from "../../../components/RadioButtonGroup/index";
 import * as FinalForm from "react-final-form";
 import TextAreaInput from "../../../components/TextAreaInput";
 import { FinalTextAreaGroup } from "../../../components/TextAreaInput/index";
+import { postOpinion } from "../../../api/review";
 
 interface ShortReviewProps {
   buttonName: string;
@@ -25,6 +26,7 @@ export const ShortReviewModal: React.FunctionComponent<
   const onClose = () => setOpen(false);
 
   const onSubmit = (values: any) => {
+    postOpinion(1, values);
     console.log("submitted!", values);
   };
 

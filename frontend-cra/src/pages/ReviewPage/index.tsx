@@ -17,7 +17,7 @@ import Questions from "./Questions/index";
 export const ReviewPage: React.FunctionComponent = () => {
   const onSubmit = (values: any) => {
     console.log(values);
-    // postQuestions(1, values);
+    postQuestions(1, values);
   };
   // const reviewTemplate = getQuestions(moduleId, "questionTemplates")
   const displayMetrics = reviewTemplate.metricTemplates;
@@ -28,28 +28,30 @@ export const ReviewPage: React.FunctionComponent = () => {
   });
 
   return (
-    // <RequiresAuth>
-    <Center>
-      <FinalForm.Form onSubmit={onSubmit}>
-        {({ handleSubmit }) => (
-          <>
-            <FormHeader
-              moduleCode="cs3216"
-              moduleDescription="AY2019/2020, SEM1"
-              moduleSemester="Software Engineering for Digital Markets"
-            />
-            <div className="RatingForm__questions-container">
-              <Metrics metrics={displayMetrics} />
-            </div>
-            <div className="RatingForm__questions-container">
-              <Questions questions={displayQuestions} />
-            </div>
-            <Button onClick={(e: any) => handleSubmit()}>Submit Review</Button>
-          </>
-        )}
-      </FinalForm.Form>
-    </Center>
-    // </RequiresAuth>
+    <RequiresAuth>
+      <Center>
+        <FinalForm.Form onSubmit={onSubmit}>
+          {({ handleSubmit }) => (
+            <>
+              <FormHeader
+                moduleCode="cs3216"
+                moduleDescription="AY2019/2020, SEM1"
+                moduleSemester="Software Engineering for Digital Markets"
+              />
+              <div className="RatingForm__questions-container">
+                <Metrics metrics={displayMetrics} />
+              </div>
+              <div className="RatingForm__questions-container">
+                <Questions questions={displayQuestions} />
+              </div>
+              <Button onClick={(e: any) => handleSubmit()}>
+                Submit Review
+              </Button>
+            </>
+          )}
+        </FinalForm.Form>
+      </Center>
+    </RequiresAuth>
   );
 };
 
