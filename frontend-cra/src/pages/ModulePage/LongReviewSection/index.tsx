@@ -22,6 +22,7 @@ export const LongReviewSection: React.FunctionComponent<OwnProps> = ({
       leftHeader={
         <h4 className="LongReviewSection__left-header">Detailed reviews</h4>
       }
+      rightHeader={<Button icon="plus" intent="primary" text="Add Review" />}
       body={
         <div>
           <div className="LongReviewSection__reviews-container">

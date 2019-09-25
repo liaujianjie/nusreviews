@@ -41,7 +41,7 @@ export const LongReview: React.FunctionComponent<REVIEW_TYPE> = ({
         }, ${
           programmeYear ? "Y" + programmeYear : "Hidden Programme Year"
         }`}</div>
-        <Button rightIcon="arrow-right" minimal text="Read more" />
+        <Button rightIcon="arrow-right" minimal text="Read More" />
       </div>
     </div>
   );
