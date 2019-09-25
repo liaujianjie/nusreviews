@@ -10,8 +10,10 @@ import { useRouter } from "../../../hooks/useRouter";
 import { resetPassword } from "../../../api/auth";
 
 import "./style.css";
+import { decode } from "jsonwebtoken";
 
 type FormShape = {
+  email: string;
   password: string;
   passwordConfirmation: string;
 };
@@ -20,7 +22,11 @@ export const ResetPasswordForm: React.FunctionComponent = ({}) => {
   const [hasReset, updateHasReset] = useState(false);
   const { location } = useRouter();
   const splitPathname = _.split(location.pathname, "/");
-  const token = splitPathname.length === 4 ? _.last(splitPathname) : null;
+  const token = splitPathname.length === 4 ? _.last(splitPathname)! : "";
+  let decodedToken = { email: "" };
+  try {
+    decodedToken = decode(token) as typeof decodedToken;
+  } catch (error) {}
 
   const handleSubmit: FormProps<FormShape>["onSubmit"] = async ({
     password
@@ -46,7 +52,7 @@ export const ResetPasswordForm: React.FunctionComponent = ({}) => {
     );
   }
 
-  if (!token) {
+  if (!token || !decodedToken) {
     return (
       <Callout intent="danger">
         The URL is malformed, please make sure that you have copy and pasted the
@@ -58,11 +64,22 @@ export const ResetPasswordForm: React.FunctionComponent = ({}) => {
   return (
     <Form<FormShape>
       onSubmit={handleSubmit}
-      initialValues={{ password: "", passwordConfirmation: "" }}
+      initialValues={{
+        password: "",
+        passwordConfirmation: "",
+        email: decodedToken.email
+      }}
     >
       {({ handleSubmit, submitting, pristine, invalid, values }) => {
         return (
           <form className="ResetPasswordForm__form" onSubmit={handleSubmit}>
+            <Field
+              name="email"
+              component={FinalInputGroup}
+              leftIcon={IconNames.USER}
+              large
+              disabled
+            />
             <Field
               name="password"
               component={FinalInputGroup}
@@ -94,7 +111,7 @@ export const ResetPasswordForm: React.FunctionComponent = ({}) => {
               loading={submitting}
               disabled={pristine || invalid || submitting}
             >
-              Reset my password
+              Change my password
             </Button>
           </form>
         );
