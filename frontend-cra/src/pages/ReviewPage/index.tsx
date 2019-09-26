@@ -23,12 +23,14 @@ export const ReviewPage: React.FunctionComponent = () => {
     postQuestions(1, values);
   };
 
-  React.useEffect = async () => {
-    // const payload = await getQuestions(1, "questionTemplates"); // keeps making a get request, when it tries to load the page
-    // const { metricTemplates, questionTemplates } = payload;
-    const { metricTemplates, questionTemplates } = reviewTemplate;
-    setQuestions({ metricTemplates, questionTemplates });
-  };
+  React.useEffect(() => {
+    const fetchQuestions = async () => {
+      const payload = await getQuestions(1, "questionTemplates");
+      const { metricTemplates, questionTemplates } = payload;
+      setQuestions({ metricTemplates, questionTemplates });
+    };
+    fetchQuestions();
+  });
 
   return (
     <RequiresAuth>
@@ -46,7 +48,11 @@ export const ReviewPage: React.FunctionComponent = () => {
             <div className="RatingForm__questions-container">
               <Questions questions={questions.questionTemplates} />
             </div>
-            <Button onClick={(e: any) => handleSubmit()}>Submit Review</Button>
+            <Button
+              onClick={(e: React.MouseEvent<HTMLElement>) => handleSubmit()}
+            >
+              Submit Review
+            </Button>
           </>
         )}
       </FinalForm.Form>
