@@ -1,0 +1,14 @@
+/* Kinda disgusting but we have no choice */
+.ais-InstantSearch__root {
+  margin: 0px auto;
+}
+
+.AlgoliaSearchBox input {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.AlgoliaSearchBox input:focus {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
