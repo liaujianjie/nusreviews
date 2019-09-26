@@ -56,10 +56,10 @@ export const resetPassword = async ({
   password
 }: ResetPasswordPayload) => {
   const unencodedBody = {
-    password
+    newPassword: password
   };
   const response = await sharedHttpClient.post(
-    "/request_reset_password",
+    "/reset_password",
     qs.stringify(unencodedBody),
     {
       headers: {
