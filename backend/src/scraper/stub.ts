@@ -1,11 +1,10 @@
 import * as dotenv from "dotenv";
+dotenv.config({ path: `${__dirname}/../../.env` });
 import { createConnection } from "typeorm";
-import { saveModuleInfoList } from "./tasks";
-import ormconfig from "../../ormconfig";
-import { ModuleInformation } from "../types/modules";
 import stub = require("./moduleListStub.json");
-
-dotenv.config();
+import { saveModuleInfoList } from "./tasks";
+import { ModuleInformation } from "../types/modules";
+import ormconfig from "../../ormconfig";
 
 createConnection(ormconfig)
   .then(connection => {
