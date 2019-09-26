@@ -26,8 +26,7 @@ main {
   overflow: scroll;
 
   /* Mimic the horizontal paddings from the Blueprint navbar */
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 15px;
 }
 
 /* NATIVE BROWSER OVERRIDES */
