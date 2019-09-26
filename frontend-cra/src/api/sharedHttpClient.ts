@@ -7,7 +7,6 @@ import axios from "axios";
  */
 
 const { REACT_APP_BACKEND_BASE_URL } = process.env;
-console.log(REACT_APP_BACKEND_BASE_URL, "===========");
 if (!REACT_APP_BACKEND_BASE_URL) {
   throw new Error(
     "REACT_APP_BACKEND_BASE_URL environment variable not provided!"

@@ -1,10 +1,11 @@
 import * as React from "react";
-import { Dialog, Button } from "@blueprintjs/core";
-import RadioButtonGroup from "../../../components/RadioButtonGroup/index";
 import * as FinalForm from "react-final-form";
-import TextAreaInput from "../../../components/TextAreaInput";
+
+import { Dialog, Button } from "@blueprintjs/core";
+
 import { FinalTextAreaGroup } from "../../../components/TextAreaInput/index";
 import { postOpinion } from "../../../api/review";
+
 import "./style.css";
 
 interface ShortReviewProps {
@@ -12,11 +13,6 @@ interface ShortReviewProps {
   name: string;
   placeholder: string;
   question: string;
-}
-
-interface FormValues {
-  shortReviewOpinion?: string;
-  shortReviewTip?: string;
 }
 
 export const ShortReviewModal: React.FunctionComponent<
@@ -48,6 +44,7 @@ export const ShortReviewModal: React.FunctionComponent<
                 <div className="ShortReviewModal__header">
                   <h3>{question}</h3>
                 </div>
+
                 <div className="ShortReviewModal__body">
                   <FinalForm.Field
                     type="textarea"
@@ -61,12 +58,18 @@ export const ShortReviewModal: React.FunctionComponent<
                     }
                   />
                 </div>
+
                 <div className="ShortReviewModal__footer">
-                  <Button onClick={(e: any) => onClose()} minimal={true}>
+                  <Button
+                    onClick={(event: React.MouseEvent<HTMLElement>) =>
+                      onClose()
+                    }
+                    minimal={true}
+                  >
                     Continue Later
                   </Button>
                   <Button
-                    onClick={(e: any) => {
+                    onClick={(event: React.MouseEvent<HTMLElement>) => {
                       handleSubmit();
                       form.reset();
                     }}
@@ -85,5 +88,3 @@ export const ShortReviewModal: React.FunctionComponent<
     </div>
   );
 };
-
-export default ShortReviewModal;

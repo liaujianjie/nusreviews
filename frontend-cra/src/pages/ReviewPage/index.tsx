@@ -1,16 +1,17 @@
 import React from "react";
-import { Button } from "@blueprintjs/core";
-
 import * as _ from "lodash";
 
+import * as FinalForm from "react-final-form";
+import { Button } from "@blueprintjs/core";
+
 import { RequiresAuth } from "../../components/RequiresAuth";
+import { FormHeader } from "./FormHeader/index";
+import { Metrics } from "./Metrics/index";
+import { Questions } from "./Questions/index";
+
+import { reviewTemplate, postQuestions, getQuestions } from "../../api/review";
 
 import "./style.css";
-import FormHeader from "./FormHeader/index";
-import * as FinalForm from "react-final-form";
-import { reviewTemplate, postQuestions, getQuestions } from "../../api/review";
-import Metrics from "./Metrics";
-import Questions from "./Questions/index";
 
 export const ReviewPage: React.FunctionComponent = () => {
   const [questions, setQuestions] = React.useState({
@@ -22,16 +23,10 @@ export const ReviewPage: React.FunctionComponent = () => {
     postQuestions(1, values);
   };
 
-  // let displayMetrics = reviewTemplate.metricTemplates;
-  // let displayQuestions = reviewTemplate.questionTemplates;
-
   React.useEffect = async () => {
-    const payload = await getQuestions(1, "questionTemplates");
+    const payload = await getQuestions(1, "questionTemplates"); // keeps making a get request, when it tries to load the page
     const { metricTemplates, questionTemplates } = payload;
     setQuestions({ metricTemplates, questionTemplates });
-    console.log("remount", payload);
-    // await reviewTemplate.then(res => res.metricTemplates);
-    // await reviewTemplate.then(res => res.questionTemplates);
   };
 
   return (
@@ -57,8 +52,6 @@ export const ReviewPage: React.FunctionComponent = () => {
     </RequiresAuth>
   );
 };
-
-export default ReviewPage;
 
 export const LECTURER_QUESTIONS = [
   {

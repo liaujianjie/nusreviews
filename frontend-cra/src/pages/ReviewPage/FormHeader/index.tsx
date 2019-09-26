@@ -1,8 +1,9 @@
 import * as React from "react";
+
+import { FormSegment } from "../FormSegment";
+import { DropDown } from "../DropDown";
+
 import "./style.css";
-import FormSegment from "../FormSegment";
-import * as FinalForm from "react-final-form";
-import DropDown from "../DropDown";
 
 interface FormHeaderProps {
   moduleCode?: string;
@@ -46,9 +47,7 @@ export const FormHeader: React.FunctionComponent<FormHeaderProps> = props => {
   );
 };
 
-export default FormHeader;
-
-export const GRADES = [
+const GRADES = [
   { key: "A+", text: "A+", value: "A+" },
   { key: "A", text: "A", value: "A" },
   { key: "A-", text: "A-", value: "A-" },

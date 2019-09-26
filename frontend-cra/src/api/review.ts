@@ -52,7 +52,7 @@ export const postOpinion = (moduleId: number, payload: any) => {
 export const reviewTemplate = {
   metricTemplates: [
     {
-      name: "How was the your lecturer, $lecturerName?",
+      name: "How was the your lecturer?",
       compulsory: true,
       minValue: 1,
       minDescription: "Deficient	",

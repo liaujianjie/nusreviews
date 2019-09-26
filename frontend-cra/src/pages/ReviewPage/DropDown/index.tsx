@@ -37,33 +37,11 @@ export const FinalDropDown: React.FunctionComponent<
   );
 };
 
-const DropDown: React.FunctionComponent<DropDownProps> = props => {
+export const DropDown: React.FunctionComponent<DropDownProps> = props => {
   return (
     <div className="FormHeader__dropdown-container">
       <label>{props.label}</label>
       <FinalForm.Field component={FinalDropDown} type="input" {...props} />
     </div>
   );
-  // return (
-  //   <FinalForm.Field {...props} component="select">
-  //     {({ input }) => {
-  //       const { children, label, ...neededProps } = props;
-
-  //       return (
-  //         <div className="FormHeader__dropdown-container">
-  //           <label>{label}</label>
-  //           <HTMLSelect
-  //             className="FormHeader__dropdown"
-  //             {...neededProps}
-  //             onChange={input.onChange}
-  //             large={true}
-  //             minimal={true}
-  //           />
-  //         </div>
-  //       );
-  //     }}
-  //   </FinalForm.Field>
-  // );
 };
-
-export default DropDown;

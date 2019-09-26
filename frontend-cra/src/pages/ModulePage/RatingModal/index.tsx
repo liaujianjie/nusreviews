@@ -1,9 +1,12 @@
 import * as React from "react";
-import { Dialog, Button } from "@blueprintjs/core";
-import { reviewTemplate, getQuestions } from "../../../api/review";
 import * as _ from "lodash";
-import RadioButtonGroup from "../../../components/RadioButtonGroup/index";
 import * as FinalForm from "react-final-form";
+
+import { Dialog, Button } from "@blueprintjs/core";
+
+import { RadioButtonGroup } from "../../../components/RadioButtonGroup/index";
+import { reviewTemplate, getQuestions } from "../../../api/review";
+
 import "./style.css";
 
 interface RatingModalProps {
@@ -101,5 +104,3 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
     </div>
   );
 };
-
-export default RatingModal;

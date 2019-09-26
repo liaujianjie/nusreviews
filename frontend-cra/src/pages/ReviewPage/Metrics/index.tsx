@@ -1,7 +1,7 @@
 import * as React from "react";
-import RadioButtonGroup from "../../../components/RadioButtonGroup/index";
-import * as FinalForm from "react-final-form";
-import FormSegment from "../FormSegment/index";
+
+import { RadioButtonGroup } from "../../../components/RadioButtonGroup/index";
+import { FormSegment } from "../FormSegment/index";
 
 interface MetricsProps {
   metrics: Array<Metric>;
@@ -27,5 +27,3 @@ export const Metrics: React.FunctionComponent<MetricsProps> = props => {
     </FormSegment>
   );
 };
-
-export default Metrics;

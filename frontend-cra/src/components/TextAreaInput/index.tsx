@@ -1,11 +1,10 @@
 import * as React from "react";
-
-import * as FinalForm from "react-final-form";
 import * as _ from "lodash";
+import * as FinalForm from "react-final-form";
+
 import TextArea from "react-textarea-autosize";
 
 import "./style.css";
-// import { TextArea } from "@blueprintjs/core";
 
 interface TextAreaProps {
   placeholder: string;
@@ -41,5 +40,3 @@ export const TextAreaInput: React.FunctionComponent<TextAreaProps> = props => {
     </div>
   );
 };
-
-export default TextAreaInput;

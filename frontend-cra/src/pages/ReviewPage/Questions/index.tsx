@@ -1,7 +1,8 @@
 import * as React from "react";
 import * as _ from "lodash";
-import TextAreaInput from "../../../components/TextAreaInput";
-import FormSegment from "../FormSegment";
+
+import { TextAreaInput } from "../../../components/TextAreaInput";
+import { FormSegment } from "../FormSegment";
 
 interface QuestionsProps {
   questions: Array<Question>;
@@ -27,5 +28,3 @@ export const Questions: React.FunctionComponent<QuestionsProps> = props => {
     </div>
   );
 };
-
-export default Questions;

@@ -1,11 +1,10 @@
 import * as React from "react";
-
+import * as _ from "lodash";
 import * as FinalForm from "react-final-form";
 
-import * as _ from "lodash";
+import { Radio } from "@blueprintjs/core";
 
 import "./style.css";
-import { Radio } from "@blueprintjs/core";
 
 interface RadioGroupProps {
   name: string;
@@ -30,15 +29,6 @@ export const RadioButtonGroup: React.FunctionComponent<
 
   const getRadioButtons = (mobile: boolean) => {
     return _.range(minValue, maxValue + 1).map(value => {
-      const label = (
-        <label>
-          {value === minValue
-            ? minDescription
-            : value === maxValue
-            ? maxDescription
-            : undefined}
-        </label>
-      );
       return (
         <div className="RadioButtonGroup__radio-button">
           <FinalForm.Field
@@ -47,8 +37,8 @@ export const RadioButtonGroup: React.FunctionComponent<
             type="radio"
             value={`${value}`}
           />
-          {value === minValue && mobile && label}
-          {value === maxValue && mobile && label}
+          {value === minValue && mobile && minDescription}
+          {value === maxValue && mobile && maxDescription}
         </div>
       );
     });
@@ -75,5 +65,3 @@ export const RadioButtonGroup: React.FunctionComponent<
     );
   }
 };
-
-export default RadioButtonGroup;
