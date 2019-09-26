@@ -1,4 +1,7 @@
 import React from "react";
+import * as qs from "querystring";
+import { RouteComponentProps } from 'react-router';
+
 import { RequiresAuth } from "../../components/RequiresAuth";
 
 import { Spinner } from "@blueprintjs/core";
@@ -12,111 +15,164 @@ import * as moduleApi from "../../api/module";
 import {
   MODULE_TYPE,
   METRICS_TYPE,
+  OPINION_TYPE,
+  OPINIONS_TYPE,
+  TIP_TYPE,
+  TIPS_TYPE,
   REVIEWS_TYPE,
   REVIEW_TYPE
 } from "../../constants/type";
 
 import "./style.css";
 
-// export type propTypes = {
-//   history: RouterPropTypes.history,
-//   match: RouterPropTypes.match,
-//   location: RouterPropTypes.location,
-// };
+interface MyState {
+  data: MODULE_TYPE,
+  semesters: Set<string>,
+  loading: boolean,
+}
 
-export const ModulePage: React.FunctionComponent = (props: any) => {
-  const [data, setData] = React.useState({} as MODULE_TYPE);
-  React.useEffect(() => {
+interface MyProps {
+  match: {
+    params: {
+      moduleId: string
+    }
+  }
+}
+
+export class ModulePage extends React.Component<MyProps & RouteComponentProps, MyState> {
+  state = {
+    loading: true,
+    semesters: new Set(""),
+    data: {} as MODULE_TYPE,
+  }
+
+  componentWillMount() {
     const fetchData = async () => {
-      const result = await moduleApi.getModule(props.match.params.moduleId);
+      const result = await moduleApi.getModule(this.props.match.params.moduleId);
       if (result.name === "Error") {
-        props.history.push("/module-not-found");
+        this.props.history.push("/module-not-found");
       } else {
-        setData(result);
+        this.setState({
+          data: result,
+          loading: false,
+        }, () => {
+          this.setState({
+            semesters: new Set(this.getAllSemesters()),
+          });
+        })
       }
     };
     fetchData();
-  }, []);
-
-  if (!Object.keys(data).length) {
-    return <Spinner />;
   }
 
-  const { moduleCode, title, description } = data;
-  // TODO: Merge all semesters when no filter is given
-  const { opinions, tips, reviews } = data.moduleSemesters[0];
-  // TODO: Remove when API is updated
-  data.moduleSemesters[0].semester = {
-    semester: 1,
-    academicYear: {
-      academicYear: "2019-2020"
+  filterDataBySemester() {
+    let result = {
+      opinions: [] as OPINIONS_TYPE,
+      tips: [] as TIPS_TYPE,
+      reviews: [] as REVIEWS_TYPE,
     }
-  };
-  let semesterData = data.moduleSemesters[0].semester;
-  let semester = `SEM ${semesterData.semester}, AY${semesterData.academicYear.academicYear}`;
-
-  const detailSectionProps = {
-    moduleCode,
-    title,
-    description
-  };
-  const discussionSectionProps = {
-    opinions,
-    tips
-  };
-  let ratings: METRICS_TYPE = [];
-  // TODO: remove when the API is updated
-  data.metricAverages = {
-    "1": 1,
-    "2": 5
-  };
-  Object.keys(data.metricTemplates).forEach(entry => {
-    const {
-      name,
-      minValue,
-      minDescription,
-      maxValue,
-      maxDescription
-    } = data.metricTemplates[entry];
-    ratings.push({
-      value: data.metricAverages[entry],
-      name,
-      minValue,
-      minDescription,
-      maxValue,
-      maxDescription
+    this.state.data.moduleSemesters.forEach(element => {
+      const semester = `SEM ${element.semester.semester}, AY${element.semester.academicYear.academicYear}`;
+      if (this.state.semesters.has(semester)) {
+        element.opinions.forEach((opinion: OPINION_TYPE) => result.opinions.push({
+          ...opinion,
+          semester,
+        }));
+        element.tips.forEach((tip: TIP_TYPE) => result.tips.push({
+          ...tip,
+          semester,
+        }));
+        element.reviews.forEach((review: REVIEW_TYPE) => {
+          const { programmeYear, major, expectedGrade, actualGrade } = review;
+          let preview = "";
+          for (let i = 0; i < review.questions.length; i++) {
+            preview += `Q: ${review.questions[i].questionTemplate.question} A: ${review.questions[i].answer}. `;
+            if (preview.length >= 500) break;
+          }
+          preview = preview.substr(0, 500) + "..."; 
+          result.reviews.push({
+            semester,
+            preview,
+            programmeYear,
+            major,
+            expectedGrade,
+            actualGrade,
+            questions: review.questions
+          });
+        });
+      }
     });
-  });
-  // TODO: fix empty year/major
-  // TODO: convert grade to letter
-  let reviewEntries: REVIEWS_TYPE = [];
-  reviews.forEach((entry: REVIEW_TYPE) => {
-    const { programmeYear, major, expectedGrade, actualGrade } = entry;
-    let preview = "";
-    for (let i = 0; i < entry.questions.length; i++) {
-      preview += `Q: ${entry.questions[i].questionTemplate.question} A: ${entry.questions[i].answer}. `;
-      if (preview.length >= 200) break;
+    return result;
+  }
+
+  toggleSemester(semester: string) {
+    let newSemesters = new Set(this.state.semesters);
+    if (newSemesters.has(semester)) {
+      newSemesters.delete(semester);
+    } else {
+      newSemesters.add(semester);
     }
-    preview = preview.substr(0, 200);
-    reviewEntries.push({
-      semester,
-      preview,
-      programmeYear,
-      major,
-      expectedGrade,
-      actualGrade,
-      questions: entry.questions
-    });
-  });
+    this.setState({
+      semesters: newSemesters,
+    })
+  }
 
-  return (
-    // <RequiresAuth>
-    <div className="ModulePage__container">
-      <DetailSection {...detailSectionProps} />
-      <RatingSection ratings={ratings} />
-      <DiscussionSection {...discussionSectionProps} />
-      <LongReviewSection reviews={reviewEntries} />
-    </div>
-    // </RequiresAuth>
-  );
-};
+  getAllSemesters() {
+    return this.state.data.moduleSemesters.map(
+      element =>  
+      `SEM ${element.semester.semester}, AY${element.semester.academicYear.academicYear}`
+    );
+  }
+
+  render() {
+    if (this.state.loading) {
+      return <Spinner />;
+    }
+    console.log(this.state.data);
+    const { moduleCode, title, description } = this.state.data;
+    const { opinions, tips, reviews } = this.filterDataBySemester();
+
+    const toggleSemesterCheckbox = (semester: string) => this.toggleSemester(semester);
+    const detailSectionProps = {
+      moduleCode,
+      title,
+      description,
+      allSemesters: this.getAllSemesters(),
+      toggleSemesterCheckbox,
+      semesters: this.state.semesters,
+    };
+    const discussionSectionProps = {
+      opinions,
+      tips
+    };
+    let ratings: METRICS_TYPE = [];
+    Object.keys(this.state.data.metricTemplates).forEach(entry => {
+      const {
+        name,
+        minValue,
+        minDescription,
+        maxValue,
+        maxDescription
+      } = this.state.data.metricTemplates[entry];
+      ratings.push({
+        value: this.state.data.metricAverages[entry],
+        name,
+        minValue,
+        minDescription,
+        maxValue,
+        maxDescription
+      });
+    });
+
+    return (
+      <RequiresAuth>
+        <div className="ModulePage__container">
+          <DetailSection {...detailSectionProps} />
+          <RatingSection ratings={ratings} />
+          <DiscussionSection {...discussionSectionProps} />
+          <LongReviewSection reviews={reviews} />
+        </div>
+      </RequiresAuth>
+    );
+  };
+}

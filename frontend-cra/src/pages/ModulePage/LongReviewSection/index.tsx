@@ -40,11 +40,6 @@ export const LongReviewSection: React.FunctionComponent<OwnProps> = ({
           </div>
         </div>
       }
-      action={
-        <Center>
-          <Button icon="chevron-down" minimal text="More reviews" />
-        </Center>
-      }
     />
   );
 };

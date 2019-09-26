@@ -12,12 +12,14 @@ export type OPINION_TYPE = {
   description: string;
   opinionVotes: Array<number>;
   author: string;
+  semester: string;
 };
 export type OPINIONS_TYPE = Array<OPINION_TYPE>;
 export type TIP_TYPE = {
   description: string;
   tipVotes: Array<number>;
   author: string;
+  semester: string;
 };
 export type TIPS_TYPE = Array<TIP_TYPE>;
 export type QUESTION_TYPE = {
@@ -39,8 +41,8 @@ export type QUESTION_TYPE = {
 };
 export type QUESTIONS_TYPE = Array<QUESTION_TYPE>;
 export type REVIEW_TYPE = {
-  expectedGrade: string;
-  actualGrade: string;
+  expectedGrade: number;
+  actualGrade: number;
   programmeYear: string;
   major: string;
   semester: string;

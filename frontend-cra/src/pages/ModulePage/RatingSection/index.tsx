@@ -6,7 +6,6 @@ import { Button } from "@blueprintjs/core";
 import { SplitColumns } from "../../../components/SplitColumns";
 import { Section } from "../Section";
 import { AttributeRating } from "./AttributeRating";
-import { RatingModal } from "../RatingModal/index";
 
 import "./style.css";
 
@@ -19,7 +18,7 @@ export const RatingSection: React.FunctionComponent<OwnProps> = ({
 }) => {
   return (
     <Section
-      leftHeader={<h4 className="RatingSection__left-header">Ratings</h4>}
+      leftHeader={<h4 className="RatingSection__left-header">Overall Ratings</h4>}
       rightHeader={<Button icon="plus" intent="primary" text="Add Rating" />}
       body={
         <SplitColumns>

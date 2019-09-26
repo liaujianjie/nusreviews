@@ -1,16 +1,19 @@
 import React from "react";
-import { Button, Tag } from "@blueprintjs/core";
+
+import { AnchorButton, Tag } from "@blueprintjs/core";
 
 import "./style.css";
 import { REVIEW_TYPE } from "../../../../constants/type";
+import { GRADE } from '../../../../constants/grade';
+
 
 type OwnProps = {
   semester: string;
   preview: string;
   programmeYear: string;
   major: string;
-  expectedGrade: string;
-  actualGrade: string;
+  expectedGrade: number;
+  actualGrade: number;
 };
 
 export const LongReview: React.FunctionComponent<REVIEW_TYPE> = ({
@@ -26,10 +29,10 @@ export const LongReview: React.FunctionComponent<REVIEW_TYPE> = ({
       <div className="LongReview__header-container">
         <span className="LongReview__grades-container">
           <Tag minimal>
-            Expected <strong>{expectedGrade}</strong>
+            Expected <strong>{GRADE[expectedGrade]}</strong>
           </Tag>
           <Tag minimal>
-            Actual <strong>{actualGrade}</strong>
+            Actual <strong>{GRADE[actualGrade]}</strong>
           </Tag>
         </span>
         <Tag minimal>{semester}</Tag>
@@ -41,10 +44,12 @@ export const LongReview: React.FunctionComponent<REVIEW_TYPE> = ({
         }, ${
           programmeYear ? "Y" + programmeYear : "Hidden Programme Year"
         }`}</div>
-        <Button
+        <AnchorButton
           className="LongReview__footer-more"
           rightIcon="arrow-right"
           minimal
+          target='_blank'
+          href='/review/10'
           text="Read More"
         />
       </div>

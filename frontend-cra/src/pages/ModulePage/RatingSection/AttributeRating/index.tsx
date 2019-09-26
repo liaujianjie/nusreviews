@@ -2,7 +2,7 @@ import React from "react";
 
 import { METRIC_TYPE } from "../../../../constants/type";
 
-import { ProgressBar, Tag, Intent } from "@blueprintjs/core";
+import { ProgressBar } from "@blueprintjs/core";
 
 import "./style.css";
 
