@@ -110,7 +110,7 @@ export const reviewTemplate = {
   ],
   questionTemplates: [
     {
-      question: "How was your lecturer, Ben Leong?",
+      question: "How was your lecturer?",
       compulsory: false,
       placeholder:
         "You could talk about what you generally learnt, took away from the module"

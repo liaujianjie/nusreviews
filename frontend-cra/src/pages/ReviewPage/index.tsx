@@ -24,8 +24,9 @@ export const ReviewPage: React.FunctionComponent = () => {
   };
 
   React.useEffect = async () => {
-    const payload = await getQuestions(1, "questionTemplates"); // keeps making a get request, when it tries to load the page
-    const { metricTemplates, questionTemplates } = payload;
+    // const payload = await getQuestions(1, "questionTemplates"); // keeps making a get request, when it tries to load the page
+    // const { metricTemplates, questionTemplates } = payload;
+    const { metricTemplates, questionTemplates } = reviewTemplate;
     setQuestions({ metricTemplates, questionTemplates });
   };
 
