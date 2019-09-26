@@ -1,11 +1,10 @@
 import * as algoliasearch from "algoliasearch";
 import * as dotenv from "dotenv";
+dotenv.config({ path: `${__dirname}/../../.env` });
 import { createConnection } from "typeorm";
-import ormconfig from "../../ormconfig";
-import { Module } from "../entities/Module";
 import { MetricTemplate } from "../entities/MetricTemplate";
-
-dotenv.config();
+import { Module } from "../entities/Module";
+import ormconfig from "../../ormconfig";
 
 export const ALGOLIA_APPLICATION_ID = "3EJTXIKS8B";
 
