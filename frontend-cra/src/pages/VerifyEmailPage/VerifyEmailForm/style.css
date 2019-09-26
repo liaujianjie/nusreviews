@@ -1,0 +1,8 @@
+.VerifyEmailForm__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.VerifyEmailForm__form > *:not(:last-child) {
+  margin-bottom: 8px;
+}
