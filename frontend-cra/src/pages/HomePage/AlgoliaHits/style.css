@@ -1,3 +1,8 @@
 .AlgoliaHits {
-  padding: 4px;
+  padding: 0px;
+
+  width: calc(100% - 2px);
+  margin-left: 1px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
 }

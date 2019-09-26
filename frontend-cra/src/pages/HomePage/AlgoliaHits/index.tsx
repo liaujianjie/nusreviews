@@ -9,7 +9,7 @@ import "./style.css";
 
 export const AlgoliaHits = connectHits(({ hits }) => {
   return (
-    <Card style={{ padding: 4 }}>
+    <Card className="AlgoliaHits">
       <Menu>
         {_.map(hits).map((hit, index) => {
           return (
