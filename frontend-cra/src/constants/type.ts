@@ -48,6 +48,7 @@ export type REVIEW_TYPE = {
   semester: string;
   preview: string;
   questions: QUESTIONS_TYPE;
+  id: number;
 };
 export type REVIEWS_TYPE = Array<REVIEW_TYPE>;
 export type SEMESTER_TYPE = {

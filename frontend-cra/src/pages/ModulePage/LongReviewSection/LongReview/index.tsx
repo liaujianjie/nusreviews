@@ -14,6 +14,7 @@ type OwnProps = {
   major: string;
   expectedGrade: number;
   actualGrade: number;
+  id: string;
 };
 
 export const LongReview: React.FunctionComponent<REVIEW_TYPE> = ({
@@ -22,7 +23,8 @@ export const LongReview: React.FunctionComponent<REVIEW_TYPE> = ({
   programmeYear,
   major,
   expectedGrade,
-  actualGrade
+  actualGrade,
+  id,
 }) => {
   return (
     <div className="LongReview">
@@ -49,7 +51,7 @@ export const LongReview: React.FunctionComponent<REVIEW_TYPE> = ({
           rightIcon="arrow-right"
           minimal
           target='_blank'
-          href='/review/10'
+          href={`/review/${id}`}
           text="Read More"
         />
       </div>

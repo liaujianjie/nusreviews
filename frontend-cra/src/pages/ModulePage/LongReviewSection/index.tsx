@@ -35,6 +35,7 @@ export const LongReviewSection: React.FunctionComponent<OwnProps> = ({
                 expectedGrade={entry.expectedGrade}
                 actualGrade={entry.actualGrade}
                 questions={entry.questions}
+                id={entry.id}
               />
             ))}
           </div>

@@ -97,7 +97,8 @@ export class ModulePage extends React.Component<MyProps & RouteComponentProps, M
             major,
             expectedGrade,
             actualGrade,
-            questions: review.questions
+            questions: review.questions,
+            id: review.id,
           });
         });
       }
@@ -126,9 +127,8 @@ export class ModulePage extends React.Component<MyProps & RouteComponentProps, M
 
   render() {
     if (this.state.loading) {
-      return <Spinner />;
+      return <div><br/><Spinner /></div>;
     }
-    console.log(this.state.data);
     const { moduleCode, title, description } = this.state.data;
     const { opinions, tips, reviews } = this.filterDataBySemester();
 
