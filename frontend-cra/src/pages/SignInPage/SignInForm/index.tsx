@@ -18,17 +18,12 @@ type FormShape = {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(
-    {
-      signIn
-    },
-    dispatch
-  );
+  bindActionCreators({ signIn }, dispatch);
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 
-const _SignInForm: React.FunctionComponent<DispatchProps> = () => {
-  const handleSubmit: FormProps<FormShape>["onSubmit"] = credentials => {
-    signIn(credentials);
+const _SignInForm: React.FunctionComponent<DispatchProps> = ({ signIn }) => {
+  const handleSubmit: FormProps<FormShape>["onSubmit"] = async credentials => {
+    await signIn(credentials);
   };
   return (
     <Form<FormShape>
