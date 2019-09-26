@@ -11,15 +11,6 @@ interface RatingModalProps {
   moduleCode: string;
 }
 
-interface Question {
-  name: string;
-  minValue: number;
-  maxValue: number;
-  minDescription: string;
-  maxDescription: string;
-  compulsory: boolean;
-}
-
 export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
   const [open, setOpen] = React.useState(false);
   const [pageNum, setPageNum] = React.useState(0);

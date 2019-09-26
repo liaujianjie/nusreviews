@@ -9,7 +9,12 @@ import { Center } from "../../components/Center";
 import "./style.css";
 import FormHeader from "./FormHeader/index";
 import * as FinalForm from "react-final-form";
-import { getQuestions, reviewTemplate, postQuestions } from "../../api/review";
+import {
+  getQuestions,
+  reviewTemplate,
+  postQuestions,
+  Metric
+} from "../../api/review";
 import Metrics from "./Metrics";
 import RadioButtonGroup from "../../components/RadioButtonGroup/index";
 import Questions from "./Questions/index";
@@ -20,14 +25,14 @@ export const ReviewPage: React.FunctionComponent = () => {
     postQuestions(1, values);
   };
 
-  // const reviewTemplate = getQuestions(1, "questionTemplates");
-  const displayMetrics = reviewTemplate.metricTemplates;
-  const displayQuestions = reviewTemplate.questionTemplates;
+  let displayMetrics = reviewTemplate.metricTemplates;
+  let displayQuestions = reviewTemplate.questionTemplates;
 
-  const metricQuestions = reviewTemplate.metricTemplates.map(metric => {
-    return <RadioButtonGroup {...metric} />;
-  });
-
+  React.useEffect = async () => {
+    const reviewTemplate = getQuestions(1, "questionTemplates");
+    displayMetrics = await reviewTemplate.then(res => res.metricTemplates);
+    displayQuestions = await reviewTemplate.then(res => res.questionTemplates);
+  };
   return (
     // <RequiresAuth>
     <Center>
