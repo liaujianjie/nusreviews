@@ -1,4 +1,5 @@
 import React from "react";
+import { Dispatch, bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Form, FormProps, Field } from "react-final-form";
 import _ from "lodash";
@@ -17,12 +18,16 @@ type FormShape = {
   passwordConfirmation: string;
 };
 
-const mapDispatchToProps = {
-  signUp
-};
-type ConnectedProps = typeof mapDispatchToProps;
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      signUp
+    },
+    dispatch
+  );
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 
-const _SignUpForm: React.FunctionComponent<ConnectedProps> = ({ signUp }) => {
+const _SignUpForm: React.FunctionComponent<DispatchProps> = ({ signUp }) => {
   const handleSubmit: FormProps<FormShape>["onSubmit"] = async credentials => {
     await signUp(credentials);
   };

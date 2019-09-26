@@ -1,4 +1,5 @@
 import React from "react";
+import { Dispatch, bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Form, FormProps, Field } from "react-final-form";
 import _ from "lodash";
@@ -6,24 +7,28 @@ import _ from "lodash";
 import { Button, Intent } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
+import { FinalInputGroup } from "../../../components/FinalInputGroup";
 import { signIn } from "../../../store/auth";
 
 import "./style.css";
-import { FinalInputGroup } from "../../../components/FinalInputGroup";
 
 type FormShape = {
   email: string;
   password: string;
 };
 
-const mapDispatchToProps = {
-  signIn
-};
-type ConnectedProps = typeof mapDispatchToProps;
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      signIn
+    },
+    dispatch
+  );
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 
-const _SignInForm: React.FunctionComponent<ConnectedProps> = ({ signIn }) => {
-  const handleSubmit: FormProps<FormShape>["onSubmit"] = async credentials => {
-    await signIn(credentials);
+const _SignInForm: React.FunctionComponent<DispatchProps> = () => {
+  const handleSubmit: FormProps<FormShape>["onSubmit"] = credentials => {
+    signIn(credentials);
   };
   return (
     <Form<FormShape>
