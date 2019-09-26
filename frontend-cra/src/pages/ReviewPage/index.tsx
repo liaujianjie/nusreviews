@@ -25,7 +25,7 @@ export const ReviewPage: React.FunctionComponent = () => {
 
   React.useEffect(() => {
     const fetchQuestions = async () => {
-      const payload = await getQuestions(1, "questionTemplates");
+      const payload = await getQuestions();
       const { metricTemplates, questionTemplates } = payload;
       setQuestions({ metricTemplates, questionTemplates });
     };

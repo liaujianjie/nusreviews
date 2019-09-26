@@ -20,11 +20,8 @@ interface QuestionsResults {
   questionTemplates: Array<Question>;
 }
 
-export const getQuestions = async (
-  reviewId: number,
-  type: string
-): Promise<QuestionsResults> => {
-  const response = await sharedHttpClient.get(`/review_templates/${reviewId}`);
+export const getQuestions = async (): Promise<QuestionsResults> => {
+  const response = await sharedHttpClient.get(`/active_review_template`);
   return response.data;
 };
 
