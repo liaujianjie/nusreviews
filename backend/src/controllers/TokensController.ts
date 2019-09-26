@@ -15,7 +15,6 @@ import {
   ResetPasswordTokenSignedPayload
 } from "../types/tokens";
 import { getEntityArray } from "../utils/entities";
-import { getAuthenticationTokens } from "../utils/users";
 
 export async function login(request: Request, response: Response) {
   if (!request.headers.authorization) {
@@ -43,7 +42,7 @@ export async function login(request: Request, response: Response) {
     return;
   }
 
-  const result = getAuthenticationTokens(user);
+  const result = user.createAuthenticationTokens();
   response.status(200).json(result);
 }
 
@@ -63,11 +62,9 @@ export async function refreshAuthentication(
     return;
   }
 
-  const result = getAuthenticationTokens(user);
+  const result = user.createAuthenticationTokens();
   response.status(200).json(result);
 }
-
-// export async function resetPassword(request: Request, response: Response) {
 
 export async function editOpinion(request: Request, response: Response) {
   try {
@@ -242,7 +239,10 @@ export async function verifyEmail(request: Request, response: Response) {
     if (result.affected === 0) {
       throw new Error("Failed to update user");
     }
-    response.status(204).send();
+
+    user.emailVerified = true;
+    const authenticationTokens = user.createAuthenticationTokens();
+    response.status(204).json(authenticationTokens);
   } catch (error) {
     response.sendStatus(400);
     console.error(error);
