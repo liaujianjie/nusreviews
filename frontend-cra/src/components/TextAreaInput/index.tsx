@@ -2,9 +2,10 @@ import * as React from "react";
 
 import * as FinalForm from "react-final-form";
 import * as _ from "lodash";
+import TextArea from "react-textarea-autosize";
 
 import "./style.css";
-import { TextArea } from "@blueprintjs/core";
+// import { TextArea } from "@blueprintjs/core";
 
 interface TextAreaProps {
   placeholder: string;
@@ -15,7 +16,14 @@ interface TextAreaProps {
 export const FinalTextAreaGroup: React.FunctionComponent<
   FinalForm.FieldRenderProps<string, HTMLElement>
 > = props => {
-  return <TextArea {...props} {...props.input} />;
+  return (
+    <TextArea
+      {...props}
+      {...props.input}
+      minRows={4}
+      className="TextAreaInput"
+    />
+  );
 };
 
 export const TextAreaInput: React.FunctionComponent<TextAreaProps> = props => {

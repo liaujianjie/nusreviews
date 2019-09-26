@@ -5,6 +5,7 @@ import * as FinalForm from "react-final-form";
 import TextAreaInput from "../../../components/TextAreaInput";
 import { FinalTextAreaGroup } from "../../../components/TextAreaInput/index";
 import { postOpinion } from "../../../api/review";
+import "./style.css";
 
 interface ShortReviewProps {
   buttonName: string;
@@ -33,33 +34,48 @@ export const ShortReviewModal: React.FunctionComponent<
   return (
     <div>
       <Button onClick={() => setOpen(true)}>{buttonName}</Button>
-      <Dialog isOpen={open}>
+      <Dialog
+        isOpen={open}
+        onClose={onClose}
+        canEscapeKeyClose={true}
+        canOutsideClickClose={true}
+      >
         <FinalForm.Form onSubmit={onSubmit}>
           {({ handleSubmit, invalid, form }) => {
             return (
               <div className="ShortReviewModal__container">
-                <h2>{question}</h2>
-                <FinalForm.Field
-                  type="textarea"
-                  component={FinalTextAreaGroup}
-                  name={question}
-                  placeholder={placeholder}
-                  validate={value =>
-                    value
-                      ? value.length > 300 && "300 characters or less!"
-                      : undefined
-                  }
-                />
-                <Button onClick={(e: any) => onClose()}>Continue Later</Button>
-                <Button
-                  onClick={(e: any) => {
-                    handleSubmit();
-                    form.reset();
-                  }}
-                  disabled={invalid}
-                >
-                  Submit
-                </Button>
+                <div className="ShortReviewModal__header">
+                  <h2>{question}</h2>
+                </div>
+                <div className="ShortReviewModal__body">
+                  <FinalForm.Field
+                    type="textarea"
+                    component={FinalTextAreaGroup}
+                    name={question}
+                    placeholder={placeholder}
+                    validate={value =>
+                      value
+                        ? value.length > 300 && "300 characters or less!"
+                        : undefined
+                    }
+                  />
+                </div>
+                <div className="ShortReviewModal__footer">
+                  <Button onClick={(e: any) => onClose()} minimal={true}>
+                    Continue Later
+                  </Button>
+                  <Button
+                    onClick={(e: any) => {
+                      handleSubmit();
+                      form.reset();
+                    }}
+                    disabled={invalid}
+                    type="submit"
+                    className=""
+                  >
+                    Submit
+                  </Button>
+                </div>
               </div>
             );
           }}

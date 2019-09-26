@@ -4,6 +4,7 @@ import { reviewTemplate, getQuestions } from "../../../api/review";
 import * as _ from "lodash";
 import RadioButtonGroup from "../../../components/RadioButtonGroup/index";
 import * as FinalForm from "react-final-form";
+import "./style.css";
 
 interface RatingModalProps {
   buttonName: string;
@@ -62,7 +63,12 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
   return (
     <div>
       <Button onClick={() => setOpen(true)}>{buttonName}</Button>
-      <Dialog isOpen={open}>
+      <Dialog
+        isOpen={open}
+        onClose={onClose}
+        canEscapeKeyClose={true}
+        canOutsideClickClose={true}
+      >
         <FinalForm.Form onSubmit={onSubmit} validate={formValidation}>
           {({ handleSubmit, invalid, form, pristine }) => {
             return (
@@ -74,8 +80,8 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
                     rating!!
                   </span>
                 </div>
-                <div className="RatingModal__body">
-                  {getQuestions()}
+                <div className="RatingModal__body">{getQuestions()}</div>
+                <div className="RatingModal__footer">
                   <Button onClick={(e: any) => onClose()}>
                     Continue Later
                   </Button>
@@ -89,7 +95,6 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
                     {lastPage ? "Submit" : "Next"}
                   </Button>
                 </div>
-                <div className="RatingModal__footer"></div>
               </div>
             );
           }}

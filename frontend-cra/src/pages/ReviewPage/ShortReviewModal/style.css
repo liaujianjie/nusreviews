@@ -1,0 +1,17 @@
+.ShortReviewModal__container {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-rows: 2em minmax(4em, auto) 2em;
+  grid-gap: 1em;
+  padding: 1em 1em 0em;
+}
+
+.ShortReviewModal__textarea {
+  min-height: 100%;
+  width: 100%;
+}
+
+.ShortReviewModal__footer {
+  display: flex;
+  justify-content: flex-end;
+}

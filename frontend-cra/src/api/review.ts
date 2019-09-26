@@ -2,7 +2,9 @@ import { sharedHttpClient } from "./sharedHttpClient";
 import * as qs from "querystring";
 
 export const getQuestions = async (moduleId: number, type: string) => {
-  const response = await sharedHttpClient.get(`/review_templates/${moduleId}`);
+  const response = await sharedHttpClient.get(
+    `/review_templates/${moduleId}`
+  );
   return response.data[type];
 };
 

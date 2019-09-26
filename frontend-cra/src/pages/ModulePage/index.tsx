@@ -18,13 +18,13 @@ const RATINGS = [
 
 export const ModulePage: React.FunctionComponent = () => {
   return (
-    // <RequiresAuth>
-    <div className="ModulePage__container">
-      <DetailSection />
-      <RatingSection ratings={RATINGS} />
-      <DiscussionSection />
-      <LongReviewSection />
-    </div>
-    // </RequiresAuth>
+    <RequiresAuth>
+      <div className="ModulePage__container">
+        <DetailSection />
+        <RatingSection ratings={RATINGS} />
+        <DiscussionSection />
+        <LongReviewSection />
+      </div>
+    </RequiresAuth>
   );
 };

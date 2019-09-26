@@ -25,6 +25,12 @@ export const FinalRadioButtonInput: React.FunctionComponent<
 export const RadioButtonGroup: React.FunctionComponent<
   RadioGroupProps
 > = props => {
+  // const ref = React.useRef<HTMLDivElement | null>(null);
+  // const [dimensions, setDimensions] = React.useState({});
+  // React.useLayoutEffect(() => {
+  //   setDimensions(ref.current ? ref.current.getClientBoundingRect() : {});
+  // }, [ref.current]);
+
   const { minValue, maxValue, minDescription, maxDescription, name } = props;
 
   // const { name, handleMetricChange, selectedMetric } = props;
@@ -56,12 +62,20 @@ export const RadioButtonGroup: React.FunctionComponent<
     });
   };
   return (
-    <div className="RadioButtonGroup__container">
-      <div className="RadioButtonGroup__left-segment">{name}</div>
-      <div className="RadioButtonGroup__right-segment">
-        {getRadioButtons()}{" "}
+    <>
+      <div className="RadioButtonGroup__container-mobile">
+        <div className="RadioButtonGroup__left-segment-mobile">{name}</div>
+        <div className="RadioButtonGroup__right-segment-mobile">
+          {getRadioButtons()}{" "}
+        </div>
       </div>
-    </div>
+      {/* <div className="RadioButtonGroup__container-desktop">
+        <div className="RadioButtonGroup__left-segment-desktop">{name}</div>
+        <div className="RadioButtonGroup__right-segment-desktop">
+          {getRadioButtons()}{" "}
+        </div>
+      </div> */}
+    </>
   );
 };
 

@@ -1,0 +1,8 @@
+.RatingModal__body {
+  display: grid;
+  grid-gap: 1em;
+}
+
+.RatingModal__body > .RadioButtonGroup__container {
+  flex-direction: column;
+}
