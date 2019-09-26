@@ -36,12 +36,6 @@ export const HomePage: React.FunctionComponent = () => {
         </Center>
         <AlgoliaSearchBox />
       </InstantSearch>
-      {/* <InputGroup
-            type="search"
-            leftIcon="search"
-            placeholder="Search for a module or lecturer..."
-            large
-          /> */}
     </div>
   );
 };
