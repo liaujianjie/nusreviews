@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Form, FormProps, Field } from "react-final-form";
 import _ from "lodash";
 
-import { Button, Intent, Callout } from "@blueprintjs/core";
-import { IconNames } from "@blueprintjs/icons";
+import { Button, Callout } from "@blueprintjs/core";
 
-import { FinalInputGroup } from "../../../components/FinalInputGroup";
 import { useRouter } from "../../../hooks/useRouter";
 import { verifyEmail } from "../../../api/auth";
 
@@ -13,7 +10,9 @@ import "./style.css";
 import { decode } from "jsonwebtoken";
 
 export const VerifyEmailForm: React.FunctionComponent = () => {
-  const [hasVerified, updateHasVerified] = useState(false);
+  const [hasVerified, updateHasVerified] = useState<
+    "unverified" | "verifying" | "verified"
+  >("unverified");
   const { location } = useRouter();
   const splitPathname = _.split(location.pathname, "/");
   const token = splitPathname.length === 4 ? _.last(splitPathname)! : "";
@@ -23,7 +22,13 @@ export const VerifyEmailForm: React.FunctionComponent = () => {
   } catch (error) {}
 
   useEffect(() => {
-    verifyEmail({ token }).then(() => updateHasVerified(true));
+    updateHasVerified("verifying");
+    verifyEmail({ token })
+      .then(() => updateHasVerified("verified"))
+      .catch(error => {
+        console.error(error);
+        updateHasVerified("unverified");
+      });
   }, [token]);
 
   if (hasVerified) {
@@ -44,5 +49,23 @@ export const VerifyEmailForm: React.FunctionComponent = () => {
     );
   }
 
-  return null
+  return (
+    <Button
+      fill
+      large
+      text="Verify email"
+      intent="primary"
+      loading={hasVerified === "verifying"}
+      disabled={hasVerified === "verifying"}
+      onClick={() => {
+        updateHasVerified("verifying");
+        verifyEmail({ token })
+          .then(() => updateHasVerified("verified"))
+          .catch(error => {
+            console.error(error);
+            updateHasVerified("unverified");
+          });
+      }}
+    />
+  );
 };
