@@ -18,12 +18,22 @@ import {
 
 import "./style.css";
 
-export const ModulePage: React.FunctionComponent = () => {
+// export type propTypes = {
+//   history: RouterPropTypes.history,
+//   match: RouterPropTypes.match,
+//   location: RouterPropTypes.location,
+// };
+
+export const ModulePage: React.FunctionComponent = (props: any) => {
   const [data, setData] = React.useState({} as MODULE_TYPE);
   React.useEffect(() => {
     const fetchData = async () => {
-      const result = await moduleApi.getModule("CS2030");
-      setData(result);
+      const result = await moduleApi.getModule(props.match.params.moduleId);
+      if (result.name === "Error") {
+        props.history.push("/module-not-found");
+      } else {
+        setData(result);
+      }
     };
     fetchData();
   }, []);
@@ -100,13 +110,13 @@ export const ModulePage: React.FunctionComponent = () => {
   });
 
   return (
-    <RequiresAuth>
-      <div className="ModulePage__container">
-        <DetailSection {...detailSectionProps} />
-        <RatingSection ratings={ratings} />
-        <DiscussionSection {...discussionSectionProps} />
-        <LongReviewSection reviews={reviewEntries} />
-      </div>
-    </RequiresAuth>
+    // <RequiresAuth>
+    <div className="ModulePage__container">
+      <DetailSection {...detailSectionProps} />
+      <RatingSection ratings={ratings} />
+      <DiscussionSection {...discussionSectionProps} />
+      <LongReviewSection reviews={reviewEntries} />
+    </div>
+    // </RequiresAuth>
   );
 };

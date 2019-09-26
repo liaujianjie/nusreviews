@@ -18,9 +18,9 @@ export const AttributeRating: React.FunctionComponent<METRIC_TYPE> = ({
     <div className="AttributeRating">
       <div className="AttributeRating__label">
         <h4>{name}</h4>
-        <Tag minimal>
-          <strong>{value}</strong> / {maxValue}
-        </Tag>
+        <p className="AttributeRating__value">
+          {value} / {maxValue}
+        </p>
       </div>
       <ProgressBar intent="primary" stripes={false} value={value / maxValue} />
       <div className="AttributeRating__description">

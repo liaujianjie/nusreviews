@@ -24,10 +24,14 @@ body,
 main {
   height: calc(100% - 50px);
   overflow: scroll;
+}
 
-  /* Mimic the horizontal paddings from the Blueprint navbar */
-  padding-left: 15px;
-  padding-right: 15px;
+@media only screen and (min-width: 768px) {
+  .main {
+    /* Mimic the horizontal paddings from the Blueprint navbar */
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 }
 
 /* NATIVE BROWSER OVERRIDES */

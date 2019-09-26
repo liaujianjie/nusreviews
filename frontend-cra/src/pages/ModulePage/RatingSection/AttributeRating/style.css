@@ -11,6 +11,13 @@
   justify-content: space-between;
 }
 
+.AttributeRating__value {
+  font-weight: 600;
+  color: #2873e6;
+  min-width: 60px;
+  text-align: right;
+}
+
 .AttributeRating:not(:last-child) {
   margin-bottom: 20px;
 }

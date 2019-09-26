@@ -5,6 +5,7 @@
   color: slategray;
 }
 
-.Section__body-container h3 {
-  margin-bottom: 20px;
+.DiscussionSection__card-footer {
+  display: flex;
+  justify-content: space-between;
 }

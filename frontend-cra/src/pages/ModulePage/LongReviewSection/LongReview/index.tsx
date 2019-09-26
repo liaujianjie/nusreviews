@@ -36,12 +36,17 @@ export const LongReview: React.FunctionComponent<REVIEW_TYPE> = ({
       </div>
       <p>{preview}</p>
       <div className="LongReview__footer-container">
-        <div className="bp3-text-disabled">{`${
+        <div className="LongReview__footer-author bp3-text-disabled">{`${
           major ? major : "Hidden Major"
         }, ${
           programmeYear ? "Y" + programmeYear : "Hidden Programme Year"
         }`}</div>
-        <Button rightIcon="arrow-right" minimal text="Read More" />
+        <Button
+          className="LongReview__footer-more"
+          rightIcon="arrow-right"
+          minimal
+          text="Read More"
+        />
       </div>
     </div>
   );

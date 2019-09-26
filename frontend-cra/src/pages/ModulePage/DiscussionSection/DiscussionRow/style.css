@@ -1,5 +1,6 @@
 .DiscussionRow__layout {
   display: flex;
+  margin-bottom: 20px;
 }
 
 .DiscussionRow__layout button {

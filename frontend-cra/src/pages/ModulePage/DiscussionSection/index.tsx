@@ -28,32 +28,43 @@ export const DiscussionSection: React.FunctionComponent<OwnProps> = ({
       }
       body={
         <SplitColumns>
-          <DiscussionColumn title="What were the best parts?">
-            {opinions.map(entry => (
-              <DiscussionRow
-                message={entry.description}
-                author="Computer Science, Y4, AY17/18"
-                vote={entry.opinionVotes.length}
-              />
-            ))}
-            <Button icon="plus" intent="primary" text="Add opinion" />
+          <DiscussionColumn>
+            <Section
+              leftHeader={<h3>What were the best parts?</h3>}
+              body={opinions.map(entry => (
+                <DiscussionRow
+                  message={entry.description}
+                  author="Computer Science, Y4, AY17/18"
+                  vote={entry.opinionVotes.length}
+                />
+              ))}
+              action={
+                <div className="DiscussionSection__card-footer">
+                  <Button minimal icon="chevron-down" text="More opinions" />
+                  <Button icon="plus" intent="primary" text="Add opinion" />
+                </div>
+              }
+            />
           </DiscussionColumn>
-          <DiscussionColumn title="Any tips and tricks?">
-            {tips.map(entry => (
-              <DiscussionRow
-                message={entry.description}
-                author="Computer Science, Y4, AY17/18"
-                vote={entry.tipVotes.length}
-              />
-            ))}
-            <Button icon="plus" intent="primary" text="Add tip" />
+          <DiscussionColumn>
+            <Section
+              leftHeader={<h3>Any tips and tricks?</h3>}
+              body={tips.map(entry => (
+                <DiscussionRow
+                  message={entry.description}
+                  author="Computer Science, Y4, AY17/18"
+                  vote={entry.tipVotes.length}
+                />
+              ))}
+              action={
+                <div className="DiscussionSection__card-footer">
+                  <Button minimal icon="chevron-down" text="More tips" />
+                  <Button icon="plus" intent="primary" text="Add tip" />
+                </div>
+              }
+            />
           </DiscussionColumn>
         </SplitColumns>
-      }
-      action={
-        <Center>
-          <Button icon="chevron-down" minimal text="More discussions" />
-        </Center>
       }
     />
   );

@@ -10,3 +10,15 @@
 .ModulePage__container > *:not(:last-child) {
   margin-bottom: 24px;
 }
+
+@media only screen and (max-width: 768px) {
+  .ModulePage__container {
+    padding-top: 0px;
+    padding-bottom: 8px;
+  }
+
+  .ModulePage__container > .bp3-card {
+    border-radius: 0px;
+    margin-bottom: 16px;
+  }
+}
