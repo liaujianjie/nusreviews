@@ -35,10 +35,7 @@ export function sendResetPasswordEmail(user: User) {
 
   const payload: ResetPasswordTokenPayload = {
     type: BearerTokenType.ResetPasswordToken,
-    id: user.id,
-    email: user.email,
-    role: user.role,
-    username: user.username
+    ...user.getCredentials()
   };
 
   const token = jwt.sign(payload, process.env.JWT_SECRET!, {

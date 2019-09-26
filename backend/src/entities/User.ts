@@ -6,11 +6,18 @@ import {
   IsString
 } from "class-validator";
 import { Column, Entity, OneToMany } from "typeorm";
+import { sign } from "jsonwebtoken";
 import { Discardable } from "./Discardable";
 import { TipVote } from "./TipVote";
 import { OpinionVote } from "./OpinionVote";
 import { UserRole } from "../types/users";
-import { BearerTokenType, EntityTokenPayload } from "../types/tokens";
+import {
+  BearerTokenType,
+  EntityTokenPayload,
+  Credentials,
+  RefreshTokenPayload,
+  AccessTokenPayload
+} from "../types/tokens";
 
 @Entity()
 export class User extends Discardable {
@@ -64,6 +71,34 @@ export class User extends Discardable {
     role: this.role,
     username: this.username
   });
+
+  getCredentials = (): Credentials => ({
+    id: this.id,
+    email: this.email,
+    emailVerified: this.emailVerified,
+    role: this.role,
+    username: this.username
+  });
+
+  createAuthenticationTokens = () => {
+    const credentials = this.getCredentials();
+    const accessTokenPayload: AccessTokenPayload = {
+      type: BearerTokenType.AccessToken,
+      ...credentials
+    };
+    const accessToken = sign(accessTokenPayload, process.env.JWT_SECRET!, {
+      expiresIn: "15m"
+    });
+    const refreshTokenPayload: RefreshTokenPayload = {
+      type: BearerTokenType.RefreshToken,
+      ...credentials
+    };
+    const refreshToken = sign(refreshTokenPayload, process.env.JWT_SECRET!, {
+      expiresIn: "7 days"
+    });
+
+    return { accessToken, refreshToken };
+  };
 
   entityName = "User";
 }
