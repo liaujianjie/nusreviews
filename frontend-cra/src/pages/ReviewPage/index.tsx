@@ -28,26 +28,26 @@ export const ReviewPage: React.FunctionComponent = () => {
   // };
 
   return (
-    // <RequiresAuth>
-    <FinalForm.Form onSubmit={onSubmit}>
-      {({ handleSubmit }) => (
-        <>
-          <FormHeader
-            moduleCode="cs3216"
-            moduleDescription="AY2019/2020, SEM1"
-            moduleSemester="Software Engineering for Digital Markets"
-          />
-          <div className="RatingForm__questions-container">
-            <Metrics metrics={displayMetrics} />
-          </div>
-          <div className="RatingForm__questions-container">
-            <Questions questions={displayQuestions} />
-          </div>
-          <Button onClick={(e: any) => handleSubmit()}>Submit Review</Button>
-        </>
-      )}
-    </FinalForm.Form>
-    // </RequiresAuth>
+    <RequiresAuth>
+      <FinalForm.Form onSubmit={onSubmit}>
+        {({ handleSubmit }) => (
+          <>
+            <FormHeader
+              moduleCode="cs3216"
+              moduleDescription="AY2019/2020, SEM1"
+              moduleSemester="Software Engineering for Digital Markets"
+            />
+            <div className="RatingForm__questions-container">
+              <Metrics metrics={displayMetrics} />
+            </div>
+            <div className="RatingForm__questions-container">
+              <Questions questions={displayQuestions} />
+            </div>
+            <Button onClick={(e: any) => handleSubmit()}>Submit Review</Button>
+          </>
+        )}
+      </FinalForm.Form>
+    </RequiresAuth>
   );
 };
 
