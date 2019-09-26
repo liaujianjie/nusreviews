@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    // "baseUrl": "backend/src/",
     "baseUrl": "./",
     "lib": ["es5", "es6", "es2018"],
     "target": "es2018",
@@ -11,6 +10,9 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "strict": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "types": [
+      "node"
+    ]
   }
 }

@@ -1,15 +1,15 @@
 import * as bodyParser from "body-parser";
 import * as cors from "cors";
+import * as dotenv from "dotenv";
+dotenv.config({ path: `${__dirname}/../../.env` });
 import * as express from "express";
 import * as helmet from "helmet";
 import * as morgan from "morgan";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import ormconfig from "../ormconfig";
 import routes from "./routes";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+// ormconfig MUST be imported after dotenv is configured
+import ormconfig from "../ormconfig";
 
 createConnection(ormconfig)
   .then(async connection => {
