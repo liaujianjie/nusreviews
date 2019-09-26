@@ -1,6 +1,0 @@
-{
-  "componentChunkName": "component---src-pages-module-tsx",
-  "path": "/module/",
-  "webpackCompilationHash": "",
-  "result": { "pageContext": { "isCreatedByStatefulCreatePages": true } }
-}

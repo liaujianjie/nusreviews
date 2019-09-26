@@ -1,6 +1,0 @@
-{
-  "componentChunkName": "component---src-pages-search-tsx",
-  "path": "/search/",
-  "webpackCompilationHash": "",
-  "result": { "pageContext": { "isCreatedByStatefulCreatePages": true } }
-}
