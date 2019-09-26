@@ -18,9 +18,7 @@
     "morgan": "^1.9.1",
     "pg": "^7.12.1",
     "reflect-metadata": "^0.1.10",
-    "typeorm": "0.2.19"
-  },
-  "devDependencies": {
+    "typeorm": "0.2.19",
     "@types/algoliasearch": "^3.34.1",
     "@types/bcryptjs": "^2.4.2",
     "@types/body-parser": "^1.17.1",
@@ -31,7 +29,9 @@
     "@types/jsonwebtoken": "^8.3.3",
     "@types/morgan": "^1.7.37",
     "@types/node": "^8.0.29",
-    "@types/pg": "^7.11.1",
+    "@types/pg": "^7.11.1"
+  },
+  "devDependencies": {
     "husky": "^3.0.5",
     "prettier": "1.18.2",
     "pretty-quick": "^1.11.1",
@@ -42,10 +42,10 @@
     "typescript": "^3.6.3"
   },
   "scripts": {
-    "start": "set debug=* && ts-node-dev --respawn --transpileOnly -r dotenv/config ./src/index.ts dotenv_config_path='../.env'",
+    "start": "set debug=* && ts-node-dev --respawn --transpileOnly -r dotenv/config ./src/index.ts",
     "lint": "prettier --write \"src/**/*.{ts,tsx}\"",
     "typeorm": "ts-node -r tsconfig-paths/register ../node_modules/typeorm/cli.js",
-    "production": "tsc && node .build/app.js",
+    "production": "tsc && node ./build/src/index.js",
     "scrape": "ts-node -r dotenv/config ./src/scraper/index.ts dotenv_config_path='../.env'",
     "scrape:stub": "ts-node -r dotenv/config ./src/scraper/stub.ts dotenv_config_path='../.env'",
     "algolia": "ts-node -r dotenv/config ./src/utils/algolia.ts dotenv_config_path='../.env'"

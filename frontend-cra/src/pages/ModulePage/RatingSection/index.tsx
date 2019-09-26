@@ -6,6 +6,7 @@ import { Button } from "@blueprintjs/core";
 import { SplitColumns } from "../../../components/SplitColumns";
 import { Section } from "../Section";
 import { AttributeRating } from "./AttributeRating";
+import { RatingModal } from "../RatingModal/index";
 
 import "./style.css";
 

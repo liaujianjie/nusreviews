@@ -89,6 +89,11 @@ span {
   font-weight: 700;
 }
 
+a,
+a:hover {
+  color: #2873e6;
+}
+
 .bp3-button.bp3-minimal.bp3-active {
   background-color: rgba(146, 171, 222, 0.1);
 }

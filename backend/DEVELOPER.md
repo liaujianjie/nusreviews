@@ -3,11 +3,14 @@
 On development
 
 1. Run `docker-compose up`
+2. Run `cd backend`
+3. Run `yarn start`
 
-On all
+On production
 
-1. Run `cd backend`
-2. Run `yarn start`
+1. ssh into DigitalOcean Droplet
+2. Run `cd backend`
+3. Run `yarn production`
 
 [API Documentation](https://documenter.getpostman.com/view/8059258/SVmyQwss?version=latest)
 

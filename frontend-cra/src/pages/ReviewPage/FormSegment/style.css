@@ -1,0 +1,11 @@
+.FormSegment__grey {
+  background-color: transparent;
+  padding: 2em;
+  width: 100%;
+}
+
+.FormSegment__white {
+  background-color: #fff;
+  padding: 2em;
+  width: 100%;
+}

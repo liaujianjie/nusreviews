@@ -9,6 +9,7 @@ import { Center } from "../../../components/Center";
 import { Section } from "../Section";
 import { DiscussionColumn } from "./DiscussionColumn";
 import { DiscussionRow } from "./DiscussionRow";
+import { ShortReviewModal } from "../ShortReviewModal";
 
 import "./style.css";
 
