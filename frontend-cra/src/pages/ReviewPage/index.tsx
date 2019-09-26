@@ -8,7 +8,7 @@ import { RequiresAuth } from "../../components/RequiresAuth";
 import "./style.css";
 import FormHeader from "./FormHeader/index";
 import * as FinalForm from "react-final-form";
-import { reviewTemplate, postQuestions } from "../../api/review";
+import { reviewTemplate, postQuestions, getQuestions } from "../../api/review";
 import Metrics from "./Metrics";
 import Questions from "./Questions/index";
 
@@ -18,14 +18,15 @@ export const ReviewPage: React.FunctionComponent = () => {
     postQuestions(1, values);
   };
 
-  const displayMetrics = reviewTemplate.metricTemplates;
-  const displayQuestions = reviewTemplate.questionTemplates;
+  let displayMetrics = reviewTemplate.metricTemplates;
+  let displayQuestions = reviewTemplate.questionTemplates;
 
-  // React.useEffect = async () => {
-  //   const reviewTemplate = getQuestions(1, "questionTemplates");
-  //   displayMetrics = await reviewTemplate.then(res => res.metricTemplates);
-  //   displayQuestions = await reviewTemplate.then(res => res.questionTemplates);
-  // };
+  React.useEffect = async () => {
+    const reviewTemplate = getQuestions(1, "questionTemplates");
+    console.log(reviewTemplate, "review tempalte");
+    displayMetrics = await reviewTemplate.then(res => res.metricTemplates);
+    displayQuestions = await reviewTemplate.then(res => res.questionTemplates);
+  };
 
   return (
     <RequiresAuth>

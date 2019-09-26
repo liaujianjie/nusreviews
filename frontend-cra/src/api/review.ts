@@ -21,11 +21,11 @@ interface QuestionsResults {
 }
 
 export const getQuestions = async (
-  moduleId: number,
+  reviewId: number,
   type: string
 ): Promise<QuestionsResults> => {
-  const response = await sharedHttpClient.get(`/review_templates/${moduleId}`);
-  return response.data[type];
+  const response = await sharedHttpClient.get(`/review_templates/${reviewId}`);
+  return response.data;
 };
 
 export const postQuestions = (moduleId: number, payload: any) => {
