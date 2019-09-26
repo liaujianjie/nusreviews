@@ -3,6 +3,23 @@
   grid-gap: 1em;
 }
 
-.RatingModal__body > .RadioButtonGroup__container {
-  flex-direction: column;
+.RatingModal__header {
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.RatingModal__footer {
+  float: right;
+}
+
+.RatingModal__container {
+  padding: 1em 1em 0em;
+}
+
+.RatingModal__module-code {
+  color: #ff5722c7;
+}
+
+.RatingModal {
+  background-color: white;
 }

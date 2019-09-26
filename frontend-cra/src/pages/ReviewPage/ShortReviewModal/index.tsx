@@ -23,7 +23,7 @@ export const ShortReviewModal: React.FunctionComponent<
   ShortReviewProps
 > = props => {
   const [open, setOpen] = React.useState(false);
-  const { buttonName, question, name, placeholder } = props;
+  const { buttonName, question, placeholder } = props;
   const onClose = () => setOpen(false);
 
   const onSubmit = (values: any) => {
@@ -39,13 +39,14 @@ export const ShortReviewModal: React.FunctionComponent<
         onClose={onClose}
         canEscapeKeyClose={true}
         canOutsideClickClose={true}
+        className="ShortReviewModal__modal"
       >
         <FinalForm.Form onSubmit={onSubmit}>
           {({ handleSubmit, invalid, form }) => {
             return (
               <div className="ShortReviewModal__container">
                 <div className="ShortReviewModal__header">
-                  <h2>{question}</h2>
+                  <h3>{question}</h3>
                 </div>
                 <div className="ShortReviewModal__body">
                   <FinalForm.Field

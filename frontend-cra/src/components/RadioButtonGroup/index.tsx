@@ -46,18 +46,17 @@ export const RadioButtonGroup: React.FunctionComponent<
             : undefined}
         </label>
       );
-      // return <Radio value={value} label={label} name={name} />;
       return (
-        <>
-          {value === minValue && label}
+        <div className="RadioButtonGroup__radio-button">
           <FinalForm.Field
             name={name}
             component={FinalRadioButtonInput}
             type="radio"
             value={`${value}`}
           />
+          {value === minValue && label}
           {value === maxValue && label}
-        </>
+        </div>
       );
     });
   };
@@ -66,13 +65,15 @@ export const RadioButtonGroup: React.FunctionComponent<
       <div className="RadioButtonGroup__container-mobile">
         <div className="RadioButtonGroup__left-segment-mobile">{name}</div>
         <div className="RadioButtonGroup__right-segment-mobile">
-          {getRadioButtons()}{" "}
+          {getRadioButtons()}
         </div>
       </div>
       {/* <div className="RadioButtonGroup__container-desktop">
         <div className="RadioButtonGroup__left-segment-desktop">{name}</div>
         <div className="RadioButtonGroup__right-segment-desktop">
-          {getRadioButtons()}{" "}
+          <label>{minDescription}</label>
+          {getRadioButtons()}
+          <label>{maxDescription}</label>
         </div>
       </div> */}
     </>

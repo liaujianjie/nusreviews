@@ -8,6 +8,7 @@ import "./style.css";
 
 interface RatingModalProps {
   buttonName: string;
+  moduleCode: string;
 }
 
 interface Question {
@@ -54,7 +55,7 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
     return error;
   };
 
-  const { buttonName } = props;
+  const { buttonName, moduleCode } = props;
 
   const getQuestions = () => {
     return currQuestions.map(qn => <RadioButtonGroup {...qn} />);
@@ -68,21 +69,27 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
         onClose={onClose}
         canEscapeKeyClose={true}
         canOutsideClickClose={true}
+        className="RatingModal"
       >
         <FinalForm.Form onSubmit={onSubmit} validate={formValidation}>
           {({ handleSubmit, invalid, form, pristine }) => {
             return (
               <div className="RatingModal__container">
                 <div className="RatingModal__header">
-                  {"CS3216"}
-                  <span>
+                  <h2>
+                    How was{" "}
+                    <span className="RatingModal__module-code">
+                      {moduleCode}
+                    </span>
+                  </h2>
+                  <div>
                     Hey help your XXX friends out over here, and drop a quick
                     rating!!
-                  </span>
+                  </div>
                 </div>
                 <div className="RatingModal__body">{getQuestions()}</div>
                 <div className="RatingModal__footer">
-                  <Button onClick={(e: any) => onClose()}>
+                  <Button onClick={(e: any) => onClose()} minimal={true}>
                     Continue Later
                   </Button>
                   <Button
