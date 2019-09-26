@@ -4,19 +4,12 @@ import { Button } from "@blueprintjs/core";
 import * as _ from "lodash";
 
 import { RequiresAuth } from "../../components/RequiresAuth";
-import { Center } from "../../components/Center";
 
 import "./style.css";
 import FormHeader from "./FormHeader/index";
 import * as FinalForm from "react-final-form";
-import {
-  getQuestions,
-  reviewTemplate,
-  postQuestions,
-  Metric
-} from "../../api/review";
+import { reviewTemplate, postQuestions } from "../../api/review";
 import Metrics from "./Metrics";
-import RadioButtonGroup from "../../components/RadioButtonGroup/index";
 import Questions from "./Questions/index";
 
 export const ReviewPage: React.FunctionComponent = () => {
@@ -25,36 +18,35 @@ export const ReviewPage: React.FunctionComponent = () => {
     postQuestions(1, values);
   };
 
-  let displayMetrics = reviewTemplate.metricTemplates;
-  let displayQuestions = reviewTemplate.questionTemplates;
+  const displayMetrics = reviewTemplate.metricTemplates;
+  const displayQuestions = reviewTemplate.questionTemplates;
 
-  React.useEffect = async () => {
-    const reviewTemplate = getQuestions(1, "questionTemplates");
-    displayMetrics = await reviewTemplate.then(res => res.metricTemplates);
-    displayQuestions = await reviewTemplate.then(res => res.questionTemplates);
-  };
+  // React.useEffect = async () => {
+  //   const reviewTemplate = getQuestions(1, "questionTemplates");
+  //   displayMetrics = await reviewTemplate.then(res => res.metricTemplates);
+  //   displayQuestions = await reviewTemplate.then(res => res.questionTemplates);
+  // };
+
   return (
     // <RequiresAuth>
-    <Center>
-      <FinalForm.Form onSubmit={onSubmit}>
-        {({ handleSubmit }) => (
-          <>
-            <FormHeader
-              moduleCode="cs3216"
-              moduleDescription="AY2019/2020, SEM1"
-              moduleSemester="Software Engineering for Digital Markets"
-            />
-            <div className="RatingForm__questions-container">
-              <Metrics metrics={displayMetrics} />
-            </div>
-            <div className="RatingForm__questions-container">
-              <Questions questions={displayQuestions} />
-            </div>
-            <Button onClick={(e: any) => handleSubmit()}>Submit Review</Button>
-          </>
-        )}
-      </FinalForm.Form>
-    </Center>
+    <FinalForm.Form onSubmit={onSubmit}>
+      {({ handleSubmit }) => (
+        <>
+          <FormHeader
+            moduleCode="cs3216"
+            moduleDescription="AY2019/2020, SEM1"
+            moduleSemester="Software Engineering for Digital Markets"
+          />
+          <div className="RatingForm__questions-container">
+            <Metrics metrics={displayMetrics} />
+          </div>
+          <div className="RatingForm__questions-container">
+            <Questions questions={displayQuestions} />
+          </div>
+          <Button onClick={(e: any) => handleSubmit()}>Submit Review</Button>
+        </>
+      )}
+    </FinalForm.Form>
     // </RequiresAuth>
   );
 };

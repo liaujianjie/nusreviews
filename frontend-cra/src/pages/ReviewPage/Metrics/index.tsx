@@ -1,6 +1,7 @@
 import * as React from "react";
 import RadioButtonGroup from "../../../components/RadioButtonGroup/index";
 import * as FinalForm from "react-final-form";
+import FormSegment from "../FormSegment/index";
 
 interface MetricsProps {
   metrics: Array<Metric>;
@@ -17,8 +18,14 @@ interface Metric {
 
 export const Metrics: React.FunctionComponent<MetricsProps> = props => {
   const { metrics } = props;
-  const getMetric = metrics.map(metric => <RadioButtonGroup {...metric} />);
-  return <div className="RatingForm__questions-container">{getMetric} </div>;
+  const getMetric = metrics.map(metric => (
+    <RadioButtonGroup {...metric} mobile={false} />
+  ));
+  return (
+    <FormSegment bgColor="grey">
+      <div className="RatingForm__questions-container">{getMetric} </div>
+    </FormSegment>
+  );
 };
 
 export default Metrics;

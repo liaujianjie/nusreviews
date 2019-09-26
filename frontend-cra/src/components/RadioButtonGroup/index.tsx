@@ -14,6 +14,7 @@ interface RadioGroupProps {
   minDescription: string;
   maxDescription: string;
   compulsory: boolean;
+  mobile: boolean;
 }
 
 export const FinalRadioButtonInput: React.FunctionComponent<
@@ -25,17 +26,9 @@ export const FinalRadioButtonInput: React.FunctionComponent<
 export const RadioButtonGroup: React.FunctionComponent<
   RadioGroupProps
 > = props => {
-  // const ref = React.useRef<HTMLDivElement | null>(null);
-  // const [dimensions, setDimensions] = React.useState({});
-  // React.useLayoutEffect(() => {
-  //   setDimensions(ref.current ? ref.current.getClientBoundingRect() : {});
-  // }, [ref.current]);
-
   const { minValue, maxValue, minDescription, maxDescription, name } = props;
 
-  // const { name, handleMetricChange, selectedMetric } = props;
-
-  const getRadioButtons = () => {
+  const getRadioButtons = (mobile: boolean) => {
     return _.range(minValue, maxValue + 1).map(value => {
       const label = (
         <label>
@@ -54,30 +47,33 @@ export const RadioButtonGroup: React.FunctionComponent<
             type="radio"
             value={`${value}`}
           />
-          {value === minValue && label}
-          {value === maxValue && label}
+          {value === minValue && mobile && label}
+          {value === maxValue && mobile && label}
         </div>
       );
     });
   };
-  return (
-    <>
+  if (props.mobile) {
+    return (
       <div className="RadioButtonGroup__container-mobile">
         <div className="RadioButtonGroup__left-segment-mobile">{name}</div>
         <div className="RadioButtonGroup__right-segment-mobile">
-          {getRadioButtons()}
+          {getRadioButtons(true)}
         </div>
       </div>
-      {/* <div className="RadioButtonGroup__container-desktop">
+    );
+  } else {
+    return (
+      <div className="RadioButtonGroup__container-desktop">
         <div className="RadioButtonGroup__left-segment-desktop">{name}</div>
         <div className="RadioButtonGroup__right-segment-desktop">
           <label>{minDescription}</label>
-          {getRadioButtons()}
+          {getRadioButtons(props.mobile)}
           <label>{maxDescription}</label>
         </div>
-      </div> */}
-    </>
-  );
+      </div>
+    );
+  }
 };
 
 export default RadioButtonGroup;

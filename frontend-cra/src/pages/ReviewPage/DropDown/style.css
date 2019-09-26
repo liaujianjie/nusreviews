@@ -8,4 +8,7 @@
 .FormHeader__dropdown {
   width: 7em;
   margin-top: 1em;
+  border: 1px solid #f4f6f8;
+  border-radius: 0.6em;
+  margin: 0em 1em;
 }

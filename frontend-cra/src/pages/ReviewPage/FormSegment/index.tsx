@@ -9,11 +9,7 @@ interface FormSegmentProps {
 
 export const FormSegment: React.FunctionComponent<FormSegmentProps> = props => {
   const { bgColor, children } = props;
-  return (
-    <Center>
-      <div className={`FormSegment__${bgColor}`}>{children}</div>
-    </Center>
-  );
+  return <div className={`FormSegment__${bgColor}`}>{children}</div>;
 };
 
 export default FormSegment;
