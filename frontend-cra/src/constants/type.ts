@@ -7,12 +7,13 @@ export type METRIC_TYPE = {
   maxDescription: string;
 };
 export type METRICS_TYPE = Array<METRIC_TYPE>;
-
 export type OPINION_TYPE = {
   description: string;
   opinionVotes: Array<number>;
   author: string;
   semester: string;
+  programmeYear: string;
+  major: string,
 };
 export type OPINIONS_TYPE = Array<OPINION_TYPE>;
 export type TIP_TYPE = {
@@ -20,6 +21,8 @@ export type TIP_TYPE = {
   tipVotes: Array<number>;
   author: string;
   semester: string;
+  programmeYear: string;
+  major: string;
 };
 export type TIPS_TYPE = Array<TIP_TYPE>;
 export type QUESTION_TYPE = {

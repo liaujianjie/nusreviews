@@ -41,7 +41,11 @@ export class DiscussionSection extends React.Component<OwnProps> {
                 body={opinions.slice(0, numberOfRenderedOpinions).map(entry => (
                   <DiscussionRow
                     message={entry.description}
-                    author="Computer Science, Y4, AY17/18"
+                    author={`${
+                      entry.major ? entry.major : "Hidden Major"
+                    }, ${
+                      entry.programmeYear ? "Y" + entry.programmeYear : "Hidden Programme Year"
+                    }`}
                     vote={entry.opinionVotes.length}
                   />
                 ))}
@@ -67,7 +71,11 @@ export class DiscussionSection extends React.Component<OwnProps> {
                 body={tips.slice(0, numberOfRenderedTips).map(entry => (
                   <DiscussionRow
                     message={entry.description}
-                    author="Computer Science, Y4, AY17/18"
+                    author={`${
+                      entry.major ? entry.major : "Hidden Major"
+                    }, ${
+                      entry.programmeYear ? "Y" + entry.programmeYear : "Hidden Programme Year"
+                    }`}
                     vote={entry.tipVotes.length}
                   />
                 ))}
