@@ -13,6 +13,8 @@ export async function show(
       where: { moduleCode: request.params.module_code },
       relations: [
         "moduleSemesters",
+        "moduleSemesters.semester",
+        "moduleSemesters.semester.academicYear",
         "moduleSemesters.opinions",
         "moduleSemesters.opinions.opinionVotes",
         "moduleSemesters.tips",
@@ -25,7 +27,8 @@ export async function show(
       ]
     });
 
-    const metricAggregates: Record<number, number> = {};
+    const metricSums: Record<number, number> = {};
+    const metricCounts: Record<number, number> = {};
     const metricTemplates: Record<number, MetricTemplate> = {};
     module.moduleSemesters.forEach(moduleSemester => {
       moduleSemester.reviews.forEach(review => {
@@ -36,13 +39,20 @@ export async function show(
 
         review.metrics.forEach(metric => {
           const id = metric.metricTemplate.id;
-          metricAggregates[id] = metric.value + (metricAggregates[id] || 0);
+          metricSums[id] = metric.value + (metricSums[id] || 0);
+          metricCounts[id] = 1 + (metricCounts[id] || 0);
           metricTemplates[id] = metric.metricTemplate;
         });
         delete review.metrics;
       });
     });
-    const result = { ...module, metricAggregates, metricTemplates };
+
+    const metricAverages: Record<number, number> = {};
+    Object.values(metricTemplates).forEach(metricTemplate => {
+      const id = metricTemplate.id;
+      metricAverages[id] = metricSums[id] / metricCounts[id];
+    });
+    const result = { ...module, metricAverages, metricTemplates };
     response.status(200).json(result);
   } catch (error) {
     response.sendStatus(400);

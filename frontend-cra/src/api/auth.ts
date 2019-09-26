@@ -10,7 +10,7 @@ type AuthCredentials = {
 export const signIn = async ({ email, password }: AuthCredentials) => {
   const decodedCredentials = `${email}:${password}`;
   const encodedCredentials = btoa(decodedCredentials);
-  const response = await sharedHttpClient.post("/users/login", null, {
+  const response = await sharedHttpClient.post("/login", null, {
     headers: { Authorization: `Basic ${encodedCredentials}` }
   });
   return response.data;
