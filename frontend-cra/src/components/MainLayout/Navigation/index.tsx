@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import _ from "lodash";
 
 import {
   Navbar,
@@ -16,8 +15,8 @@ import {
 import { MaxWidthContainer } from "../../MaxWidthContainer";
 import { StoreState } from "../../../store";
 import { signOut } from "../../../store/auth";
-import { useRouter } from "../../../hooks/useRouter";
 import logo from "./logo.svg";
+
 import "./style.css";
 
 const mapStateToProps = (rootState: StoreState) => ({
@@ -31,9 +30,6 @@ const _Navigation: React.FunctionComponent<ConnectedProps> = ({
   user,
   signOut
 }) => {
-  // Temporarily use private APIs so that we can use the router state as a hook
-  const { history } = useRouter();
-
   return (
     <Navbar className="Navigation">
       <MaxWidthContainer>

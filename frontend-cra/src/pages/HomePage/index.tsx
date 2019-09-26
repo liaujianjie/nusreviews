@@ -2,13 +2,11 @@ import React from "react";
 import algoliaSearch from "algoliasearch";
 import { InstantSearch, Configure } from "react-instantsearch-dom";
 
-import { RequiresAuth } from "../../components/RequiresAuth";
-
+import { Center } from "../../components/Center";
 import { AlgoliaSearchBox } from "./AlgoliaSearchBox";
 
 import logo from "./logo.svg";
 import "./style.css";
-import { Center } from "../../components/Center";
 
 const {
   REACT_APP_ALGOLIA_APPLICATION_ID,

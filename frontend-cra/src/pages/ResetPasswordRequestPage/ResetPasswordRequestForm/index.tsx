@@ -14,7 +14,7 @@ type FormShape = {
   email: string;
 };
 
-export const ResetPasswordRequestForm: React.FunctionComponent = ({}) => {
+export const ResetPasswordRequestForm: React.FunctionComponent = () => {
   const [requested, updateRequested] = useState(false);
   const handleSubmit: FormProps<FormShape>["onSubmit"] = async ({ email }) => {
     try {
