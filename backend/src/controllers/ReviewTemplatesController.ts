@@ -143,3 +143,18 @@ export async function undiscard(request: Request, response: Response) {
     response.sendStatus(400);
   }
 }
+
+export async function activeReviewTemplate(
+  request: Request,
+  response: Response
+) {
+  try {
+    const reviewTemplate = await getRepository(ReviewTemplate).findOneOrFail({
+      where: { discardedAt: IsNull() },
+      relations: ["metricTemplates", "questionTemplates"]
+    });
+    response.status(200).json(reviewTemplate);
+  } catch (error) {
+    response.sendStatus(404);
+  }
+}
