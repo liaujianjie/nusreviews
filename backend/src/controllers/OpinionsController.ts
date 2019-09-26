@@ -40,10 +40,10 @@ export async function create(request: Request, response: Response) {
 
 export async function show(request: Request, response: Response) {
   try {
-    const moduleSemester = await getRepository(Opinion).findOneOrFail(
+    const opinion = await getRepository(Opinion).findOneOrFail(
       request.params.id
     );
-    response.status(200).json(moduleSemester);
+    response.status(200).json(opinion);
   } catch (error) {
     response.sendStatus(400);
   }
