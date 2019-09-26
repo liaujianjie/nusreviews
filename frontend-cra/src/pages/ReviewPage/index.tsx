@@ -13,19 +13,25 @@ import Metrics from "./Metrics";
 import Questions from "./Questions/index";
 
 export const ReviewPage: React.FunctionComponent = () => {
+  const [questions, setQuestions] = React.useState({
+    metricTemplates: reviewTemplate.metricTemplates,
+    questionTemplates: reviewTemplate.questionTemplates
+  });
   const onSubmit = (values: any) => {
     console.log(values);
     postQuestions(1, values);
   };
 
-  let displayMetrics = reviewTemplate.metricTemplates;
-  let displayQuestions = reviewTemplate.questionTemplates;
+  // let displayMetrics = reviewTemplate.metricTemplates;
+  // let displayQuestions = reviewTemplate.questionTemplates;
 
   React.useEffect = async () => {
-    const reviewTemplate = getQuestions(1, "questionTemplates");
-    console.log(reviewTemplate, "review tempalte");
-    displayMetrics = await reviewTemplate.then(res => res.metricTemplates);
-    displayQuestions = await reviewTemplate.then(res => res.questionTemplates);
+    const payload = await getQuestions(1, "questionTemplates");
+    const { metricTemplates, questionTemplates } = payload;
+    setQuestions({ metricTemplates, questionTemplates });
+    console.log("remount", payload);
+    // await reviewTemplate.then(res => res.metricTemplates);
+    // await reviewTemplate.then(res => res.questionTemplates);
   };
 
   return (
@@ -39,10 +45,10 @@ export const ReviewPage: React.FunctionComponent = () => {
               moduleSemester="Software Engineering for Digital Markets"
             />
             <div className="RatingForm__questions-container">
-              <Metrics metrics={displayMetrics} />
+              <Metrics metrics={questions.metricTemplates} />
             </div>
             <div className="RatingForm__questions-container">
-              <Questions questions={displayQuestions} />
+              <Questions questions={questions.questionTemplates} />
             </div>
             <Button onClick={(e: any) => handleSubmit()}>Submit Review</Button>
           </>
