@@ -20,7 +20,9 @@ export const postOpinion = (moduleId: number, payload: any) => {
   return sharedHttpClient.post(
     `/module_semesters/${moduleId}/opinions`,
     qs.stringify({
-      description: "some opinion"
+      params: {
+        description: "some opinion"
+      }
     })
   );
 };

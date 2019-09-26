@@ -67,17 +67,29 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
           {({ handleSubmit, invalid, form, pristine }) => {
             return (
               <div className="RatingModal__container">
-                {getQuestions()}
-                <Button onClick={(e: any) => onClose()}>Continue Later</Button>
-                <Button
-                  onClick={(e: any) => {
-                    handleSubmit();
-                    form.reset();
-                  }}
-                  disabled={invalid || pristine}
-                >
-                  {lastPage ? "Submit" : "Next"}
-                </Button>
+                <div className="RatingModal__header">
+                  {"CS3216"}
+                  <span>
+                    Hey help your XXX friends out over here, and drop a quick
+                    rating!!
+                  </span>
+                </div>
+                <div className="RatingModal__body">
+                  {getQuestions()}
+                  <Button onClick={(e: any) => onClose()}>
+                    Continue Later
+                  </Button>
+                  <Button
+                    onClick={(e: any) => {
+                      handleSubmit();
+                      form.reset();
+                    }}
+                    disabled={invalid || pristine}
+                  >
+                    {lastPage ? "Submit" : "Next"}
+                  </Button>
+                </div>
+                <div className="RatingModal__footer"></div>
               </div>
             );
           }}
