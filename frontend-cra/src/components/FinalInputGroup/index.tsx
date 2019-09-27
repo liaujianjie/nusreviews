@@ -18,7 +18,7 @@ export const FinalInputGroup: React.FunctionComponent<
     <Popover
       targetClassName="FinalInputGroup__popover-target"
       popoverClassName="FinalInputGroup__popove"
-      position="right"
+      position="top-left"
       isOpen={Boolean(
         props.meta.error && props.meta.dirty && props.meta.active
       )}

@@ -13,6 +13,7 @@ import { ModulePage } from "./pages/ModulePage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { ReviewPage } from "./pages/ReviewPage";
 import { ResetPasswordPage } from "./pages/ResetPasswordPage";
+import { VerifyEmailPage } from "./pages/VerifyEmailPage";
 
 const App: React.FunctionComponent = () => {
   return (
@@ -31,6 +32,11 @@ const App: React.FunctionComponent = () => {
               exact
               path="/auth/reset-password-request"
               component={ResetPasswordRequestPage}
+            />
+            <Route
+              exact
+              path="/auth/verify-email/:token"
+              component={VerifyEmailPage}
             />
             <Route exact path="/module/:moduleId" component={ModulePage} />
             <Route exact path="/review/:moduleId" component={ReviewPage} />

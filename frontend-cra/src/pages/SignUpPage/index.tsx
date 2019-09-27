@@ -23,7 +23,7 @@ export const SignUpPage: React.FunctionComponent = () => {
           <Card>
             <div className="SignUpPage__logo-container">
               <Center>
-                <h1>Sign up for NUS Reviews</h1>
+                <h1>Sign up</h1>
               </Center>
             </div>
             <div className="SignUpPage__form-container">
