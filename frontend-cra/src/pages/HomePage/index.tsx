@@ -7,6 +7,7 @@ import { AlgoliaSearchBox } from "./AlgoliaSearchBox";
 
 import logo from "./logo.svg";
 import "./style.css";
+import { Content } from "./Content";
 
 const {
   REACT_APP_ALGOLIA_APPLICATION_ID,
@@ -34,6 +35,7 @@ export const HomePage: React.FunctionComponent = () => {
         </Center>
         <AlgoliaSearchBox />
       </InstantSearch>
+      <Content />
     </div>
   );
 };
