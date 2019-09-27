@@ -8,44 +8,37 @@ import { Section } from "../Section";
 import { LongReview } from "./LongReview";
 
 import "./style.css";
+import { REVIEWS_TYPE, REVIEW_TYPE } from "../../../constants/type";
 
-type OwnProps = {};
+type OwnProps = {
+  reviews: React.ComponentProps<typeof LongReview>[];
+};
 
-export const LongReviewSection: React.FunctionComponent<OwnProps> = ({}) => {
+export const LongReviewSection: React.FunctionComponent<OwnProps> = ({
+  reviews
+}) => {
   return (
     <Section
       leftHeader={
-        <h2 className="LongReviewSection__left-header">Detailed reviews</h2>
+        <h4 className="LongReviewSection__left-header">Detailed reviews</h4>
       }
+      rightHeader={<Button icon="plus" intent="primary" text="Add Review" />}
       body={
         <div>
           <div className="LongReviewSection__reviews-container">
-            <LongReview
-              author="Computer Science, Y4, AY17/18"
-              actualGrade="A+"
-              expectedGrade="A"
-              message="How was the lecturer, Ben Leong? Lincoln is good at re-teaching the main points from the previous lecture but he rushes through when explaining the answers for the tutorials. If you want a tutor who goes through the answers step by step, I suggest you attend Dr. Chong’s classes. How’s the tutors? Lincoln is good at re-teaching the main points from the previous lecture but he rushes through when explai.."
-              semester="AY2019/2020, SEM 1"
-            />
-            <LongReview
-              author="Computer Science, Y4, AY17/18"
-              actualGrade="A+"
-              expectedGrade="A"
-              message="How was the lecturer, Ben Leong? Lincoln is good at re-teaching the main points from the previous lecture but he rushes through when explaining the answers for the tutorials. If you want a tutor who goes through the answers step by step, I suggest you attend Dr. Chong’s classes. How’s the tutors? Lincoln is good at re-teaching the main points from the previous lecture but he rushes through when explai.."
-              semester="AY2019/2020, SEM 1"
-            />
-            <LongReview
-              author="Computer Science, Y4, AY17/18"
-              actualGrade="A+"
-              expectedGrade="A"
-              message="How was the lecturer, Ben Leong? Lincoln is good at re-teaching the main points from the previous lecture but he rushes through when explaining the answers for the tutorials. If you want a tutor who goes through the answers step by step, I suggest you attend Dr. Chong’s classes. How’s the tutors? Lincoln is good at re-teaching the main points from the previous lecture but he rushes through when explai.."
-              semester="AY2019/2020, SEM 1"
-            />
+            {reviews.map((entry: REVIEW_TYPE) => (
+              <LongReview
+                semester={entry.semester}
+                preview={entry.preview}
+                programmeYear={entry.programmeYear}
+                major={entry.major}
+                expectedGrade={entry.expectedGrade}
+                actualGrade={entry.actualGrade}
+                questions={entry.questions}
+                id={entry.id}
+              />
+            ))}
           </div>
-          <Divider className="LongReviewSection__divider" />
-          <Center>
-            <Button minimal text="Load more" />
-          </Center>
         </div>
       }
     />

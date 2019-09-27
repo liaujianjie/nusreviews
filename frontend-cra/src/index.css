@@ -61,6 +61,8 @@ span {
 .bp3-button.bp3-intent-primary {
   background-color: #fc4838;
   box-shadow: none;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .bp3-button.bp3-intent-primary.bp3-disabled {
@@ -79,6 +81,7 @@ span {
 *:not(.bp3-navbar) .bp3-button.bp3-minimal.bp3-active,
 *:not(.bp3-navbar) .bp3-button.bp3-minimal:hover {
   color: #2873e6;
+  font-weight: 700;
 }
 
 a,
@@ -91,4 +94,15 @@ a:hover {
 }
 .bp3-button.bp3-minimal:hover {
   background-color: rgba(146, 171, 222, 0.25);
+}
+
+.bp3-control input:checked ~ .bp3-control-indicator {
+  box-shadow: none;
+  background-color: #2873e6!important;
+  background-image: none;
+}
+
+.bp3-control .bp3-control-indicator {
+  box-shadow: none;
+  background-image: none;
 }

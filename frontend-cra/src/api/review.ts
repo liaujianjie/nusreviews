@@ -1,5 +1,4 @@
 import { sharedHttpClient } from "./sharedHttpClient";
-import * as qs from "querystring";
 
 export interface Metric {
   name: string;
@@ -8,41 +7,89 @@ export interface Metric {
   minDescription: string;
   maxDescription: string;
   compulsory: boolean;
+  value?: number;
 }
 
-interface Question {
+export interface Question {
   question: string;
   placeholder: string;
   compulsory: boolean;
+  answer?: string;
 }
 interface QuestionsResults {
   metricTemplates: Array<Metric>;
   questionTemplates: Array<Question>;
 }
 
+interface OpinionTipPayload {
+  description: string;
+}
+
+interface MetricPayload {
+  metricTemplate: number;
+  value: number;
+}
+
+interface QuestionPayload {
+  questionTemplate: number;
+  answer: string;
+}
+
+interface ReviewPayload {
+  expectedGrade: number | undefined;
+  actualGrade: number | undefined;
+  metrics: Array<MetricPayload>;
+  questions: Array<QuestionPayload>;
+}
+export const getLongReview = async (id: string) => {
+  try {
+    const response = await sharedHttpClient.get("/reviews/" + id);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const getQuestions = async (): Promise<QuestionsResults> => {
   const response = await sharedHttpClient.get(`/active_review_template`);
+  console.log(response.data, "active template");
   return response.data;
 };
 
-export const postQuestions = (moduleId: number, payload: any) => {
-  console.log("posting", payload);
-  return sharedHttpClient.post(`/module_semesters/${moduleId}/reviews`, {
-    params: {
-      ...payload
-    }
-  });
+export const postTip = (moduleSemester: number, payload: OpinionTipPayload) => {
+  return sharedHttpClient.post(
+    `/module_semesters/${moduleSemester}/tips`,
+    JSON.stringify(payload),
+    { headers: { "Content-Type": "application/json" } }
+  );
 };
 
-export const postOpinion = (moduleId: number, payload: any) => {
-  console.log("posting opinion", payload);
+export const postOpinion = (
+  moduleSemester: number,
+  payload: OpinionTipPayload
+) => {
   return sharedHttpClient.post(
-    `/module_semesters/${moduleId}/opinions`,
-    qs.stringify({
-      params: {
-        description: "some opinion"
-      }
-    })
+    `/module_semesters/${moduleSemester}/opinions`,
+    JSON.stringify(payload),
+    { headers: { "Content-Type": "application/json" } }
+  );
+};
+
+export const postRatings = (moduleSemester: number, payload: any) => {
+  payload.expectedGrade = undefined;
+  payload.actualGrade = undefined;
+  return sharedHttpClient.post(
+    `/module_semesters/${moduleSemester}/reviews`,
+    JSON.stringify(payload),
+    { headers: { "Content-Type": "application/json" } }
+  );
+};
+
+export const postReview = (moduleSemester: number, payload: ReviewPayload) => {
+  return sharedHttpClient.post(
+    `/module_semesters/${moduleSemester}/reviews`,
+    JSON.stringify(payload),
+    { headers: { "Content-Type": "application/json" } }
   );
 };
 

@@ -5,7 +5,7 @@
   color: slategray;
 }
 
-.DiscussionSection__divider {
-  margin-top: 20px;
-  margin-bottom: 20px;
+.DiscussionSection__card-footer {
+  display: flex;
+  justify-content: space-between;
 }

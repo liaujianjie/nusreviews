@@ -7,7 +7,7 @@ export const checkEmailVerified = (
   next: NextFunction
 ) => {
   const payload = res.locals.payload as AccessTokenSignedPayload;
-  
+
   if (payload.emailVerified) {
     next();
   } else {
