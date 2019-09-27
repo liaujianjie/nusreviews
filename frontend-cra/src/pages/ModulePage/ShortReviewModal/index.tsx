@@ -4,11 +4,12 @@ import * as FinalForm from "react-final-form";
 import { Dialog, Button } from "@blueprintjs/core";
 
 import { FinalTextAreaGroup } from "../../../components/TextAreaInput/index";
-import { postOpinion } from "../../../api/review";
+import { postOpinion, postTip } from "../../../api/review";
 
 import "./style.css";
 
 interface ShortReviewProps {
+  type: string;
   buttonName: string;
   name: string;
   placeholder: string;
@@ -19,11 +20,15 @@ export const ShortReviewModal: React.FunctionComponent<
   ShortReviewProps
 > = props => {
   const [open, setOpen] = React.useState(false);
-  const { buttonName, question, placeholder } = props;
+  const { buttonName, question, placeholder, type } = props;
   const onClose = () => setOpen(false);
 
   const onSubmit = (values: any) => {
-    postOpinion(1, values);
+    if (type === "tip") {
+      postTip(1, values);
+    } else {
+      postOpinion(1, values);
+    }
     console.log("submitted!", values);
   };
 
@@ -38,7 +43,7 @@ export const ShortReviewModal: React.FunctionComponent<
         className="ShortReviewModal__modal"
       >
         <FinalForm.Form onSubmit={onSubmit}>
-          {({ handleSubmit, invalid, form }) => {
+          {({ handleSubmit, invalid, form, pristine }) => {
             return (
               <div className="ShortReviewModal__container">
                 <div className="ShortReviewModal__header">
@@ -49,7 +54,7 @@ export const ShortReviewModal: React.FunctionComponent<
                   <FinalForm.Field
                     type="textarea"
                     component={FinalTextAreaGroup}
-                    name={question}
+                    name="description"
                     placeholder={placeholder}
                     validate={value =>
                       value
@@ -73,7 +78,7 @@ export const ShortReviewModal: React.FunctionComponent<
                       handleSubmit();
                       form.reset();
                     }}
-                    disabled={invalid}
+                    disabled={invalid || pristine}
                     type="submit"
                     className=""
                   >

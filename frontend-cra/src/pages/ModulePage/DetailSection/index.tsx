@@ -2,38 +2,45 @@ import React from "react";
 
 import { Section } from "../Section";
 
+import { Checkbox } from "@blueprintjs/core";
+
 import "./style.css";
 
-export const DetailSection = () => {
+type OwnProps = {
+  moduleCode: string;
+  title: string;
+  description: string;
+  allSemesters: Array<string>,
+  semesters: Set<string>,
+  toggleSemesterCheckbox: (semester: string) => void;
+};
+
+export const DetailSection: React.FunctionComponent<OwnProps> = ({
+  moduleCode,
+  title,
+  description,
+  allSemesters,
+  semesters,
+  toggleSemesterCheckbox,
+}) => {
   return (
     <Section
       leftHeader={
         <div className="DetailSection__header-container">
-          <h1>CS3216</h1>
-          <h3>Software Product Engineering for Digital Markets</h3>
-        </div>
-      }
-      rightHeader={
-        <div>
-          do as you wish alsdnfakjsdnfajlskdfa Lorem ipsum dolor sit amet
-          consectetur adipisicing elit. Ratione deleniti libero neque ullam sed
-          saepe ipsum aliquid ad nulla, eligendi commodi perferendis fugit dicta
-          magni et iusto provident cumque rem.
+          <h1>{moduleCode}</h1>
+          <h3>{title}</h3>
         </div>
       }
       body={
-        <p>
-          In this module, students will practice software product engineering by
-          working in small teams to develop well-tested, user-friendly,
-          production-quality software for the real world. To support this goal,
-          students work closely with users to understand their problems, gather
-          their requirements, and obtain their feedback through a rapid,
-          iterative, application design and development process. Students will
-          also be exposed to practical issues for digital markets such as
-          growing the user base of their application, deployment of the
-          application on the Web or in the cloud system, and validating the UI
-          design and UX of the application.
-        </p>
+        <div>
+          <p>{description}</p><br/>
+          <h4>{"Reviews for "}</h4>
+          <div className="DetailSection__semester-checkboxes">
+          {
+            allSemesters.map(element => <Checkbox checked={semesters.has(element)} label={element} onChange={() => toggleSemesterCheckbox(element)}/>)
+          }
+          </div>
+        </div>
       }
     />
   );

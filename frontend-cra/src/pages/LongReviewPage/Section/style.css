@@ -1,0 +1,27 @@
+.Section__header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+
+  margin-bottom: 32px;
+}
+
+.Section__left-header-container {
+  text-align: left;
+}
+
+.Section__right-header-container {
+  text-align: right;
+}
+
+.Section__divider {
+  margin-top: 38px;
+  margin-right: -32px;
+  margin-bottom: 32px;
+  margin-left: -32px;
+}
+
+.Section__container {
+  margin-bottom: 12px;
+}

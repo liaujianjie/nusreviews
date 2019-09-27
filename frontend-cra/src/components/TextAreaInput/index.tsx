@@ -26,7 +26,7 @@ export const FinalTextAreaGroup: React.FunctionComponent<
 };
 
 export const TextAreaInput: React.FunctionComponent<TextAreaProps> = props => {
-  const { placeholder, question, compulsory } = props;
+  const { placeholder, question } = props;
 
   return (
     <div className="TextAreaInput__container">
