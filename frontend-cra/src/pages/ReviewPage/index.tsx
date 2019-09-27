@@ -81,7 +81,7 @@ export const ReviewPage: React.FunctionComponent = () => {
     <RequiresAuth>
       <FinalForm.Form onSubmit={onSubmit}>
         {({ handleSubmit }) => (
-          <>
+          <form onSubmit={handleSubmit}>
             <FormHeader
               moduleCode="cs3216"
               moduleDescription="AY2019/2020, SEM1"
@@ -93,12 +93,8 @@ export const ReviewPage: React.FunctionComponent = () => {
             <div className="RatingForm__questions-container">
               <Questions questions={questions.questionTemplates} />
             </div>
-            <Button
-              onClick={(e: React.MouseEvent<HTMLElement>) => handleSubmit()}
-            >
-              Submit Review
-            </Button>
-          </>
+            <Button type="submit">Submit Review</Button>
+          </form>
         )}
       </FinalForm.Form>
     </RequiresAuth>

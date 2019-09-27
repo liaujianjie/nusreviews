@@ -1,5 +1,4 @@
 import { sharedHttpClient } from "./sharedHttpClient";
-import * as qs from "querystring";
 
 export interface Metric {
   name: string;
@@ -22,23 +21,47 @@ interface QuestionsResults {
   questionTemplates: Array<Question>;
 }
 
+interface OpinionTipPayload {
+  description: string;
+}
+
+interface MetricPayload {
+  metricTemplate: number;
+  value: number;
+}
+
+interface QuestionPayload {
+  questionTemplate: number;
+  answer: string;
+}
+
+interface ReviewPayload {
+  expectedGrade: number;
+  actualGrade: number;
+  metrics: Array<MetricPayload>;
+  questions: Array<QuestionPayload>;
+}
+
 export const getQuestions = async (): Promise<QuestionsResults> => {
   const response = await sharedHttpClient.get(`/active_review_template`);
   console.log(response.data, "active template");
   return response.data;
 };
 
-export const postTip = (moduleSemester: number, payload: any) => {
+export const postTip = (moduleSemester: number, payload: OpinionTipPayload) => {
   return sharedHttpClient.post(
-    `/module_semesters/${moduleSemester}/reviews`,
+    `/module_semesters/${moduleSemester}/tips`,
     JSON.stringify(payload),
     { headers: { "Content-Type": "application/json" } }
   );
 };
 
-export const postOpinion = (moduleSemester: number, payload: any) => {
+export const postOpinion = (
+  moduleSemester: number,
+  payload: OpinionTipPayload
+) => {
   return sharedHttpClient.post(
-    `/module_semesters/${moduleSemester}/reviews`,
+    `/module_semesters/${moduleSemester}/opinions`,
     JSON.stringify(payload),
     { headers: { "Content-Type": "application/json" } }
   );

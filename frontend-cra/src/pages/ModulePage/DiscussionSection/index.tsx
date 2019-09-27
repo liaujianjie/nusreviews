@@ -37,6 +37,7 @@ export const DiscussionSection: React.FunctionComponent<OwnProps> = ({}) => {
                 author="Computer Science, Y4, AY17/18"
               />
               <ShortReviewModal
+                type="tip"
                 buttonName="Add tip"
                 name="Tip 1"
                 question="What tip do you want to give"
@@ -58,6 +59,7 @@ export const DiscussionSection: React.FunctionComponent<OwnProps> = ({}) => {
                 author="Computer Science, Y4, AY17/18"
               />
               <ShortReviewModal
+                type="opinion"
                 buttonName="Add Opinion"
                 name="Opinion 1"
                 question="What opinion do you want to give"
