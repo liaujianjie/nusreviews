@@ -29,12 +29,16 @@ export const ShortReviewModal: React.FunctionComponent<
     } else {
       postOpinion(1, values);
     }
-    console.log("submitted!", values);
   };
 
   return (
     <div>
-      <Button onClick={() => setOpen(true)}>{buttonName}</Button>
+      <Button
+        onClick={() => setOpen(true)}
+        icon="plus"
+        intent="primary"
+        text={buttonName}
+      />
       <Dialog
         isOpen={open}
         onClose={onClose}

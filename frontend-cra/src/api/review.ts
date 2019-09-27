@@ -52,7 +52,6 @@ export const getLongReview = async (id: string) => {
 
 export const getQuestions = async (): Promise<QuestionsResults> => {
   const response = await sharedHttpClient.get(`/active_review_template`);
-  console.log(response.data, "active template");
   return response.data;
 };
 
@@ -78,6 +77,7 @@ export const postOpinion = (
 export const postRatings = (moduleSemester: number, payload: any) => {
   payload.expectedGrade = undefined;
   payload.actualGrade = undefined;
+  payload.questions = [];
   return sharedHttpClient.post(
     `/module_semesters/${moduleSemester}/reviews`,
     JSON.stringify(payload),

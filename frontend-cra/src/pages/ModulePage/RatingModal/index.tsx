@@ -5,7 +5,7 @@ import * as FinalForm from "react-final-form";
 import { Dialog, Button } from "@blueprintjs/core";
 
 import { RadioButtonGroup } from "../../../components/RadioButtonGroup/index";
-import { Metric, postRatings } from "../../../api/review";
+import { Metric, postRatings, updateTemplate } from "../../../api/review";
 
 import "./style.css";
 
@@ -34,14 +34,15 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
     const payload = [];
     for (let [key, value] of Object.entries(values)) {
       const metricTemplate = metrics.find(m => m.name === key) as any;
-      payload.push({ metricTemplate: metricTemplate.id, value });
+      payload.push({
+        metricTemplate: metricTemplate.id,
+        value: parseInt(value as string)
+      });
     }
-    console.log(payload, "payload ratingmodal");
-    return { metricTemplates: payload };
+    return { metrics: payload };
   };
 
   const onSubmit = (values: any) => {
-    console.log("submitted!");
     postRatings(1, parsePayload(values));
     lastPage ? onClose() : nextPage();
   };
@@ -53,10 +54,6 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
         : undefined;
 
     const error = msg ? { errorMsg: msg } : undefined;
-    console.log(error);
-    console.log(values);
-    console.log(currMetrics);
-
     return error;
   };
 
@@ -68,7 +65,12 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
 
   return (
     <div>
-      <Button onClick={() => setOpen(true)}>{buttonName}</Button>
+      <Button
+        onClick={() => setOpen(true)}
+        icon="plus"
+        intent="primary"
+        text="Add Rating"
+      />
       <Dialog
         isOpen={open}
         onClose={onClose}
