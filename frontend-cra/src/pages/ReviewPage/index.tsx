@@ -12,7 +12,6 @@ import { Questions } from "./Questions/index";
 import { reviewTemplate, postQuestions, getQuestions } from "../../api/review";
 
 import "./style.css";
-import { MetricTemplate } from "../../../../backend/src/entities/MetricTemplate";
 
 export const ReviewPage: React.FunctionComponent = () => {
   const [questions, setQuestions] = React.useState({
