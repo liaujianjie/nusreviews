@@ -1,10 +1,15 @@
-.RatingForm__questions-container {
+.ReviewPage__container {
+  display: flex;
+  justify-content: center;
+}
+
+.ReviewPage__questions-container {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.RatingForm__button {
+.ReviewPage__button {
   margin-top: 16px;
   float: right;
 }

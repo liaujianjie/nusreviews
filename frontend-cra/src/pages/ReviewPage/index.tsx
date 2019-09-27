@@ -1,6 +1,7 @@
 import React from "react";
 import * as _ from "lodash";
 
+import { useRouter } from "../../hooks/useRouter";
 import * as FinalForm from "react-final-form";
 import { Button } from "@blueprintjs/core";
 
@@ -18,6 +19,7 @@ import {
 } from "../../api/review";
 
 import "./style.css";
+import { GRADES_TO_INT } from '../../constants/grade';
 
 export const ReviewPage: React.FunctionComponent = () => {
   const [questions, setQuestions] = React.useState({
@@ -35,7 +37,6 @@ export const ReviewPage: React.FunctionComponent = () => {
 
   const updateValues = (values: any) => {
     const nonEmpty = Object.keys(values);
-    console.log(nonEmpty, "non empty check");
     const { metricTemplates, questionTemplates } = questions;
     const nonEmptyMetric = metricTemplates
       .filter((m: Metric) => nonEmpty.includes(m.name))
@@ -82,77 +83,44 @@ export const ReviewPage: React.FunctionComponent = () => {
     };
   };
 
+  const router = useRouter();
+  const { semesterId } = router.match.params as { semesterId: number };
   const onSubmit = (values: any) => {
     const { expectedGrade, actualGrade, ...otherValues } = values;
     const nonEmpty = updateValues(otherValues);
-    console.log(nonEmpty);
     const payload = parsePayload({ ...nonEmpty, expectedGrade, actualGrade });
-    console.log(payload);
-    postReview(1, payload);
+    postReview(semesterId, payload);
   };
 
   return (
     <RequiresAuth>
       <FinalForm.Form onSubmit={onSubmit}>
-        {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <FormHeader
-              moduleCode="cs3216"
-              moduleDescription="AY2019/2020, SEM1"
-              moduleSemester="Software Engineering for Digital Markets"
-            />
-            <div className="RatingForm__questions-container">
-              <Metrics metrics={questions.metricTemplates} />
-            </div>
-            <div className="RatingForm__questions-container">
-              <Questions questions={questions.questionTemplates} />
-            </div>
-            <Button
-              className="RatingForm__button"
-              type="submit"
-              intent="primary"
-            >
-              Submit Review
-            </Button>
-          </form>
+        {({ handleSubmit, invalid, pristine }) => (
+          <div className="ReviewPage__container">
+            <form onSubmit={handleSubmit}>
+              <FormHeader
+                moduleCode="cs3216"
+                moduleDescription="AY2019/2020, SEM1"
+                moduleSemester="Software Engineering for Digital Markets"
+              />
+              <div className="ReviewPage__questions-container">
+                <Metrics metrics={questions.metricTemplates} />
+              </div>
+              <div className="ReviewPage__questions-container">
+                <Questions questions={questions.questionTemplates} />
+              </div>
+              <Button
+                disabled={invalid || pristine}
+                className="ReviewPage__button"
+                type="submit"
+                intent="primary"
+              >
+                Submit Review
+              </Button>
+            </form>
+          </div>
         )}
       </FinalForm.Form>
     </RequiresAuth>
   );
-};
-
-const GRADES_TO_INT = (
-  grade:
-    | "A+"
-    | "A"
-    | "A-"
-    | "B+"
-    | "B"
-    | "B-"
-    | "C+"
-    | "C"
-    | "C-"
-    | "D+"
-    | "D"
-    | "F"
-    | "S"
-    | "U"
-) => {
-  const trans = {
-    "A+": 0,
-    A: 1,
-    "A-": 2,
-    "B+": 3,
-    B: 4,
-    "B-": 5,
-    "C+": 6,
-    C: 7,
-    "C-": 8,
-    "D+": 9,
-    D: 10,
-    F: 11,
-    S: 12,
-    U: 13
-  };
-  return trans[grade];
 };
