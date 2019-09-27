@@ -6,3 +6,10 @@
 .SignUpPage__signup-button-container {
   padding-top: 24px;
 }
+.SignUpPage_review-background {
+  height: 100%;
+  background-image: url("./reviewimg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
