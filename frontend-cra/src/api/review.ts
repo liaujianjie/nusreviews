@@ -20,6 +20,15 @@ interface QuestionsResults {
   questionTemplates: Array<Question>;
 }
 
+export const getLongReview = async (id: string) => {
+  try {
+    const response = await sharedHttpClient.get("/reviews/" + id);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const getQuestions = async (): Promise<QuestionsResults> => {
   const response = await sharedHttpClient.get(`/active_review_template`);
   return response.data;
