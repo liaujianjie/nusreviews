@@ -6,7 +6,8 @@ import { Button } from "@blueprintjs/core";
 import { SplitColumns } from "../../../components/SplitColumns";
 import { Section } from "../Section";
 import { AttributeRating } from "./AttributeRating";
-import { RatingModal } from "../RatingModal/index";
+
+import "./style.css";
 
 type OwnProps = {
   ratings: React.ComponentProps<typeof AttributeRating>[];
@@ -17,10 +18,8 @@ export const RatingSection: React.FunctionComponent<OwnProps> = ({
 }) => {
   return (
     <Section
-      leftHeader={
-        <Button rightIcon="caret-down" large text="AY 2019/2020, SEM 1" />
-      }
-      rightHeader={<RatingModal buttonName="Add Rating" moduleCode="CS3216" />}
+      leftHeader={<h4 className="RatingSection__left-header">Overall Ratings</h4>}
+      rightHeader={<Button icon="plus" intent="primary" text="Add Rating" />}
       body={
         <SplitColumns>
           {_.map(ratings, rating => (

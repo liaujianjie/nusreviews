@@ -1,42 +1,59 @@
 import React from "react";
-import { Tag } from "@blueprintjs/core";
+
+import { AnchorButton, Tag } from "@blueprintjs/core";
 
 import "./style.css";
+import { REVIEW_TYPE } from "../../../../constants/type";
+import { GRADE } from '../../../../constants/grade';
+
 
 type OwnProps = {
-  author: string;
-  expectedGrade: string;
-  actualGrade: string;
-  message: string;
   semester: string;
+  preview: string;
+  programmeYear: string;
+  major: string;
+  expectedGrade: number;
+  actualGrade: number;
+  id: string;
 };
 
-export const LongReview: React.FunctionComponent<OwnProps> = ({
-  author,
+export const LongReview: React.FunctionComponent<REVIEW_TYPE> = ({
+  semester,
+  preview,
+  programmeYear,
+  major,
   expectedGrade,
   actualGrade,
-  message,
-  semester
+  id,
 }) => {
   return (
     <div className="LongReview">
       <div className="LongReview__header-container">
         <span className="LongReview__grades-container">
           <Tag minimal>
-            Expected <strong>{expectedGrade}</strong>
+            Expected <strong>{GRADE[expectedGrade]}</strong>
           </Tag>
           <Tag minimal>
-            Actual <strong>{actualGrade}</strong>
+            Actual <strong>{GRADE[actualGrade]}</strong>
           </Tag>
         </span>
         <Tag minimal>{semester}</Tag>
       </div>
-      <p>
-        {message} <a href="#">Read more</a>
-      </p>
+      <p>{preview}</p>
       <div className="LongReview__footer-container">
-        <div className="bp3-text-disabled">{author}</div>
-        {/* <Tag minimal>something else here...</Tag> */}
+        <div className="LongReview__footer-author bp3-text-disabled">{`${
+          major ? major : "Hidden Major"
+        }, ${
+          programmeYear ? "Y" + programmeYear : "Hidden Programme Year"
+        }`}</div>
+        <AnchorButton
+          className="LongReview__footer-more"
+          rightIcon="arrow-right"
+          minimal
+          target='_blank'
+          href={`/review/${id}`}
+          text="Read More"
+        />
       </div>
     </div>
   );

@@ -11,8 +11,6 @@
     "sourceMap": true,
     "strict": true,
     "resolveJsonModule": true,
-    "types": [
-      "node"
-    ]
+    "types": ["node"]
   }
 }
