@@ -24,7 +24,6 @@ body,
 main {
   height: calc(100% - 50px);
   overflow: scroll;
-}
 
   /* Mimic the horizontal paddings from the Blueprint navbar */
   padding: 15px;
