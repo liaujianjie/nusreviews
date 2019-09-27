@@ -53,13 +53,13 @@ export const ReviewPage: React.FunctionComponent = () => {
       metricTemplates,
       questionTemplates
     } = payload;
-    const metrics = metricTemplates.map((m: any) => ({
+    const metrics = metricTemplates.filter((m:any) => m.value!==undefined).map((m: any) => ({
       metricTemplate: m.id,
       value: parseInt(m.value)
     }));
-    const questions = questionTemplates.map((q: any) => ({
+    const questions = questionTemplates.filter((m:any) => m.value!==undefined).map((q: any) => ({
       questionTemplate: q.id,
-      answer: q.answer
+      answer: q.answer ? q.answer : ""
     }));
     return {
       expectedGrade: GRADES_TO_INT(expectedGrade),
