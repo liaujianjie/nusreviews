@@ -1,4 +1,5 @@
 import { sharedHttpClient } from "./sharedHttpClient";
+import { OPINION_TYPE } from "../constants/type";
 
 type UpdateOpinionPayload = {
   token: string;
@@ -22,4 +23,13 @@ export const updateOpinion = async ({
   );
 
   return response.data;
+};
+
+type GetOpinionPayload = {
+  id: number;
+};
+
+export const getOpinion = async ({ id }: GetOpinionPayload) => {
+  const response = await sharedHttpClient.get(`/opinions/${id}`);
+  return response.data as OPINION_TYPE;
 };

@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import * as FinalForm from "react-final-form";
 import _ from "lodash";
 
 import { TextArea, Button, Callout } from "@blueprintjs/core";
 
 import { FinalInputGroup } from "../../../components/FinalInputGroup";
-import { updateOpinion } from "../../../api/opinion";
+import { updateOpinion, getOpinion } from "../../../api/opinion";
 import { useTokenFromUrl } from "../../../hooks/useTokenFromUrl";
+import { OPINION_TYPE } from "../../../constants/type";
 
 import "./style.css";
 
@@ -15,7 +16,10 @@ type FormShape = {
 };
 
 export const UpdateOpinionForm: React.FunctionComponent = () => {
-  const { encodedToken, hasValidToken } = useTokenFromUrl(3);
+  const [originalOpinion, updateOriginalOpinion] = useState<
+    OPINION_TYPE | undefined
+  >();
+  const { encodedToken, decodedToken, hasValidToken } = useTokenFromUrl(3);
 
   const onSubmit: FinalForm.FormProps<FormShape>["onSubmit"] = async ({
     description
@@ -26,6 +30,19 @@ export const UpdateOpinionForm: React.FunctionComponent = () => {
 
     await updateOpinion({ token: encodedToken, description });
   };
+
+  useEffect(() => {
+    if (!encodedToken || !decodedToken) {
+      return;
+    }
+
+    getOpinion({ id: decodedToken.id }).then(opinion => {
+      updateOriginalOpinion(opinion);
+    });
+    // Ignore exhaustive deps rule because encodedToken is a string representation
+    // of a decodedToken.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [encodedToken]);
 
   if (!hasValidToken) {
     return (
@@ -43,7 +60,7 @@ export const UpdateOpinionForm: React.FunctionComponent = () => {
           <form className="UpdateOpinionForm" onSubmit={handleSubmit}>
             <h3>Original:</h3>
             <Callout>
-              <p>Lorem ipsum</p>
+              {originalOpinion && <p>{originalOpinion.description}</p>}
             </Callout>
             <h3>Updated:</h3>
             <FinalForm.Field
