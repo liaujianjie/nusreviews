@@ -1,0 +1,9 @@
+.LongReview {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.LongReview > *:not(:last-child) {
+  margin-bottom: 12px;
+}

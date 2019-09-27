@@ -1,0 +1,16 @@
+.DetailSection__header-container * {
+  margin: 0px;
+}
+
+.DetailSection__semester-checkboxes {
+  margin-top: 8px;
+}
+
+@media only screen and (min-width: 768px) {
+  .DetailSection__semester-checkboxes {
+    display: flex;
+  }
+  .DetailSection__semester-checkboxes > .bp3-checkbox {
+    margin-right: 30px;
+  }
+}
