@@ -15,3 +15,6 @@ anoymously shared their reviews and opinions of courses in NUS.
 3. Run `docker-compose up` to start the database
 4. Run `yarn workspace backend start` to start the backend server app
 5. Run `yarn workspace frontend-cra start` to start the frontend webapp
+
+For detailed information, check the readmes in the `backend` and `frontend-cra`
+subdirectories.
