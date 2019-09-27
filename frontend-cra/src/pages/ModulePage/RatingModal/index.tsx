@@ -5,7 +5,7 @@ import * as FinalForm from "react-final-form";
 import { Dialog, Button } from "@blueprintjs/core";
 
 import { RadioButtonGroup } from "../../../components/RadioButtonGroup/index";
-import { Metric, postRatings, updateTemplate } from "../../../api/review";
+import { Metric, postRatings } from "../../../api/review";
 
 import "./style.css";
 
