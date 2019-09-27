@@ -41,7 +41,7 @@ const _Navigation: React.FunctionComponent<ConnectedProps> = ({
           </Navbar.Heading>
           <Navbar.Divider />
           <Link to="/">
-            <Button minimal icon="search" text="Search" />
+            <Button minimal icon="search" />
           </Link>
         </Navbar.Group>
         {user && (
@@ -51,13 +51,14 @@ const _Navigation: React.FunctionComponent<ConnectedProps> = ({
               position="bottom-right"
               content={
                 <Menu>
-                  <MenuItem text="Profile" icon="user" />
+                  <MenuItem text={user.email} disabled />
+                  <MenuItem text="Change password" />
                   <Divider />
                   <MenuItem text="Sign out" icon="log-out" onClick={signOut} />
                 </Menu>
               }
             >
-              <Button minimal text={user.email} />
+              <Button minimal icon="user" />
             </Popover>
           </Navbar.Group>
         )}
