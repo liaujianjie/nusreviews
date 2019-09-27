@@ -32,7 +32,7 @@ export const FormHeader: React.FunctionComponent<FormHeaderProps> = props => {
       <div className="FormHeader__bot-row-container">
         <DropDown
           name="expectedGrade"
-          placeholder=""
+          placeholder="-"
           options={GRADES}
           label="Expected Grade"
         />
@@ -48,18 +48,20 @@ export const FormHeader: React.FunctionComponent<FormHeaderProps> = props => {
 };
 
 const GRADES = [
-  { key: "A+", text: "A+", value: "0" },
-  { key: "A", text: "A", value: "1" },
-  { key: "A-", text: "A-", value: "2" },
-  { key: "B+", text: "B+", value: "3" },
-  { key: "B", text: "B", value: "4" },
-  { key: "B-", text: "B-", value: "5" },
-  { key: "C+", text: "C+", value: "6" },
-  { key: "C", text: "C", value: "7" },
-  { key: "C-", text: "C-", value: "8" },
-  { key: "D+", text: "D+", value: "9" },
-  { key: "D", text: "D", value: "10" },
-  { key: "F", text: "F", value: "11" },
-  { key: "S", text: "S", value: "12" },
-  { key: "U", text: "U", value: "13" }
+  { key: "A+", text: "A+", value: "A+" },
+  { key: "A", text: "A", value: "A" },
+  { key: "A-", text: "A-", value: "A-" },
+  { key: "B+", text: "B+", value: "B+" },
+  { key: "B", text: "B", value: "B" },
+  { key: "B-", text: "B-", value: "B-" },
+  { key: "C+", text: "C+", value: "C+" },
+  { key: "C", text: "C", value: "C" },
+  { key: "C-", text: "C-", value: "C-" },
+  { key: "D+", text: "D+", value: "D+" },
+  { key: "D", text: "D", value: "D" },
+  { key: "F", text: "F", value: "F" },
+  { key: "S", text: "S", value: "S" },
+  { key: "U", text: "U", value: "U" }
 ];
+
+

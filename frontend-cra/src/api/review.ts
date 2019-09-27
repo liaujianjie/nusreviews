@@ -25,60 +25,26 @@ interface QuestionsResults {
 export const getQuestions = async (): Promise<QuestionsResults> => {
   const response = await sharedHttpClient.get(`/active_review_template`);
   console.log(response.data, "active template");
-  response.data.metricTemplates = response.data.metricTemplates.map(
-    (metric: Metric) => {
-      metric.value = 0;
-      return metric;
-    }
-  );
-  response.data.questionTemplates = response.data.questionTemplates.map(
-    (question: Question) => {
-      question.answer = "";
-      return question;
-    }
-  );
   return response.data;
 };
 
-const stubPayload = {
-  expectedGrade: 0,
-  actualGrade: 1,
-  metrics: [
-    {
-      metricTemplate: 1,
-      value: 1
-    },
-    {
-      metricTemplate: 2,
-      value: 5
-    }
-  ],
-  questions: [
-    {
-      questionTemplate: 1,
-      answer: "DID THIS WORK?"
-    },
-    {
-      questionTemplate: "2",
-      answer: "I dont know"
-    }
-  ]
+export const postTip = (moduleSemester: number, payload: any) => {
+  return sharedHttpClient.post(
+    `/module_semesters/${moduleSemester}/reviews`,
+    JSON.stringify(payload),
+    { headers: { "Content-Type": "application/json" } }
+  );
 };
 
-export const postOpinion = (moduleId: number, payload: any) => {
-  console.log("posting opinion", payload);
+export const postOpinion = (moduleSemester: number, payload: any) => {
   return sharedHttpClient.post(
-    `/module_semesters/${moduleId}/opinions`,
-    qs.stringify({
-      params: {
-        description: "some opinion"
-      }
-    })
+    `/module_semesters/${moduleSemester}/reviews`,
+    JSON.stringify(payload),
+    { headers: { "Content-Type": "application/json" } }
   );
 };
 
 export const postQuestions = (moduleSemester: number, payload: any) => {
-  // const { metrics, questions, ...others } = stubPayload;
   return sharedHttpClient.post(
     `/module_semesters/${moduleSemester}/reviews`,
     JSON.stringify(payload),

@@ -63,8 +63,8 @@ export const ReviewPage: React.FunctionComponent = () => {
       answer: q.answer
     }));
     return {
-      expectedGrade: parseInt(expectedGrade),
-      actualGrade: parseInt(actualGrade),
+      expectedGrade: GRADES_TO_INT(expectedGrade),
+      actualGrade: GRADES_TO_INT(actualGrade),
       metrics,
       questions
     };
@@ -72,10 +72,8 @@ export const ReviewPage: React.FunctionComponent = () => {
 
   const onSubmit = (values: any) => {
     const { expectedGrade, actualGrade, ...otherValues } = values;
-    updateValues(otherValues); // might need to filter out empty fields
-    console.log(questions);
+    updateValues(otherValues);
     const payload = parsePayload({ ...questions, expectedGrade, actualGrade });
-    console.log(payload);
     postQuestions(1, payload);
   };
 
@@ -167,4 +165,40 @@ export const SHORT_REVIEW_OPINION = {
   placeholder:
     "Tell me more maybe about the teaching style, energy during the module, attitude towards attendance...",
   question: "What were the best parts of the module?"
+};
+
+const GRADES_TO_INT = (
+  grade:
+    | "A+"
+    | "A"
+    | "A-"
+    | "B+"
+    | "B"
+    | "B-"
+    | "C+"
+    | "C"
+    | "C-"
+    | "D+"
+    | "D"
+    | "F"
+    | "S"
+    | "U"
+) => {
+  const trans = {
+    "A+": 0,
+    A: 1,
+    "A-": 2,
+    "B+": 3,
+    B: 4,
+    "B-": 5,
+    "C+": 6,
+    C: 7,
+    "C-": 8,
+    "D+": 9,
+    D: 10,
+    F: 11,
+    S: 12,
+    U: 13
+  };
+  return trans[grade];
 };
