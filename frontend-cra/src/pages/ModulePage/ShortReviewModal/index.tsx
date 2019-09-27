@@ -4,32 +4,42 @@ import * as FinalForm from "react-final-form";
 import { Dialog, Button } from "@blueprintjs/core";
 
 import { FinalTextAreaGroup } from "../../../components/TextAreaInput/index";
-import { postOpinion } from "../../../api/review";
+import { postOpinion, postTip } from "../../../api/review";
 
 import "./style.css";
 
 interface ShortReviewProps {
+  type: string;
   buttonName: string;
   name: string;
   placeholder: string;
   question: string;
+  msId: number;
 }
 
 export const ShortReviewModal: React.FunctionComponent<
   ShortReviewProps
 > = props => {
   const [open, setOpen] = React.useState(false);
-  const { buttonName, question, placeholder } = props;
+  const { buttonName, question, placeholder, type, msId } = props;
   const onClose = () => setOpen(false);
 
   const onSubmit = (values: any) => {
-    postOpinion(1, values);
-    console.log("submitted!", values);
+    if (type === "tip") {
+      postTip(msId, values);
+    } else {
+      postOpinion(msId, values);
+    }
   };
 
   return (
     <div>
-      <Button onClick={() => setOpen(true)}>{buttonName}</Button>
+      <Button
+        onClick={() => setOpen(true)}
+        icon="plus"
+        intent="primary"
+        text={buttonName}
+      />
       <Dialog
         isOpen={open}
         onClose={onClose}
@@ -38,7 +48,7 @@ export const ShortReviewModal: React.FunctionComponent<
         className="ShortReviewModal__modal"
       >
         <FinalForm.Form onSubmit={onSubmit}>
-          {({ handleSubmit, invalid, form }) => {
+          {({ handleSubmit, invalid, form, pristine }) => {
             return (
               <div className="ShortReviewModal__container">
                 <div className="ShortReviewModal__header">
@@ -49,7 +59,7 @@ export const ShortReviewModal: React.FunctionComponent<
                   <FinalForm.Field
                     type="textarea"
                     component={FinalTextAreaGroup}
-                    name={question}
+                    name="description"
                     placeholder={placeholder}
                     validate={value =>
                       value
@@ -73,8 +83,9 @@ export const ShortReviewModal: React.FunctionComponent<
                       handleSubmit();
                       form.reset();
                     }}
-                    disabled={invalid}
+                    disabled={invalid || pristine}
                     type="submit"
+                    intent="primary"
                     className=""
                   >
                     Submit

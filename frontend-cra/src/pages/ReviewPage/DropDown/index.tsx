@@ -15,7 +15,6 @@ export interface DropDownProps {
   name: string;
   value?: string | number;
   label?: string;
-  // question: string;
   children?: React.ReactNode;
   options: Array<DropDownOptionObj>;
   placeholder: string;
@@ -28,9 +27,8 @@ export const FinalDropDown: React.FunctionComponent<
   return (
     <HTMLSelect
       className="FormHeader__dropdown"
-      {...props}
       {...neededProps}
-      // onChange={input.onChange}
+      {...props}
       large={true}
       minimal={true}
     />

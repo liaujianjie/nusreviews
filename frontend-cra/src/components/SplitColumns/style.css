@@ -2,14 +2,25 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-
-  width: calc(100% + 32px);
-  margin-left: -16px;
-  margin-right: -16px;
 }
 
-.SplitColumns > * {
-  width: calc((100% - 32px - 32px) / 2);
-  margin-left: 16px;
-  margin-right: 16px;
+@media only screen and (max-width: 768px) {
+  .SplitColumns > * {
+    flex-basis: 100%;
+    padding-bottom: 16px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .SplitColumns > * {
+    flex-basis: 50%;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .SplitColumns > * {
+    flex-basis: 50%;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 }

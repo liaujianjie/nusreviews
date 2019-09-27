@@ -57,8 +57,12 @@ export async function refreshAuthentication(
   try {
     user = await getRepository(User).findOneOrFail(accessTokenSignedPayload.id);
   } catch (error) {
-    response.sendStatus(400);
+    response.sendStatus(404);
     console.error(error);
+    return;
+  }
+  if (user.discardedAt) {
+    response.sendStatus(403);
     return;
   }
 

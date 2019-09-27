@@ -32,13 +32,13 @@ export const FormHeader: React.FunctionComponent<FormHeaderProps> = props => {
       <div className="FormHeader__bot-row-container">
         <DropDown
           name="expectedGrade"
-          placeholder={GRADES[0].text}
+          placeholder="-"
           options={GRADES}
           label="Expected Grade"
         />
         <DropDown
           name="actualGrade"
-          placeholder={GRADES[0].text}
+          placeholder="-"
           options={GRADES}
           label="Actual Grade"
         />
@@ -63,3 +63,5 @@ const GRADES = [
   { key: "S", text: "S", value: "S" },
   { key: "U", text: "U", value: "U" }
 ];
+
+

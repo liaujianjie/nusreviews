@@ -23,7 +23,7 @@ export class Tip extends Discardable {
   @IsOptional()
   @IsString()
   major?: string;
-  
+
   @Column()
   description!: string;
 

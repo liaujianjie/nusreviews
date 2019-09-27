@@ -1,5 +1,4 @@
 import { sharedHttpClient } from "./sharedHttpClient";
-import * as qs from "querystring";
 
 export interface Metric {
   name: string;
@@ -8,155 +7,212 @@ export interface Metric {
   minDescription: string;
   maxDescription: string;
   compulsory: boolean;
+  value?: number;
 }
 
-interface Question {
+export interface Question {
   question: string;
   placeholder: string;
   compulsory: boolean;
+  answer?: string;
 }
 interface QuestionsResults {
   metricTemplates: Array<Metric>;
   questionTemplates: Array<Question>;
 }
 
+interface OpinionTipPayload {
+  description: string;
+}
+
+interface MetricPayload {
+  metricTemplate: number;
+  value: number;
+}
+
+interface QuestionPayload {
+  questionTemplate: number;
+  answer: string;
+}
+
+interface ReviewPayload {
+  expectedGrade: number | undefined;
+  actualGrade: number | undefined;
+  metrics: Array<MetricPayload>;
+  questions: Array<QuestionPayload>;
+}
+export const getLongReview = async (id: string) => {
+  try {
+    const response = await sharedHttpClient.get("/reviews/" + id);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const getQuestions = async (): Promise<QuestionsResults> => {
   const response = await sharedHttpClient.get(`/active_review_template`);
   return response.data;
 };
 
-export const postQuestions = (moduleId: number, payload: any) => {
-  console.log("posting", payload);
-  return sharedHttpClient.post(`/module_semesters/${moduleId}/reviews`, {
-    params: {
-      ...payload
-    }
-  });
+export const postTip = (moduleSemester: number, payload: OpinionTipPayload) => {
+  return sharedHttpClient.post(
+    `/module_semesters/${moduleSemester}/tips`,
+    JSON.stringify(payload),
+    { headers: { "Content-Type": "application/json" } }
+  );
 };
 
-export const postOpinion = (moduleId: number, payload: any) => {
-  console.log("posting opinion", payload);
+export const postOpinion = (
+  moduleSemester: number,
+  payload: OpinionTipPayload
+) => {
   return sharedHttpClient.post(
-    `/module_semesters/${moduleId}/opinions`,
-    qs.stringify({
-      params: {
-        description: "some opinion"
-      }
-    })
+    `/module_semesters/${moduleSemester}/opinions`,
+    JSON.stringify(payload),
+    { headers: { "Content-Type": "application/json" } }
+  );
+};
+
+export const postRatings = (moduleSemester: number, payload: any) => {
+  payload.expectedGrade = undefined;
+  payload.actualGrade = undefined;
+  payload.questions = [];
+  return sharedHttpClient.post(
+    `/module_semesters/${moduleSemester}/reviews`,
+    JSON.stringify(payload),
+    { headers: { "Content-Type": "application/json" } }
+  );
+};
+
+export const postReview = (moduleSemester: number, payload: ReviewPayload) => {
+  return sharedHttpClient.post(
+    `/module_semesters/${moduleSemester}/reviews`,
+    JSON.stringify(payload),
+    { headers: { "Content-Type": "application/json" } }
   );
 };
 
 export const reviewTemplate = {
-  metricTemplates: [
+  "metricTemplates": [
     {
-      name: "How was the your lecturer?",
-      compulsory: true,
-      minValue: 1,
-      minDescription: "Deficient	",
-      maxValue: 5,
-      maxDescription: "Amazing"
+      "name": "How was the your lecturer?",
+      "compulsory": true,
+      "minValue": 1,
+      "minDescription": "Deficient	",
+      "maxValue": 5,
+      "maxDescription": "Amazing"
     },
     {
-      name: "Level of Knowledge?",
-      compulsory: true,
-      minValue: 1,
-      minDescription: "Poor",
-      maxValue: 5,
-      maxDescription: "Good"
+      "name": "Level of Knowledge?",
+      "compulsory": true,
+      "minValue": 1,
+      "minDescription": "Poor",
+      "maxValue": 5,
+      "maxDescription": "Good"
     },
     {
-      name: "Engaging teaching style?",
-      compulsory: true,
-      minValue: 1,
-      minDescription: "Boring",
-      maxValue: 5,
-      maxDescription: "Engaging"
+      "name": "Engaging teaching style?",
+      "compulsory": true,
+      "minValue": 1,
+      "minDescription": "Boring",
+      "maxValue": 5,
+      "maxDescription": "Engaging"
     },
     {
-      name: "Energy during the module?",
-      compulsory: true,
-      minValue: 1,
-      minDescription: "Dull",
-      maxValue: 5,
-      maxDescription: "Passionate"
+      "name": "Energy during the module?",
+      "compulsory": true,
+      "minValue": 1,
+      "minDescription": "Dull",
+      "maxValue": 5,
+      "maxDescription": "Passionate"
     },
     {
-      name: "How was the workload (project, assignments)",
-      compulsory: true,
-      minValue: 1,
-      minDescription: "Poor",
-      maxValue: 5,
-      maxDescription: "Good"
+      "name": "How was the workload (project, assignments)",
+      "compulsory": true,
+      "minValue": 1,
+      "minDescription": "Poor",
+      "maxValue": 5,
+      "maxDescription": "Good"
     },
     {
-      name: "Was it interesting?",
-      compulsory: true,
-      minValue: 1,
-      minDescription: "Boring",
-      maxValue: 5,
-      maxDescription: "Interesting"
+      "name": "Was it interesting?",
+      "compulsory": true,
+      "minValue": 1,
+      "minDescription": "Boring",
+      "maxValue": 5,
+      "maxDescription": "Interesting"
     },
     {
-      name: "Would you recommend this to me?",
-      compulsory: true,
-      minValue: 1,
-      minDescription: "Avoid",
-      maxValue: 5,
-      maxDescription: "Recommend"
+      "name": "Would you recommend this to me?",
+      "compulsory": true,
+      "minValue": 1,
+      "minDescription": "Avoid",
+      "maxValue": 5,
+      "maxDescription": "Recommend"
     }
   ],
-  questionTemplates: [
+  "questionTemplates": [
     {
-      question: "How was your lecturer?",
-      compulsory: false,
-      placeholder:
+      "question": "How was your lecturer?",
+      "compulsory": false,
+      "showInPreview": true,
+      "placeholder":
         "You could talk about what you generally learnt, took away from the module"
     },
     {
-      question:
+      "question":
         "How was the project workload (preparation, project, assignments)?",
-      compulsory: false,
-      placeholder:
+      "compulsory": false,
+      "showInPreview": false,
+      "placeholder":
         "Maybe what preparation (like readings/research) were needed for each class, time taken and effort needed for any projects or assignments"
     },
     {
-      question: "How's the tutors?",
-      compulsory: false,
-      placeholder:
+      "question": "How's the tutors?",
+      "compulsory": false,
+      "showInPreview": false,
+      "placeholder":
         "Tell me more maybe about the teaching style, attendance counts?"
     },
     {
-      question: "What was the module about?",
-      compulsory: false,
-      placeholder: "You could talk about what you generally learnt"
+      "question": "What was the module about?",
+      "compulsory": false,
+      "showInPreview": false,
+      "placeholder": "You could talk about what you generally learnt"
     },
     {
-      question: "How was the workload (preparation, project, assignments)?",
-      compulsory: false,
-      placeholder:
+      "question": "How was the workload (preparation, project, assignments)?",
+      "compulsory": false,
+      "showInPreview": false,
+      "placeholder":
         "How many readings/research was needed for each class, time taken and effort for any projects/assignments..."
     },
     {
-      question: "What was the project/assignemnt?",
-      compulsory: false,
-      placeholder: "the topic, the scope, can you choose your teammates"
+      "question": "What was the project/assignemnt?",
+      "compulsory": false,
+      "showInPreview": false,
+      "placeholder": "the topic, the scope, can you choose your teammates"
     },
     {
-      question: "How was the quizzes/exams",
-      compulsory: false,
-      placeholder:
+      "question": "How was the quizzes/exams",
+      "compulsory": false,
+      "showInPreview": false,
+      "placeholder":
         "Tell me more about its format(mcq, structured), open/close-book, preparations..."
     },
     {
-      question: "Was it interesting?",
-      compulsory: false,
-      placeholder:
+      "question": "Was it interesting?",
+      "compulsory": false,
+      "showInPreview": false,
+      "placeholder":
         "Anything memorable, anything that you enjoyed during classess..."
     },
     {
-      question: "Would you recommend it to me?",
-      compulsory: false,
-      placeholder:
+      "question": "Would you recommend it to me?",
+      "compulsory": false,
+      "showInPreview": false,
+      "placeholder":
         "Who do you think would really enjoy and/or do well in this module?"
     }
   ]

@@ -18,3 +18,13 @@
 .LongReview__grades-container > *:not(:last-child) {
   margin-right: 12px;
 }
+
+.LongReview__footer-more {
+  min-width: 120px;
+}
+
+@media only screen and (max-width: 768px) {
+  .LongReview__footer-author {
+    visibility: hidden;
+  }
+}

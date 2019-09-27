@@ -5,14 +5,9 @@ import * as FinalForm from "react-final-form";
 import { Radio } from "@blueprintjs/core";
 
 import "./style.css";
+import { Metric } from "../../api/review";
 
-interface RadioGroupProps {
-  name: string;
-  minValue: number;
-  maxValue: number;
-  minDescription: string;
-  maxDescription: string;
-  compulsory: boolean;
+interface RadioGroupProps extends Metric {
   mobile: boolean;
 }
 
@@ -26,6 +21,16 @@ export const RadioButtonGroup: React.FunctionComponent<
   RadioGroupProps
 > = props => {
   const { minValue, maxValue, minDescription, maxDescription, name } = props;
+  // const [width, setWidth] = React.useState(window.innerWidth);
+  // React.useEffect(() => {
+  //   const handleResize = () => {
+  //     setWidth(window.innerWidth);
+  //   };
+  //   window.addEventListener("resize", handleResize);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
 
   const getRadioButtons = (mobile: boolean) => {
     return _.range(minValue, maxValue + 1).map(value => {
@@ -54,9 +59,9 @@ export const RadioButtonGroup: React.FunctionComponent<
     );
   } else {
     return (
-      <div className="RadioButtonGroup__container-desktop">
-        <div className="RadioButtonGroup__left-segment-desktop">{name}</div>
-        <div className="RadioButtonGroup__right-segment-desktop">
+      <div className={`RadioButtonGroup__container-desktop`}>
+        <div className={`RadioButtonGroup__left-segment-desktop`}>{name}</div>
+        <div className={`RadioButtonGroup__right-segment-desktop`}>
           <label>{minDescription}</label>
           {getRadioButtons(props.mobile)}
           <label>{maxDescription}</label>

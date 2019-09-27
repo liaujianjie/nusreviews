@@ -43,7 +43,10 @@ const _SignUpForm: React.FunctionComponent<DispatchProps> = ({ signUp }) => {
               name="email"
               component={FinalInputGroup}
               validate={value =>
-                !_.endsWith(value, "@u.nus.edu")
+                !value
+                  .split("@")[1]
+                  .toString()
+                  .includes("u.nus.edu")
                   ? "You need to sign up with your NUS student email in order to prove that your are an NUS student."
                   : undefined
               }

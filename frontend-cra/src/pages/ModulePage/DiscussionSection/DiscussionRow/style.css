@@ -1,3 +1,16 @@
+.DiscussionRow__layout {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.DiscussionRow__layout button {
+  width: 50px;
+}
+
+.DiscussionRow__content {
+  flex: 1;
+}
+
 .DiscussionRow__message {
   margin-bottom: 4px;
 }
