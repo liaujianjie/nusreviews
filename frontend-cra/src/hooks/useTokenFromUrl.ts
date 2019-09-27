@@ -13,19 +13,25 @@ type TokenFromUrl = {
 export const useTokenFromUrl = (slugIndex: number): TokenFromUrl => {
   const { location } = useRouter();
   const splitPathname = _.split(location.pathname, "/");
-  const slug =
-    splitPathname.length === slugIndex + 1 ? splitPathname[slugIndex]! : "";
 
-  try {
-    const decodedToken = decode(slug) as AuthenticationToken;
-    return {
-      hasValidToken: true,
-      encodedToken: slug,
-      decodedToken
-    };
-  } catch (error) {
+  if (splitPathname.length < slugIndex + 1) {
     return {
       hasValidToken: false
     };
   }
+
+  const slug = splitPathname[slugIndex]!;
+
+  const decodedToken = decode(slug) as AuthenticationToken;
+  if (!decodedToken) {
+    return {
+      hasValidToken: false
+    };
+  }
+
+  return {
+    hasValidToken: true,
+    encodedToken: slug,
+    decodedToken
+  };
 };
