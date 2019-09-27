@@ -15,7 +15,7 @@ type FormShape = {
 };
 
 export const UpdateOpinionForm: React.FunctionComponent = () => {
-  const { encodedToken, hasValidToken } = useTokenFromUrl(4);
+  const { encodedToken, hasValidToken } = useTokenFromUrl(3);
 
   const onSubmit: FinalForm.FormProps<FormShape>["onSubmit"] = async ({
     description
