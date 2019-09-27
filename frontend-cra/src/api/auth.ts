@@ -69,6 +69,7 @@ export const verifyEmail = async ({ token }: VerifyEmailPayload) => {
   const response = await sharedHttpClient.post("/verify_email", null, {
     headers: { Authorization: `Bearer ${token}` }
   });
+  await refreshSession();
   return response.data;
 };
 
