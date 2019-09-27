@@ -94,7 +94,7 @@ export const postReview = (moduleSemester: number, payload: ReviewPayload) => {
 };
 
 export const reviewTemplate = {
-  metricTemplates: [
+  "metricTemplates": [
     {
       name: "How was the your lecturer?",
       compulsory: true,
