@@ -11,10 +11,14 @@ import "./style.css";
 
 type OwnProps = {
   ratings: React.ComponentProps<typeof AttributeRating>[];
+  msId: number;
+  moduleCode: string;
 };
 
 export const RatingSection: React.FunctionComponent<OwnProps> = ({
-  ratings
+  moduleCode,
+  ratings,
+  msId
 }) => {
   const [metrics, setMetrics] = React.useState<Metric[]>([]);
 
@@ -35,8 +39,9 @@ export const RatingSection: React.FunctionComponent<OwnProps> = ({
       rightHeader={
         <RatingModal
           buttonName="Add Rating"
-          moduleCode="CS3216"
+          moduleCode={moduleCode}
           metrics={metrics}
+          msId={msId}
         />
       }
       body={

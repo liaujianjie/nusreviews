@@ -13,6 +13,7 @@ interface RatingModalProps {
   buttonName: string;
   moduleCode: string;
   metrics: Array<Metric>;
+  msId: number,
 }
 
 export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
@@ -36,13 +37,11 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
       const metricTemplate = metrics.find(m => m.name === key) as any;
       payload.push({ metricTemplate: metricTemplate.id, value });
     }
-    console.log(payload, "payload ratingmodal");
     return { metricTemplates: payload };
   };
 
   const onSubmit = (values: any) => {
-    console.log("submitted!");
-    postRatings(1, parsePayload(values));
+    postRatings(props.msId, parsePayload(values));
     lastPage ? onClose() : nextPage();
   };
 
@@ -53,9 +52,6 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
         : undefined;
 
     const error = msg ? { errorMsg: msg } : undefined;
-    console.log(error);
-    console.log(values);
-    console.log(currMetrics);
 
     return error;
   };
@@ -68,7 +64,7 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
 
   return (
     <div>
-      <Button onClick={() => setOpen(true)}>{buttonName}</Button>
+      <Button intent="primary" onClick={() => setOpen(true)}>{buttonName}</Button>
       <Dialog
         isOpen={open}
         onClose={onClose}
@@ -87,10 +83,10 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
                       {moduleCode}
                     </span>
                   </h2>
-                  <div>
+                  <h5>
                     Hey help your XXX friends out over here, and drop a quick
-                    rating!!
-                  </div>
+                    rating!
+                  </h5>
                 </div>
                 <div className="RatingModal__body">{getQuestions()}</div>
                 <div className="RatingModal__footer">
@@ -98,6 +94,7 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
                     Continue Later
                   </Button>
                   <Button
+                    intent="primary"
                     onClick={(e: any) => {
                       handleSubmit();
                       form.reset();

@@ -14,27 +14,27 @@ interface ShortReviewProps {
   name: string;
   placeholder: string;
   question: string;
+  msId: number;
 }
 
 export const ShortReviewModal: React.FunctionComponent<
   ShortReviewProps
 > = props => {
   const [open, setOpen] = React.useState(false);
-  const { buttonName, question, placeholder, type } = props;
+  const { buttonName, question, placeholder, type, msId } = props;
   const onClose = () => setOpen(false);
 
   const onSubmit = (values: any) => {
     if (type === "tip") {
-      postTip(1, values);
+      postTip(msId, values);
     } else {
-      postOpinion(1, values);
+      postOpinion(msId, values);
     }
-    console.log("submitted!", values);
   };
 
   return (
     <div>
-      <Button onClick={() => setOpen(true)}>{buttonName}</Button>
+      <Button intent="primary" onClick={() => setOpen(true)}>{buttonName}</Button>
       <Dialog
         isOpen={open}
         onClose={onClose}
@@ -80,6 +80,7 @@ export const ShortReviewModal: React.FunctionComponent<
                     }}
                     disabled={invalid || pristine}
                     type="submit"
+                    intent="primary"
                     className=""
                   >
                     Submit
