@@ -57,20 +57,35 @@ span {
   box-shadow: none;
 }
 
-.bp3-button.bp3-intent-primary {
-  background-color: #fc4838;
+.bp3-button.bp3-intent-primary,
+.bp3-button.bp3-intent-danger {
   box-shadow: none;
   font-weight: 600;
   text-transform: uppercase;
 }
 
+.bp3-button.bp3-intent-primary {
+  background-color: #fc4838;
+}
+.bp3-button.bp3-intent-danger {
+  background-color: #ff0000;
+}
+
+.bp3-button.bp3-disabled {
+  opacity: 0.5;
+}
 .bp3-button.bp3-intent-primary.bp3-disabled {
   background-color: #fc4838;
-  opacity: 0.5;
+}
+.bp3-button.bp3-intent-danger.bp3-disabled {
+  background-color: #ff0000;
 }
 
 .bp3-button.bp3-intent-primary:hover {
   background-color: #fc4838;
+}
+.bp3-button.bp3-intent-danger:hover {
+  background-color: #ff0000;
 }
 
 .bp3-tag.bp3-minimal.bp3-intent-primary {
