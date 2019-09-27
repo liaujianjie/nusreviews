@@ -2,6 +2,8 @@ import React from "react";
 import * as qs from "querystring";
 import { RouteComponentProps } from 'react-router';
 
+import { RequiresAuth } from "../../components/RequiresAuth";
+
 import { Spinner } from "@blueprintjs/core";
 
 import { DetailSection } from "./DetailSection";
@@ -130,10 +132,12 @@ export class LongReviewPage extends React.Component<MyOwnProps & RouteComponentP
     }));
 
     return (
-      <div className="ReviewPage__container">
-        <DetailSection {...detailSectionProps} ratings={ratings} />
-        <LongReviewSection questions={questions} />
-      </div>
+      <RequiresAuth>
+        <div className="ReviewPage__container">
+          <DetailSection {...detailSectionProps} ratings={ratings} />
+          <LongReviewSection questions={questions} />
+        </div>
+      </RequiresAuth>
     );
   };
 }

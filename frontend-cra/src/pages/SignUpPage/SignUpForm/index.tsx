@@ -46,7 +46,7 @@ const _SignUpForm: React.FunctionComponent<DispatchProps> = ({ signUp }) => {
                 !value
                   .split("@")[1]
                   .toString()
-                  .includes("nus.edu")
+                  .includes("u.nus.edu")
                   ? "You need to sign up with your NUS student email in order to prove that your are an NUS student."
                   : undefined
               }

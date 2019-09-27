@@ -8,6 +8,7 @@ import {
   BearerTokenType,
   ResetPasswordTokenPayload
 } from "../types/tokens";
+import { ModuleSemester } from "../entities/ModuleSemester";
 
 const baseUrl = "https://nus.reviews";
 
@@ -68,6 +69,7 @@ export function sendResetPasswordEmail(user: User) {
 
 export function sendEntityEmail<Entity extends Base>(
   accessTokenSignedPayload: AccessTokenSignedPayload,
+  moduleSemester: ModuleSemester,
   entity: Entity,
   token?: string
 ) {
@@ -82,7 +84,7 @@ export function sendEntityEmail<Entity extends Base>(
   const entityName = entity.entityName.toLowerCase();
 
   const message =
-    `<p>Thanks for creating a ${entityName}!</p>` +
+    `<p>Thanks for submitting your ${entityName} of ${moduleSemester.module.moduleCode}!</p>` +
     "<p>Rest assured that your identity is anonymous! We do not store information about who created any content.</p>" +
     `<p>However, we understand that you may wish to change your thoughts, so we have generated a special link that allows you to edit or delete your ${entityName}.</p>` +
     "<p>Please take note that you will not be able to edit or delete your post should you lose this special link.</p>" +
