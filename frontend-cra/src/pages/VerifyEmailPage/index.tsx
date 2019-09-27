@@ -4,8 +4,8 @@ import { Card, Icon } from "@blueprintjs/core";
 
 import { Center } from "../../components/Center";
 import { AuthCardContainer } from "../../components/AuthCardContainer";
-import { VerifyEmailForm } from "./VerifyEmailForm";
 import { useRouter } from "../../hooks/useRouter";
+import { VerifyEmailForm } from "./VerifyEmailForm";
 
 import "./style.css";
 
@@ -21,7 +21,7 @@ export const VerifyEmailPage: React.FunctionComponent = () => {
         <Card>
           <div className="VerifyEmailRequestPage__logo-container">
             <Center>
-              <h1>Verify email</h1>
+              <h1>Email verification</h1>
             </Center>
           </div>
           <div className="VerifyEmailRequestPage__form-container">
