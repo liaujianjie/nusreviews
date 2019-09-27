@@ -21,14 +21,13 @@ import "./style.css";
 
 export const ReviewPage: React.FunctionComponent = () => {
   const [questions, setQuestions] = React.useState({
-    metricTemplates: reviewTemplate.metricTemplates,
-    questionTemplates: reviewTemplate.questionTemplates
+    metricTemplates: reviewTemplate.metricTemplates as Array<Metric>,
+    questionTemplates: reviewTemplate.questionTemplates as Array<Question>
   });
 
   React.useEffect(() => {
     const fetchQuestions = async () => {
       const payload = await getQuestions();
-
       setQuestions({ ...payload });
     };
     fetchQuestions();
@@ -74,6 +73,7 @@ export const ReviewPage: React.FunctionComponent = () => {
     const { expectedGrade, actualGrade, ...otherValues } = values;
     updateValues(otherValues);
     const payload = parsePayload({ ...questions, expectedGrade, actualGrade });
+    console.log(payload);
     postReview(1, payload);
   };
 
