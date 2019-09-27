@@ -42,33 +42,21 @@ export const ReviewPage: React.FunctionComponent = () => {
   const updateValues = (values: any) => {
     for (let [key, value] of Object.entries(values)) {
       const { metricTemplates, questionTemplates } = questions;
-      // key is question name
-      const metricHit = metricTemplates.forEach(metric => {
-        console.log(metric)
-        // if (metric.name === key) metric.value = value;
+      metricTemplates.forEach((metric: Metric) => {
+        if (metric.name === key) metric.value = value as number;
       });
-      const questionHit = questionTemplates.filter(qn => qn.question === key);
-      // if (metricHit !== []) {
-        // const metric = metricHit[0] as Metric;
-        // console.log(metric);
-        // metric.value = value as number;
-        // const metricCopy = [...answers.metricTemplates, metric];
-        // setAnswers({ ...answers, metricTemplates: metricCopy });
-      // } else {
-        const question = questionHit[0] as Question;
-        question.answer = value as string;
-        const questionCopy = { ...answers.questionTemplates, question };
-        setAnswers({ ...answers, questionTemplates: questionCopy });
-      // }
+      questionTemplates.forEach((question: Question) => {
+        if (question.question === key) question.answer = value as string;
+      });
+      setQuestions({ metricTemplates, questionTemplates });
     }
   };
 
   const onSubmit = (values: any) => {
-    const { expectedGrade, actualGrade } = values;
-    updateValues(values);
-    const payload = { expectedGrade, actualGrade };
-    // console.log(values);
-    postQuestions(1, payload);
+    const { expectedGrade, actualGrade, ...otherValues } = values;
+    updateValues(otherValues); // might need to filter out empty fields
+    console.log(questions);
+    postQuestions(1, { expectedGrade, actualGrade, ...questions });
   };
 
   return (

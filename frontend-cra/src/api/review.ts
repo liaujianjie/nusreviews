@@ -40,13 +40,29 @@ export const getQuestions = async (): Promise<QuestionsResults> => {
   return response.data;
 };
 
-export const postQuestions = (moduleSemester: number, payload: any) => {
-  console.log("posting", payload);
-  return sharedHttpClient.post(`/module_semesters/${moduleSemester}/reviews`, {
-    params: {
-      ...payload
+const stubPayload = {
+  expectedGrade: 0,
+  actualGrade: 1,
+  metrics: [
+    {
+      metricTemplate: 1,
+      value: 1
+    },
+    {
+      metricTemplate: 2,
+      value: 5
     }
-  });
+  ],
+  questions: [
+    {
+      questionTemplate: 1,
+      answer: "What was the module about?"
+    },
+    {
+      questionTemplate: "2",
+      answer: "I dont know"
+    }
+  ]
 };
 
 export const postOpinion = (moduleId: number, payload: any) => {
@@ -58,6 +74,14 @@ export const postOpinion = (moduleId: number, payload: any) => {
         description: "some opinion"
       }
     })
+  );
+};
+
+export const postQuestions = (moduleSemester: number, payload: any) => {
+  console.log("posting", payload);
+  return sharedHttpClient.post(
+    `/module_semesters/${moduleSemester}/reviews`,
+    qs.stringify(stubPayload)
   );
 };
 
