@@ -20,7 +20,8 @@ import {
   TIP_TYPE,
   TIPS_TYPE,
   REVIEWS_TYPE,
-  REVIEW_TYPE
+  REVIEW_TYPE,
+  MODULE_SEMESTER_TYPE,
 } from "../../constants/type";
 
 import "./style.css";
@@ -137,6 +138,11 @@ export class ModulePage extends React.Component<
     );
   }
 
+  getLastestSemester() {
+    const mS: MODULE_SEMESTER_TYPE = this.state.data.moduleSemesters[this.state.data.moduleSemesters.length - 1];
+    return mS.id;
+  }
+
   render() {
     if (this.state.loading) {
       return (
@@ -186,8 +192,8 @@ export class ModulePage extends React.Component<
       <RequiresAuth>
         <div className="ModulePage__container">
           <DetailSection {...detailSectionProps} />
-          <RatingSection ratings={ratings} />
-          <DiscussionSection {...discussionSectionProps} />
+          <RatingSection ratings={ratings} msId={this.getLastestSemester()} moduleCode={moduleCode}/>
+          <DiscussionSection {...discussionSectionProps} msId={this.getLastestSemester()} />
           <LongReviewSection reviews={reviews} />
         </div>
       </RequiresAuth>

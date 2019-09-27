@@ -13,6 +13,7 @@ interface RatingModalProps {
   buttonName: string;
   moduleCode: string;
   metrics: Array<Metric>;
+  msId: number,
 }
 
 export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
@@ -43,7 +44,7 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
   };
 
   const onSubmit = (values: any) => {
-    postRatings(1, parsePayload(values));
+    postRatings(props.msId, parsePayload(values));
     lastPage ? onClose() : nextPage();
   };
 
@@ -89,10 +90,10 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
                       {moduleCode}
                     </span>
                   </h2>
-                  <div>
+                  <h5>
                     Hey help your XXX friends out over here, and drop a quick
-                    rating!!
-                  </div>
+                    rating!
+                  </h5>
                 </div>
                 <div className="RatingModal__body">{getQuestions()}</div>
                 <div className="RatingModal__footer">
@@ -100,6 +101,7 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
                     Continue Later
                   </Button>
                   <Button
+                    intent="primary"
                     onClick={(e: any) => {
                       handleSubmit();
                       form.reset();
