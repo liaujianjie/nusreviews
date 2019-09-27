@@ -24,7 +24,6 @@ body,
 main {
   height: calc(100% - 50px);
   overflow: scroll;
-
   /* Mimic the horizontal paddings from the Blueprint navbar */
   padding: 15px;
 }
@@ -98,7 +97,7 @@ a:hover {
 
 .bp3-control input:checked ~ .bp3-control-indicator {
   box-shadow: none;
-  background-color: #2873e6!important;
+  background-color: #2873e6 !important;
   background-image: none;
 }
 
