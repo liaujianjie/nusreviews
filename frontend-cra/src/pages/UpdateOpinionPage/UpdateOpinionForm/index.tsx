@@ -40,7 +40,7 @@ export const UpdateOpinionForm: React.FunctionComponent = () => {
     <FinalForm.Form<FormShape> onSubmit={onSubmit}>
       {({ handleSubmit, pristine, invalid }) => {
         return (
-          <form className="UpdateOpinionForm__form" onSubmit={handleSubmit}>
+          <form className="UpdateOpinionForm" onSubmit={handleSubmit}>
             <h3>Original:</h3>
             <Callout>
               <p>Lorem ipsum</p>
@@ -58,7 +58,7 @@ export const UpdateOpinionForm: React.FunctionComponent = () => {
                 large
                 type="submit"
                 intent="primary"
-                text="Update opinion"
+                text="Update my opinion"
                 icon="tick"
                 disabled={pristine || invalid}
               />
