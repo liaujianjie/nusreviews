@@ -67,7 +67,7 @@ export const postOpinion = (
   );
 };
 
-export const postRatings = (moduleSemester: number, payload: ReviewPayload) => {
+export const postRatings = (moduleSemester: number, payload: any) => {
   payload.expectedGrade = undefined;
   payload.actualGrade = undefined;
   return sharedHttpClient.post(
