@@ -17,15 +17,11 @@ export const signIn = async ({ email, password }: AuthCredentials) => {
 };
 
 export const signUp = async ({ email, password }: AuthCredentials) => {
-  const unencodedBody = {
+  const response = await sharedHttpClient.post("/users", {
     username: email,
     email,
     password
-  };
-  const response = await sharedHttpClient.post(
-    "/users",
-    qs.stringify(unencodedBody)
-  );
+  });
   return response.data;
 };
 
@@ -36,13 +32,9 @@ type RequestPasswordResetPayload = {
 export const requestPasswordReset = async ({
   email
 }: RequestPasswordResetPayload) => {
-  const unencodedBody = {
+  const response = await sharedHttpClient.post("/request_reset_password", {
     email
-  };
-  const response = await sharedHttpClient.post(
-    "/request_reset_password",
-    qs.stringify(unencodedBody)
-  );
+  });
   return response.data;
 };
 
@@ -55,12 +47,9 @@ export const resetPassword = async ({
   token,
   password
 }: ResetPasswordPayload) => {
-  const unencodedBody = {
-    newPassword: password
-  };
   const response = await sharedHttpClient.post(
     "/reset_password",
-    qs.stringify(unencodedBody),
+    { newPassword: password },
     {
       headers: {
         Authorization: `Bearer ${token}`
