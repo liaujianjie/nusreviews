@@ -8,12 +8,14 @@ export interface Metric {
   minDescription: string;
   maxDescription: string;
   compulsory: boolean;
+  value?: number;
 }
 
-interface Question {
+export interface Question {
   question: string;
   placeholder: string;
   compulsory: boolean;
+  answer?: string;
 }
 interface QuestionsResults {
   metricTemplates: Array<Metric>;
@@ -22,12 +24,25 @@ interface QuestionsResults {
 
 export const getQuestions = async (): Promise<QuestionsResults> => {
   const response = await sharedHttpClient.get(`/active_review_template`);
+  console.log(response.data, "active template");
+  response.data.metricTemplates = response.data.metricTemplates.map(
+    (metric: Metric) => {
+      metric.value = 0;
+      return metric;
+    }
+  );
+  response.data.questionTemplates = response.data.questionTemplates.map(
+    (question: Question) => {
+      question.answer = "";
+      return question;
+    }
+  );
   return response.data;
 };
 
-export const postQuestions = (moduleId: number, payload: any) => {
+export const postQuestions = (moduleSemester: number, payload: any) => {
   console.log("posting", payload);
-  return sharedHttpClient.post(`/module_semesters/${moduleId}/reviews`, {
+  return sharedHttpClient.post(`/module_semesters/${moduleSemester}/reviews`, {
     params: {
       ...payload
     }

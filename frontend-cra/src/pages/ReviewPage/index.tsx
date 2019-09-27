@@ -9,7 +9,13 @@ import { FormHeader } from "./FormHeader/index";
 import { Metrics } from "./Metrics/index";
 import { Questions } from "./Questions/index";
 
-import { reviewTemplate, postQuestions, getQuestions } from "../../api/review";
+import {
+  reviewTemplate,
+  postQuestions,
+  getQuestions,
+  Metric,
+  Question
+} from "../../api/review";
 
 import "./style.css";
 
@@ -18,19 +24,52 @@ export const ReviewPage: React.FunctionComponent = () => {
     metricTemplates: reviewTemplate.metricTemplates,
     questionTemplates: reviewTemplate.questionTemplates
   });
-  const onSubmit = (values: any) => {
-    console.log(values);
-    postQuestions(1, values);
-  };
+
+  const [answers, setAnswers] = React.useState({
+    metricTemplates: [],
+    questionTemplates: []
+  });
 
   React.useEffect(() => {
     const fetchQuestions = async () => {
       const payload = await getQuestions();
-      const { metricTemplates, questionTemplates } = payload;
-      setQuestions({ metricTemplates, questionTemplates });
+
+      setQuestions({ ...payload });
     };
     fetchQuestions();
-  });
+  }, []);
+
+  const updateValues = (values: any) => {
+    for (let [key, value] of Object.entries(values)) {
+      const { metricTemplates, questionTemplates } = questions;
+      // key is question name
+      const metricHit = metricTemplates.forEach(metric => {
+        console.log(metric)
+        // if (metric.name === key) metric.value = value;
+      });
+      const questionHit = questionTemplates.filter(qn => qn.question === key);
+      // if (metricHit !== []) {
+        // const metric = metricHit[0] as Metric;
+        // console.log(metric);
+        // metric.value = value as number;
+        // const metricCopy = [...answers.metricTemplates, metric];
+        // setAnswers({ ...answers, metricTemplates: metricCopy });
+      // } else {
+        const question = questionHit[0] as Question;
+        question.answer = value as string;
+        const questionCopy = { ...answers.questionTemplates, question };
+        setAnswers({ ...answers, questionTemplates: questionCopy });
+      // }
+    }
+  };
+
+  const onSubmit = (values: any) => {
+    const { expectedGrade, actualGrade } = values;
+    updateValues(values);
+    const payload = { expectedGrade, actualGrade };
+    // console.log(values);
+    postQuestions(1, payload);
+  };
 
   return (
     <RequiresAuth>

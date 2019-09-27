@@ -5,14 +5,9 @@ import * as FinalForm from "react-final-form";
 import { Radio } from "@blueprintjs/core";
 
 import "./style.css";
+import { Metric } from "../../api/review";
 
-interface RadioGroupProps {
-  name: string;
-  minValue: number;
-  maxValue: number;
-  minDescription: string;
-  maxDescription: string;
-  compulsory: boolean;
+interface RadioGroupProps extends Metric {
   mobile: boolean;
 }
 
