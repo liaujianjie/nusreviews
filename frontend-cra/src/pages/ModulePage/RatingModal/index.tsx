@@ -58,7 +58,7 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
     return error;
   };
 
-  const { buttonName, moduleCode } = props;
+  const { moduleCode } = props;
 
   const getQuestions = () => {
     return currMetrics.map(qn => <RadioButtonGroup {...qn} mobile={true} />);
