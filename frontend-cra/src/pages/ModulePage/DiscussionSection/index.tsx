@@ -16,16 +16,17 @@ import "./style.css";
 type OwnProps = {
   opinions: OPINIONS_TYPE;
   tips: TIPS_TYPE;
+  msId: number;
 };
 
 export class DiscussionSection extends React.Component<OwnProps> {
   state = {
     moreOpinions: true,
-    moreTips: true
+    moreTips: true,
   };
 
   render() {
-    const { opinions, tips } = this.props;
+    const { opinions, tips, msId } = this.props;
     const numberOfRenderedOpinions = this.state.moreOpinions
       ? 5
       : opinions.length;
@@ -78,8 +79,9 @@ export class DiscussionSection extends React.Component<OwnProps> {
                       type="opinion"
                       buttonName="Add Opinion"
                       name="Opinion 1"
-                      question="What opinion do you want to give"
-                      placeholder="any opinion"
+                      question="What opinion do you want to give?"
+                      placeholder="Feel free to share any opinion"
+                      msId={msId}
                     />
                   </div>
                 }
@@ -114,8 +116,9 @@ export class DiscussionSection extends React.Component<OwnProps> {
                       type="tip"
                       buttonName="Add tip"
                       name="Tip 1"
-                      question="What tip do you want to give"
-                      placeholder="any tip"
+                      question="What tips do you want to share?"
+                      placeholder="Feel free to share any tip"
+                      msId={msId}
                     />
                   </div>
                 }

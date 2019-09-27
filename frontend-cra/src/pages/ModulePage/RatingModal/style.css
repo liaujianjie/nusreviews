@@ -9,6 +9,7 @@
 }
 
 .RatingModal__footer {
+  margin-top: 16px;
   float: right;
 }
 
@@ -17,7 +18,7 @@
 }
 
 .RatingModal__module-code {
-  color: #ff5722c7;
+  color: #fc4838;
 }
 
 .RatingModal {
