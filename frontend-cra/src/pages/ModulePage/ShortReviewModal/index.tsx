@@ -30,6 +30,7 @@ export const ShortReviewModal: React.FunctionComponent<
     } else {
       postOpinion(msId, values);
     }
+    onClose();
   };
 
   return (
