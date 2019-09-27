@@ -89,7 +89,7 @@ export function sendEntityEmail<Entity extends Base>(
     `<p>However, we understand that you may wish to change your thoughts, so we have generated a special link that allows you to edit or delete your ${entityName}.</p>` +
     "<p>Please take note that you will not be able to edit or delete your post should you lose this special link.</p>" +
     "<br />" +
-    `<p>You may edit it by <a href='${baseUrl}/TODO/${token}'>clicking on this link</a></p>`;
+    `<p>You may edit it by <a href='${baseUrl}/${entityName}/update/${token}'>clicking on this link</a></p>`;
 
   const msg: MailData = {
     to: accessTokenSignedPayload.email,
