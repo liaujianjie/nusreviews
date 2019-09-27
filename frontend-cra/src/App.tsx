@@ -11,6 +11,7 @@ import { SignUpPage } from "./pages/SignUpPage";
 import { ResetPasswordRequestPage } from "./pages/ResetPasswordRequestPage";
 import { ModulePage } from "./pages/ModulePage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { ReviewPage } from "./pages/ReviewPage";
 import { LongReviewPage } from "./pages/LongReviewPage";
 import { ResetPasswordPage } from "./pages/ResetPasswordPage";
 import { VerifyEmailPage } from "./pages/VerifyEmailPage";
@@ -40,6 +41,7 @@ const App: React.FunctionComponent = () => {
             />
             <Route exact path="/module/:moduleId" component={ModulePage} />
             <Route exact path="/review/:moduleId" component={LongReviewPage} />
+            <Route exact path="/review/:semesterId/new" component={ReviewPage} />
             <Route exact path="/" component={HomePage} />
             <Route component={NotFoundPage} />
           </Switch>
