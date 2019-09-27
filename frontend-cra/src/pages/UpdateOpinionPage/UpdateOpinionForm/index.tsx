@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import * as FinalForm from "react-final-form";
 import _ from "lodash";
 
-import { TextArea, Button, Callout } from "@blueprintjs/core";
+import { Button, Callout } from "@blueprintjs/core";
 
-import { FinalInputGroup } from "../../../components/FinalInputGroup";
+import { FinalTextArea } from "../../../components/FinalTextArea";
 import { updateOpinion, getOpinion } from "../../../api/opinion";
 import { useTokenFromUrl } from "../../../hooks/useTokenFromUrl";
 import { OPINION_TYPE } from "../../../constants/type";
@@ -28,7 +28,8 @@ export const UpdateOpinionForm: React.FunctionComponent = () => {
       return;
     }
 
-    await updateOpinion({ token: encodedToken, description });
+    const opinion = await updateOpinion({ token: encodedToken, description });
+    updateOriginalOpinion({ ...originalOpinion, ...opinion });
   };
 
   useEffect(() => {
@@ -36,9 +37,11 @@ export const UpdateOpinionForm: React.FunctionComponent = () => {
       return;
     }
 
-    getOpinion({ id: decodedToken.id }).then(opinion => {
-      updateOriginalOpinion(opinion);
-    });
+    getOpinion({ id: decodedToken.id })
+      .then(opinion => updateOriginalOpinion(opinion))
+      .catch(error => {
+        // TODO: handle error for when are unable to get the current opinion
+      });
     // Ignore exhaustive deps rule because encodedToken is a string representation
     // of a decodedToken.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -65,7 +68,7 @@ export const UpdateOpinionForm: React.FunctionComponent = () => {
             <h3>Updated:</h3>
             <FinalForm.Field
               name="description"
-              component={FinalInputGroup}
+              component={FinalTextArea}
               validate={value =>
                 _.isEmpty(value) ? "Opnion cannot be empty." : undefined
               }
@@ -83,7 +86,7 @@ export const UpdateOpinionForm: React.FunctionComponent = () => {
                 large
                 intent="danger"
                 icon="trash"
-                text="Delete opinion"
+                text="Delete my opinion"
               />
             </div>
           </form>
