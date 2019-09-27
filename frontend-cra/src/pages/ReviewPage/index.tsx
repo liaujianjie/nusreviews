@@ -53,17 +53,6 @@ export const ReviewPage: React.FunctionComponent = () => {
       metricTemplates: nonEmptyMetric,
       questionTemplates: nonEmptyQuestion
     };
-    // for (let [key, value] of Object.entries(values)) {
-    //   const { metricTemplates, questionTemplates } = questions;
-    //   metricTemplates.forEach((metric: Metric) => {
-    //     if (metric.name === key) metric.value = value as number;
-    //   });
-    //   questionTemplates.forEach((question: Question) => {
-    //     if (question.question === key) question.answer = value as string;
-    //   });
-
-    // need to return
-    // setQuestions({ metricTemplates, questionTemplates });
   };
 
   const parsePayload = (payload: any) => {
