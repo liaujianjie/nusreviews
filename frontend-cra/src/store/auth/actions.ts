@@ -1,18 +1,19 @@
-import { AuthState, AuthActionTypes, AuthAction } from "./types";
+import { Dispatch, ActionCreator } from "redux";
+
+import { AuthAction, AuthActionTypes } from "./types";
 import * as auth from "../../api/auth";
-import { Dispatch, ActionCreator } from "react-redux";
 import {
   saveTokensToLocalStorage,
   clearTokensFromLocalStorage,
   loadTokensFromLocalStorage
 } from "./lib/localstorage";
-import { getTokensFromResponse } from "./utils/getTokensFromResponse";
 import { setHttpClientAuthToken, unsetHttpClientAuthToken } from "./lib/axios";
+import { getTokensFromResponse } from "./utils/getTokensFromResponse";
 
 type SignInParameter = Parameters<typeof auth.signIn>[0];
 
 export const signIn = ({ email, password }: SignInParameter) => async (
-  dispatch: Dispatch<AuthState>
+  dispatch: Dispatch
 ) => {
   dispatch({ type: AuthAction.SIGNIN_BEGIN });
 
@@ -32,7 +33,7 @@ export const signIn = ({ email, password }: SignInParameter) => async (
 };
 
 export const signUp = ({ email, password }: SignInParameter) => async (
-  dispatch: Dispatch<AuthState>
+  dispatch: Dispatch
 ) => {
   dispatch({ type: AuthAction.SIGNUP_BEGIN });
 

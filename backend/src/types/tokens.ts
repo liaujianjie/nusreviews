@@ -18,9 +18,10 @@ type TokenLifespan = {
   exp: number;
 };
 
-type Credentials = {
+export type Credentials = {
   id: number;
   email: string;
+  emailVerified: boolean;
   role: UserRole;
   username: string;
 };
@@ -65,6 +66,7 @@ function hasCredentials(payload: any) {
     typeof payload.id === "number" &&
     typeof payload.username === "string" &&
     typeof payload.email === "string" &&
+    typeof payload.emailVerified === "boolean" &&
     Object.values(UserRole).includes(payload.role)
   );
 }

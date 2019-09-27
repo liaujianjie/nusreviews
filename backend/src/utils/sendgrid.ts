@@ -35,10 +35,7 @@ export function sendResetPasswordEmail(user: User) {
 
   const payload: ResetPasswordTokenPayload = {
     type: BearerTokenType.ResetPasswordToken,
-    id: user.id,
-    email: user.email,
-    role: user.role,
-    username: user.username
+    ...user.getCredentials()
   };
 
   const token = jwt.sign(payload, process.env.JWT_SECRET!, {
@@ -50,7 +47,7 @@ export function sendResetPasswordEmail(user: User) {
 But don’t worry! You can use the following link to reset your password:
 
 
-${baseUrl}/reset_password/${token}
+${baseUrl}/auth/reset-password/${token}
 
 If you don’t use this link within 3 hours, it will expire. To get a new password reset link, visit ${baseUrl}/auth/reset-password
 

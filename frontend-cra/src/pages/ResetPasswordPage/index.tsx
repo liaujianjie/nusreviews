@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button, Card, Icon, Divider } from "@blueprintjs/core";
+import { Card, Icon } from "@blueprintjs/core";
 
 import { RequiresNoAuth } from "../../components/RequiresNoAuth";
 import { Center } from "../../components/Center";

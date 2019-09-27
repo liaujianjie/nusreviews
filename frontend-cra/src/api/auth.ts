@@ -56,10 +56,10 @@ export const resetPassword = async ({
   password
 }: ResetPasswordPayload) => {
   const unencodedBody = {
-    password
+    newPassword: password
   };
   const response = await sharedHttpClient.post(
-    "/request_reset_password",
+    "/reset_password",
     qs.stringify(unencodedBody),
     {
       headers: {
@@ -67,5 +67,16 @@ export const resetPassword = async ({
       }
     }
   );
+  return response.data;
+};
+
+type VerifyEmailPayload = {
+  token: string;
+};
+
+export const verifyEmail = async ({ token }: VerifyEmailPayload) => {
+  const response = await sharedHttpClient.post("/verify_email", null, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
   return response.data;
 };

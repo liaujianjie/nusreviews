@@ -4,7 +4,6 @@ import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { User } from "../entities/User";
 import { AccessTokenSignedPayload } from "../types/tokens";
-import { getAuthenticationTokens } from "../utils/users";
 import {
   sendVerificationEmail,
   sendResetPasswordEmail
@@ -23,7 +22,7 @@ export async function create(request: Request, response: Response) {
 
     sendVerificationEmail(user);
 
-    const result = { ...user, ...getAuthenticationTokens(user) };
+    const result = { ...user, ...user.createAuthenticationTokens() };
     delete result.password;
     response.status(201).json(result);
   } catch (error) {

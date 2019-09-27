@@ -1,10 +1,9 @@
 import * as dotenv from "dotenv";
+dotenv.config({ path: `${__dirname}/../../.env` });
 import { createConnection } from "typeorm";
 import { saveModuleInfoList, getModuleInfoList } from "./tasks";
-import ormconfig from "../../ormconfig";
 import { ModuleInformation } from "../types/modules";
-
-dotenv.config();
+import ormconfig from "../../ormconfig";
 
 const responsePromise = getModuleInfoList();
 createConnection(ormconfig)

@@ -1,23 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import _ from "lodash";
 
 import {
   Navbar,
   Alignment,
   Button,
-  InputGroup,
   Popover,
   Menu,
-  MenuItem
+  MenuItem,
+  Divider
 } from "@blueprintjs/core";
 
 import { MaxWidthContainer } from "../../MaxWidthContainer";
 import { StoreState } from "../../../store";
 import { signOut } from "../../../store/auth";
-import { useRouter } from "../../../hooks/useRouter";
 import logo from "./logo.svg";
+
 import "./style.css";
 
 const mapStateToProps = (rootState: StoreState) => ({
@@ -31,12 +30,6 @@ const _Navigation: React.FunctionComponent<ConnectedProps> = ({
   user,
   signOut
 }) => {
-  // Temporarily use private APIs so that we can use the router state as a hook
-  const { location } = useRouter();
-
-  const shouldShowSearchbar =
-    location.pathname !== "/" && !_.startsWith(location.pathname, "/auth");
-
   return (
     <Navbar className="Navigation">
       <MaxWidthContainer>
@@ -46,12 +39,11 @@ const _Navigation: React.FunctionComponent<ConnectedProps> = ({
               <img src={logo} alt="NUS Reviews logo" height={20} />
             </Link>
           </Navbar.Heading>
+          <Navbar.Divider />
+          <Link to="/">
+            <Button minimal icon="search" text="Search" />
+          </Link>
         </Navbar.Group>
-        {shouldShowSearchbar && (
-          <Navbar.Group>
-            <InputGroup type="search" leftIcon="search"></InputGroup>
-          </Navbar.Group>
-        )}
         {user && (
           <Navbar.Group align={Alignment.RIGHT}>
             <Popover
@@ -59,12 +51,21 @@ const _Navigation: React.FunctionComponent<ConnectedProps> = ({
               position="bottom-right"
               content={
                 <Menu>
-                  <MenuItem text="Sign out" onClick={signOut} />
+                  <MenuItem text="Profile" icon="user" />
+                  <Divider />
+                  <MenuItem text="Sign out" icon="log-out" onClick={signOut} />
                 </Menu>
               }
             >
               <Button minimal text={user.email} />
             </Popover>
+          </Navbar.Group>
+        )}
+        {!user && (
+          <Navbar.Group align={Alignment.RIGHT}>
+            <Link to="/auth/signin">
+              <Button minimal text="Sign in" />
+            </Link>
           </Navbar.Group>
         )}
       </MaxWidthContainer>

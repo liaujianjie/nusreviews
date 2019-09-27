@@ -26,8 +26,7 @@ main {
   overflow: scroll;
 
   /* Mimic the horizontal paddings from the Blueprint navbar */
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 15px;
 }
 
 /* NATIVE BROWSER OVERRIDES */
@@ -79,6 +78,11 @@ span {
 .bp3-button.bp3-minimal,
 *:not(.bp3-navbar) .bp3-button.bp3-minimal.bp3-active,
 *:not(.bp3-navbar) .bp3-button.bp3-minimal:hover {
+  color: #2873e6;
+}
+
+a,
+a:hover {
   color: #2873e6;
 }
 

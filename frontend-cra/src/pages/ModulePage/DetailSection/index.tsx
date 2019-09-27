@@ -13,6 +13,14 @@ export const DetailSection = () => {
           <h3>Software Product Engineering for Digital Markets</h3>
         </div>
       }
+      rightHeader={
+        <div>
+          do as you wish alsdnfakjsdnfajlskdfa Lorem ipsum dolor sit amet
+          consectetur adipisicing elit. Ratione deleniti libero neque ullam sed
+          saepe ipsum aliquid ad nulla, eligendi commodi perferendis fugit dicta
+          magni et iusto provident cumque rem.
+        </div>
+      }
       body={
         <p>
           In this module, students will practice software product engineering by

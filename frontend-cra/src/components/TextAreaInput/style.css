@@ -1,0 +1,10 @@
+.TextAreaInput__container {
+  display: flex;
+  flex-direction: column;
+}
+
+.TextAreaInput {
+  width: 100%;
+  overflow-y: hidden;
+  border-radius: 0.2em;
+}

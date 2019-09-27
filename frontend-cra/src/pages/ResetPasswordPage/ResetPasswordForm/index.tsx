@@ -18,7 +18,7 @@ type FormShape = {
   passwordConfirmation: string;
 };
 
-export const ResetPasswordForm: React.FunctionComponent = ({}) => {
+export const ResetPasswordForm: React.FunctionComponent = () => {
   const [hasReset, updateHasReset] = useState(false);
   const { location } = useRouter();
   const splitPathname = _.split(location.pathname, "/");

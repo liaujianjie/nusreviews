@@ -12,6 +12,7 @@ import reviewTemplates from "./reviewTemplates";
 import reviews from "./reviews";
 import metrics from "./metrics";
 import questions from "./questions";
+import * as ReviewTemplatesController from "../../controllers/ReviewTemplatesController";
 import * as TokensController from "../../controllers/TokensController";
 import * as UsersController from "../../controllers/UsersController";
 import { checkBearerToken } from "../../middlewares/checkBearerToken";
@@ -32,6 +33,11 @@ routes.use("/review_templates", reviewTemplates);
 routes.use("/reviews", reviews);
 routes.use("/metrics", metrics);
 routes.use("/questions", questions);
+
+routes.get(
+  "/active_review_template",
+  ReviewTemplatesController.activeReviewTemplate
+);
 
 routes.post("/login", TokensController.login);
 routes.post("/request_reset_password", UsersController.requestResetPassword);
