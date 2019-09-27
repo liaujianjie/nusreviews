@@ -56,7 +56,7 @@ const stubPayload = {
   questions: [
     {
       questionTemplate: 1,
-      answer: "What was the module about?"
+      answer: "DID THIS WORK?"
     },
     {
       questionTemplate: "2",
@@ -78,10 +78,11 @@ export const postOpinion = (moduleId: number, payload: any) => {
 };
 
 export const postQuestions = (moduleSemester: number, payload: any) => {
-  console.log("posting", payload);
+  // const { metrics, questions, ...others } = stubPayload;
   return sharedHttpClient.post(
     `/module_semesters/${moduleSemester}/reviews`,
-    qs.stringify(stubPayload)
+    JSON.stringify(payload),
+    { headers: { "Content-Type": "application/json" } }
   );
 };
 

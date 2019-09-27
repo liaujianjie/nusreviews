@@ -25,11 +25,6 @@ export const ReviewPage: React.FunctionComponent = () => {
     questionTemplates: reviewTemplate.questionTemplates
   });
 
-  const [answers, setAnswers] = React.useState({
-    metricTemplates: [],
-    questionTemplates: []
-  });
-
   React.useEffect(() => {
     const fetchQuestions = async () => {
       const payload = await getQuestions();
@@ -52,11 +47,36 @@ export const ReviewPage: React.FunctionComponent = () => {
     }
   };
 
+  const parsePayload = (payload: any) => {
+    const {
+      expectedGrade,
+      actualGrade,
+      metricTemplates,
+      questionTemplates
+    } = payload;
+    const metrics = metricTemplates.map((m: any) => ({
+      metricTemplate: m.id,
+      value: parseInt(m.value)
+    }));
+    const questions = questionTemplates.map((q: any) => ({
+      questionTemplate: q.id,
+      answer: q.answer
+    }));
+    return {
+      expectedGrade: parseInt(expectedGrade),
+      actualGrade: parseInt(actualGrade),
+      metrics,
+      questions
+    };
+  };
+
   const onSubmit = (values: any) => {
     const { expectedGrade, actualGrade, ...otherValues } = values;
     updateValues(otherValues); // might need to filter out empty fields
     console.log(questions);
-    postQuestions(1, { expectedGrade, actualGrade, ...questions });
+    const payload = parsePayload({ ...questions, expectedGrade, actualGrade });
+    console.log(payload);
+    postQuestions(1, payload);
   };
 
   return (
