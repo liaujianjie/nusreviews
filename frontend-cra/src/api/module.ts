@@ -3,7 +3,7 @@ import { Response } from "express";
 
 export const getModule = async (moduleCode: string) => {
   try {
-    let response = await sharedHttpClient.get("/modules/" + moduleCode);
+    const response = await sharedHttpClient.get("/modules/" + moduleCode);
     return response.data;
   } catch (error) {
     return error;
