@@ -11,7 +11,8 @@ export const isUserRole = (object: any): object is UserRole =>
 export enum AuthenticationTokenType {
   ACCESS_TOKEN = 0,
   REFRESH_TOKEN = 1,
-  ENTITY_TOKEN = 2
+  ENTITY_TOKEN = 2,
+  PASSWORD_RESET_TOKEN = 3
 }
 
 export const isAuthenticationTokenType = (
