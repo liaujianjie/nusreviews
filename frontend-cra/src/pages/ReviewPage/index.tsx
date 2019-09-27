@@ -38,14 +38,14 @@ export const ReviewPage: React.FunctionComponent = () => {
     console.log(nonEmpty, "non empty check");
     const { metricTemplates, questionTemplates } = questions;
     const nonEmptyMetric = metricTemplates
-      .filter((m: any) => nonEmpty.includes(m.name))
-      .map((m: any) => {
+      .filter((m: Metric) => nonEmpty.includes(m.name))
+      .map((m: Metric) => {
         m.value = values[m.name];
         return m;
       });
     const nonEmptyQuestion = questionTemplates
-      .filter((qn: any) => nonEmpty.includes(qn.question))
-      .map((qn: any) => {
+      .filter((qn: Question) => nonEmpty.includes(qn.question))
+      .map((qn: Question) => {
         qn.answer = values[qn.question];
         return qn;
       });

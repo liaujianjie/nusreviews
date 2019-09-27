@@ -2,7 +2,12 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
+.RadioButtonGroup__left-segment-desktop {
+  min-width: 26em;
+}
+
 .RadioButtonGroup__right-segment-desktop {
   min-width: 20em;
   display: grid;
