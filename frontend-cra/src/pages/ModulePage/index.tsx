@@ -40,14 +40,11 @@ interface MyProps {
   };
 }
 
-export class ModulePage extends React.Component<
-  MyProps & RouteComponentProps,
-  MyState
-> {
+export class ModulePage extends React.Component<MyProps & RouteComponentProps, MyState> {
   state = {
     loading: true,
     semesters: new Set(""),
-    data: {} as MODULE_TYPE
+    data: {} as MODULE_TYPE,
   };
 
   componentWillMount() {
@@ -152,12 +149,9 @@ export class ModulePage extends React.Component<
         </div>
       );
     }
-    console.log(this.state.data);
-    const { moduleCode, title, description } = this.state.data;
-    const { opinions, tips, reviews } = this.filterDataBySemester();
 
-    const toggleSemesterCheckbox = (semester: string) =>
-      this.toggleSemester(semester);
+    const { moduleCode, title, description } = this.state.data;
+    const toggleSemesterCheckbox = (semester: string) => this.toggleSemester(semester);
     const detailSectionProps = {
       moduleCode,
       title,
@@ -166,6 +160,11 @@ export class ModulePage extends React.Component<
       toggleSemesterCheckbox,
       semesters: this.state.semesters
     };
+    if (!detailSectionProps.allSemesters.length) {
+      return <DetailSection {...detailSectionProps} />
+    }
+
+    const { opinions, tips, reviews } = this.filterDataBySemester();
     const discussionSectionProps = {
       opinions,
       tips

@@ -34,10 +34,12 @@ export const DetailSection: React.FunctionComponent<OwnProps> = ({
       body={
         <div>
           <p>{description}</p><br/>
-          <h4>{"Reviews for "}</h4>
+          <h4>{"Reviews for:"}</h4>
           <div className="DetailSection__semester-checkboxes">
           {
-            allSemesters.map(element => <Checkbox checked={semesters.has(element)} label={element} onChange={() => toggleSemesterCheckbox(element)}/>)
+            !allSemesters.length
+            ? <p>No available semesters</p>
+            : allSemesters.map(element => <Checkbox checked={semesters.has(element)} label={element} onChange={() => toggleSemesterCheckbox(element)}/>)
           }
           </div>
         </div>
