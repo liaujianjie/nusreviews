@@ -25,10 +25,11 @@
     "react-textarea-autosize": "^7.1.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "retry-axios": "^1.0.1",
     "typescript": "3.6.3"
   },
   "scripts": {
-    "start": "set PORT=8000 && react-scripts start",
+    "start": "set PORT=8000 && PORT=8000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
