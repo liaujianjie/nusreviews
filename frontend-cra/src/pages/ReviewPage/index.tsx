@@ -34,16 +34,36 @@ export const ReviewPage: React.FunctionComponent = () => {
   }, []);
 
   const updateValues = (values: any) => {
-    for (let [key, value] of Object.entries(values)) {
-      const { metricTemplates, questionTemplates } = questions;
-      metricTemplates.forEach((metric: Metric) => {
-        if (metric.name === key) metric.value = value as number;
+    const nonEmpty = Object.keys(values);
+    console.log(nonEmpty, "non empty check");
+    const { metricTemplates, questionTemplates } = questions;
+    const nonEmptyMetric = metricTemplates
+      .filter((m: any) => nonEmpty.includes(m.name))
+      .map((m: any) => {
+        m.value = values[m.name];
+        return m;
       });
-      questionTemplates.forEach((question: Question) => {
-        if (question.question === key) question.answer = value as string;
+    const nonEmptyQuestion = questionTemplates
+      .filter((qn: any) => nonEmpty.includes(qn.question))
+      .map((qn: any) => {
+        qn.answer = values[qn.question];
+        return qn;
       });
-      setQuestions({ metricTemplates, questionTemplates });
-    }
+    return {
+      metricTemplates: nonEmptyMetric,
+      questionTemplates: nonEmptyQuestion
+    };
+    // for (let [key, value] of Object.entries(values)) {
+    //   const { metricTemplates, questionTemplates } = questions;
+    //   metricTemplates.forEach((metric: Metric) => {
+    //     if (metric.name === key) metric.value = value as number;
+    //   });
+    //   questionTemplates.forEach((question: Question) => {
+    //     if (question.question === key) question.answer = value as string;
+    //   });
+
+    // need to return
+    // setQuestions({ metricTemplates, questionTemplates });
   };
 
   const parsePayload = (payload: any) => {
@@ -53,14 +73,18 @@ export const ReviewPage: React.FunctionComponent = () => {
       metricTemplates,
       questionTemplates
     } = payload;
-    const metrics = metricTemplates.filter((m:any) => m.value!==undefined).map((m: any) => ({
-      metricTemplate: m.id,
-      value: parseInt(m.value)
-    }));
-    const questions = questionTemplates.filter((m:any) => m.value!==undefined).map((q: any) => ({
-      questionTemplate: q.id,
-      answer: q.answer ? q.answer : ""
-    }));
+    const metrics = metricTemplates
+      .map((m: any) => ({
+        metricTemplate: m.id,
+        value: parseInt(m.value)
+      }))
+      .filter((m: any) => m.value !== undefined);
+    const questions = questionTemplates
+      .map((q: any) => ({
+        questionTemplate: q.id,
+        answer: q.answer
+      }))
+      .filter((q: any) => q.answer !== undefined);
     return {
       expectedGrade: GRADES_TO_INT(expectedGrade),
       actualGrade: GRADES_TO_INT(actualGrade),
@@ -71,8 +95,9 @@ export const ReviewPage: React.FunctionComponent = () => {
 
   const onSubmit = (values: any) => {
     const { expectedGrade, actualGrade, ...otherValues } = values;
-    updateValues(otherValues);
-    const payload = parsePayload({ ...questions, expectedGrade, actualGrade });
+    const nonEmpty = updateValues(otherValues);
+    console.log(nonEmpty);
+    const payload = parsePayload({ ...nonEmpty, expectedGrade, actualGrade });
     console.log(payload);
     postReview(1, payload);
   };
@@ -93,7 +118,13 @@ export const ReviewPage: React.FunctionComponent = () => {
             <div className="RatingForm__questions-container">
               <Questions questions={questions.questionTemplates} />
             </div>
-            <Button className="RatingForm__button" type="submit" intent="primary">Submit Review</Button>
+            <Button
+              className="RatingForm__button"
+              type="submit"
+              intent="primary"
+            >
+              Submit Review
+            </Button>
           </form>
         )}
       </FinalForm.Form>
