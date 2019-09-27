@@ -8,8 +8,15 @@
 }
 .SignUpPage_review-background {
   height: 100%;
+  width: 100%;
+  position: fixed;
   background-image: url("./reviewimg.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 200px;
+  top: 0;
+  left: 0;
 }
