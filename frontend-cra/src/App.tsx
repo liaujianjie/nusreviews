@@ -42,15 +42,12 @@ const App: React.FunctionComponent = () => {
             />
             <Route exact path="/module/:moduleId" component={ModulePage} />
             <Route exact path="/review/:moduleId" component={LongReviewPage} />
-<<<<<<< HEAD
             <Route exact path="/review/:semesterId/new" component={ReviewPage} />
-=======
             <Route
               exact
               path="/opinion/update/:token"
               component={UpdateOpinionPage}
             />
->>>>>>> master
             <Route exact path="/" component={HomePage} />
             <Route component={NotFoundPage} />
           </Switch>
