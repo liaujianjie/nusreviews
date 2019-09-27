@@ -49,7 +49,7 @@ export function sendResetPasswordEmail(user: User) {
 
   const message =
     "<p>We heard that you lost your NUSREVIEWS password. Sorry about that!</p>" +
-    "<p>But don’t worry! You can <a href=${baseUrl}/auth/reset-password/${token}>click here to reset your password</a></p>" +
+    "<p>But don’t worry! You can <a href='${baseUrl}/auth/reset-password/${token}'>click here to reset your password</a></p>" +
     "<br />" +
     `<p>If you don’t use this link within 3 hours, it will expire. To get a new password reset link, visit ${baseUrl}/auth/reset-password-request</p>` +
     "<br />" +
