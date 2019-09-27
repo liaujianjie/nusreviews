@@ -1,4 +1,7 @@
-import axios from "axios";
+import Axios from "axios";
+import * as Rax from "retry-axios";
+
+import { refreshSession } from "./auth";
 
 /**
  * React environment variables must be pefixed with `REACT_APP`.
@@ -13,7 +16,7 @@ if (!REACT_APP_BACKEND_BASE_URL) {
   );
 }
 
-export const sharedHttpClient = axios.create({
+export const sharedHttpClient = Axios.create({
   baseURL: REACT_APP_BACKEND_BASE_URL,
   timeout: 10000,
   headers: {
@@ -21,3 +24,16 @@ export const sharedHttpClient = axios.create({
     "Content-Type": "application/json"
   }
 });
+
+// We need to cast the type because the `retry-axios` package does not extend
+// the `AxiosRequestConfig` type.
+// See: https://github.com/JustinBeckwith/retry-axios/issues/64
+(sharedHttpClient.defaults as { raxConfig: Rax.RetryConfig }).raxConfig = {
+  instance: sharedHttpClient,
+  retry: 3,
+  onRetryAttempt: async () => {
+    await refreshSession();
+  }
+};
+
+Rax.attach(sharedHttpClient);
