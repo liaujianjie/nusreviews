@@ -28,8 +28,8 @@ export const UpdateOpinionForm: React.FunctionComponent = () => {
       return;
     }
 
-    const opinion = await updateOpinion({ token: encodedToken, description });
-    updateOriginalOpinion({ ...originalOpinion, ...opinion });
+    await updateOpinion({ token: encodedToken, description });
+    updateOriginalOpinion({ ...originalOpinion!, description });
   };
 
   useEffect(() => {
