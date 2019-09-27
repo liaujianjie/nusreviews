@@ -17,7 +17,7 @@ export const sharedHttpClient = axios.create({
   baseURL: REACT_APP_BACKEND_BASE_URL,
   timeout: 10000,
   headers: {
-    "Content-Type": "application/x-www-form-urlencoded"
-    // "Content-Type": "application/json"
+    // "Content-Type": "application/x-www-form-urlencoded"
+    "Content-Type": "application/json"
   }
 });

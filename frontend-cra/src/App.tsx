@@ -14,6 +14,7 @@ import { NotFoundPage } from "./pages/NotFoundPage";
 import { LongReviewPage } from "./pages/LongReviewPage";
 import { ResetPasswordPage } from "./pages/ResetPasswordPage";
 import { VerifyEmailPage } from "./pages/VerifyEmailPage";
+import { UpdateOpinionPage } from "./pages/UpdateOpinionPage";
 
 const App: React.FunctionComponent = () => {
   return (
@@ -40,6 +41,11 @@ const App: React.FunctionComponent = () => {
             />
             <Route exact path="/module/:moduleId" component={ModulePage} />
             <Route exact path="/review/:moduleId" component={LongReviewPage} />
+            <Route
+              exact
+              path="/opinion/update/:token"
+              component={UpdateOpinionPage}
+            />
             <Route exact path="/" component={HomePage} />
             <Route component={NotFoundPage} />
           </Switch>
