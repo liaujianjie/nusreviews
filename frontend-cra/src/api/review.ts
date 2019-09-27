@@ -36,8 +36,8 @@ interface QuestionPayload {
 }
 
 interface ReviewPayload {
-  expectedGrade: number;
-  actualGrade: number;
+  expectedGrade: number | undefined;
+  actualGrade: number | undefined;
   metrics: Array<MetricPayload>;
   questions: Array<QuestionPayload>;
 }
@@ -67,7 +67,7 @@ export const postOpinion = (
   );
 };
 
-export const postRatings = (moduleSemester: number, payload: any) => {
+export const postRatings = (moduleSemester: number, payload: ReviewPayload) => {
   payload.expectedGrade = undefined;
   payload.actualGrade = undefined;
   return sharedHttpClient.post(
@@ -77,7 +77,7 @@ export const postRatings = (moduleSemester: number, payload: any) => {
   );
 };
 
-export const postReview = (moduleSemester: number, payload: any) => {
+export const postReview = (moduleSemester: number, payload: ReviewPayload) => {
   return sharedHttpClient.post(
     `/module_semesters/${moduleSemester}/reviews`,
     JSON.stringify(payload),
