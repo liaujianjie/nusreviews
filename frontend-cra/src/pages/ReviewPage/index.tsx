@@ -12,6 +12,7 @@ import { Questions } from "./Questions/index";
 import { reviewTemplate, postQuestions, getQuestions } from "../../api/review";
 
 import "./style.css";
+import { MetricTemplate } from "../../../../backend/src/entities/MetricTemplate";
 
 export const ReviewPage: React.FunctionComponent = () => {
   const [questions, setQuestions] = React.useState({
@@ -26,11 +27,10 @@ export const ReviewPage: React.FunctionComponent = () => {
   React.useEffect(() => {
     const fetchQuestions = async () => {
       const payload = await getQuestions();
-      const { metricTemplates, questionTemplates } = payload;
-      setQuestions({ metricTemplates, questionTemplates });
+      setQuestions({ ...payload });
     };
     fetchQuestions();
-  });
+  }, []);
 
   return (
     <RequiresAuth>
