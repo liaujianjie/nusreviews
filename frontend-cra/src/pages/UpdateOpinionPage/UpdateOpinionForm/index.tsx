@@ -57,7 +57,12 @@ export const UpdateOpinionForm: React.FunctionComponent = () => {
   }
 
   return (
-    <FinalForm.Form<FormShape> onSubmit={onSubmit}>
+    <FinalForm.Form<FormShape>
+      onSubmit={onSubmit}
+      initialValues={{
+        description: (originalOpinion && originalOpinion.description) || ""
+      }}
+    >
       {({ handleSubmit, pristine, invalid }) => {
         return (
           <form className="UpdateOpinionForm" onSubmit={handleSubmit}>
