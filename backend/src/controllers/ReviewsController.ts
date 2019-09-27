@@ -20,7 +20,8 @@ export async function create(request: Request, response: Response) {
       discardedAt: IsNull()
     });
     const moduleSemester = await getRepository(ModuleSemester).findOneOrFail(
-      request.params.id
+      request.params.id,
+      { relations: ["module"] }
     );
 
     const review = new Review();
@@ -45,7 +46,7 @@ export async function create(request: Request, response: Response) {
       review: review.stringify(),
       entityToken
     };
-    sendEntityEmail(accessTokenSignedPayload, review, entityToken);
+    sendEntityEmail(accessTokenSignedPayload, moduleSemester, review, entityToken);
     response.status(201).json(result);
   } catch (error) {
     console.error(error);

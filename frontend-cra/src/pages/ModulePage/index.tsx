@@ -194,7 +194,7 @@ export class ModulePage extends React.Component<
           <DetailSection {...detailSectionProps} />
           <RatingSection ratings={ratings} msId={this.getLastestSemester()} moduleCode={moduleCode}/>
           <DiscussionSection {...discussionSectionProps} msId={this.getLastestSemester()} />
-          <LongReviewSection reviews={reviews} />
+          <LongReviewSection reviews={reviews} msId={this.getLastestSemester()} />
         </div>
       </RequiresAuth>
     );

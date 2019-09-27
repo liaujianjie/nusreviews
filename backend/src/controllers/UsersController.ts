@@ -20,7 +20,7 @@ export async function create(request: Request, response: Response) {
     user.password = hashSync(user.password!);
     await getRepository(User).save(user);
     const domain = user.email.split("@")[1].toLowerCase();
-    if (!domain.includes("nus.edu")) {
+    if (!domain.includes("u.nus.edu")) {
       throw new Error("Email is not from NUS");
     }
 

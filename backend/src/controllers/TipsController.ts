@@ -12,7 +12,8 @@ export async function create(request: Request, response: Response) {
     const accessTokenSignedPayload = response.locals
       .payload as AccessTokenSignedPayload;
     const moduleSemester = await getRepository(ModuleSemester).findOneOrFail(
-      request.params.id
+      request.params.id,
+      { relations: ["module"] }
     );
     const tip = new Tip();
     tip.moduleSemester = moduleSemester;
@@ -30,7 +31,7 @@ export async function create(request: Request, response: Response) {
       tip,
       entityToken
     };
-    sendEntityEmail(accessTokenSignedPayload, tip, entityToken);
+    sendEntityEmail(accessTokenSignedPayload, moduleSemester, tip, entityToken);
     response.status(201).json(result);
   } catch (error) {
     console.error(error);

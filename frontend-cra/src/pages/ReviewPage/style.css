@@ -3,3 +3,8 @@
   flex-direction: column;
   width: 100%;
 }
+
+.RatingForm__button {
+  margin-top: 16px;
+  float: right;
+}
