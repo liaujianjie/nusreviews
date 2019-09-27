@@ -152,6 +152,7 @@ export class ModulePage extends React.Component<
         </div>
       );
     }
+    console.log(this.state.data);
     const { moduleCode, title, description } = this.state.data;
     const { opinions, tips, reviews } = this.filterDataBySemester();
 
@@ -194,7 +195,7 @@ export class ModulePage extends React.Component<
           <DetailSection {...detailSectionProps} />
           <RatingSection ratings={ratings} msId={this.getLastestSemester()} moduleCode={moduleCode}/>
           <DiscussionSection {...discussionSectionProps} msId={this.getLastestSemester()} />
-          <LongReviewSection reviews={reviews} />
+          <LongReviewSection reviews={reviews} msId={this.getLastestSemester()} />
         </div>
       </RequiresAuth>
     );

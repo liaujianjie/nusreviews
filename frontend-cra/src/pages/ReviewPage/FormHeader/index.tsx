@@ -17,16 +17,10 @@ export const FormHeader: React.FunctionComponent<FormHeaderProps> = props => {
     <FormSegment bgColor="white">
       <div className="FormHeader__top-row-container">
         <div className="FormHeader__module-row">
-          <div className="FormHeader__inline-container">
-            <h1 className="FormHeader__module-code">{moduleCode}</h1>{" "}
-            <h2 className="FormHeader__module-semester">{moduleSemester}</h2>
-          </div>
-          <div className="FormHeader__module-description">
-            <h3>{moduleDescription}</h3>
-          </div>
+            <h1>Module Review</h1>
         </div>
         <div className="FormHeader__form-tip">
-          <h4>Do as you wish, there are no compulsory fields</h4>
+          Do as you wish, there are no compulsory fields
         </div>
       </div>
       <div className="FormHeader__bot-row-container">

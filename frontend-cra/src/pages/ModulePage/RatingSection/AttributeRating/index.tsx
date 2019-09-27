@@ -19,7 +19,7 @@ export const AttributeRating: React.FunctionComponent<METRIC_TYPE> = ({
       <div className="AttributeRating__label">
         <h4>{name}</h4>
         <p className="AttributeRating__value">
-          {value} / {maxValue}
+          {Math.trunc(value * 100)/100} / {maxValue}
         </p>
       </div>
       <ProgressBar intent="primary" stripes={false} value={value / maxValue} />

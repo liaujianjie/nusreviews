@@ -14,24 +14,13 @@ interface RadioGroupProps extends Metric {
 export const FinalRadioButtonInput: React.FunctionComponent<
   FinalForm.FieldRenderProps<string, HTMLInputElement>
 > = props => {
-  return <Radio {...props} {...props.input} />;
+  return <Radio {...props} {...props.input} className="RadioButton" />;
 };
 
 export const RadioButtonGroup: React.FunctionComponent<
   RadioGroupProps
 > = props => {
   const { minValue, maxValue, minDescription, maxDescription, name } = props;
-  // const [width, setWidth] = React.useState(window.innerWidth);
-  // React.useEffect(() => {
-  //   const handleResize = () => {
-  //     setWidth(window.innerWidth);
-  //   };
-  //   window.addEventListener("resize", handleResize);
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
-
   const getRadioButtons = (mobile: boolean) => {
     return _.range(minValue, maxValue + 1).map(value => {
       return (

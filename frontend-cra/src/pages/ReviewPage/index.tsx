@@ -1,6 +1,7 @@
 import React from "react";
 import * as _ from "lodash";
 
+import { useRouter } from "../../hooks/useRouter";
 import * as FinalForm from "react-final-form";
 import { Button } from "@blueprintjs/core";
 
@@ -18,6 +19,7 @@ import {
 } from "../../api/review";
 
 import "./style.css";
+import { GRADES_TO_INT } from '../../constants/grade';
 
 export const ReviewPage: React.FunctionComponent = () => {
   const [questions, setQuestions] = React.useState({
@@ -34,16 +36,24 @@ export const ReviewPage: React.FunctionComponent = () => {
   }, []);
 
   const updateValues = (values: any) => {
-    for (let [key, value] of Object.entries(values)) {
-      const { metricTemplates, questionTemplates } = questions;
-      metricTemplates.forEach((metric: Metric) => {
-        if (metric.name === key) metric.value = value as number;
+    const nonEmpty = Object.keys(values);
+    const { metricTemplates, questionTemplates } = questions;
+    const nonEmptyMetric = metricTemplates
+      .filter((m: Metric) => nonEmpty.includes(m.name))
+      .map((m: Metric) => {
+        m.value = values[m.name];
+        return m;
       });
-      questionTemplates.forEach((question: Question) => {
-        if (question.question === key) question.answer = value as string;
+    const nonEmptyQuestion = questionTemplates
+      .filter((qn: Question) => nonEmpty.includes(qn.question))
+      .map((qn: Question) => {
+        qn.answer = values[qn.question];
+        return qn;
       });
-      setQuestions({ metricTemplates, questionTemplates });
-    }
+    return {
+      metricTemplates: nonEmptyMetric,
+      questionTemplates: nonEmptyQuestion
+    };
   };
 
   const parsePayload = (payload: any) => {
@@ -53,14 +63,18 @@ export const ReviewPage: React.FunctionComponent = () => {
       metricTemplates,
       questionTemplates
     } = payload;
-    const metrics = metricTemplates.map((m: any) => ({
-      metricTemplate: m.id,
-      value: parseInt(m.value)
-    }));
-    const questions = questionTemplates.map((q: any) => ({
-      questionTemplate: q.id,
-      answer: q.answer
-    }));
+    const metrics = metricTemplates
+      .map((m: any) => ({
+        metricTemplate: m.id,
+        value: parseInt(m.value)
+      }))
+      .filter((m: any) => m.value !== undefined);
+    const questions = questionTemplates
+      .map((q: any) => ({
+        questionTemplate: q.id,
+        answer: q.answer
+      }))
+      .filter((q: any) => q.answer !== undefined);
     return {
       expectedGrade: GRADES_TO_INT(expectedGrade),
       actualGrade: GRADES_TO_INT(actualGrade),
@@ -69,132 +83,44 @@ export const ReviewPage: React.FunctionComponent = () => {
     };
   };
 
+  const router = useRouter();
+  const { semesterId } = router.match.params as { semesterId: number };
   const onSubmit = (values: any) => {
     const { expectedGrade, actualGrade, ...otherValues } = values;
-    updateValues(otherValues);
-    const payload = parsePayload({ ...questions, expectedGrade, actualGrade });
-    console.log(payload);
-    postReview(1, payload);
+    const nonEmpty = updateValues(otherValues);
+    const payload = parsePayload({ ...nonEmpty, expectedGrade, actualGrade });
+    postReview(semesterId, payload);
   };
 
   return (
     <RequiresAuth>
       <FinalForm.Form onSubmit={onSubmit}>
-        {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <FormHeader
-              moduleCode="cs3216"
-              moduleDescription="AY2019/2020, SEM1"
-              moduleSemester="Software Engineering for Digital Markets"
-            />
-            <div className="RatingForm__questions-container">
-              <Metrics metrics={questions.metricTemplates} />
-            </div>
-            <div className="RatingForm__questions-container">
-              <Questions questions={questions.questionTemplates} />
-            </div>
-            <Button type="submit">Submit Review</Button>
-          </form>
+        {({ handleSubmit, invalid, pristine }) => (
+          <div className="ReviewPage__container">
+            <form onSubmit={handleSubmit}>
+              <FormHeader
+                moduleCode="cs3216"
+                moduleDescription="AY2019/2020, SEM1"
+                moduleSemester="Software Engineering for Digital Markets"
+              />
+              <div className="ReviewPage__questions-container">
+                <Metrics metrics={questions.metricTemplates} />
+              </div>
+              <div className="ReviewPage__questions-container">
+                <Questions questions={questions.questionTemplates} />
+              </div>
+              <Button
+                disabled={invalid || pristine}
+                className="ReviewPage__button"
+                type="submit"
+                intent="primary"
+              >
+                Submit Review
+              </Button>
+            </form>
+          </div>
         )}
       </FinalForm.Form>
     </RequiresAuth>
   );
-};
-
-export const LECTURER_QUESTIONS = [
-  {
-    scale: 5,
-    name: "lecturerGeneral",
-    question: "How was your lecturer, Ben Leong?",
-    value: ["Below Expectations", "Amazing"]
-  },
-  {
-    scale: 5,
-    name: "lecturerKnowledge",
-    question: "Level of knowledge?",
-    value: ["Poor", "Good"]
-  },
-  {
-    scale: 5,
-    name: "lecturerStyle",
-    question: "Engaging teaching style?",
-    value: ["Boring", "Engaging"]
-  },
-  {
-    scale: 5,
-    name: "lecturerEnergy",
-    question: "Energy during the module?",
-    value: ["Dull", "Passionate"]
-  }
-];
-
-export const WORKLOAD_QUESTIONS = [
-  {
-    scale: 5,
-    name: "workloadGeneral",
-    question: "How was the workload (project, assignments)?",
-    value: ["Chill", "Shag"]
-  },
-  {
-    scale: 5,
-    name: "workloadInteresting",
-    question: "Was it interesting?",
-    value: ["Boring", "Interesting"]
-  },
-  {
-    scale: 5,
-    name: "workloadRecommend",
-    question: "Would you recommend this to me?",
-    value: ["Avoid", "Recommend"]
-  }
-];
-
-export const SHORT_REVIEW_TIPS = {
-  name: "shortReviewTip",
-  placeholder:
-    "Are the lecturers worth going for/how much time should I take to prepare for tutorials...",
-  question: "What are some tips for doing well in this module?"
-};
-
-export const SHORT_REVIEW_OPINION = {
-  name: "shortReviewOpinion",
-  placeholder:
-    "Tell me more maybe about the teaching style, energy during the module, attitude towards attendance...",
-  question: "What were the best parts of the module?"
-};
-
-const GRADES_TO_INT = (
-  grade:
-    | "A+"
-    | "A"
-    | "A-"
-    | "B+"
-    | "B"
-    | "B-"
-    | "C+"
-    | "C"
-    | "C-"
-    | "D+"
-    | "D"
-    | "F"
-    | "S"
-    | "U"
-) => {
-  const trans = {
-    "A+": 0,
-    A: 1,
-    "A-": 2,
-    "B+": 3,
-    B: 4,
-    "B-": 5,
-    "C+": 6,
-    C: 7,
-    "C-": 8,
-    "D+": 9,
-    D: 10,
-    F: 11,
-    S: 12,
-    U: 13
-  };
-  return trans[grade];
 };

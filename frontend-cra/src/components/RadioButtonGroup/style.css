@@ -2,9 +2,19 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
+
+.RadioButton > .bp3-control-indicator {
+  border: 1px solid #26212126;
+}
+
+.RadioButtonGroup__left-segment-desktop {
+  min-width: 23em;
+}
+
 .RadioButtonGroup__right-segment-desktop {
-  min-width: 20em;
+  min-width: 23em;
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: 5em 1fr 1fr 1fr 1fr 1fr 5em;
@@ -27,10 +37,21 @@
 
 @media only screen and (max-width: 740px) {
   .RadioButtonGroup__right-segment-desktop {
-    min-width: 20em;
+    width: 80%;
     display: grid;
     grid-auto-flow: column;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 5em 1fr 1fr 1fr 1fr 1fr 5em;
+    padding: 0em 1em;
+    margin: 1em auto;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .RadioButtonGroup__right-segment-desktop {
+    width: 100%;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 5em 1fr 1fr 1fr 1fr 1fr 5em;
     padding: 0em 1em;
     margin-top: 1em;
   }

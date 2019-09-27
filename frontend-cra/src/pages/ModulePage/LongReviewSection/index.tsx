@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "lodash";
 
-import { Button, Divider } from "@blueprintjs/core";
+import { AnchorButton, Divider } from "@blueprintjs/core";
 
 import { Center } from "../../../components/Center";
 import { Section } from "../Section";
@@ -12,17 +12,27 @@ import { REVIEWS_TYPE, REVIEW_TYPE } from "../../../constants/type";
 
 type OwnProps = {
   reviews: React.ComponentProps<typeof LongReview>[];
+  msId: number,
 };
 
 export const LongReviewSection: React.FunctionComponent<OwnProps> = ({
-  reviews
+  reviews,
+  msId
 }) => {
   return (
     <Section
       leftHeader={
         <h4 className="LongReviewSection__left-header">Detailed reviews</h4>
       }
-      rightHeader={<Button icon="plus" intent="primary" text="Add Review" />}
+      rightHeader={
+        <AnchorButton
+          icon="plus"
+          intent="primary"
+          target='_blank'
+          href={`/review/${msId}/new`}
+          text="Add Review"
+        />
+      }
       body={
         <div>
           <div className="LongReviewSection__reviews-container">
