@@ -6,11 +6,10 @@ import { Button, Intent, Callout } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
 import { FinalInputGroup } from "../../../components/FinalInputGroup";
-import { useRouter } from "../../../hooks/useRouter";
+import { useTokenFromUrl } from "../../../hooks/useTokenFromUrl";
 import { resetPassword } from "../../../api/auth";
 
 import "./style.css";
-import { decode } from "jsonwebtoken";
 
 type FormShape = {
   email: string;
@@ -20,23 +19,17 @@ type FormShape = {
 
 export const ResetPasswordForm: React.FunctionComponent = () => {
   const [hasReset, updateHasReset] = useState(false);
-  const { location } = useRouter();
-  const splitPathname = _.split(location.pathname, "/");
-  const token = splitPathname.length === 4 ? _.last(splitPathname)! : "";
-  let decodedToken = { email: "" };
-  try {
-    decodedToken = decode(token) as typeof decodedToken;
-  } catch (error) {}
+  const { encodedToken, decodedToken } = useTokenFromUrl(3);
 
   const handleSubmit: FormProps<FormShape>["onSubmit"] = async ({
     password
   }) => {
-    if (!token) {
+    if (!encodedToken) {
       throw new Error("No token provided");
     }
 
     try {
-      await resetPassword({ password, token });
+      await resetPassword({ password, token: encodedToken });
       updateHasReset(true);
     } catch (error) {
       console.error(error);
@@ -52,7 +45,7 @@ export const ResetPasswordForm: React.FunctionComponent = () => {
     );
   }
 
-  if (!token || !decodedToken) {
+  if (!encodedToken || !decodedToken) {
     return (
       <Callout intent="danger">
         The URL is malformed, please make sure that you have copy and pasted the
