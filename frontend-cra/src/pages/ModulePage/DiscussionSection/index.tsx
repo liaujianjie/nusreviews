@@ -21,12 +21,14 @@ type OwnProps = {
 export class DiscussionSection extends React.Component<OwnProps> {
   state = {
     moreOpinions: true,
-    moreTips: true,
-  }
+    moreTips: true
+  };
 
   render() {
     const { opinions, tips } = this.props;
-    const numberOfRenderedOpinions = this.state.moreOpinions ? 5 : opinions.length;
+    const numberOfRenderedOpinions = this.state.moreOpinions
+      ? 5
+      : opinions.length;
     const numberOfRenderedTips = this.state.moreTips ? 5 : tips.length;
     return (
       <Section
@@ -41,26 +43,44 @@ export class DiscussionSection extends React.Component<OwnProps> {
                 body={opinions.slice(0, numberOfRenderedOpinions).map(entry => (
                   <DiscussionRow
                     message={entry.description}
-                    author={`${
-                      entry.major ? entry.major : "Hidden Major"
-                    }, ${
-                      entry.programmeYear ? "Y" + entry.programmeYear : "Hidden Programme Year"
+                    author={`${entry.major ? entry.major : "Hidden Major"}, ${
+                      entry.programmeYear
+                        ? "Y" + entry.programmeYear
+                        : "Hidden Programme Year"
                     }`}
                     vote={entry.opinionVotes.length}
                   />
                 ))}
                 action={
                   <div className="DiscussionSection__card-footer">
-                    { (opinions.length >= 5) && 
-                      <Button 
+                    {opinions.length >= 5 && (
+                      <Button
                         disabled={opinions.length < 5}
-                        minimal 
-                        onClick={() => this.setState({ moreOpinions: !this.state.moreOpinions })}
-                        icon={this.state.moreOpinions ? "chevron-down" : "chevron-up"}
-                        text={this.state.moreOpinions ? "More opinions" : "Show less"}
+                        minimal
+                        onClick={() =>
+                          this.setState({
+                            moreOpinions: !this.state.moreOpinions
+                          })
+                        }
+                        icon={
+                          this.state.moreOpinions
+                            ? "chevron-down"
+                            : "chevron-up"
+                        }
+                        text={
+                          this.state.moreOpinions
+                            ? "More opinions"
+                            : "Show less"
+                        }
                       />
-                    }
-                    <Button icon="plus" intent="primary" text="Add opinion" />
+                    )}
+                    <ShortReviewModal
+                      type="opinion"
+                      buttonName="Add Opinion"
+                      name="Opinion 1"
+                      question="What opinion do you want to give"
+                      placeholder="any opinion"
+                    />
                   </div>
                 }
               />
@@ -71,24 +91,32 @@ export class DiscussionSection extends React.Component<OwnProps> {
                 body={tips.slice(0, numberOfRenderedTips).map(entry => (
                   <DiscussionRow
                     message={entry.description}
-                    author={`${
-                      entry.major ? entry.major : "Hidden Major"
-                    }, ${
-                      entry.programmeYear ? "Y" + entry.programmeYear : "Hidden Programme Year"
+                    author={`${entry.major ? entry.major : "Hidden Major"}, ${
+                      entry.programmeYear
+                        ? "Y" + entry.programmeYear
+                        : "Hidden Programme Year"
                     }`}
                     vote={entry.tipVotes.length}
                   />
                 ))}
                 action={
                   <div className="DiscussionSection__card-footer">
-                    <Button 
-                      minimal 
+                    <Button
+                      minimal
                       disabled={tips.length <= 5}
-                      onClick={() => this.setState({ moreTips: !this.state.moreTips })}
+                      onClick={() =>
+                        this.setState({ moreTips: !this.state.moreTips })
+                      }
                       icon={this.state.moreTips ? "chevron-down" : "chevron-up"}
                       text={this.state.moreTips ? "More tips" : "Show less"}
                     />
-                    <Button icon="plus" intent="primary" text="Add tip" />
+                    <ShortReviewModal
+                      type="tip"
+                      buttonName="Add tip"
+                      name="Tip 1"
+                      question="What tip do you want to give"
+                      placeholder="any tip"
+                    />
                   </div>
                 }
               />
@@ -98,4 +126,4 @@ export class DiscussionSection extends React.Component<OwnProps> {
       />
     );
   }
-};
+}

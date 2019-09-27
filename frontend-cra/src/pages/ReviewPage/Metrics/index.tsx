@@ -2,18 +2,10 @@ import * as React from "react";
 
 import { RadioButtonGroup } from "../../../components/RadioButtonGroup/index";
 import { FormSegment } from "../FormSegment/index";
+import { Metric } from "../../../api/review";
 
 interface MetricsProps {
   metrics: Array<Metric>;
-}
-
-interface Metric {
-  name: string;
-  minValue: number;
-  maxValue: number;
-  minDescription: string;
-  maxDescription: string;
-  compulsory: boolean;
 }
 
 export const Metrics: React.FunctionComponent<MetricsProps> = props => {
