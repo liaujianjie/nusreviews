@@ -41,7 +41,6 @@ const App: React.FunctionComponent = () => {
             />
             <Route exact path="/module/:moduleId" component={ModulePage} />
             <Route exact path="/review/:moduleId" component={LongReviewPage} />
-            <Route exact path="/review/:moduleId" component={ReviewPage} />
             <Route
               exact
               path="/opinion/update/:token"
