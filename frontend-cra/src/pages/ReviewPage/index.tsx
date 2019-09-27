@@ -34,23 +34,17 @@ export const ReviewPage: React.FunctionComponent = () => {
     fetchQuestions();
   }, []);
 
-  for (let [key, value] of Object.entries(values)) {
-    const metricTemplate = metrics.find(m => m.name === key) as any;
-    payload.push({ metricTemplate: metricTemplate.id, value });
-  }
-
   const updateValues = (values: any) => {
     for (let [key, value] of Object.entries(values)) {
       const { metricTemplates, questionTemplates } = questions;
-      const metric = metricTemplates.find(m => m.name === key) as any;
-      const question = questionTemplates.find(qn => qn.question === key) as any;
-
-      // metricTemplates.forEach((metric: Metric) => {
-      //   if (metric.name === key) metric.value = value as number;
-      // });
-      // questionTemplates.forEach((question: Question) => {
-      //   if (question.question === key) question.answer = value as string;
-      // });
+      // const metric = metricTemplates.find(m => m.name === key) as any;
+      // const question = questionTemplates.find(qn => qn.question === key) as any;
+      metricTemplates.forEach((metric: Metric) => {
+        if (metric.name === key) metric.value = value as number;
+      });
+      questionTemplates.forEach((question: Question) => {
+        if (question.question === key) question.answer = value as string;
+      });
       setQuestions({ metricTemplates, questionTemplates });
     }
   };
