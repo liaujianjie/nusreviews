@@ -17,7 +17,7 @@ export const FormHeader: React.FunctionComponent<FormHeaderProps> = props => {
     <FormSegment bgColor="white">
       <div className="FormHeader__top-row-container">
         <div className="FormHeader__module-row">
-            <h3>Module Review</h3>
+            <h1>Module Review</h1>
         </div>
         <div className="FormHeader__form-tip">
           Do as you wish, there are no compulsory fields
