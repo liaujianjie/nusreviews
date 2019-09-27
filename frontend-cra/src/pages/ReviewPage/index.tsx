@@ -1,6 +1,7 @@
 import React from "react";
 import * as _ from "lodash";
 
+import { useRouter } from "../../hooks/useRouter";
 import * as FinalForm from "react-final-form";
 import { Button } from "@blueprintjs/core";
 
@@ -82,13 +83,13 @@ export const ReviewPage: React.FunctionComponent = () => {
     };
   };
 
+  const router = useRouter();
+  const { semesterId } = router.match.params as { semesterId: number };
   const onSubmit = (values: any) => {
     const { expectedGrade, actualGrade, ...otherValues } = values;
     const nonEmpty = updateValues(otherValues);
-    console.log(nonEmpty);
     const payload = parsePayload({ ...nonEmpty, expectedGrade, actualGrade });
-    console.log(payload);
-    postReview(1, payload);
+    postReview(semesterId, payload);
   };
 
   return (

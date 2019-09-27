@@ -152,6 +152,7 @@ export class ModulePage extends React.Component<
         </div>
       );
     }
+    console.log(this.state.data);
     const { moduleCode, title, description } = this.state.data;
     const { opinions, tips, reviews } = this.filterDataBySemester();
 
