@@ -5,46 +5,57 @@ import * as FinalForm from "react-final-form";
 import { Dialog, Button } from "@blueprintjs/core";
 
 import { RadioButtonGroup } from "../../../components/RadioButtonGroup/index";
-import { reviewTemplate, getQuestions } from "../../../api/review";
+import { Metric, postRatings } from "../../../api/review";
 
 import "./style.css";
 
 interface RatingModalProps {
   buttonName: string;
   moduleCode: string;
+  metrics: Array<Metric>;
 }
 
 export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
   const [open, setOpen] = React.useState(false);
   const [pageNum, setPageNum] = React.useState(0);
-  const questions = reviewTemplate.metricTemplates;
-  const questionsPerPage = 4;
+  const { metrics } = props;
+  const metricsPerPage = 4;
 
-  const lastPage =
-    Math.ceil(questions.length / questionsPerPage) === pageNum + 1;
+  const lastPage = Math.ceil(metrics.length / metricsPerPage) === pageNum + 1;
 
-  const questionSegment = _.chunk(questions, questionsPerPage);
+  const metricSegment = _.chunk(metrics, metricsPerPage);
 
-  const currQuestions = questionSegment[pageNum];
+  const currMetrics = metricSegment[pageNum];
 
   const onClose = () => setOpen(false);
   const nextPage = () => setPageNum(pageNum + 1);
 
-  const onSubmit = () => {
+  const parsePayload = (values: any) => {
+    const payload = [];
+    for (let [key, value] of Object.entries(values)) {
+      const metricTemplate = metrics.find(m => m.name === key) as any;
+      payload.push({ metricTemplate: metricTemplate.id, value });
+    }
+    console.log(payload, "payload ratingmodal");
+    return { metricTemplates: payload };
+  };
+
+  const onSubmit = (values: any) => {
     console.log("submitted!");
+    postRatings(1, parsePayload(values));
     lastPage ? onClose() : nextPage();
   };
 
   const formValidation = (values: any) => {
     const msg =
-      Object.keys(values).length !== currQuestions.length
+      Object.keys(values).length !== currMetrics.length
         ? "not all fields are filled"
         : undefined;
 
     const error = msg ? { errorMsg: msg } : undefined;
     console.log(error);
     console.log(values);
-    console.log(currQuestions);
+    console.log(currMetrics);
 
     return error;
   };
@@ -52,7 +63,7 @@ export const RatingModal: React.FunctionComponent<RatingModalProps> = props => {
   const { buttonName, moduleCode } = props;
 
   const getQuestions = () => {
-    return currQuestions.map(qn => <RadioButtonGroup {...qn} mobile={true} />);
+    return currMetrics.map(qn => <RadioButtonGroup {...qn} mobile={true} />);
   };
 
   return (

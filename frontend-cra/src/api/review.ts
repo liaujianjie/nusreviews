@@ -67,7 +67,17 @@ export const postOpinion = (
   );
 };
 
-export const postQuestions = (moduleSemester: number, payload: any) => {
+export const postRatings = (moduleSemester: number, payload: any) => {
+  payload.expectedGrade = undefined;
+  payload.actualGrade = undefined;
+  return sharedHttpClient.post(
+    `/module_semesters/${moduleSemester}/reviews`,
+    JSON.stringify(payload),
+    { headers: { "Content-Type": "application/json" } }
+  );
+};
+
+export const postReview = (moduleSemester: number, payload: any) => {
   return sharedHttpClient.post(
     `/module_semesters/${moduleSemester}/reviews`,
     JSON.stringify(payload),

@@ -11,10 +11,10 @@ import { Questions } from "./Questions/index";
 
 import {
   reviewTemplate,
-  postQuestions,
   getQuestions,
   Metric,
-  Question
+  Question,
+  postReview
 } from "../../api/review";
 
 import "./style.css";
@@ -34,15 +34,23 @@ export const ReviewPage: React.FunctionComponent = () => {
     fetchQuestions();
   }, []);
 
+  for (let [key, value] of Object.entries(values)) {
+    const metricTemplate = metrics.find(m => m.name === key) as any;
+    payload.push({ metricTemplate: metricTemplate.id, value });
+  }
+
   const updateValues = (values: any) => {
     for (let [key, value] of Object.entries(values)) {
       const { metricTemplates, questionTemplates } = questions;
-      metricTemplates.forEach((metric: Metric) => {
-        if (metric.name === key) metric.value = value as number;
-      });
-      questionTemplates.forEach((question: Question) => {
-        if (question.question === key) question.answer = value as string;
-      });
+      const metric = metricTemplates.find(m => m.name === key) as any;
+      const question = questionTemplates.find(qn => qn.question === key) as any;
+
+      // metricTemplates.forEach((metric: Metric) => {
+      //   if (metric.name === key) metric.value = value as number;
+      // });
+      // questionTemplates.forEach((question: Question) => {
+      //   if (question.question === key) question.answer = value as string;
+      // });
       setQuestions({ metricTemplates, questionTemplates });
     }
   };
@@ -74,7 +82,7 @@ export const ReviewPage: React.FunctionComponent = () => {
     const { expectedGrade, actualGrade, ...otherValues } = values;
     updateValues(otherValues);
     const payload = parsePayload({ ...questions, expectedGrade, actualGrade });
-    postQuestions(1, payload);
+    postReview(1, payload);
   };
 
   return (
