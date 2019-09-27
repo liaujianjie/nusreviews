@@ -7,8 +7,23 @@
 .AttributeRating__label {
   margin: 0px;
   margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.AttributeRating__value {
+  font-weight: 600;
+  color: #2873e6;
+  min-width: 60px;
+  text-align: right;
 }
 
 .AttributeRating:not(:last-child) {
   margin-bottom: 20px;
+}
+
+.AttributeRating__description {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
 }

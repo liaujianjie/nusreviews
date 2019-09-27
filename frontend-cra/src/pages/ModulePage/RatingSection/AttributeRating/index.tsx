@@ -1,36 +1,32 @@
 import React from "react";
 
-import { ProgressBar, Tag, Intent } from "@blueprintjs/core";
+import { METRIC_TYPE } from "../../../../constants/type";
+
+import { ProgressBar } from "@blueprintjs/core";
 
 import "./style.css";
 
-type OwnProps = {
-  name: string;
-  score: number;
-};
-
-export const AttributeRating: React.FunctionComponent<OwnProps> = ({
+export const AttributeRating: React.FunctionComponent<METRIC_TYPE> = ({
+  value,
   name,
-  score
+  minValue,
+  minDescription,
+  maxValue,
+  maxDescription
 }) => {
-  // let intent: Intent = "danger";
-
-  // if (score > 1.5) {
-  //   intent = "warning";
-  // }
-  // if (score > 2.5) {
-  //   intent = "success";
-  // }
-
   return (
     <div className="AttributeRating">
-      <span className="AttributeRating__label">
-        {name}{" "}
-        <Tag minimal>
-          <strong>{Math.round(score * 10) / 10}</strong> / 5.0
-        </Tag>
-      </span>
-      <ProgressBar intent="primary" stripes={false} value={score / 5} />
+      <div className="AttributeRating__label">
+        <h4>{name}</h4>
+        <p className="AttributeRating__value">
+          {value} / {maxValue}
+        </p>
+      </div>
+      <ProgressBar intent="primary" stripes={false} value={value / maxValue} />
+      <div className="AttributeRating__description">
+        <p>{minDescription}</p>
+        <p>{maxDescription}</p>
+      </div>
     </div>
   );
 };

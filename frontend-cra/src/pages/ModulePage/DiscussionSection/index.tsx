@@ -1,5 +1,6 @@
 import React from "react";
 import _ from "lodash";
+import { OPINIONS_TYPE, TIPS_TYPE } from "../../../constants/type";
 
 import { Button, Divider } from "@blueprintjs/core";
 
@@ -12,67 +13,117 @@ import { ShortReviewModal } from "../ShortReviewModal";
 
 import "./style.css";
 
-type OwnProps = {};
+type OwnProps = {
+  opinions: OPINIONS_TYPE;
+  tips: TIPS_TYPE;
+};
 
-export const DiscussionSection: React.FunctionComponent<OwnProps> = ({}) => {
-  return (
-    <Section
-      leftHeader={
-        <h2 className="DiscussionSection__left-header">Student discussion</h2>
-      }
-      body={
-        <div>
+export class DiscussionSection extends React.Component<OwnProps> {
+  state = {
+    moreOpinions: true,
+    moreTips: true
+  };
+
+  render() {
+    const { opinions, tips } = this.props;
+    const numberOfRenderedOpinions = this.state.moreOpinions
+      ? 5
+      : opinions.length;
+    const numberOfRenderedTips = this.state.moreTips ? 5 : tips.length;
+    return (
+      <Section
+        leftHeader={
+          <h4 className="DiscussionSection__left-header">Student discussion</h4>
+        }
+        body={
           <SplitColumns>
-            <DiscussionColumn title="What were the best parts?">
-              <DiscussionRow
-                message="I found the module surprisingly beautiful but in a horribly uncomfortable kinda way."
-                author="Computer Science, Y4, AY17/18"
+            <DiscussionColumn>
+              <Section
+                leftHeader={<h3>What were the best parts?</h3>}
+                body={opinions.slice(0, numberOfRenderedOpinions).map(entry => (
+                  <DiscussionRow
+                    message={entry.description}
+                    author={`${entry.major ? entry.major : "Hidden Major"}, ${
+                      entry.programmeYear
+                        ? "Y" + entry.programmeYear
+                        : "Hidden Programme Year"
+                    }`}
+                    vote={entry.opinionVotes.length}
+                  />
+                ))}
+                action={
+                  <div className="DiscussionSection__card-footer">
+                    {opinions.length >= 5 && (
+                      <Button
+                        disabled={opinions.length < 5}
+                        minimal
+                        onClick={() =>
+                          this.setState({
+                            moreOpinions: !this.state.moreOpinions
+                          })
+                        }
+                        icon={
+                          this.state.moreOpinions
+                            ? "chevron-down"
+                            : "chevron-up"
+                        }
+                        text={
+                          this.state.moreOpinions
+                            ? "More opinions"
+                            : "Show less"
+                        }
+                      />
+                    )}
+                    <ShortReviewModal
+                      type="opinion"
+                      buttonName="Add Opinion"
+                      name="Opinion 1"
+                      question="What opinion do you want to give"
+                      placeholder="any opinion"
+                    />
+                  </div>
+                }
               />
-              <DiscussionRow
-                message="I found the module surprisingly beautiful but in a horribly uncomfortable kinda way."
-                author="Computer Science, Y4, AY17/18"
-              />
-              <DiscussionRow
-                message="I found the module surprisingly beautiful but in a horribly uncomfortable kinda way."
-                author="Computer Science, Y4, AY17/18"
-              />
-              <ShortReviewModal
-                type="tip"
-                buttonName="Add tip"
-                name="Tip 1"
-                question="What tip do you want to give"
-                placeholder="any tip"
-              />
-              {/* <Button icon="plus" intent="primary" text="Add tip" /> */}
             </DiscussionColumn>
-            <DiscussionColumn title="Any tips and tricks?">
-              <DiscussionRow
-                message="I found the module surprisingly beautiful but in a horribly uncomfortable kinda way."
-                author="Computer Science, Y4, AY17/18"
-              />
-              <DiscussionRow
-                message="I found the module surprisingly beautiful but in a horribly uncomfortable kinda way."
-                author="Computer Science, Y4, AY17/18"
-              />
-              <DiscussionRow
-                message="I found the module surprisingly beautiful but in a horribly uncomfortable kinda way."
-                author="Computer Science, Y4, AY17/18"
-              />
-              <ShortReviewModal
-                type="opinion"
-                buttonName="Add Opinion"
-                name="Opinion 1"
-                question="What opinion do you want to give"
-                placeholder="any opinion"
+            <DiscussionColumn>
+              <Section
+                leftHeader={<h3>Any tips and tricks?</h3>}
+                body={tips.slice(0, numberOfRenderedTips).map(entry => (
+                  <DiscussionRow
+                    message={entry.description}
+                    author={`${entry.major ? entry.major : "Hidden Major"}, ${
+                      entry.programmeYear
+                        ? "Y" + entry.programmeYear
+                        : "Hidden Programme Year"
+                    }`}
+                    vote={entry.tipVotes.length}
+                  />
+                ))}
+                action={
+                  <div className="DiscussionSection__card-footer">
+                    <Button
+                      minimal
+                      disabled={tips.length <= 5}
+                      onClick={() =>
+                        this.setState({ moreTips: !this.state.moreTips })
+                      }
+                      icon={this.state.moreTips ? "chevron-down" : "chevron-up"}
+                      text={this.state.moreTips ? "More tips" : "Show less"}
+                    />
+                    <ShortReviewModal
+                      type="tip"
+                      buttonName="Add tip"
+                      name="Tip 1"
+                      question="What tip do you want to give"
+                      placeholder="any tip"
+                    />
+                  </div>
+                }
               />
             </DiscussionColumn>
           </SplitColumns>
-          <Divider className="DiscussionSection__divider" />
-          <Center>
-            <Button minimal text="Load more" />
-          </Center>
-        </div>
-      }
-    />
-  );
-};
+        }
+      />
+    );
+  }
+}

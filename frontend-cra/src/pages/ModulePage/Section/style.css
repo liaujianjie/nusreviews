@@ -14,3 +14,10 @@
 .Section__right-header-container {
   text-align: right;
 }
+
+.Section__divider {
+  margin-top: 38px;
+  margin-right: -32px;
+  margin-bottom: 32px;
+  margin-left: -32px;
+}

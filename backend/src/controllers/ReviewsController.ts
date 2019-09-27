@@ -61,6 +61,8 @@ export async function show(request: Request, response: Response) {
         relations: [
           "moduleSemester",
           "moduleSemester.module",
+          "moduleSemester.semester",
+          "moduleSemester.semester.academicYear",
           "metrics",
           "metrics.metricTemplate",
           "questions",
