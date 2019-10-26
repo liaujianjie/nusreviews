@@ -24,16 +24,13 @@ const algoliaClient = algoliaSearch(
 
 export const HomePage: React.FunctionComponent = () => {
   return (
-    <div className="HomePage__searchbar-container">
-      <InstantSearch indexName="modules" searchClient={algoliaClient}>
-        <Configure hitsPerPage={8} />
-        <Center>
-          <div className="HomePage__logo-container">
-            <img className="HomePage__logo" src={logo} alt="header" />
-          </div>
-        </Center>
-        <AlgoliaSearchBox />
-      </InstantSearch>
+    <div className="HomePage__background">
+      <div className="HomePage__searchbar-container">
+        <InstantSearch indexName="modules" searchClient={algoliaClient}>
+          <Configure hitsPerPage={8} />
+          <AlgoliaSearchBox />
+        </InstantSearch>
+      </div>
     </div>
   );
 };

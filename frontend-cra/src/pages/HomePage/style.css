@@ -22,3 +22,17 @@
     padding: 32px;
   }
 }
+
+.HomePage__background {
+  position:fixed;
+  padding-left:16px;
+  padding-right:16px;
+  padding-top: 200px;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  background-image:url("marvin-meyer-SYTO3xs06fU-unsplash.jpg");
+  background-size: cover;
+  background-position: center;
+}
